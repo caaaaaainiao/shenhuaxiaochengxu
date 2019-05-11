@@ -1,0 +1,15 @@
+<!--pages/commentmovie/commentmovie.wxml-->
+<!-- <text>pages/commentmovie/commentmovie.wxml</text> -->
+<!-- 评论电影 -->
+<view class='contianer'>
+  <view class='title'>喜欢这本影片吗？快留下你的评价：</view>
+  <view class='area'>
+    <textarea placeholder='我来说两句' placeholder-style='color:#aaa;' bindblur='inputText'></textarea>
+  </view>
+  <view class='pre'>
+    <block wx:for="{{text}}" wx:for-item="text" wx:key="text">
+      <view class='text {{text.select?"select":""}}' bindtap='select' data-index="{{index}}">{{text.text}}</view>  
+    </block>
+  </view>
+  <view class='btn' bindtap='submit'>提 交</view>
+</view>

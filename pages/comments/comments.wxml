@@ -1,0 +1,24 @@
+<!--pages/comments/comments.wxml-->
+<!-- <text>pages/comments/comments.wxml</text> -->
+<!-- 评论列表 -->
+<scroll-view class='container' scroll-y bindscrolltolower="ask">
+  <view class='line'></view>
+  <block wx:for="{{result}}" wx:for-item="comment" wx:key="comment">
+    <view class='comment'>
+      <view class='userpic'>
+        <image src='{{comment.dxAppUser.header}}'></image>
+      </view>
+      <view class='username'>{{comment.dxAppUser.nickName}}</view>
+      <view class='praise' bindtap='praiseComment' data-id="{{comment.id}}">
+        <image src='{{comment.upvoteStatus == 0?"/images/praise.png":"/images/praise2.png"}}'></image>
+        <text>{{comment.upvoteNum}}</text>
+      </view>
+      <view class='text'>{{comment.comment}}</view>
+      <view class='comment_time'>{{comment.createTime}}</view>
+    </view>
+  </block>
+</scroll-view>
+<!-- <view class='empty' wx:else>
+  <image src='/images/empty5.png'></image>
+  <view class='emptytext'>亲，没有看过电影票哦～</view>
+</view> -->

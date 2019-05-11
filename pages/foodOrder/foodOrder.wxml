@@ -1,0 +1,158 @@
+<!--pages/foodOrder/foodOrder.wxml-->
+<!-- <text>pages/foodOrder/foodOrder.wxml</text> -->
+<!-- 确认卖品订单内容 去支付 -->
+<wxs module="filters" src="../../utils/fixed.wxs"></wxs>
+<view class='container'>
+  <!-- 已购食品 -->
+  <block wx:for="{{goodsList}}" wx:for-item="good" wx:key="good">
+    <view class='food' wx:if="{{!good.repetition}}">
+      <image src='{{good.imageUrl}}' class='foodpic'></image>
+      <view class='foodname'>{{good.merName}}</view>
+      <view class='foodprice'>
+        <text wx:if="{{good.originalPrice!=null}}">￥{{good.originalPrice}}</text>￥{{good.listingPrice}}</view>
+      <view class='foodnum '>
+        <text>{{good.buyNum}}</text>
+      </view>
+    </view>
+  </block>
+  <view class='option' wx:if="{{merOrder.merTicket}}" bindtap='chooseCoupon'>
+    小食优惠券
+    <image src='/images/gray_more.png'></image>
+    <text>-{{filters.toFix(merOrder.merTicket.dxPlatTicket.amount)}}元</text>
+  </view>
+  <view class='option' style="border:none;">
+    小食总价
+    <text>元</text>
+    <text class='money'>{{filters.toFix(totalPrice)}}</text>
+  </view>
+  <view class='gray_line'></view>
+  <view class='phone' wx:if="{{type == 1}}">
+    <view class='phonetext'>取餐方式</view>
+    <view class='tip'>请前往柜台，凭订单二维码领取</view>
+    <view class='phonenum'>柜台自取</view>
+  </view>
+  <view class='type2' wx:else>
+    <view class='phonetext'>取餐方式</view>
+    <view class='tip'>收到取餐通知后至门口凭号领取</view>
+    <view class='tip2'>{{type2address}}</view>
+    <view class='phonenum'>送至影厅门口</view>
+  </view>
+  <view class='gray_line'></view>
+  <view class='phone'>
+    <view class='phonetext'>手机号</view>
+    <view class='tip'>购票成功后，会收到取票码短信</view>
+    <view class='phonenum'>
+      <input value='{{phone}}' type='number' />
+      <image src='/images/gray_more.png'></image>
+    </view>
+  </view>
+  <view class='gray_line'></view>
+  <view class='phone' bindtap='messageshow'>
+    <view class='phonetext'>备注</view>
+    <view class='tip' wx:if="{{userMessage.length>0}}">{{userMessage}}</view>
+    <view class='tip' wx:else>如有特殊需求请填写备注</view>
+    <view class='phonenum' style='color:#68AEEA'>
+      编辑
+      <image src='/images/gray_more.png'></image>
+    </view>
+  </view>
+  <view class='gray_line'></view>
+  <view class='option'>
+    购票须知
+  </view>
+  <view class='notice'>
+    <view> 1. 由于设备故障等不可抗力因素,存在少量场次取消的情况,会进行退票退款</view>
+    <view> 2. 由于影院系统不稳定等因素,存在出票失败的情况,会进行退款</view>
+    <view> 3. 购票成功后, 会收到取票短信</view>
+    <view> 4. 下单即代表你同意
+      <text>《神画会员服务协议》</text>
+    </view>
+  </view>
+  <view class='bottom'>
+    <view class='price'>
+      <view class='left' wx:if="{{marActivity !=null}}">满减优惠
+        <text>-{{marActivity.reduceMoney}}元</text>
+      </view>
+      <view class='right'>应付
+        <text class='numpay'>{{disPrice}}</text>
+        <text>元</text>
+      </view>
+    </view>
+    <view class='buy' wx:if="{{waitActivity != null}}">{{waitActivity.name}}，再买
+      <text>{{waitActivity.lackMoney}}元</text>，可减
+      <text>{{waitActivity.reduceMoney}}元</text>
+    </view>
+  </view>
+  <view class='btn' bindtap='choosePay'>立即支付</view>
+  <!-- 选择支付方式 -->
+  <view class='black' wx:if="{{showBlack}}">
+    <view class='checkarea'>
+      <view class='close' bindtap='close'>
+        <image src='/images/close.png'></image>
+      </view>
+      <view class='checktitle'>支付方式</view>
+      <view class='way' bindtap='wxPay'>
+        <image src='/images/wx.png'></image>
+        <text>微信支付</text>
+      </view>
+      <view class='way' bindtap='showM'>
+        <image src='/images/ka.png'></image>
+        <text>会员卡支付</text>
+      </view>
+    </view>
+  </view>
+  <!-- 会员卡密码 -->
+  <view class='black2' wx:if="{{showM}}">
+    <view class='add2'>
+      <image class='close2' src='/images/close.png' bindtap='closeM'></image>
+      <view class='input2'>
+        <input type='password' placeholder-style="color:#888;" placeholder='请输入密码' bindinput='setM'></input>
+      </view>
+      <view class='submit2' bindtap='cardPay'>确 定</view>
+    </view>
+  </view>
+   <!-- 备注 -->
+  <view class='black2' wx:if="{{messageshow}}">
+    <view class='add2'>
+      <image class='close2' src='/images/close.png' bindtap='closeMessageshow'></image>
+      <view class='input2' style='height:160rpx;padding-right:30rpx;'>
+        <textarea placeholder-style="color:#888;line-height:80rpx;" placeholder='请输入备注' maxlength='50' bindinput='setMessage' ></textarea>
+      </view>
+      <view class='submit2' bindtap='closeMessageshow'>确 定</view>
+    </view>
+  </view>
+  <!-- 选择小食优惠券 -->
+  <view class='chooseCoupon' wx:if="{{startChoose&&merOrder.merTicketList!=null}}">
+    <block wx:for="{{merOrder.merTicketList}}" wx:for-item="foodCoupons" wx:key="foodCoupons">
+      <view class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.id}}'>
+        <view class='couponMoney'>￥{{foodCoupons.dxPlatTicket.amount}}</view>
+        <view class='couponLimit'>满{{foodCoupons.dxPlatTicket.achieveMoney}}元可用</view>
+        <view class='couponTime'>有效期 {{foodCoupons.dxPlatTicket.endTime2}}</view>
+        <image src='/images/gou.png' class='couponStatus1' wx:if="{{foodCoupons.id==merOrder.merTicket.id}}"></image>
+        <view class='couponStatus2' wx:else></view>
+      </view>
+    </block>
+    <view class='checkok' bindtap='closeChoose'>选好了</view>
+  </view>
+  <view class='black2' wx:if='{{showReady}}'>
+    <view class='ready'>
+      <image src='/images/styleicon.png' class='styleicon'></image>
+      <image src='/images/close5.png' class='close5' bindtap='chooseClose'></image>
+      <view class='name'>{{cinema.cinemaName}}</view>
+      <view class='address'>{{cinema.address}}</view>
+      <view class='style {{isReady == 0?"onchoose":""}}' bindtap='chooseType' data-type='0'>
+        <image src='/images/choose5.png' class='choose5' wx:if="{{isReady == 0}}"></image>
+        <image src='/images/unchoose5.png' class='choose5' wx:else></image>
+        <view class='texttop'>我在店里，马上取餐</view>
+        <view class='textbottom'>(现在支付，3分钟内可取)</view>
+      </view>
+      <view class='style {{isReady == 1?"onchoose":""}}' bindtap='chooseType' data-type='1'>
+        <image src='/images/choose5.png' class='choose5' wx:if="{{isReady == 1}}"></image>
+        <image src='/images/unchoose5.png' class='choose5' wx:else></image>
+        <view class='texttop'>到店后取餐</view>
+        <view class='textbottom'>(支付成功稍后凭取票码到前台取餐)</view>
+      </view>
+      <view class='chooseSure' bindtap='sureChoose'>确 定</view>
+    </view>
+  </view>
+</view>

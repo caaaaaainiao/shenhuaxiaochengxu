@@ -1,0 +1,73 @@
+/* pages/common/common.wxss */
+.container{
+  width: 100%;
+  height: 100%;
+  background: #F2F2F2;
+  position: relative;
+  overflow: auto;
+}
+.option{
+  width: 100%;
+  height: 150rpx;
+  font-size: 31rpx;
+  color: #312927;
+  line-height: 150rpx;
+  position: relative;
+  padding-left: 40rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #DDDDDD;
+}
+.pic{
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  position: absolute;
+  right: 70rpx;
+  top: 25rpx;
+}
+.right{
+  width: 10rpx;
+  height: 18rpx;
+  position: absolute;
+  top: 66rpx;
+  right: 40rpx;
+}
+.option2{
+  width: 100%;
+  height: 120rpx;
+  font-size: 31rpx;
+  color: #312927;
+  line-height: 120rpx;
+  position: relative;
+  padding-left: 40rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #DDDDDD;
+}
+.option2 .name,.option2 .text{
+  height: 120rpx;
+  text-align: right;
+  font-size: 26rpx;
+  line-height: 120rpx;
+  color: #888;
+  position: absolute;
+  right: 70rpx;
+  top: 0;
+}
+.option2 .right{
+  top: 51rpx;
+}
+.option2 picker{
+  width:200rpx;
+  height: 120rpx;
+  text-align: right;
+  font-size: 26rpx;
+  line-height: 120rpx;
+  color: #888;
+  position: absolute;
+  right: 70rpx;
+  top: 0;
+}
+.option2 picker .text{
+  width: 100%;
+  right: 0;
+}

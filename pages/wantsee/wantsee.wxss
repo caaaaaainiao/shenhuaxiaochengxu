@@ -1,0 +1,102 @@
+/* pages/wantsee/wantsee.wxss */
+.container{
+  width: 100%;
+  height: 100%;
+  /* padding-top: 80rpx; */
+  position: relative;
+}
+.banner{
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 22rpx;
+  color: #312927;
+  text-align: center;
+  border-bottom: 1rpx solid #DDDDDD;
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background: red; */
+}
+.movie{
+  width: 670rpx;
+  height: 260rpx;
+  position: relative;
+  margin: auto;
+  border-bottom: 1rpx solid #DDDDDD;
+}
+.moviepic{
+  width: 140rpx;
+  height: 196rpx;
+  position: absolute;
+  left: 0;
+  top: 30rpx;
+}
+.name{
+  width: 500rpx;
+  line-height: 1;
+  font-size: 30rpx;
+  color: #312927;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  position: absolute;
+  left: 170rpx;
+  top: 70rpx;
+}
+.time{
+  font-size: 22rpx;
+  color: #888888;
+  line-height: 1;
+  position: absolute;
+  left: 170rpx;
+  top: 126rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.time text{
+  margin-right: 10rpx;
+}
+.comment{
+  width: 500rpx;
+  font-size: 24rpx;
+  color: #888888;
+  line-height: 36rpx;
+  position: absolute;
+  left: 170rpx;
+  top: 207rpx;
+  overflow: hidden;
+}
+/* .btn{
+  width: 182rpx;
+  height: 92rpx;
+  background: url() no-repeat;
+  background-size: cover;
+  position: absolute;
+  right: -16rpx;
+  bottom: 7rpx;
+} */
+.empty{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  padding-top: 230rpx;
+}
+.empty image{
+  width: 342rpx;
+  height: 255rpx;
+  margin: 0 auto 70rpx;
+  display: block;
+}
+.emptytext{
+  width: 100%;
+  font-size: 30rpx;
+  color:#888888;
+  text-align: center;
+  line-height: 1;
+}
