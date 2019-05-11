@@ -15,7 +15,7 @@
   <image class='bannerbg' src='/images/bannerbg.jpg'></image>
   <view class='location' bindtap='startChoose'>
     <image src='/images/location.png'></image>
-    <text>{{moviearea.cinemaName}}</text>
+    <text>{{moviearea}}</text>
   </view>
   <view class='content'>
     <view class='userimage'>
