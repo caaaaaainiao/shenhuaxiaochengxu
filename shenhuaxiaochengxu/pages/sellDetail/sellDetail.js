@@ -1,12 +1,17 @@
 // pages/sellDetail/sellDetail.js
 
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+     userinfo_test : {
+      Username: 'MiniProgram',
+      Password: '6BF477EBCC446F54E6512AFC0E976C41',
+    },
     location: "",
     isScroll: false,
     onScroll: "0",
@@ -39,12 +44,32 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
+   
     var that = this;
-    that.setData({
-      location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName
+    wx.getStorage({
+      key: 'cinemaList',
+      success: function (res) {
+        var movieList = that.data.movieList
+        var movieList = res.data
+        console.log(movieList)
+        that.setData({
+          movieList: movieList
+        })
+        debugger;
+        var recent = movieList.sort(util.sortDistance("distance"))[0].cinemaName;
+        that.setData({
+          location: recent
+        })
+
+        that.getBanner();
+        that.getGoods();
+      },
     })
-    that.getBanner();
-    that.getGoods();
+    // that.setData({
+    //   location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName
+    // })
+    // that.getBanner();
+    // that.getGoods();
   },
 
   /**
@@ -164,17 +189,22 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('merchandiseList', nowtime);
     wx.request({
-      url: app.globalData.url + '/api/merchandise/merchandiseList',
+      
+      url: app.globalData.url + '/api/Goods/QueryGoods',
       data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
+        //cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+        UserName: that.data.userinfo_test.Username,
+        Password: that.data.userinfo_test.Password,
+        CinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
       },
       method: "POST",
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function(res) {
+        if (!res.data.data){
+          return;
+        }
         // console.log(res.data.data)
         var goodsList = res.data.data;
         for (var i = 0; i < goodsList.length; i++) {
@@ -206,9 +236,12 @@ Page({
       },
       success: function(res) {
         // console.log(res)
-        that.setData({
-          banner: res.data.data
-        })
+        if (res.data.data){
+          that.setData({
+            banner: res.data.data
+          })
+        }
+        
       }
     })
   },
