@@ -4,7 +4,7 @@
   <view class='first' bindtap='removeBlack' wx:if="{{isFirst&&moviearea.cinemaName}}">
     <image src='/images/firstTip.png' class='firstTip'></image>
     <view class='firstbox'></view>
-  </view>
+  </view> 
 
   <image class='bannerbg' src='/images/bannerbg.jpg'></image>
   <view class='location' bindtap='startChoose'>
