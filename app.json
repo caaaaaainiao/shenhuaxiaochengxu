@@ -1,13 +1,11 @@
 {
   "pages": [
+   
     "pages/index/index",
+    "pages/sell/sell",
     "pages/mine/mine",
     "pages/movie/movie",
     "pages/sellDetail/sellDetail",
-    "pages/sell/sell",
-    "pages/page04/index",
-    "pages/page05/index",
-    "pages/page06/index",
     "pages/login/login",
     "pages/compare/compare",
     "pages/accredit/accredit",
@@ -19,7 +17,7 @@
     "pages/myfood/myfood",
     "pages/mycoupon/mycoupon",
     "pages/myprize/myprize",
-    "pages/mycard/mycard",            
+    "pages/mycard/mycard",
     "pages/chooseSeats/chooseSeats",
     "pages/foodOrder/foodOrder",
     "pages/seenMovie/seenMovie",
@@ -79,5 +77,6 @@
     "scope.userLocation": {
       "desc": "你的位置信息将用于小程序获取最近影院"
     }
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }

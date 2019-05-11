@@ -1,0 +1,71 @@
+<!--pages/sellDetail/sellDetail.wxml-->
+<!-- <text>pages/sellDetail/sellDetail.wxml</text> -->
+<view class='container'>
+  
+  <swiper class='bannerbg' wx:if="{{!isScroll}}" autoplay>
+    <block wx:for="{{banner}}" wx:for-item="banner" wx:key="banner">
+      <swiper-item>
+        <image src='{{banner.imageUrl}}' bindtap='bannerTap' data-index='{{index}}'></image>
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class='location'>
+    <image src='/images/location.png'></image>
+    <text>{{location}}</text>
+  </view>
+  <view class='content {{isScroll?"contentscroll":""}}'>
+    <scroll-view class='foodclass' scroll-y>
+      <block wx:for="{{goodsList}}" wx:for-item="goodstitle" wx:key="goodstitle">
+        <view class='foodtitle {{onScroll == index?"onkey":""}}' bindtap='chooseType' data-index="{{index}}">
+          <image src='{{goodstitle.itemClass.imageUrl}}'></image>
+          <text>{{goodstitle.itemClass.name}}</text>
+        </view>
+      </block>
+    </scroll-view>
+    <scroll-view class='foodDetail' scroll-y bindscroll="onScroll" id='parentTop' scroll-into-view="detailclass{{chooseType}}">
+
+      <!-- wx:for -->
+      <!-- 新品热卖 -->
+      <block wx:for="{{goodsList}}" wx:for-item="goodsClass" wx:key="goodsClass">
+        <view class='detailclass' id='detailclass{{index}}'>
+          <image src='/images/dot.png'></image>
+          <text>{{goodsClass.itemClass.name}}</text>
+          <image src='/images/dot.png' class='rotate180'></image>
+        </view>
+        <block wx:for="{{goodsClass.merchandiseList}}" wx:for-item="merchandise" wx:key="merchandise">
+          <view class='food'>
+            <image src='{{merchandise.imageUrl}}' class='foodpic'></image>
+            <view class='foodname'>
+             
+              {{merchandise.merName}}
+            </view>
+            <view class='foodprice'><text wx:if="{{merchandise.originalPrice!=null}}">￥{{merchandise.originalPrice}}</text>￥{{merchandise.listingPrice}}</view>
+            <view class='foodnum {{merchandise.buyNum>0?"width180":""}}'>
+              <image src='/images/minus.png' class='minus' data-id="{{merchandise.id}}" bindtap='minus'></image>
+              <image src='/images/add.png' class='add' data-id="{{merchandise.id}}" bindtap='add'></image>
+              <text>{{merchandise.buyNum}}</text>
+            </view>
+          </view>
+        </block>
+      </block>
+    </scroll-view>
+  </view>
+  <view class='bottom'>
+  <view class='buy' wx:if="{{waitActivity != null || marActivity!= null}}">
+    <block wx:if="{{marActivity == null}}">{{waitActivity.name}}</block>
+    <block wx:else>下单立减 <text>{{marActivity.reduceMoney}}元</text></block>
+    <block  wx:if="{{waitActivity != null}}">
+  ，再买 <text>{{waitActivity.lackMoney}}元</text>，可减 <text>{{waitActivity.reduceMoney}}元</text></block>
+  </view>
+    <view class='bottom_left'>
+      <image src='/images/foodicon.png'></image>
+      ￥
+      <text>{{totalPrice}}</text>
+      <view class='totalnum' wx:if="{{totalNum>0}}">{{totalNum}}</view>
+    </view>
+    <view class='bottom_right' bindtap='picked'>
+      <text>选好了</text>
+      <image src='/images/next.png'></image>
+    </view>
+  </view>
+</view>

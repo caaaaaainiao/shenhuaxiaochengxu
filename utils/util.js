@@ -13,7 +13,14 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
-
+const sortDistance = property=>{
+  return function (a, b) {
+    var value1 = a[property];
+    var value2 = b[property];
+    return parseFloat(value1) - parseFloat(value2);
+  }
+}
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  sortDistance: sortDistance//计算出最近的影院显示在定位处
 }
