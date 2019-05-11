@@ -1,0 +1,81 @@
+{
+  "pages": [
+    "pages/sell/sell",
+    "pages/index/index",
+    "pages/mine/mine",
+    "pages/movie/movie",
+    "pages/sellDetail/sellDetail",
+    "pages/login/login",
+    "pages/compare/compare",
+    "pages/accredit/accredit",
+    "pages/movieDetail/movieDetail",
+    "pages/orderForm/orderForm",
+    "pages/success/success",
+    "pages/orderDetail/orderDetail",
+    "pages/myticket/myticket",
+    "pages/myfood/myfood",
+    "pages/mycoupon/mycoupon",
+    "pages/myprize/myprize",
+    "pages/mycard/mycard",
+    "pages/chooseSeats/chooseSeats",
+    "pages/foodOrder/foodOrder",
+    "pages/seenMovie/seenMovie",
+    "pages/commentmovie/commentmovie",
+    "pages/wantsee/wantsee",
+    "pages/hotActivity/hotActivity",
+    "pages/common/common",
+    "pages/foodSuccess/foodSuccess",
+    "pages/demo/demo",
+    "pages/room/room",
+    "pages/waitPay/waitPay",
+    "pages/cardRecord/cardRecord",
+    "pages/suggestion/suggestion",
+    "pages/comments/comments",
+    "pages/acivityUrl/acivityUrl",
+    "pages/couponDetail/couponDetail",
+    "pages/openCard/openCard"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#E04F2E",
+    "navigationBarTitleText": "神画电影",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "selectedColor": "#EC6700",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "比价",
+        "iconPath": "images/bar/index-0.png",
+        "selectedIconPath": "images/bar/index-1.png"
+      },
+      {
+        "pagePath": "pages/sell/sell",
+        "text": "卖品",
+        "iconPath": "images/bar/sell-0.png",
+        "selectedIconPath": "images/bar/sell-1.png"
+      },
+      {
+        "pagePath": "pages/movie/movie",
+        "text": "放映厅",
+        "iconPath": "images/bar/movie-0.png",
+        "selectedIconPath": "images/bar/movie-1.png"
+      },
+      {
+        "pagePath": "pages/mine/mine",
+        "text": "我的",
+        "iconPath": "images/bar/mine-0.png",
+        "selectedIconPath": "images/bar/mine-1.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序获取最近影院"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

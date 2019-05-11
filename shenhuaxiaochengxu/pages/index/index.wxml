@@ -1,0 +1,98 @@
+<!--index.wxml-->
+<!-- 首页 -->
+<view class="container">
+  <view class='first' bindtap='removeBlack' wx:if="{{isFirst&&moviearea.cinemaName}}">
+    <image src='/images/firstTip.png' class='firstTip'></image>
+    <view class='firstbox'></view>
+  </view>
+
+  <image class='bannerbg' src='/images/bannerbg.jpg'></image>
+  <view class='location' bindtap='startChoose'>
+    <image src='/images/location.png'></image>
+    <text>{{moviearea}}</text>
+  </view>
+  <view class='content'>
+    <view class='userimage'>
+      <image src='{{userInfo.header}}' mode='aspectFill'></image>
+      <view wx:if="{{onLoad}}" bindtouchstart='tologin' class='noUser'>
+        <image src='/images/imgurl.png' class='moren' wx:if="{{userInfo.mobile==null||userInfo.mobile==''}}"></image>
+      </view>
+    </view>
+    <view class='bottom'>
+      <view class='messages'>
+        <view class="leftBlock" bindtap='toCard'>
+          <text class='title'>积分</text>
+          <text class='number'>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.integralBalance:"- - -"}}</text>
+        </view>
+        <view class="middleBlock">
+          <text>{{userInfo.nickName}}</text>
+        </view>
+        <view class="rightBlock" bindtap='toCard'>
+          <text class='title'>余额</text>
+          <text class='number'>{{userInfo.dxInsiderInfo.balance!=null?userInfo.dxInsiderInfo.balance:"- - -"}}</text>
+          <text class='discounts'>{{moviearea.rechargeDisconutDesc == null?"":moviearea.rechargeDisconutDesc}}</text>
+        </view>
+      </view>
+      <view class='moviesBox'>
+        <scroll-view class='movies' scroll-y="true" wx:if="{{moviearea.cinemaName}}">
+          <block wx:for="{{movieList}}" wx:for-item="movie" wx:key="movie">
+            <view class='movie' bindtap='toDetails' data-index="{{index}}">
+              <image class='moviePic' src='{{movie.picture}}'></image>
+              <text class='movieName'>{{movie.movieName}}</text>
+              <text class='movieText'>{{movie.summary}}</text>
+              <view class='moviePeople'>
+                <block wx:for="{{movie.dxActors}}" wx:for-item="actor" wx:key="actor">
+                  <text>{{actor.name}}</text>
+                </block>
+              </view>
+              <view class='label'>
+                <block wx:for="{{movie.movieDimensional}}" wx:for-item="dimensional" wx:key="dimensional">
+                  <text>{{dimensional}}</text>
+                </block>
+
+              </view>
+              <image class='check' src='/images/buy_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:if="{{movie.sell == 2}}"></image>
+              <image class='check' src='/images/buy2_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:elif="{{movie.sell == 1}}"></image>
+            </view>
+          </block>
+        </scroll-view>
+        <view class='getLocation' wx:if="{{text == '授权访问当前地址'}}">
+          <button open-type="openSetting" bindopensetting="getLocation">{{text}}</button>
+        </view>
+      </view>
+    </view>
+
+  </view>
+  <!-- 选择城市 -->
+  <view class='choosearea' wx:if="{{isChoose}}">
+    <view class='city'>
+      <block wx:for="{{nowCity}}" wx:for-item="city" wx:key="city">
+        <text data-name="{{city.name}}" class='{{city.name == currentCity?"selectCity":""}}' bindtap='chooseCity'>{{city.show}}</text>
+      </block>
+    </view>
+    <block wx:for="{{cinemaList}}" wx:for-item="area" wx:key="area">
+      <view class='option' data-index='{{index}}' bindtap='chooseCinema'>
+
+        <view class='choosename {{area.cinemaName ==moviearea.cinemaName?"selectCinema":""}}'>{{area.cinemaName}}</view>
+        <view class='chooseArea'>{{area.address}}</view>
+        <view class='distance'>{{area.distance}}</view>
+      </view>
+    </block>
+  </view>
+  <!-- 首次授权 -->
+  <view class="container2" wx:if="{{shouquan}}">
+    <view wx:if="{{canIUse}}">
+      <image src='/images/accreditbg.png' class='accreditbg'></image>
+      <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='getUserInfo'>
+        <image src='/images/accreditbtn.png'></image>
+      </button>
+    </view>
+    <block wx:else>
+      <view>微信版本过低，请升级后使用</view>
+    </block>
+  </view>
+</view>
+<!-- 注册成功海报 -->
+<view class='zc' wx:if="{{zchb}}" bindtap='hidehb'>
+  <image src='{{zchb}}'></image>
+</view>

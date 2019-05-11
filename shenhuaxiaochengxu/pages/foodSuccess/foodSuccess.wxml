@@ -1,0 +1,14 @@
+<!--pages/foodSuccess/foodSuccess.wxml-->
+<!-- <text>pages/foodSuccess/foodSuccess.wxml</text> -->
+<!-- 卖品支付成功 -->
+<view class='container'>
+ <view class='header'>
+    <image src='/images/success.png' class='icon'></image>
+    <view class='result'>购买成功</view>
+    <!-- <view class='detail'>无双 <text>(3张)</text></view> -->
+    <view class='check' bindtap='look'>查看订单</view>
+    <view class='line'></view>
+ </view>
+
+ <image class='banner' src='{{banner[0].imageUrl}}'  wx:if="{{banner[0].imageUrl.length>0}}" bindtap='bannerTap' data-index="0"></image>
+</view>

@@ -1,0 +1,339 @@
+/* pages/sell/sell.wxss */
+.container{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  /* background: red; */
+}
+.bannerbg{
+  width: 100%;
+  height: 1206rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.content{
+  width: 100%;
+  height: 100%;
+  padding-top: 80rpx;
+  /* padding-bottom: 98rpx; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing:border-box;
+}
+.bottom{
+  width: 100%;
+  height: 100%;
+  border-radius:16rpx 16rpx 0 0;
+  background: #fff; 
+  position: relative;
+  /* padding-bottom: 98rpx; */
+}
+.userimage{
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  top: 23rpx;
+  left: 315rpx;
+  background: #fff;
+  padding: 6rpx;
+  border-radius: 50%;
+  z-index: 9;
+}
+.userimage image{
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+.messages{
+  width: 670rpx;
+  height: 170rpx;
+  border-bottom: 1rpx solid #DCDCDC;
+  margin: 0 auto 70rpx;
+}
+.leftBlock,.rightBlock{
+  width: 220rpx;
+  height: 100%;
+  position: relative;
+  float: left;
+}
+.middleBlock{
+  width: 230rpx;
+  height: 100%;
+  line-height: 220rpx;
+  position: relative;
+  float: left;
+  text-align: center;
+  font-size: 26rpx;
+  color: #312927;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.title{
+  width: 100%;
+  line-height: 1;
+  font-size: 24rpx;
+  color: #312927;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  top: 47rpx;
+}
+.number{
+  width: 100%;
+  line-height: 1;
+  font-size: 40rpx;
+  color: #312927;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 89rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.location{
+  text-align: center;
+  font-size: 34rpx;
+  color: #312927;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 15rpx;
+}
+.resetLocation{
+  height: 40rpx;
+  line-height: 40rpx;
+  font-size: 22rpx;
+  color: #E04F2D;
+  text-align: center;
+  margin-bottom: 85rpx;
+}
+.resetLocation image{
+  width: 40rpx;
+  height: 40rpx;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 5rpx;
+}
+.foodtype{
+  font-size: 30rpx;
+  font-weight: bold;
+  text-align: center;
+  color: #312927;
+  margin-bottom: 45rpx;
+}
+.types{
+  width: 100%;
+  padding-left: 70rpx;
+  padding-right: 70rpx;
+  overflow: hidden;
+  margin-bottom: 50rpx;
+}
+.foodtype1{
+  width: 260rpx;
+  float: left;
+}
+.foodtype2{
+  width: 260rpx;
+  float: right;
+}
+.type{
+  width: 260rpx;
+  height: 196rpx;
+  vertical-align: bottom;
+}
+.typetext{
+  width: 100%;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 26rpx;
+  color: #312927;
+  text-align: center;
+  margin-bottom: 15rpx;
+}
+.selectarea{
+  width: 30rpx;
+  height: 30rpx;
+  border: 1rpx solid #E04F2E;
+  border-radius: 50%;
+  margin: auto;
+  position: relative;
+}
+.selectarea image{
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  left: -5rpx;
+  bottom: -5rpx;
+}
+.orderbtn{
+  width: 631rpx;
+  height: 119rpx;
+  margin-left: 60rpx;
+}
+.foodMessage{
+  font-size: 26rpx;
+  color: #312927;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 30rpx;
+}
+.foodMessage text{
+  font-size: 20rpx;
+  color: #888888;
+  margin-left: 27rpx;
+  font-weight: normal;
+}
+.gray{
+  filter: grayscale(100%);
+}
+/* 选择列表 */
+.checkplace{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background: rgba(0,0,0,.8);
+}
+.checkcontent{
+  width: 100%;
+  height: auto;
+  padding-top: 99rpx;
+  border-radius: 16rpx 16rpx 0 0;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.check_icon{
+  width: 160rpx;
+  height: 160rpx;
+  position: absolute;
+  top: -80rpx;
+  left: 295rpx;
+}
+.close{
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  top: 15rpx;
+  right: 16rpx;
+}
+.checktext{
+  font-size: 30rpx;
+  color: #312927;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1;
+  margin-bottom: 30rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.checktext text{
+  color: #AAAAAA;
+  font-weight: normal;
+}
+.checkbox{
+  width: 100%;
+  border-top: 1rpx solid #DDDDDD;
+}
+.checktitle{
+  font-size: 30rpx;
+  color: #312927;
+  line-height: 1;
+  padding-left: 38rpx;
+  margin-top: 34rpx;
+  margin-bottom: 53rpx;
+}
+.checkoptions{
+ padding-left: 60rpx;
+ padding-right: 10rpx;
+ margin-bottom: 25rpx;
+ overflow: auto;
+ max-height: 40vh;
+}
+.option{
+  width: auto;
+  height: 60rpx;
+  padding: 0 30rpx;
+  border: 1rpx solid #E5E5E5;
+  color: #AAAAAA;
+  font-size: 24rpx;
+  display: inline-block;
+  border-radius: 30rpx;
+  line-height: 60rpx;
+  margin-right: 50rpx;
+  margin-bottom: 50rpx;
+  /* float: left; */
+}
+.checkedoption{
+  background: #E04F2E;
+  border: none;
+  color: #fff;
+}
+.checkstep{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 42rpx;
+}
+.step{
+  width: 24rpx;
+  height: 24rpx;
+  line-height: 24rpx;
+  font-size: 18rpx;
+  color: #fff;
+  border-radius: 50%;
+  background: #DDDDDD;
+  text-align: center;
+
+}
+.checkstep text{
+  display: inline-block;
+  width: 24rpx;
+  height: 4rpx;
+  background: #DDDDDD;
+  border-radius: 2rpx;
+  margin: 0 15rpx;
+}
+.onstep{
+  background: #E04F2E;
+}
+.checkTip{
+  width: 100%;
+  padding: 0 82rpx;
+  font-size: 24rpx;
+  color: #E04F2E;
+  line-height: 36rpx;
+  margin-bottom: 26rpx;
+}
+.checkover{
+  width: 100%;
+  height: 98rpx;
+  line-height: 98rpx;
+  background: #DDDDDD;
+  text-align: center;
+  font-size: 30rpx;
+  color: #AAAAAA;
+}
+.checkall{
+  background: #E04F2E;
+  color: #fff;
+}
+.back{
+  font-size: 26rpx;
+  color: #E04F2E;
+  line-height: 1;
+  position: absolute;
+  top: 30rpx;
+  left: 25rpx;
+  z-index: 9;
+}

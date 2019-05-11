@@ -1,0 +1,3 @@
+<!--pages/acivityUrl/acivityUrl.wxml-->
+<!-- <text>pages/acivityUrl/acivityUrl.wxml</text> -->
+<web-view src="{{url+appUserId}}"></web-view>

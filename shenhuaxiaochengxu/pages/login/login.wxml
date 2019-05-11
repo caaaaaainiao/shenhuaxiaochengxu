@@ -1,0 +1,20 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+    <image class='logo' src='/images/logo.png'></image>
+    <view class='message'>
+      <view class='phone'>
+        <image src='/images/phone_icon.png'></image>
+        <input id='phone' placeholder='输入手机号' placeholder-style="color:#888;" type='idcard' bindinput='phoneCut' value='{{inputPhone}}'/>
+      </view>
+      <view class='yzm'>
+        <image src='/images/icon_num.png'></image>
+        <input id='yzm' placeholder='输入验证码' placeholder-style="color:#888;" type='idcard' value='{{inputYzm}}' bindinput='yzmCut'/>
+        <view class='getYzm' bindtap='sendYzm'>{{yzmText}}</view>
+      </view>
+    </view>
+    <image class='film' src='/images/film.png'></image>
+    <view class='signIn' bindtap='login'>
+      <image src='/images/btn_bg.png'></image>
+      <text>注 册</text>
+    </view>
+</view>

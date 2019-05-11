@@ -1,0 +1,33 @@
+<!--pages/suggestion/suggestion.wxml-->
+<!-- <text>pages/suggestion/suggestion.wxml</text> -->
+<view class='container'>
+  <view class='line'></view>
+  <block wx:for="{{result}}" wx:for-item="suggestion" wx:key="suggestion">
+    <view class='suggestion'>
+      <view class='title'>{{suggestion.createTime2}}
+        <text wx:if="{{suggestion.handleStatus == 0}}">未处理</text>
+        <text wx:elif="{{suggestion.handleStatus == 1}}">已处理</text>
+      </view>
+      <view class='content'>
+        <view class='question'>
+          <view class='style'>【问】</view>
+          <view class='words'>{{suggestion.suggestion}}</view>
+        </view>
+         <view class='question' wx:if="{{suggestion.handleMethod!=null}}">
+          <view class='style'>【回复】</view>
+          <view class='words'>{{suggestion.handleMethod}}</view>
+        </view>
+        <view class='reply'></view>
+      </view>
+    </view>
+  </block>
+  <view class='btn' bindtap='showAsk'>+ 我要提意见</view>
+  <!-- 提建议 -->
+  <view class='ask' wx:if="{{isAsk}}">
+    <view class='text'>
+      <textarea placeholder='点击输入你的意见吧…' placeholder-style='color:#888;' bindinput="words"></textarea>
+    </view>
+    <input class='phone' placeholder='请留下你的手机号…' placeholder-style='color:#888;' maxlength="11" type='number' bindinput="phone"></input>
+    <view class='submit' bindtap='question'>提 交</view>
+  </view>
+</view>

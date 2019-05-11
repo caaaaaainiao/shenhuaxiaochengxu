@@ -1,0 +1,56 @@
+<!--pages/mycoupon/mycoupon.wxml-->
+<!-- <text>pages/mycoupon/mycoupon.wxml</text> -->
+<!-- 我的优惠券 -->
+<scroll-view class='container' scroll-y="true" bindscrolltolower="ask">
+  <view class='header'>共{{couponCount}}张有效券
+    <text bindtap='addCoupon'>+ 添加优惠券</text>
+  </view>
+  <view wx:if="{{result.length>0}}">
+    <block wx:for="{{result}}" wx:for-item="coupon" wx:key="coupon">
+      <view class='coupon {{coupon.status==0?"":"past" }}' catchtap='toDetail' data-id='{{coupon.id}}'>
+        <image src='/images/couponicon.png' class='icon' wx:if="{{coupon.dxPlatTicket.ticketType == 1}}"></image>
+        <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.dxPlatTicket.ticketType == 2}}"></image>
+        <image src='/images/couponicon2.png' class='icon' wx:elif="{{coupon.dxPlatTicket.ticketType == 3}}"></image>
+        <view class='name'>{{coupon.dxPlatTicket.name}}</view>
+        <view class='scope'>全店通用</view>
+        <view class='time'>有效期至：{{coupon.endTime2}}</view>
+        <view class='right'>
+          <view class='money' wx:if="{{coupon.dxPlatTicket.platformType==2}}">
+            <text>1</text>张</view>
+          <!--平台券-->
+          <view class='money' wx:elif="{{coupon.dxPlatTicket.ticketType == 1}}">
+            <text>{{coupon.dxPlatTicket.amount}}</text>元</view>
+          <view class='money' wx:elif="{{coupon.dxPlatTicket.ticketType == 2}}">
+            <text>{{coupon.dxPlatTicket.amount}}</text>元</view>
+          <view class='money' wx:elif="{{coupon.dxPlatTicket.ticketType == 3}}">
+            <text>1</text>张</view>
+          <!--观影券-->
+
+          <view class='buy' catchtap='toIndex' data-type="{{coupon.dxPlatTicket.ticketType}}"  data-plat="{{coupon.dxPlatTicket.platformType}}" wx:if="{{coupon.status==0&&coupon.dxPlatTicket.ticketType==2}}">购买</view>
+          <view class='buy' catchtap='toIndex' data-type="{{coupon.dxPlatTicket.ticketType}}" data-plat="{{coupon.dxPlatTicket.platformType}}" wx:elif="{{coupon.status==0&&coupon.dxPlatTicket.ticketType!=2}}">购票</view>
+        </view>
+        <image src='/images/conponStatus2.png' wx:if="{{coupon.status==1}}" class='status'></image>
+        <!--已使用 -->
+        <image src='/images/conponStatus.png' wx:if="{{coupon.status==2}}" class='status'></image>
+        <!--已过期 -->
+      </view>
+    </block>
+  </view>
+
+  <view class='empty' wx:else>
+    <image src='/images/empty3.png'></image>
+    <view class='emptytext'>亲，没有优惠券哦～</view>
+  </view>
+  <!-- 添加券 -->
+  <view class='black' wx:if="{{isAdd}}">
+    <view class='add'>
+      <image class='close' src='/images/close.png' bindtap='closeAdd'></image>
+      <view class='input'>
+        <input type='number' placeholder-style="color:#888;" bindinput='couponNum' placeholder='请输入兑换码'></input>
+      </view>
+      <view class='tip'>
+        <text>*</text>兑换码位于纸质优惠券的密码区每个兑换码仅可使用一次</view>
+      <view class='submit' bindtap='submitAdd'>提 交</view>
+    </view>
+  </view>
+</scroll-view>

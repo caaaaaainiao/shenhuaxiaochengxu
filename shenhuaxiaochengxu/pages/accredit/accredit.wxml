@@ -1,0 +1,10 @@
+<!--pages/accredit/accredit.wxml-->
+<view class="container">
+  <view wx:if="{{canIUse}}">
+    <image src='/images/accreditbg.png' class='accreditbg'></image>
+    <button  open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='getUserInfo' ><image src='/images/accreditbtn.png'></image></button>
+  </view>
+  <block wx:else>
+    <view>微信版本过低，请升级后使用</view>
+  </block>
+</view>
