@@ -1,0 +1,91 @@
+<view class="wrap page06">
+	<view class="panel">
+		<view class="box">
+			<view class="left">
+				<view class="txt1">荣耀激光影城</view>
+				<view class="txt2"><text class="tag">月 卡</text></view>
+				<view class="txt3">
+					<view class="p">包月看电影。</view>
+					<view class="p">有效期内每部影片可观影1次。</view>
+					<view class="p">同一部影片不可重复购买。</view>
+					<view class="p">开卡日起30天内有效。</view>
+				</view>
+			</view>
+			<text class="time">有效期:2019-3-23</text>
+			<image src="/images/vip.png" class="vip" mode="widthFix"></image>
+		</view>
+	</view>
+	<view class="rule">
+		<view class="txt1">办卡须知</view>
+		<view class="txt2">
+			<view class="p">1.本卡为电影月卡，包月看电影，89元/月。</view>
+			<view class="p">2.开卡后30天内有效。</view>
+			<view class="p">3.有效期内，影城在映影片，每部可观影1次，不可重复观影。</view>
+		</view>
+	</view>
+	<view class="form">
+		<view class="item">
+			<image src="/images/icon-phone.png" class="icon" mode="widthFix"></image>
+			<input class="input" value="" bindinput="" bindblur="btnBlurInput" placeholder="15700002025" placeholder-class="phColor"/>
+		</view>
+		<view class="item">
+			<image src="/images/icon-password.png" class="icon" mode="widthFix"></image>
+			<input password class="input" value="" bindinput="" bindblur="btnBlurInput" placeholder="设置密码" placeholder-class="phColor"/>
+		</view>
+		<view class="item">
+			<image src="/images/icon-password.png" class="icon" mode="widthFix"></image>
+			<input password class="input" value="" bindinput="" bindblur="btnBlurInput" placeholder="确认密码" placeholder-class="phColor"/>
+		</view>
+		<view class="item">
+			<image src="/images/icon-person.png" class="icon" mode="widthFix"></image>
+			<input class="input" value="" bindinput="" bindblur="btnBlurInput" placeholder="输入姓名" placeholder-class="phColor"/>
+		</view>
+		<view class="item">
+			<image src="/images/icon-person.png" class="icon" mode="widthFix"></image>
+			<picker mode="date" value="{{date999}}" start="" end="2018-09-01" bindchange="bindDateChange999">
+				<input class="input" value="{{date999}}" bindinput="" bindblur="btnBlurInput" placeholder="选择生日" readonly placeholder-class="phColor"/>
+			</picker>
+		</view>
+		<view class="item">
+			<image src="/images/icon-sex.png" class="icon" mode="widthFix"></image>
+			<picker bindchange="bindPickerChange002" value="{{index002}}" range="{{array002}}">
+				<input class="input" value="{{array002[index002]}}" bindinput="" bindblur="btnBlurInput" placeholder="选择性别" readonly placeholder-class="phColor"/>
+			</picker>
+		</view>
+	</view>
+	<view class="operate">
+		<view class="agree">
+			<checkbox value="" checked="checked"/>
+			我已阅读并同意 <navigator class="red" url=""> 《会员卡协议》</navigator>
+		</view>
+		<view class="total">
+			<view class="left">总价: <text class="red">￥89</text></view>
+			<button class="btn btn-red" bindtap="btnShowExchange2" hover-class="none">立即开卡</button>
+		</view>
+	</view>
+</view>
+
+
+<!-- 会员卡续费弹窗   -->
+<block wx:if="{{showAlertExchange2}}">
+	<view class="alert alert-exchange">
+		<view class="over-close" bindtap="btnShowExchange2"></view>
+		<view class="box-bottom">
+			<view class="title">储值卡：15700003456</view>
+			<view class="choose">
+				<block wx:for="{{exchangeList2}}" wx:key="item" wx:for-item="item" wx:for-index="index">
+					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose2" data-id="{{index}}" hover-class="none">
+						{{item.text}}
+						<view class="tips">{{item.tips}}</view>
+					</button>
+				</block>
+			</view>
+			<view class="ad">
+				送20元卖品券
+			</view>
+			<view class="operate">
+				<button class="btn btn-red" bindtap="" hover-class="none">确认充值</button>
+			</view>
+		</view>
+	</view>
+</block>

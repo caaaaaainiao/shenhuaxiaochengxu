@@ -1,0 +1,43 @@
+<!--pages/myticket/myticket.wxml-->
+<!-- <text>pages/myticket/myticket.wxml</text> -->
+<!-- 我的电影票 -->
+<scroll-view class='container' scroll-y="true" bindscrolltolower="ask" wx:if="{{result.length > 0}}">
+  <view class='line'></view>
+  <block wx:for="{{result}}" wx:for-item="order" wx:key="order">
+   <view class='type' bindtap='toDetail' data-num="{{order.orderNum}}" data-status="{{order.payStatus}}">
+    <view class='seat {{order.payStatus==3&&order.printStatus==1?"past":""}}'>
+      <image src='/images/past.png' class='pastbg' wx:if="{{order.payStatus == 3}}"></image>
+      <view class='left'>
+        <view class='zuo'>座</view>
+      </view>
+      <view class='right'>
+        <view class='name'><text>{{order.order.dxMovie.movieName}}</text> {{order.order.ticketNum}}张</view>
+        <view class='other'>{{order.order.playName}}</view>
+        <view class='other'>{{order.order.cinemaName}}</view>
+      </view>
+      <view class='top'></view>
+      <view class='bottom'></view>
+      <image src='/images/gray_more.png' class='more' wx:if="{{order.payStatus != 3}}"></image>
+    </view>
+    <view class='food {{order. deliveryStatus==2?"past":""}}' wx:if="{{order.merOrder!=null}}">
+       <view class='left'>
+        <view class='shi'>食</view>
+      </view>
+      <view class='right'>
+        <block wx:for="{{order.merOrder.details}}" wx:for-item="food" wx:key="food">
+          <view class='foodname'>{{food.itemCombo.name}} <text>{{food.number}}份</text></view>
+        </block>
+      </view>
+      <view class='top'></view>
+      <view class='bottom'></view>
+      <view class='clear'></view>
+      <image src='/images/got.png' class='get' wx:if="{{order.deliveryStatus==2}}"></image>
+    </view>
+  </view>
+
+  </block>
+</scroll-view> 
+<view class='empty' wx:else>
+  <image src='/images/empty1.png'></image>
+  <view class='emptytext'>亲，没有电影票哦～</view>
+</view>

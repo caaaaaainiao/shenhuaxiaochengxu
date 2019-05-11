@@ -1,0 +1,113 @@
+/* pages/suggestion/suggestion.wxss */
+.container{
+  width: 100%;
+  height: 100%;
+  background: #EEEEEE;
+  position: relative;
+  padding-bottom: 97rpx;
+  overflow: auto;
+}
+.line{
+  width: 100%;
+  height: 30rpx;
+}
+.suggestion{
+  width: 100%;
+  background: #fff;
+  margin-bottom: 30rpx;
+  position: relative;
+  padding-bottom: 20rpx;
+}
+.title{
+  width: 100%;
+  height: 80rpx;
+  border-bottom: 1rpx solid #EEEEEE;
+  font-size: 20rpx;
+  color: #888888;
+  padding: 0 40rpx;
+  line-height: 80rpx;
+}
+.title text{
+  color: #E04F2E;
+  float: right;
+}
+.question{
+  width: 100%;
+  padding: 0 40rpx;
+  font-size: 24rpx;
+  color: #312927;
+  overflow: hidden;
+  line-height: 48rpx;
+
+}
+.style{
+  color: #E04F2E;
+  margin-right: 25rpx;
+  float: left;
+}
+.words{
+  float: left;
+}
+.btn{
+  width: 100%;
+  height: 97rpx;
+  line-height: 97rpx;
+  font-size: 26rpx;
+  color: #AAAAAA;
+  background: #fff;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+  border-top: 1rpx solid #EEEEEE;
+}
+.ask{
+  width: 100%;
+  height: 100%;
+  background: #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  padding: 40rpx;
+}
+.text{
+  width: 100%;
+  height: 420rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  margin-bottom: 80rpx;
+  padding: 20rpx;
+}
+.text textarea{
+  width: 100%;
+  height: 100%;
+  font-size: 24rpx;
+  color: #312927;
+  line-height: 36rpx;
+}
+.phone{
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  color: #312927;
+  padding: 0 20rpx;
+  font-size: 24rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  box-sizing: border-box;
+}
+.submit{
+  width: 540rpx;
+  height: 80rpx;
+  background: #E04F2E;
+  font-size: 30rpx;
+  line-height: 80rpx;
+  text-align: center;
+  position: absolute;
+  left: 105rpx;
+  bottom: 140rpx;
+  color: #fff;
+  border-radius: 40rpx;
+}

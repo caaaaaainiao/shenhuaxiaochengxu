@@ -1,0 +1,87 @@
+<view class="wrap page05">
+	<view class="panel">
+		<image src="/images/face.png" class="icon" mode="widthFix"></image>
+		<view class="r">
+			<view class="txt1">昵称</view>
+			<view class="txt2">积分：20</view>
+		</view>
+		<navigator class="btn-record" url="">充值记录</navigator>
+	</view>
+
+	<view class="list">
+		<view class="item">
+			<image src="http://wx.80piao.com:83/cdnimg/card5.png" class="card" mode="widthFix"></image>
+			<view class="number">NO：15700005234</view>
+			<view class="center">
+				<view class="txt1">储值卡</view>
+				<view class="txt2">余额：148¥</view>
+			</view>
+			<button class="btn-delete" bindtap="btnDelete" data-id="1" hover-class="none">
+				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
+			</button>
+			<button class="btns" bindtap="btnShowExchange2" hover-class="none">立即充值</button>
+		</view>
+		<view class="item">
+			<image src="http://wx.80piao.com:83/cdnimg/card5.png" class="card" mode="widthFix"></image>
+			<view class="number">NO：15700005234</view>
+			<view class="center">
+				<view class="txt1">月卡</view>
+				<view class="txt2">有效期至：2019-3-20</view>
+			</view>
+			<button class="btn-delete" bindtap="btnDelete" data-id="2" hover-class="none">
+				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
+			</button>
+			<button class="btns" bindtap="btnShowExchange" hover-class="none">立即续费</button>
+		</view>
+	</view>
+
+	<view class="fixed-operate">
+		<navigator class="btns" url="">＋绑定/注册 更多其他类型会员卡</navigator>
+	</view>
+</view>
+
+
+<!-- 月卡续费弹窗  -->
+<block wx:if="{{showAlertExchange}}">
+	<view class="alert alert-exchange">
+		<view class="over-close" bindtap="btnShowExchange"></view>
+		<view class="box-bottom">
+			<view class="title">月卡：15700003456</view>
+			<view class="choose">
+				<block wx:for="{{exchangeList}}" wx:key="item" wx:for-item="item" wx:for-index="index">
+					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" hover-class="none">
+						{{item.text}}
+						<view class="tips">{{item.tips}}</view>
+					</button>
+				</block>
+			</view>
+			<view class="operate">
+				<button class="btn btn-red" bindtap="" hover-class="none">确认付款</button>
+			</view>
+		</view>
+	</view>
+</block>
+
+<!-- 会员卡续费弹窗   -->
+<block wx:if="{{showAlertExchange2}}">
+	<view class="alert alert-exchange">
+		<view class="over-close" bindtap="btnShowExchange2"></view>
+		<view class="box-bottom">
+			<view class="title">储值卡：15700003456</view>
+			<view class="choose">
+				<block wx:for="{{exchangeList}}" wx:key="item" wx:for-item="item" wx:for-index="index">
+					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" hover-class="none">
+						{{item.text}}
+						<view class="tips">{{item.tips}}</view>
+					</button>
+				</block>
+			</view>
+			<view class="ad">
+				送20元卖品券
+			</view>
+			<view class="operate">
+				<button class="btn btn-red" bindtap="" hover-class="none">确认充值</button>
+			</view>
+		</view>
+	</view>
+</block>

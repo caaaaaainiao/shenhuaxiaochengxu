@@ -1,0 +1,460 @@
+/**index.wxss**/
+
+.container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  /* background: red; */
+}
+
+.first {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 1206rpx;
+  z-index: 999;
+}
+
+.firstTip {
+  width: 100%;
+  height: 1334rpx;
+  position: absolute;
+  top: -128rpx;
+  left: 0;
+}
+
+.firstbox {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+}
+
+.bannerbg {
+  width: 100%;
+  height: 1206rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  padding-top: 150rpx;
+  /* padding-bottom: 98rpx; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+}
+
+.bottom {
+  width: 100%;
+  height: 100%;
+  border-radius: 16rpx 16rpx 0 0;
+  background: #fff;
+  position: relative;
+  padding-bottom: 98rpx;
+  z-index: 1;
+}
+
+.userimage {
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  top: 93rpx;
+  left: 315rpx;
+  background: #fff;
+  padding: 6rpx;
+  border-radius: 50%;
+  z-index: 9;
+}
+
+.userimage image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.userimage .moren{
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.noUser{
+  width: 120rpx;
+  height: 120rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+
+.messages {
+  width: 670rpx;
+  height: 170rpx;
+  border-bottom: 1rpx solid #dcdcdc;
+  margin: auto;
+  position: absolute;
+  left: 40rpx;
+  top: 0;
+  z-index: 9;
+}
+
+.leftBlock, .rightBlock {
+  width: 220rpx;
+  height: 100%;
+  position: relative;
+  float: left;
+}
+
+.middleBlock {
+  width: 230rpx;
+  height: 100%;
+  line-height: 220rpx;
+  position: relative;
+  float: left;
+  text-align: center;
+  font-size: 26rpx;
+  color: #312927;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.title {
+  width: 100%;
+  line-height: 1;
+  font-size: 24rpx;
+  color: #312927;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  top: 47rpx;
+}
+
+.number {
+  width: 100%;
+  line-height: 1;
+  font-size: 40rpx;
+  color: #312927;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  left: 0;
+  top: 89rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.discounts {
+  width: 100%;
+  line-height: 1;
+  text-align: center;
+  font-size: 20rpx;
+  color: #e04f2d;
+  position: absolute;
+  bottom: 18rpx;
+  left: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.moviesBox {
+  width: 100%;
+  height: 100%;
+  padding-top: 170rpx;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.movies {
+  width: 670rpx;
+  height: 100%;
+  margin: auto;
+}
+
+.movie {
+  width: 100%;
+  height: 260rpx;
+  border-bottom: 1rpx solid #dcdcdc;
+  position: relative;
+}
+
+.movie:last-child {
+  border: none;
+}
+
+.moviePic {
+  width: 160rpx;
+  height: 224rpx;
+  position: absolute;
+  left: 0;
+  top: 22rpx;
+}
+
+.movieName {
+  width: 400rpx;
+  line-height: 1;
+  font-size: 30rpx;
+  color: #312927;
+  position: absolute;
+  left: 190rpx;
+  top: 25rpx;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.movieText {
+  width: 310rpx;
+  line-height: 1;
+  font-size: 24rpx;
+  color: #a9a9a9;
+  position: absolute;
+  left: 190rpx;
+  top: 87rpx;
+  /* font-weight: bold; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.moviePeople {
+  width: 250rpx;
+  line-height: 1;
+  font-size: 22rpx;
+  color: #a9a9a9;
+  position: absolute;
+  left: 190rpx;
+  top: 146rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.moviePeople text {
+  margin-right: 10rpx;
+}
+
+.label {
+  width: 400rpx;
+  line-height: 26rpx;
+  font-size: 30rpx;
+  color: #312927;
+  position: absolute;
+  left: 190rpx;
+  top: 202rpx;
+}
+
+.label text {
+  height: 26rpx;
+  line-height: 26rpx;
+  box-sizing: border-box;
+  border: 1rpx solid #e04f2d;
+  color: #e04f2d;
+  font-size: 20rpx;
+  padding: 0 5rpx;
+  margin-right: 10rpx;
+}
+
+.check {
+  width: 181rpx;
+  height: 91rpx;
+  position: absolute;
+  right: -14rpx;
+  top: 92rpx;
+}
+
+.location {
+  width: auto;
+  height: 50rpx;
+  background: rgba(1, 1, 1, 0.1);
+  padding: 0 15rpx 0 10rpx;
+  position: absolute;
+  top: 10rpx;
+  left: 20rpx;
+  font-size: 24rpx;
+  color: #fff;
+  border-radius: 25rpx;
+  box-sizing: border-box;
+  line-height: 50rpx;
+  z-index: 9;
+}
+
+.location image {
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 5rpx;
+  margin-right: 5rpx;
+  float: left;
+}
+
+/* 更换影院 */
+
+.choosearea {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  z-index: 99;
+}
+
+.option {
+  width: 100%;
+  height: 120rpx;
+  border-bottom: 1rpx solid #ddd;
+  position: relative;
+}
+
+.choosename {
+  font-size: 26rpx;
+  color: #312927;
+  font-weight: bold;
+  line-height: 1;
+  position: absolute;
+  left: 40rpx;
+  top: 29rpx;
+}
+
+.chooseArea {
+  max-width: 600rpx;
+  font-size: 20rpx;
+  color: #888;
+  line-height: 1;
+  position: absolute;
+  left: 40rpx;
+  bottom: 27rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.distance {
+  height: 120rpx;
+  font-size: 20rpx;
+  color: #888;
+  line-height: 120rpx;
+  position: absolute;
+  right: 40rpx;
+  top: 0;
+}
+
+.city {
+  width: 100%;
+  padding: 45rpx 0 15rpx;
+  background: #f4f4f4;
+}
+
+.city text {
+  display: inline-block;
+  width: 120rpx;
+  height: 60rpx;
+  border: 2rpx solid #aaa;
+  border-radius: 30rpx;
+  margin-left: 40rpx;
+  margin-right: 20rpx;
+  margin-bottom: 30rpx;
+  font-size: 26rpx;
+  color: #888;
+  line-height: 60rpx;
+  text-align: center;
+}
+
+.city .selectCity {
+  background: #e04f2e;
+  border: none;
+  color: #fff;
+}
+
+.selectCinema {
+  color: #e04f2e;
+}
+
+.container2 {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  overflow: hidden;
+  background: #fff;
+}
+
+.accreditbg {
+  width: 100%;
+  height: 1206rpx;
+}
+
+.getUserInfo {
+  width: 571rpx;
+  height: 111rpx;
+  position: absolute;
+  top: 50%;
+  left: 90rpx;
+  border: none;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: #fff;
+  margin-top: 370rpx;
+}
+
+.getUserInfo image {
+  width: 100%;
+  height: 100%;
+}
+
+.getLocation {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* background: #ff0; */
+}
+
+.getLocation button {
+  width: 540rpx;
+  height: 80rpx;
+  border: 2rpx solid #e04f2e;
+  border-radius: 40rpx;
+  font-size: 26rpx;
+  color: #e04f2e;
+  text-align: center;
+  line-height: 80rpx;
+  background: #fff;
+}
+
+.zc {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.zc image{
+  width: 520rpx;
+  height: 690rpx;
+}

@@ -1,0 +1,113 @@
+<!--pages/movieDetail/movieDetail.wxml-->
+<!-- <text>pages/movieDetail/movieDetail.wxml</text> -->
+<!-- 电影详情 -->
+<view class='container'>
+  <view class='header'>
+    <view class='headerbox'>
+      <view class='headerbg' style='background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557381143441&di=5611750d833dc69d61b0a749827268fd&imgtype=0&src=http%3A%2F%2Fwww.81.cn%2Fbig5%2Fjlwh%2Fattachement%2Fjpg%2Fsite351%2F20170428%2F15bc01068c275830420030.jpg);'></view>
+    </view>
+    <view class='poster' style='background-image:url(https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1557381143441&di=5611750d833dc69d61b0a749827268fd&imgtype=0&src=http%3A%2F%2Fwww.81.cn%2Fbig5%2Fjlwh%2Fattachement%2Fjpg%2Fsite351%2F20170428%2F15bc01068c275830420030.jpg);'></view>
+    <view class='moviename header_p'>{{movie.data.data.filmName}}</view>
+    <view class='moviename2 header_p'>{{movie.foreignName}}</view>
+    <view class='moviestyle'>
+
+      {{movie.movieType}}
+      <!-- <block wx:for="{{movie.movieDimensional}}" wx:for-item="dimensional" wx:key="dimensional"> -->
+        <text>{{movie.data.data.version}}</text>
+      <!-- </block> -->
+
+    </view>
+    <view class='duration header_p'>{{movie.country}} / {{movie.data.data.duration}}分钟</view>
+    <view class='time header_p'>{{movie.data.data.publishDate}} {{movie.country}}上映</view>
+  </view>
+  <view class='middle'>
+    <view wx:if="{{isWant == 0}}" class='gray' bindtap='wantSee'>
+      <image src='/images/wantSee2.png'></image>
+      <text>想看</text>
+    </view>
+    <view wx:else bindtap='wantSee'>
+      <image src='/images/wantSee.png'></image>
+      <text>想看</text>
+    </view>
+    <view wx:if="{{isLooked == 0}}" class='gray' bindtap='looked'>
+      <image src='/images/iswrite2.png'></image>
+      <text>看过</text>
+    </view>
+    <view wx:else>
+      <image src='/images/iswrite.png' bindtap='looked'></image>
+      <text>已评</text>
+    </view>
+  </view>
+  <view class='{{isAll?"describe2":"describe"}}'>
+    {{movie.introduction}}
+  </view>
+  <view class='control' bindtap='seeAll'>展开</view>
+  <view class='videos' wx:if="{{movie.dxVideos.length>0}}">
+    <view class='title'>视频</view>
+    <view class='videos_scroll'>
+      <view class='videos_area'>
+        <block wx:for="{{movie.dxVideos}}" wx:for-item="video" wx:key="video">
+          <view class='video'>
+            <video src='{{video.url}}' controls='true' poster='{{video.picture}}'></video>
+          </view>
+        </block>
+      </view>
+    </view>
+    <view class='control'>全部{{movie.dxVideos.length}}段视频</view>
+  </view>
+  <view class='actor'>
+    <view class='title'>演职人员</view>
+    <scroll-view class='actor_scroll' scroll-x="true">
+      <view class='actor_area'>
+        <!-- <block wx:for="{{movie.dxDirectors}}" wx:for-item="director" wx:key="director"> -->
+          <view class='inactor'>
+            <image src='{{director.picture}}'></image>
+            <view class='name'>{{movie.data.data.cast}}</view>
+            <view class='role'>导演</view>
+          </view>
+        <!-- </block> -->
+        <!-- <block wx:for="{{movie.dxActors}}" wx:for-item="actor" wx:key="actor"> -->
+          <view class='inactor'>
+            <image src='{{actor.picture}}'></image>
+            <view class='name'>{{movie.data.data.cast}}</view>
+            <view class='role'>演员</view>
+          </view>
+        <!-- </block> -->
+      </view>
+    </scroll-view>
+    <view class='control'>全部{{movie.dxActors.length+movie.dxDirectors.length}}位演职人员</view>
+  </view>
+  
+  <view class='videos'>
+    <view class='title'>剧照</view>
+    <scroll-view class='videos_scroll' scroll-x="true">
+      <view class='videos_area'>
+        <block wx:for="{{movie.photos}}" wx:for-item="photo" wx:key="photo">
+          <view class='video'>
+            <image src='{{photo}}'></image>
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+    <view class='control'>全部{{movie.photos.length}}张剧照</view>
+    <view class='comments' wx:if="{{comments.length > 0}}">
+      <view class='title'>热门影评</view>
+      <block wx:for="{{comments}}" wx:for-item="comment" wx:key="comment">
+        <view class='comment'>
+          <view class='userpic'>
+            <image src='{{comment.dxAppUser.header}}'></image>
+          </view>
+          <view class='username'>{{comment.dxAppUser.nickName}}</view>
+          <view class='praise' bindtap='praiseComment' data-id="{{comment.id}}">
+            <image src='{{comment.upvoteStatus == 0?"/images/praise.png":"/images/praise2.png"}}'></image>
+            <text>{{comment.upvoteNum}}</text>
+          </view>
+          <view class='text'>{{comment.comment}}</view>
+          <view class='comment_time'>{{comment.createTime}}</view>
+        </view>
+      </block>
+      <view class='control' style='margin-bottom:20rpx;border:none;' bindtap='toComments'>全部{{comments[0].leftNum}}条观众影评</view>
+    </view>
+  </view>
+  <view class='btn' bindtap='toCompare'>选座购票</view>
+</view>

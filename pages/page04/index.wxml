@@ -1,0 +1,91 @@
+<view class="wrap page04">
+
+	<view class="g-tabHeader">
+		<view class="item {{tabContent[0]?'on':''}}" bindtap="btnTabSwitch" data-id="0">绑定会员卡</view>
+		<view class="item {{tabContent[1]?'on':''}}" bindtap="btnTabSwitch" data-id="1">办理会员卡</view>
+	</view>
+	<block wx:if="{{tabContent[0]}}">
+		<view class="panel">
+			<image src="http://wx.80piao.com:83/cdnimg/card45.png" class="icon" mode="widthFix"></image>
+		</view>
+		<view class="form">
+			<view class="item">
+				<input placeholder="输入您的会员卡号/手机号" class="input" value="" bindinput="" bindblur="btnBlurInput"  placeholder-class="phColor"/>
+			</view>
+			<view class="item">
+				<input placeholder="输入您的会员卡密码" class="input" value="" bindinput="" bindblur="btnBlurInput"  placeholder-class="phColor"/>
+			</view>
+			<view class="item">
+				<picker bindchange="bindPickerChange999" value="{{index999}}" range="{{array999}}"><view class="picker gray">{{array999[index999]}}</view></picker>
+			</view>
+		</view>
+		<view class="operate">
+			<button class="btns btns1" bindtap="querenbangding" hover-class="none">绑定会员卡</button>
+			<button class="btns btns2" bindtap="zhuce" hover-class="none">还没有会员卡?在线开通，立享多重观影福利！</button>
+		</view>
+	</block>
+	<block wx:if="{{tabContent[1]}}">
+		<view class="list2">
+			<view class="item">
+				<view class="tt">VIP会员卡 <text class="red">充200送30</text></view>
+				<navigator class="con" url="">
+					<view class="l">
+						<!-- <view class="txt1">储值卡</view> -->
+						<view class="txt5"><text class="tag">储值卡</text></view>
+						<view class="txt2">
+							<view class="p">首充200起</view>
+							<view class="p">享受会员折扣</view>
+							<view class="p">开卡即送超值大礼包</view>
+						</view>
+						<view class="txt3">有效期:不限</view>
+					</view>
+					<view class="r">
+						<view class="big">VIP</view>
+						<view class="txt4">立即办理</view>
+					</view>
+				</navigator>
+			</view>
+			<view class="item style2">
+				<view class="tt">悦影卡 <text class="red">限时特惠</text></view>
+				<navigator class="con" url="">
+					<view class="l">
+						<view class="txt1">xx悦影卡</view>
+						<view class="txt5"><text class="tag">折扣卡</text></view>
+						<view class="txt2">
+							<view class="p">专享权益特惠价格</view>
+							<view class="p">开卡即享专属礼遇</view>
+						</view>
+						<view class="txt3">有效期:X个月</view>
+					</view>
+					<view class="r">
+						<view class="big">折</view>
+						<view class="txt4">售价：¥ <text class="txt6">19.9</text></view>
+					</view>
+				</navigator>
+			</view>
+			<view class="item style3">
+				<view class="tt">畅影卡 <text class="red">限时特惠</text></view>
+				<navigator class="con" url="">
+					<view class="l">
+						<view class="txt1">xx畅影卡</view>
+						<view class="txt5"><text class="tag">月 卡</text></view>
+						<view class="txt2">
+							<view class="p">包月看电影更嗨</view>
+							<view class="p">开卡即享专属礼遇</view>
+						</view>
+						<view class="txt3">有效期:1个月</view>
+					</view>
+					<view class="r">
+						<view class="big">月</view>
+						<view class="txt4">售价：¥ <text class="txt6">89</text></view>
+					</view>
+				</navigator>
+			</view>
+
+		</view>
+	</block>
+	<view class="cpt">
+	
+		技术服务热线:0570-3062227
+	</view>
+</view>

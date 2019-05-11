@@ -1,0 +1,33 @@
+<!--pages/myfood/myfood.wxml-->
+<!-- 我的小食 -->
+<scroll-view class='container' scroll-y="true" bindscrolltolower="ask" wx:if="{{result.length>0}}">
+  <view class='line'></view>
+  <block wx:for="{{result}}" wx:for-item="order" wx:key="order" >
+    <view class='type {{order.deliveryStatus==2?"past":""}}' data-num="{{order.orderNum}}" data-type="{{order.deliveryStatus}}" bindtap='toDetail'>
+      <image src='/images/got.png' class='get' wx:if="{{order.deliveryStatus==2}}"></image>
+      <view class='food'>
+        <view class='left'>
+          <view class='shi'>食</view>
+        </view>
+        <view class='right'>
+          <block wx:for="{{order.merOrder.details}}" wx:for-item="food" wx:key="food">
+            <view class='foodname' wx:if="{{food.itemCombo!=null}}">{{food.itemCombo.name}}
+              <text>{{food.number}}份</text>
+            </view>
+             <view class='foodname' wx:elif="{{food.merchandise!=null}}">{{food.merchandise.merName}}
+              <text>{{food.number}}份</text>
+            </view>
+          </block>
+        </view>
+        <image src='/images/gray_more.png' class='more' wx:if="{{order.payStatus != 3}}"></image>
+        <view class='top'></view>
+        <view class='bottom'></view>
+        <view class='clear'></view>
+      </view>
+    </view>
+  </block>
+</scroll-view>
+<view class='empty' wx:else>
+  <image src='/images/empty2.png'></image>
+  <view class='emptytext'>亲，没有餐饮哦～</view>
+</view>

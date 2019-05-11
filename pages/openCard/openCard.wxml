@@ -1,0 +1,44 @@
+<!--pages/openCard/openCard.wxml-->
+<!-- <text>pages/openCard/openCard.wxml</text> -->
+<view class='container'>
+  <view class='option'>
+    <image src='/images/ocphone.png' class='icon'></image>
+    <view class='title'>{{userInfo.mobile}}</view>
+  </view>
+  <view class='option'>
+    <image src='/images/ocmm.png' class='icon'></image>
+    <input type='password' placeholder='设置密码' placeholder-style='color:#888888;' bindinput='setPassword'></input>
+  </view>
+  <view class='option'>
+    <image src='/images/ocmm.png' class='icon'></image>
+    <input type='password' placeholder='确认密码' placeholder-style='color:#888888;' bindinput='surePassword'></input>
+  </view>
+  <view class='option'>
+    <image src='/images/ocname.png' class='icon'></image>
+    <input type='text' placeholder='输入姓名' placeholder-style='color:#888888;' bindinput='setName'></input>
+  </view>
+  <view class='option'>
+    <image src='/images/ocname.png' class='icon'></image>
+     <picker mode="date" value="{{birthday}}"  bindchange="setBirthday">
+      <text class='text'>{{birthday?birthday:"选择生日"}}</text>
+    </picker>
+    <!-- <input type='text' placeholder='选择生日' placeholder-style='color:#888888;' bindinput='setBirthday'></input> -->
+  </view>
+  <view class='option'>
+    <image src='/images/ocsex.png' class='icon'></image>
+    <view class='title'>选择性别</view>
+    <view class='sexbox'>
+      <view class='sex' data-sex="0" bindtap='setSex'>
+        <view class='radio' wx:if="{{sex == '1'}}"></view>
+        <image src='/images/ocxuan.png' class='radio2' wx:else></image>
+        <view class='text'>男</view>
+      </view>
+      <view class='sex' data-sex="1" bindtap='setSex'>
+        <view class='radio' wx:if="{{sex == '0'}}"></view>
+        <image src='/images/ocxuan.png' class='radio2' wx:else></image>
+        <view class='text'>女</view>
+      </view>
+    </view>
+  </view>
+  <view class='btn' bindtap='open'>开卡</view>
+</view>

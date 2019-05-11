@@ -1,0 +1,601 @@
+/* pages/foodOrder/foodOrder.wxss */
+.container{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: relative;
+  overflow: auto;
+}
+.header{
+  width: 100%;
+  height: 300rpx;
+  position: relative;
+}
+.bg{
+  width: 100%;
+  height: 300rpx; 
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.moviename{
+  position: absolute;
+  top: 48rpx;
+  left: 40rpx;
+  font-size: 26rpx;
+  color: #fff;
+  line-height: 1;
+}
+.moviename text{
+  max-width: 400rpx;
+  font-size: 44rpx;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 25rpx;
+}
+.header_p{
+  font-size: 26rpx;
+  line-height: 1;
+  color: #fff;
+  position: absolute;
+  left: 40rpx;
+}
+.time{
+  top: 126rpx;
+}
+.address{
+  top: 168rpx;
+}
+.seats{
+  top: 216rpx;
+}
+.seats text{
+  margin-left: 20rpx;
+}
+.last{
+  height: 20rpx;
+  position: absolute;
+  top: 30rpx;
+  right: 40rpx;
+  line-height: 20rpx;
+  font-size: 22rpx;
+  color: #fff;
+}
+.last image{
+  width: 20rpx;
+  height: 20rpx;
+  margin-right: 20rpx;
+}
+.option{
+  width: 100%;
+  height: 100rpx;
+  font-size: 26rpx;
+  color: #322D2B;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  line-height: 100rpx;
+  border-bottom: 1rpx solid #DCDCDC;
+}
+.option text{
+  color: #E04F2E;
+  font-size: 26rpx;
+  float: right;
+}
+.option image{
+  width: 10rpx;
+  height: 18rpx;
+  margin-left: 15rpx;
+  /* display: inline-block; */
+  float: right;
+  margin-top: 40rpx;
+
+}
+.option .money{
+  font-size: 36rpx;
+  font-weight: bold;
+  margin-right: 10rpx;
+}
+.option:last-child{
+  border: none;
+}
+.gray_line{
+  width: 100%;
+  height: 20rpx;
+  background: #F2F2F2;
+}
+.detailclass{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 24rpx;
+  color: #E04F2E;
+  border-bottom: 1rpx solid #DCDCDC;
+}
+.detailclass text{
+  margin: 0 30rpx;
+}
+.detailclass image{
+  width: 41rpx;
+  height: 10rpx;
+}
+.rotate180{
+  transform: rotate(180deg)
+}
+.food{
+  width: 100%;
+  height: 240rpx;
+  border-bottom: 1rpx solid #DCDCDC;
+  /* margin: 0 auto 20rpx; */
+  /* border-radius: 10rpx; */
+  overflow: hidden;
+  position: relative;
+}
+.foodpic{
+  width: 300rpx;
+  height: 240rpx;
+}
+.foodname{
+  width: 220rpx;
+  font-size: 26rpx;
+  line-height: 32rpx;
+  color: #322D2B;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  position: absolute;
+  top: 25rpx;
+  right: 64rpx;
+}
+.foodprice{
+   font-size: 32rpx;
+  color: #322D2B;
+  font-weight: bold;
+  position: absolute;
+  right: 64rpx;
+  top: 95rpx;
+}
+.foodprice text{
+  font-size: 26rpx;
+  color: #AAAAAA;
+  font-weight: normal;
+  margin-right: 10rpx;
+  text-decoration: line-through;
+}
+.foodnum{
+  line-height: 1;
+  font-size: 30rpx;
+  color: #312927;
+  position: absolute;
+  top: 170rpx;
+  right: 64rpx;
+}
+.phone{
+  width: 100%;
+  height: 150rpx;
+  position: relative;
+}
+.type2{
+  width: 100%;
+  height: 200rpx;
+  position: relative;
+}
+.phonetext{
+  font-size: 26rpx;
+  color: #322D2B;
+  line-height: 1;
+  position: absolute;
+  top: 40rpx;
+  left: 40rpx;
+}
+.tip{
+  font-size: 24rpx;
+  color: #878787;
+  line-height: 1;
+  position: absolute;
+  top: 84rpx;
+  left: 40rpx;
+  max-width: 500rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.type2 .tip2{
+ font-size: 24rpx;
+  color: #878787;
+  line-height: 1;
+  position: absolute;
+  top: 130rpx;
+  left: 40rpx;
+}
+.phonenum{
+  height: 100%;
+  line-height: 150rpx;
+  font-size: 26rpx;
+  font-weight: bold;
+  color: #322D2B;
+  position: absolute;
+  right: 40rpx;
+  top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.phonenum image{
+  width: 10rpx;
+  height: 18rpx;
+  margin-left: 17rpx;
+}
+.phonenum input{
+  text-align: right;
+}
+.notice{
+  padding: 5rpx 40rpx 45rpx;
+  font-size: 24rpx;
+  color: #878787;
+  line-height: 48rpx;
+  margin-bottom: 220rpx;
+}
+.notice text{
+  color: #68AEEA;
+}
+.bottom{
+  width: 100%;
+  height: 120rpx;
+  background: #fff;
+  position: fixed;
+  bottom: 100rpx;
+  left: 0;
+  z-index: 9;
+  border-top: 1rpx solid #ddd;
+}
+.price{
+  width: 100%;
+  height: 70rpx;
+  line-height: 70rpx;
+  font-size: 26rpx;
+  color: #312927;
+  padding: 0 40rpx;
+}
+.price text{
+  color: #E04F2D;
+}
+.left{
+  float: left;
+}
+.right{
+  float: right;
+}
+.numpay{
+  font-size: 36rpx;
+  margin: 0 10rpx;
+}
+.buy{
+  width: 550rpx;
+  height: 50rpx;
+  line-height: 50rpx;
+  font-size: 24rpx;
+  color: #312927;
+  text-align: center;
+  background: #FAF1DF;
+  border-radius: 20rpx 20rpx 0 0;
+  margin: 0 100rpx;
+  float: left;
+}
+.buy text{
+  color:#E04F2D; 
+}
+.btn{
+  width:750rpx;
+  height:100rpx;
+  line-height: 100rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #fff;
+  font-weight: bold;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+  background:linear-gradient(-84deg,rgba(224,79,46,1),rgba(224,117,46,1));
+}
+.black{
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.2);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+.checkarea{
+  width: 100%;
+  background: #fff;
+  border-radius: 20rpx 20rpx 0 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+.checktitle{
+  width: 100%;
+  height: 125rpx;
+  border-bottom: 1rpx solid #EEEEEE;
+  line-height: 125rpx;
+  font-size: 30rpx;
+  color: #312927;
+  padding-left: 40rpx;
+  font-weight: bold;
+}
+.close{
+  width: 24rpx;
+  height: 24rpx;
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  z-index: 9;
+}
+.close image{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.way{
+  width: 100%;
+  height: 100rpx;
+  line-height: 100rpx;
+  font-size: 30rpx;
+  color: #312927;
+  padding-left: 290rpx;
+  border-bottom: 1rpx solid #EEEEEE;
+}
+.way image{
+  width: 36rpx;
+  height: 36rpx;
+  margin-right: 20rpx;
+  margin-top: 32rpx;
+  /* display: inline-block; */
+  float: left;
+}
+.way text{
+  float: left;
+}
+.black2{
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+.close2{
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+}
+.add2{
+  width: 100%;
+  height: 560rpx;
+  background: #fff;
+  padding-top: 100rpx;
+  border-radius: 16rpx 16rpx 0 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.input2{
+  width: 540rpx;
+  height: 80rpx;
+  background: #EEEEEE;
+  margin: 0 auto 160rpx;
+  padding-left: 30rpx;
+  border-radius: 16rpx;
+}
+.input2 input{
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 22rpx;
+  color: #312927;
+}
+.input2 textarea{
+  width: 100%;
+  height: 100%;
+  font-size: 22rpx;
+  color: #312927;
+  line-height: 80rpx;
+}
+.tip2{
+  width: 280rpx;
+  line-height: 36rpx;
+  font-size: 20rpx;
+  color: #888888;
+  position: relative;
+  margin: 0 auto 55rpx;
+}
+.tip2 text{
+  position: absolute;
+  left: -10rpx;
+  top: 0;
+}
+.submit2{
+  width: 540rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  color: #fff;
+  text-align: center;
+  background: #E04F2E;
+  margin: auto;
+  border-radius: 40rpx;
+}
+/* 选择优惠券 */
+.chooseCoupon{
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  overflow: auto;
+}
+.canUse{
+  width: 100%;
+  height: 120rpx;
+  border-bottom: 1rpx solid #DDDDDD;
+  position: relative;
+}
+.couponMoney{
+  width: 130rpx;
+  height: 120rpx;
+  line-height: 120rpx;
+  font-size: 48rpx;
+  color: #E04F2E;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 10rpx;
+}
+.couponLimit{
+  font-size: 24rpx;
+  color: #312927;
+  line-height: 1;
+  position: absolute;
+  left: 190rpx;
+  top: 36rpx;
+}
+.couponTime{
+  font-size: 20rpx;
+  color: #888888;
+  line-height: 1;
+  position: absolute;
+  left: 190rpx;
+  top: 67rpx;
+}
+.couponStatus1{
+  width: 36rpx;
+  height: 36rpx;
+  position: absolute;
+  right: 34rpx;
+  top: 43rpx;
+}
+.couponStatus2{
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  border: 1rpx solid #312927;
+  position: absolute;
+  right: 40rpx;
+  top: 48rpx;
+}
+.checkok{
+  width: 100%;
+  height: 98rpx;
+  line-height: 98rpx;
+  background:linear-gradient(-84deg,rgba(224,79,46,1),rgba(224,117,46,1));
+  font-size: 30rpx;
+  color: #fff;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 9;
+}
+/* 备餐方式 */
+.ready{
+  width: 100%;
+  height: 600rpx;
+  background: #fff;
+  padding-top: 190rpx;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+.styleicon{
+  width: 59rpx;
+  height: 58rpx;
+  position: absolute;
+  top: 50rpx;
+  left: 60rpx;
+}
+.close5{
+  width: 27rpx;
+  height: 27rpx;
+  position: absolute;
+  top: 35rpx;
+  right: 30rpx;
+}
+.name{
+  font-size: 30rpx;
+  line-height: 1;
+  position: absolute;
+  top: 63rpx;
+  left: 120rpx;
+}
+.address{
+  font-size: 24rpx;
+  color: #808080;
+  width: 630rpx;
+  position: absolute;
+  left: 60rpx;
+  top: 112rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.style{
+  width: 100%;
+  height: 120rpx;
+  position: relative;
+  color: #8A8A8A;
+}
+.onchoose{
+  color: #E04F2E;
+}
+.choose5{
+  width: 49rpx;
+  height: 49rpx;
+  position: absolute;
+  left: 60rpx;
+  top: 35rpx;
+}
+.texttop{
+  font-size: 30rpx;
+  line-height: 1;
+  position: absolute;
+  left: 123rpx;
+  top: 30rpx;
+}
+.textbottom{
+  font-size: 24rpx;
+  line-height: 1;
+  position: absolute;
+  left: 123rpx;
+  bottom: 25rpx;
+}
+.chooseSure{
+  width: 100%;
+  height: 97rpx;
+  line-height: 97rpx;
+  text-align: center;
+  font-size: 30rpx;
+  color: #fff;
+  background: #E04F2E;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}

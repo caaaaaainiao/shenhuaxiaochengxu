@@ -1,0 +1,18 @@
+<!--pages/hotActivity/hotActivity.wxml-->
+<!-- <text>pages/hotActivity/hotActivity.wxml</text> -->
+<!-- 热门活动 -->
+<scroll-view class='container' scroll-y  bindscrolltolower="ask" wx:if="{{result.length>0}}">
+  <view class='line'></view>
+  <block wx:for="{{result}}" wx:for-item="activity" wx:key="activity">
+    <view class='activity' data-url="{{activity.articleUrl}}" bindtap='toUrl'>
+      <image src='{{activity.pic}}' class='pic'></image>
+      <view class='name'>{{activity.title}}</view>
+      <!-- <view class='time'><image src='/images/lefttime.png'></image>30天后结束</view> -->
+      <view class='looked'><image src='/images/lookedactivity.png'></image>{{activity.viewNum}}人关注</view>
+    </view>
+  </block>
+</scroll-view>
+<view class='empty' wx:else>
+  <image src='/images/empty5.png'></image>
+  <view class='emptytext'>亲，还没有周边活动哦～</view>
+</view>
