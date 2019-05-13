@@ -33,11 +33,13 @@ Page({
     // 读取缓存  设置影院信息
     util.getcinemaList(function(res){
       debugger;
-      let movilisttemp = res.sort(util.sortDistance("distance"));
+
+      let movilisttemp = res.data.sort(util.sortDistance("distance"));
       var recent = movilisttemp[0].cinemaName;
       that.setData({
         location: recent
       });
+      app.globalData.cinemaNo = 0;
     });
    
     // wx.getStorage({

@@ -11,6 +11,7 @@ Page({
      userinfo_test : {
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
+       CinemaCode:18888888
     },
     location: "",
     isScroll: false,
@@ -26,7 +27,8 @@ Page({
     marActivity: null,
     waitActivity: null,
     isBind:false,
-    merOrder:null
+    merOrder:null,
+    cinemaList:[]//影院信息列表
   },
 
   /**
@@ -46,25 +48,37 @@ Page({
   onReady: function() {
    
     var that = this;
-    wx.getStorage({
-      key: 'cinemaList',
-      success: function (res) {
-        var movieList = that.data.movieList
-        var movieList = res.data
-        console.log(movieList)
+    util.getcinemaList(function (res) {
+      if (res&&res.data){
         that.setData({
-          movieList: movieList
-        })
-        debugger;
-        var recent = movieList.sort(util.sortDistance("distance"))[0].cinemaName;
-        that.setData({
-          location: recent
-        })
-
+          cinemaList:res.data
+        });
+        
         that.getBanner();
         that.getGoods();
-      },
-    })
+      }
+     
+    });
+
+    // wx.getStorage({
+    //   key: 'cinemaList',
+    //   success: function (res) {
+    //     var movieList = that.data.movieList
+    //     var movieList = res.data
+    //     console.log(movieList)
+    //     that.setData({
+    //       movieList: movieList
+    //     })
+    //     debugger;
+    //     var recent = movieList.sort(util.sortDistance("distance"))[0].cinemaName;
+    //     that.setData({
+    //       location: recent
+    //     })
+
+    //     that.getBanner();
+    //     that.getGoods();
+    //   },
+    // })
     // that.setData({
     //   location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName
     // })
@@ -189,28 +203,30 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('merchandiseList', nowtime);
     wx.request({
-      
-      url: app.globalData.url + '/api/Goods/QueryGoods',
-      data: {
-        //cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        UserName: that.data.userinfo_test.Username,
-        Password: that.data.userinfo_test.Password,
-        CinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-      },
-      method: "POST",
+      url: app.globalData.url + '/Api/Goods/QueryGoods/' + that.data.userinfo_test.Username + '/' + that.data.userinfo_test.Password + '/' + that.data.userinfo_test.CinemaCode,
+      // data: {
+      //   cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+      //   UserName: that.data.userinfo_test.Username,
+      //   Password: that.data.userinfo_test.Password,
+      //   CinemaCode: that.data.userinfo_test.CinemaCode //that.data.cinemaList[0].cinemaCode,
+      // },
+      method: "get",
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function(res) {
-        if (!res.data.data){
+        debugger;
+        if (!res.data.goodss){
           return;
         }
+       
         // console.log(res.data.data)
-        var goodsList = res.data.data;
+        var goodsList = res.data.goodss.goods;
         for (var i = 0; i < goodsList.length; i++) {
-          for (var j = 0; j < goodsList[i].merchandiseList.length; j++) {
-            goodsList[i].merchandiseList[j].buyNum = 0;
-          }
+          goodsList[i].buyNum=0;
+          // for (var j = 0; j < goodsList[i]..length; j++) {
+          //   goodsList[i].merchandiseList[j].buyNum = 0;
+          // }
         }
         that.setData({
           goodsList: goodsList
@@ -225,7 +241,7 @@ Page({
     wx.request({
       url: app.globalData.url + '/api/banner/banners',
       data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+        cinemaCode: that.data.cinemaList[0].cinemaCode,
         category: "4",//4 卖品
         timeStamp: nowtime,
         mac: sign
@@ -353,7 +369,7 @@ Page({
       data: {
         merchandiseInfo: json,
         appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+        cinemaCode: that.data.cinemaList[0].cinemaCode,
         timeStamp: nowtime,
         mac: sign
       },
