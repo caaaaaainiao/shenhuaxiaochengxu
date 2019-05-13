@@ -50,30 +50,6 @@
       </block>
     </scroll-view>
   </view>
-  <view class="commodity_screen" bindtap="hideModal" wx:if="{{showModalStatus}}"></view>
-<view animation="{{animationData}}" class="commodity_attr_box" wx:if="{{showModalStatus}}">
-  <scroll-view bindscrolltolower="jiamore" scroll-y='true' lower-threshold="50" style="height: 245px; width: 100%;">
-    <view class='listright'>
-      <view class='list' wx:for="{{QuerySnackslist}}" wx:key="this">
-        <view class='center'>
-          <image src='{{item.Image}}' mode='widthFix'></image>
-          <view class='jieshao'>
-            <text class='name'>{{item.merName }}</text>
-            <view class='zhong'>
-            <text class='money'>￥{{item.SalePrice}}</text>
-            <view class='num'>
-              <text class='jian' bindtap='listjian' data-id='{{item.SnackId}}' data-xh='{{index}}' wx:if="{{item.nums>0}}">-</text>
-              <text class='number' wx:if="{{item.nums>0}}">{{item.nums}}</text>
-              <text class='jia' bindtap='listjia' data-id='{{item.SnackId }}' data-max='{{item.Stock}}' data-type='{{item.Type}}' data-xh='{{index}}'>+</text>
-            </view>
-              </view>
-              <text class='remark'>{{item.Remark}}</text>
-          </view>
-        </view>
-      </view>
-    </view>
-  </scroll-view>
-</view>
   <view class='bottom'>
   <view class='buy' wx:if="{{waitActivity != null || marActivity!= null}}">
     <block wx:if="{{marActivity == null}}">{{waitActivity.name}}</block>
@@ -87,7 +63,6 @@
       <text>{{totalPrice}}</text>
       <view class='totalnum' wx:if="{{totalNum>0}}">{{totalNum}}</view>
     </view>
-     <view class="showBuyCar" bindtap="{{!showModalStatus?'showModal':'hideModal'}}"></view>
     <view class='bottom_right' bindtap='picked'>
       <text>选好了</text>
       <image src='/images/next.png'></image>

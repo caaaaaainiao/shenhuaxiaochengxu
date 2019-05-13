@@ -1,12 +1,17 @@
 // pages/sellDetail/sellDetail.js
 
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+     userinfo_test : {
+      Username: 'MiniProgram',
+      Password: '6BF477EBCC446F54E6512AFC0E976C41',
+    },
     location: "",
     isScroll: false,
     onScroll: "0",
@@ -21,8 +26,7 @@ Page({
     marActivity: null,
     waitActivity: null,
     isBind:false,
-    merOrder:null,
-    QuerySnackslist: [],
+    merOrder:null
   },
 
   /**
@@ -40,12 +44,32 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
+   
     var that = this;
-    that.setData({
-      location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName
+    wx.getStorage({
+      key: 'cinemaList',
+      success: function (res) {
+        var movieList = that.data.movieList
+        var movieList = res.data
+        console.log(movieList)
+        that.setData({
+          movieList: movieList
+        })
+        debugger;
+        var recent = movieList.sort(util.sortDistance("distance"))[0].cinemaName;
+        that.setData({
+          location: recent
+        })
+
+        that.getBanner();
+        that.getGoods();
+      },
     })
-    that.getBanner();
-    that.getGoods();
+    // that.setData({
+    //   location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName
+    // })
+    // that.getBanner();
+    // that.getGoods();
   },
 
   /**
@@ -162,22 +186,25 @@ Page({
   },
   getGoods: function() { //获取卖品
     var that = this;
-    var data = new Array();
     var nowtime = new Date().getTime();
     var sign = app.createMD5('merchandiseList', nowtime);
     wx.request({
-      url: app.globalData.url + '/api/merchandise/merchandiseList',
+      
+      url: app.globalData.url + '/api/Goods/QueryGoods',
       data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
+        //cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+        UserName: that.data.userinfo_test.Username,
+        Password: that.data.userinfo_test.Password,
+        CinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
       },
       method: "POST",
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function(res) {
-        console.log(res)
+        if (!res.data.data){
+          return;
+        }
         // console.log(res.data.data)
         var goodsList = res.data.data;
         for (var i = 0; i < goodsList.length; i++) {
@@ -209,61 +236,30 @@ Page({
       },
       success: function(res) {
         // console.log(res)
-        that.setData({
-          banner: res.data.data
-        })
+        if (res.data.data){
+          that.setData({
+            banner: res.data.data
+          })
+        }
+        
       }
     })
   },
   add: function(e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
-    var goodList = that.data.goodsList;//商品列表
+    var goodList = that.data.goodsList;
     var totalNum = 0;
     var totalPrice = 0;
-    var nums;
-    var QuerySnackslist = that.data.QuerySnackslist
-    // console.log(QuerySnackslist)
     for (var i = 0; i < goodList.length; i++) {
       for (var j = 0; j < goodList[i].merchandiseList.length; j++) {
         if (goodList[i].merchandiseList[j].id == id) {
           goodList[i].merchandiseList[j].buyNum++;
-          nums = goodList[i].merchandiseList[j].buyNum
         }
         // if (goodList[i].merchandiseList[j].buyNum > 0) {
         //   totalNum = totalNum + goodList[i].merchandiseList[j].buyNum;
         //   totalPrice = totalPrice + goodList[i].merchandiseList[j].buyNum * goodList[i].merchandiseList[j].listingPrice;
         // }
-      }
-    }
-    if (QuerySnackslist.length != 0) {//添加进购物车
-      var flag = false;
-      // console.log(QuerySnackslist)
-      for (var i = 0; i < QuerySnackslist.length; i++) {
-        if (QuerySnackslist[i].id == id) {
-          QuerySnackslist[i].nums = nums;
-          flag = true;
-          break
-        }
-      }
-      if (flag == false){
-        for (var i = 0; i < goodList.length; i++) {
-          for (var j = 0; j < goodList[i].merchandiseList.length; j++) {
-            if (goodList[i].merchandiseList[j].id == id) {
-              QuerySnackslist.push(goodList[i].merchandiseList[j])
-            }
-          }
-        }
-      }
-     
-    }
-    else {
-      for (var i = 0; i < goodList.length; i++) {
-        for (var j = 0; j < goodList[i].merchandiseList.length; j++) {
-          if (goodList[i].merchandiseList[j].id == id) {
-            QuerySnackslist.push(goodList[i].merchandiseList[j])
-          }
-        }
       }
     }
     that.setData({
@@ -376,48 +372,6 @@ Page({
         })
       }
     })
-  }, 
-   showModal: function(e) {
-    // console.log(this.data.QuerySnackslist, 88)
-    // 显示遮罩层
-    var animation = wx.createAnimation({
-      duration: 200,
-      timingFunction: "linear",
-      delay: 0
-    })
-    this.animation = animation
-    animation.translateY(485).step()
-    this.setData({
-      animationData: animation.export(),
-      showModalStatus: true
-    })
-    setTimeout(function() {
-      animation.translateY(0).step()
-      this.setData({
-        animationData: animation.export()
-      })
-    }.bind(this), 200)
-  },
-  hideModal: function() {
-    // 隐藏遮罩层
-    var animation = wx.createAnimation({
-      duration: 200,
-      timingFunction: "linear",
-      delay: 0
-    })
-    this.animation = animation
-    animation.translateY(300).step()
-    this.setData({
-      animationData: animation.export(),
-    })
-    setTimeout(function() {
-      animation.translateY(0).step()
-      this.setData({
-        animationData: animation.export(),
-        showModalStatus: false
-
-      })
-    }.bind(this), 200)
   },
   bannerTap:function(e){
     var index = e.currentTarget.dataset.index;

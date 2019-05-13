@@ -1,12 +1,17 @@
 // pages/sell/sell.js
 const app = getApp()
+const util = require('../../utils/util.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    userInfo: null,
+    userinfo_test: {
+      Username: 'MiniProgram',
+      Password: '6BF477EBCC446F54E6512AFC0E976C41',
+    },
+    //userInfo: null,
     movieList: null,
     timeList:null,
     hallList:null,
@@ -19,15 +24,35 @@ Page({
     isOk:false,
     sellfeatureAppNo:""
   },
-
+   
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    var that = this;
+    // 读取缓存  设置影院信息
+    wx.getStorage({
+      key: 'cinemaList',
+      success: function(res) {
+        var movieList =  that.data.movieList
+        var movieList = res.data
+        console.log(movieList)
+        that.setData({
+          movieList: movieList 
+        })
+        let movilisttemp = movieList.sort(util.sortDistance("distance"));
+        app.globalData.cinemaList = movilisttemp;
+        app.globalData.cinemaNo = 0;
+
+        var recent = movilisttemp[0].cinemaName;
+        that.setData({
+          location: recent
+        })
+      },
+    })
+    
     this.setData({
-      userInfo: app.globalData.userInfo,
-      location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName,
-      movieList:app.globalData.movieList
+      userInfo: app.globalData.userInfo ? app.globalData.userInfo:{},
     })
     // console.log(app.globalData)
     // wx.hideTabBar({
@@ -45,13 +70,13 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
-    this.setData({
-      userInfo: app.globalData.userInfo,
-      location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName,
-      movieList: app.globalData.movieList
-    })
-  },
+  // onShow: function() {
+  //   this.setData({
+  //     userInfo: app.globalData.userInfo,
+  //     location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName,
+  //     movieList: app.globalData.movieList
+  //   })
+  // },
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -84,17 +109,17 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-    return {
-      title: '神画电影',
-      path: '/pages/index/index'
-    }
-  },
+  // onShareAppMessage: function () {
+  //   return {
+  //     title: '神画电影',
+  //     path: '/pages/index/index'
+  //   }
+  // },
   chooseType: function(e) {
     var setType = e.currentTarget.dataset.type;
     var that = this;
-    // console.log(setType)
-    if (app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "") {
+    console.log(setType)
+    if (app.globalData.userInfo&&(app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "")) {
       wx.showToast({
         title: '请先注册手机号',
         icon: "loading",
@@ -118,16 +143,17 @@ Page({
     //   that.setData({
     //     startChoose: true
     //   })
-    // }else{
-    //   wx.showTabBar()
-    // }
+    // } 
     wx.showTabBar()
   },
   close:function(){
     var that = this;
-    for (var i = 0; i < that.data.movieList.length; i++) {
-      that.data.movieList[i].foodcheck = false;
+    if (that.data.movieList){
+      for (var i = 0; i < that.data.movieList.length; i++) {
+        that.data.movieList[i].foodcheck = false;
+      }
     }
+   
     that.setData({
       startChoose:false,
       sendtype:0,
@@ -343,56 +369,90 @@ Page({
         var lg = res.longitude;
         var nowtime = new Date().getTime();
         var sign = app.createMD5('cinemas', nowtime);
-        wx.request({
-          url: app.globalData.url + '/api/cinema/cinemas',
-          data: {
-            latitude: la,
-            longitude: lg,
-            // city: city,
-            timeStamp: nowtime,
-            mac: sign
-          },
-          method: "POST",
-          header: { "Content-Type": "application/x-www-form-urlencoded" },
-          success: function (data) {
-            // console.log(data)
-            if (data.data.status == 0) {//数据返回错误
-              // console.log(data.data.message)
-              wx.showToast({
-                title: data.data.message,
-                duration: 2000,
-                icon: "loading"
-              })
-            } else {//返回影院列表
-              if (data.data.data.length == 0) {//当前地区没有该影院
-                wx.showToast({
-                  title: "当前地区没有该影院",
-                  duration: 2000,
-                  icon: "loading"
-                })
-              } else {
-                var list = data.data.data;
-                for (var i = 0; i < list.length; i++) {
-                  list[i].distance = (list[i].distance / 1000).toFixed(1) + "km";
-                }
-                that.setData({
-                  moviearea: list[0],
-                  location: list[0].cinemaName,
-                  cinemaList: list
-                })
-                // console.log(that.data.cinemaList)
-                app.globalData.cinemaList = list;
-                app.globalData.cinemaNo = 0;
-                wx.setStorage({
-                  key: "location",
-                  data: list
-                })
-                that.getMovies();
-              }
-            }
+        if (that.data.movieList == 0) {//当前地区没有该影院
+          wx.showToast({
+            title: "当前地区没有该影院",
+            duration: 2000,
+            icon: "loading"
+          })
+        } else {
+          var list = that.data.movieList;
 
-          }
-        })
+          list = list.sort(util.sortDistance("distance"));//重新排序
+          //debugger;
+          that.setData({
+            moviearea: list[0],
+            location: list[0].cinemaName,
+            cinemaList: list
+          })
+          // console.log(that.data.cinemaList)
+          app.globalData.cinemaList = list;
+          app.globalData.cinemaNo = 0;
+          wx.setStorage({
+            key: "location",
+            data: list
+          })
+          //that.getMovies();
+        }
+
+
+
+        // wx.request({
+        //   url: app.globalData.url + '/api/cinema/cinemas',
+        //   data: {
+        //     latitude: la,
+        //     longitude: lg,
+        //     // city: city,
+        //     timeStamp: nowtime,
+        //     mac: sign
+        //   },
+        //   method: "POST",
+        //   header: { "Content-Type": "application/x-www-form-urlencoded" },
+        //   success: function (data) {
+        //     if(data.data.code=='401')//请先登录
+        //     {
+        //       that.getMovies();
+        //       return;
+        //     } 
+        //     // console.log(data)
+        //     if (data.data.status == 0) {//数据返回错误
+        //       // console.log(data.data.message)
+        //       wx.showToast({
+        //         title: data.data.message,
+        //         duration: 2000,
+        //         icon: "loading"
+        //       })
+        //     } else {//返回影院列表
+        //       if (data.data.data.length == 0) {//当前地区没有该影院
+        //         wx.showToast({
+        //           title: "当前地区没有该影院",
+        //           duration: 2000,
+        //           icon: "loading"
+        //         })
+        //       } else {
+        //         var list = data.data.data;
+        //         for (var i = 0; i < list.length; i++) {
+        //           list[i].distance = (list[i].distance / 1000).toFixed(1) + "km";
+        //         }
+        //         that.setData({
+        //           moviearea: list[0],
+        //           location: list[0].cinemaName,
+        //           cinemaList: list
+        //         })
+        //         // console.log(that.data.cinemaList)
+        //         app.globalData.cinemaList = list;
+        //         app.globalData.cinemaNo = 0;
+        //         wx.setStorage({
+        //           key: "location",
+        //           data: list
+        //         })
+        //         //that.getMovies();
+        //       }
+        //     }
+
+        //   },
+        //    fail: function () {}
+        // });
         // wx.request({
         //   url: 'https://api.map.baidu.com/geocoder/v2/?ak=eAptnIH53X9m1LhoQNnI625z&location=' + la + ',' + lg + '&output=json',
         //   header: {
@@ -465,6 +525,11 @@ Page({
   },
   getMovies: function () {
     var that = this;
+    if (!that.data.moviearea)
+    {
+      console.log('moviearea is null');
+      return;
+    }
     var nowtime = new Date().getTime();
     var sign = app.createMD5('hotMovie', nowtime);
     wx.request({
@@ -482,6 +547,9 @@ Page({
           movieList: res.data.data
         })
         that.format();
+      },
+      fail: function () {
+        console.log('getMovies fail');
       }
     })
   },
