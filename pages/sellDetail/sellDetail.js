@@ -37,7 +37,7 @@ Page({
     this.setData({
       type: options.type
     })
-    this.ask();
+  // this.ask();
   },
 
   /**
@@ -267,7 +267,7 @@ Page({
       // totalNum: totalNum,
       // totalPrice: totalPrice
     })
-    that.ask()
+   // that.ask()
   },
   minus: function(e) {
     var that = this;
@@ -294,7 +294,7 @@ Page({
       // totalNum: totalNum,
       // totalPrice: totalPrice
     })
-    that.ask()
+    //that.ask()
   },
   picked: function() {
     var that = this;

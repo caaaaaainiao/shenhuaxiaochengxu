@@ -31,25 +31,34 @@ Page({
   onLoad: function(options) {
     var that = this;
     // 读取缓存  设置影院信息
-    wx.getStorage({
-      key: 'cinemaList',
-      success: function(res) {
-        var movieList =  that.data.movieList
-        var movieList = res.data
-        console.log(movieList)
-        that.setData({
-          movieList: movieList 
-        })
-        let movilisttemp = movieList.sort(util.sortDistance("distance"));
-        app.globalData.cinemaList = movilisttemp;
-        app.globalData.cinemaNo = 0;
+    util.getcinemaList(function(res){
+      debugger;
+      let movilisttemp = res.sort(util.sortDistance("distance"));
+      var recent = movilisttemp[0].cinemaName;
+      that.setData({
+        location: recent
+      });
+    });
+   
+    // wx.getStorage({
+    //   key: 'cinemaList',
+    //   success: function(res) {
+    //     var movieList =  that.data.movieList
+    //     var movieList = res.data
+    //     console.log(movieList)
+    //     that.setData({
+    //       movieList: movieList 
+    //     })
+    //     let movilisttemp = movieList.sort(util.sortDistance("distance"));
+    //     app.globalData.cinemaList = movilisttemp;
+    //     app.globalData.cinemaNo = 0;
 
-        var recent = movilisttemp[0].cinemaName;
-        that.setData({
-          location: recent
-        })
-      },
-    })
+    //     var recent = movilisttemp[0].cinemaName;
+    //     that.setData({
+    //       location: recent
+    //     })
+    //   },
+    // })
     
     this.setData({
       userInfo: app.globalData.userInfo ? app.globalData.userInfo:{},
