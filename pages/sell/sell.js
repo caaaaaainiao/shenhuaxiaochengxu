@@ -32,7 +32,7 @@ Page({
     var that = this;
     // 读取缓存  设置影院信息
     util.getcinemaList(function(res){
-      debugger;
+  
 
       let movilisttemp = res.data.sort(util.sortDistance("distance"));
       var recent = movilisttemp[0].cinemaName;
@@ -390,7 +390,7 @@ Page({
           var list = that.data.movieList;
 
           list = list.sort(util.sortDistance("distance"));//重新排序
-          //debugger;
+     
           that.setData({
             moviearea: list[0],
             location: list[0].cinemaName,
