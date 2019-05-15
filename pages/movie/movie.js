@@ -9,7 +9,11 @@ Page({
   data: {
     location:"",
     movieRoom:null,
-    banner: [{ imageUrl: "/images/comparebg.jpg"}]
+    Username : '',
+    Password : '',
+    CinemaCode : '',
+    banner: [{ imageUrl: "/images/comparebg.jpg" }],
+    MovieList : []
   },
 
   /**
@@ -88,37 +92,17 @@ Page({
     //   userInfo: app.globalData.userInfo
     // })
     var that = this;
-    that.setData({
-      location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName
-    })
-    that.getBanner();
+    this.setData({
+      location: app.usermessage.moviearea,
+      Username: app.usermessage.Username,
+      Password: app.usermessage.Password,
+      CinemaCode: app.usermessage.CinemaCode,
+    })//当前影院名称字段
+    // that.getBanner();
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('getRoom', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/chatRoom/getRoom',
-      data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        appUserId: app.globalData.userInfo.id,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-      },
-      success: function (e) {
-        // console.log(e)
-        var movieRoom = e.data.data;
-        for (var i = 0; i < movieRoom.length; i++) {
-          movieRoom[i].startTime2 = movieRoom[i].startTime.substring(11, 16).replace("-", ":");
-          movieRoom[i].endTime2 = movieRoom[i].endTime.substring(11, 16).replace("-", ":");
-        }
-        that.setData({
-          movieRoom: movieRoom
-        })
-        app.globalData.movieRoom = movieRoom;
-      }
-    })
+    // var sign = app.createMD5('getRoom', nowtime);
+    // var urlString = 
+    that.getNowTimeMovie()
   },
 
   /**
@@ -209,5 +193,32 @@ Page({
         }
       }
     }
+  },
+  getNowTimeMovie : function (){
+    var that = this
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Room/QueryScreenRoom' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.CinemaCode,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res);
+        // that.data.FlimList.push(res)
+        that.setData({
+          MovieList : res.data.data
+        })
+        // console.log(e)
+        // var movieRoom = e.data.data;
+        // for (var i = 0; i < movieRoom.length; i++) {
+        //   movieRoom[i].startTime2 = movieRoom[i].startTime.substring(11, 16).replace("-", ":");
+        //   movieRoom[i].endTime2 = movieRoom[i].endTime.substring(11, 16).replace("-", ":");
+        // }
+        // that.setData({
+        //   movieRoom: movieRoom
+        // })
+        // app.globalData.movieRoom = movieRoom;
+      }
+    })
   }
 })
