@@ -668,10 +668,10 @@ Page({
               onLoad: true
             })
             if (e.data.status != 1) {
-              wx.showModal({
-                title: '登录失败',
-                content: e.data.message, //请先登录
-              })
+              // wx.showModal({
+              //   title: '登录失败',
+              //   content: e.data.message, //请先登录
+              // })
               return;
             }
             if (e.data.data) {
@@ -690,12 +690,13 @@ Page({
 
                 }
               })
-            } else {
-              wx.showToast({
-                title: '登录失败',
-                icon: 'loading',
-                duration: 2000
-              })
+            }
+             else {
+              // wx.showToast({
+              //   title: '登录失败',
+              //   icon: 'loading',
+              //   duration: 2000
+              // })
             }
 
             //是否第一次进入 引导
