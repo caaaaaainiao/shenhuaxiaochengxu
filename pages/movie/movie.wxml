@@ -3,6 +3,7 @@
 <!-- 放映厅 -->
 <view class='container'>
   <view class='header'>
+    <!-- 轮播图 -->
     <swiper class='bg' autoplay>
       <block wx:for="{{banner}}" wx:for-item="pic" wx:key="pic">
         <swiper-item>
@@ -10,20 +11,23 @@
         </swiper-item>
       </block>
     </swiper>
-   
+    <!-- 轮播图 -->
+    <!-- 显示地址 -->
     <view class='location'>
       <image src='/images/location.png'></image>
       <text>{{location}}</text>
     </view>
+    <!-- 显示地址 -->   
   </view>
-  <view class='list' wx:if="{{movieRoom.length>0}}">
-    <block wx:for="{{movieRoom}}" wx:for-item="room" wx:key="room" >
+
+  <view class='list' wx:if="{{MovieList.length>0}}">
+    <block wx:for="{{MovieList}}" wx:for-item="room" wx:key="room" >
       <view class='room' data-index="{{index}}" bindtap='roomin'>
-        <image class='listbg' src='{{room.moviePhoto}}'></image>
+        <image class='listbg' src='{{room.image}}'></image>
         <view class='box'>
-          <view class='moviename'>{{room.movieName}}</view>
-          <view class='address'>{{room.hallName}}</view>
-          <view class='movietime'>{{room.startTime2}}-{{room.endTime2}}</view>
+          <view class='moviename'>{{room.filmName}}</view>
+          <view class='address'>{{room.screenName}}</view>
+          <view class='movietime'>{{room.startTime}}-{{room.endTime}}</view>
           <view class='roomin'>进入</view>
         </view>
       </view>
