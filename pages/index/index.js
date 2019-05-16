@@ -119,7 +119,7 @@ Page({
               var lat = cinemas[i].latitude;
               var lng = cinemas[i].longitude;
               var distance = that.distance(userLat, userLng, lat, lng);
-              cinemas[i].distance = distance + "km"
+              cinemas[i].distance = distance
             }
             // 声明一个新数组 将市区添加到新数组内
             var arr = [];
@@ -204,118 +204,118 @@ Page({
     app.globalData.movieList = that.data.movieList;
   },
   // 获取用户位置，请求影院列表
-  getPlace: function() {
-    var that = this;
-    // console.log("place")
-    wx.getStorage({
-      key: 'location',
-      success: function(res) {
-        // console.log(res)
-        wx.getStorage({
-          key: 'areaNo',
-          success: function(e) {
-            // console.log(e)
-            if (res.data.length > 0) { //有内容
-              var list = res.data;
-              that.setData({
-                moviearea: list[e.data], //电影区域
-                cinemaList: list //电影列表
-              })
-              // console.log(that.data.cinemaList)
-              app.globalData.cinemaList = list; //设置全局电影列表
-              that.getMovies();
-              return;
-            }
-          },
-          fail: function(e) {
-            if (res.data.length > 0) {
-              var list = res.data;
-              that.setData({
-                moviearea: list[0],
-                cinemaList: list
-              })
-              // console.log(that.data.cinemaList)
-              app.globalData.cinemaList = list;
-              that.getMovies();
-              wx.setStorage({
-                key: "areaNo", //无区域
-                data: '0'
-              })
-              return;
-            }
-          }
-        })
-      },
-      fail: function(res) {
-        wx.getLocation({
-          type: 'wgs84', //wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
-          success: function(res) {
-            // console.log(res)
-            var la = res.latitude; //纬度
-            var lg = res.longitude; //经度
-            var nowtime = new Date().getTime(); //时间
-            var sign = app.createMD5('cinemas', nowtime);
-            wx.request({ //获取影院的城市
-              url: app.globalData.url + '/api/cinema/cinemas',
-              data: {
-                latitude: la, //经度
-                longitude: lg, //纬度
-                // city: city,
-                // city:"衢州市",
-                timeStamp: nowtime, //时间
-                mac: sign //信息
-              },
-              method: "POST",
-              header: {
-                "Content-Type": "application/x-www-form-urlencoded"
-              },
-              success: function(data) {
-                console.log(data)
-                if (data.data.status == 0) { //数据返回错误
-                  // console.log(data.data.message)
-                  wx.showToast({
-                    title: data.data.message,
-                    duration: 2000, //延迟两秒
-                    icon: "loading"
-                  })
-                } else { //返回影院列表
-                  if (data.data.data.length == 0) { //当前地区没有该影院
-                    wx.showToast({
-                      title: "当前地区无影院",
-                      duration: 2000, //延迟两秒
-                      icon: "loading"
-                    })
-                  } else { //当前有影院
-                    var list = data.data.data;
-                    for (var i = 0; i < list.length; i++) { //影院的距离
-                      list[i].distance = (list[i].distance / 1000).toFixed(1) + "km";
-                    }
-                    that.setData({
-                      moviearea: list[app.globalData.cinemaNo],
-                      cinemaList: list
-                    })
-                    // console.log(that.data.cinemaList)
-                    app.globalData.cinemaList = list;
-                    wx.setStorage({
-                      key: "location",
-                      data: list
-                    })
-                    wx.setStorage({ //当数据存储在本地缓存的areaNo这个指定的key中
-                      key: "areaNo",
-                      data: '0'
-                    })
-                    that.getMovies();
-                  }
-                }
+  // getPlace: function() {
+  //   var that = this;
+  //   // console.log("place")
+  //   wx.getStorage({
+  //     key: 'location',
+  //     success: function(res) {
+  //       // console.log(res)
+  //       wx.getStorage({
+  //         key: 'areaNo',
+  //         success: function(e) {
+  //           // console.log(e)
+  //           if (res.data.length > 0) { //有内容
+  //             var list = res.data;
+  //             that.setData({
+  //               moviearea: list[e.data], //电影区域
+  //               cinemaList: list //电影列表
+  //             })
+  //             // console.log(that.data.cinemaList)
+  //             app.globalData.cinemaList = list; //设置全局电影列表
+  //             that.getMovies();
+  //             return;
+  //           }
+  //         },
+  //         fail: function(e) {
+  //           if (res.data.length > 0) {
+  //             var list = res.data;
+  //             that.setData({
+  //               moviearea: list[0],
+  //               cinemaList: list
+  //             })
+  //             // console.log(that.data.cinemaList)
+  //             app.globalData.cinemaList = list;
+  //             that.getMovies();
+  //             wx.setStorage({
+  //               key: "areaNo", //无区域
+  //               data: '0'
+  //             })
+  //             return;
+  //           }
+  //         }
+  //       })
+  //     },
+  //     fail: function(res) {
+  //       wx.getLocation({
+  //         type: 'wgs84', //wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
+  //         success: function(res) {
+  //           // console.log(res)
+  //           var la = res.latitude; //纬度
+  //           var lg = res.longitude; //经度
+  //           var nowtime = new Date().getTime(); //时间
+  //           var sign = app.createMD5('cinemas', nowtime);
+  //           wx.request({ //获取影院的城市
+  //             url: app.globalData.url + '/api/cinema/cinemas',
+  //             data: {
+  //               latitude: la, //经度
+  //               longitude: lg, //纬度
+  //               // city: city,
+  //               // city:"衢州市",
+  //               timeStamp: nowtime, //时间
+  //               mac: sign //信息
+  //             },
+  //             method: "POST",
+  //             header: {
+  //               "Content-Type": "application/x-www-form-urlencoded"
+  //             },
+  //             success: function(data) {
+  //               console.log(data)
+  //               if (data.data.status == 0) { //数据返回错误
+  //                 // console.log(data.data.message)
+  //                 wx.showToast({
+  //                   title: data.data.message,
+  //                   duration: 2000, //延迟两秒
+  //                   icon: "loading"
+  //                 })
+  //               } else { //返回影院列表
+  //                 if (data.data.data.length == 0) { //当前地区没有该影院
+  //                   wx.showToast({
+  //                     title: "当前地区无影院",
+  //                     duration: 2000, //延迟两秒
+  //                     icon: "loading"
+  //                   })
+  //                 } else { //当前有影院
+  //                   var list = data.data.data;
+  //                   for (var i = 0; i < list.length; i++) { //影院的距离
+  //                     list[i].distance = (list[i].distance / 1000).toFixed(1) + "km";
+  //                   }
+  //                   that.setData({
+  //                     moviearea: list[app.globalData.cinemaNo],
+  //                     cinemaList: list
+  //                   })
+  //                   // console.log(that.data.cinemaList)
+  //                   app.globalData.cinemaList = list;
+  //                   wx.setStorage({
+  //                     key: "location",
+  //                     data: list
+  //                   })
+  //                   wx.setStorage({ //当数据存储在本地缓存的areaNo这个指定的key中
+  //                     key: "areaNo",
+  //                     data: '0'
+  //                   })
+  //                   that.getMovies();
+  //                 }
+  //               }
 
-              }
-            })
-          },
-        })
-      }
-    })
+  //             }
+  //           })
+  //         },
+  //       })
+  //     }
+  //   })
 
-  },
+  // },
   // 计算用户与影院距离
   distance: function (la1, lo1, la2, lo2) {
     var La1 = la1 * Math.PI / 180.0;
@@ -344,7 +344,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log(res)
+        // console.log(res)
         that.data.FlimList.push(res)
         that.setData({
           FlimList: that.data.FlimList
@@ -557,33 +557,33 @@ Page({
           that.setData({
             [name]: show[j].cinemaName,
             [address]: show[j].address,
-            [distance]: show[j].distance,
+            [distance]: show[j].distance + "km",
           })
         }
       }
     })
   },
   showCity: function() { //展示城市
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('getCinemaCity', nowtime);
-    wx.request({
-      url: app.globalData.url + '/shDxCinema/getCinemaCity', //点击左上角获取所有影院
-      data: {
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function(res) {
-        // console.log(res)
-        that.setData({
-          nowCity: res.data.data
-        })
-      }
-    })
+    // var that = this;
+    // var nowtime = new Date().getTime();
+    // var sign = app.createMD5('getCinemaCity', nowtime);
+    // wx.request({
+    //   url: app.globalData.url + '/shDxCinema/getCinemaCity', //点击左上角获取所有影院
+    //   data: {
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function(res) {
+    //     // console.log(res)
+    //     that.setData({
+    //       nowCity: res.data.data
+    //     })
+    //   }
+    // })
   },
   chooseCinema: function(e) { //选择电影
     var index = e.currentTarget.dataset.index;
