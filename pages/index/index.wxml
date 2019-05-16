@@ -71,7 +71,6 @@
       <view class='option' data-index='{{index}}' data-cinemaName='{{area.cinemaName}}' data-cinemaCode='{{area.cinemaCode}}' bindtap='chooseCinema'>
     
         <view class='choosename {{area.cinemaName ==moviearea.cinemaName?"selectCinema":""}}'>{{area.cinemaName}}</view>
-        <!-- <view>{{area.cinemaCode}}</view> -->
         <view class='chooseArea'>{{area.address}}</view>
         <view class='distance'>{{area.distance}}</view>
       </view>
