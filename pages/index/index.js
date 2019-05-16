@@ -146,6 +146,7 @@ Page({
                 return value1 - value2;
               }
             }
+            console.log(cinemas)
             var recent = cinemas.sort(sortDistance("distance"))[0].cinemaName;
             that.setData({
               moviearea: recent
@@ -416,9 +417,15 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('hotMovie', nowtime);
-    wx.showLoading({
-      title: '加载中',
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    this.setData({
+      isChoose: false
     })
+    // wx.navigateBack({
+    //   delta : 1
+    // })
     // wx.request({
     //   url: app.globalData.url + '/api/Movie/hotMovie',
     //   data: {
@@ -554,10 +561,12 @@ Page({
           let name = "cinemaList[" + j + "].cinemaName";
           let address = "cinemaList[" + j + "].address";
           let distance = "cinemaList[" + j + "].distance";
+          let cinemaCode = "cinemaList[" + j + "].cinemaCode";
           that.setData({
             [name]: show[j].cinemaName,
             [address]: show[j].address,
             [distance]: show[j].distance + "km",
+            [cinemaCode]: show[j].cinemaCode
           })
         }
       }
@@ -586,20 +595,23 @@ Page({
     // })
   },
   chooseCinema: function(e) { //选择电影
-    var index = e.currentTarget.dataset.index;
-    app.globalData.cinemaNo = index;
-    this.setData({
-      isChoose: false,
-      moviearea: app.globalData.cinemaList[app.globalData.cinemaNo]
-    })
-    wx.setStorage({
-      key: "location",
-      data: app.globalData.cinemaList
-    })
-    wx.setStorage({
-      key: "areaNo",
-      data: index
-    })
+    // var index = e.currentTarget.dataset.index;
+    // var thiscinemaCode = e.currentTarget.dataset.cinemaCode;
+    app.globalData.cinemaNo = e.currentTarget.dataset.index;
+    app.globalData.cinemacode = e.currentTarget.dataset.cinemaCode;
+    app.globalData.moviearea = e.currentTarget.dataset.cinemaName;
+    // this.setData({
+    //   isChoose: false,
+    //   moviearea: app.globalData.cinemaList[app.globalData.cinemaNo]
+    // })
+    // wx.setStorage({
+    //   key: "location",
+    //   data: app.globalData.cinemaList
+    // })
+    // wx.setStorage({
+    //   key: "areaNo",
+    //   data: index
+    // })
     this.getMovies();
   },
   startChoose: function() {

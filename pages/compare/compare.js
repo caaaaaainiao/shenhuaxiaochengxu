@@ -179,36 +179,54 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('screening', nowtime);
+    var data = {
+      Username: 'MiniProgram',
+      Password: '6BF477EBCC446F54E6512AFC0E976C41',
+      CinemaCode: '33097601',
+      StartDate: '2019-05-01',
+      EndDate: '2019-05-12',
+    }
     that.setData({
       isLoading:true
     })
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     wx.request({
-      url: app.globalData.url + '/api/shMovie/screening',
-      data: {
-        cinemaCode: that.data.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        movieId: that.data.movieId,
-        appUserId:app.globalData.userInfo.id,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
+      url: 'https://xc.80piao.com:8443/Api/Session/QuerySessions' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.StartDate + '/' + data.EndDate,
+      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        'content-type': 'application/json' // 默认值
       },
-      success: function(res) {
-        // console.log(res)
-
-       that.manage(res.data.data.screenPlanList);
-       wx.hideLoading();
-        that.setData({
-          isLoading: false
-        })
-        // console.log(app.globalData)
+      success: function (res) {
+        console.log(res)
       }
+
     })
+    // wx.request({
+    //   url: app.globalData.url + '/api/shMovie/screening',
+    //   data: {
+    //     cinemaCode: that.data.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     movieId: that.data.movieId,
+    //     appUserId:app.globalData.userInfo.id,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function(res) {
+    //     // console.log(res)
+
+    //    that.manage(res.data.data.screenPlanList);
+    //    wx.hideLoading();
+    //     that.setData({
+    //       isLoading: false
+    //     })
+    //     // console.log(app.globalData)
+    //   }
+    // })
   },
   buy: function(e) {
     var that = this;

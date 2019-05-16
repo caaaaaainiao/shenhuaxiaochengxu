@@ -48,8 +48,8 @@
               <view class='label'>
               <text>{{movie.data.data.version}}</text>
               </view>
-              <image class='check' src='/images/buy_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:if="{{movie.data.data.status == 0}}"></image>
-              <image class='check' src='/images/buy2_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:elif="{{movie.data.data.status == 1}}"></image>
+              <image class='check' src='/images/buy_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:if="{{movie.data.data.status == '通过'}}"></image>
+              <image class='check' src='/images/buy2_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:elif="{{movie.data.data.status == '未审核'}}"></image>
             </view>
           </block>
         </scroll-view>
@@ -68,9 +68,10 @@
       </block>
     </view>
     <block wx:for="{{cinemaList}}" wx:for-item="area" wx:key="area">
-      <view class='option' data-index='{{index}}' bindtap='chooseCinema'>
+      <view class='option' data-index='{{index}}' data-cinemaName='{{area.cinemaName}}' data-cinemaCode='{{area.cinemaCode}}' bindtap='chooseCinema'>
     
         <view class='choosename {{area.cinemaName ==moviearea.cinemaName?"selectCinema":""}}'>{{area.cinemaName}}</view>
+        <!-- <view>{{area.cinemaCode}}</view> -->
         <view class='chooseArea'>{{area.address}}</view>
         <view class='distance'>{{area.distance}}</view>
       </view>

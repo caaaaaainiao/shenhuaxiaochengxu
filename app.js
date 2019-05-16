@@ -51,11 +51,11 @@ App({
   usermessage: {
     Username: "MiniProgram",
     Password: "6BF477EBCC446F54E6512AFC0E976C41",
-    CinemaCode: "33097601", //切换影院改两个地方,一个是这里,一个是filmcenter中的appid 33048201
     OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
-    moviearea : '浙江金华荣耀激光影城'
   },
   globalData: {
+    cinemacode:null,
+    moviearea : '',
     userInfo: null,
     openId : null,
     phone : null,
