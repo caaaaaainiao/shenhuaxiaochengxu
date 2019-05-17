@@ -8,11 +8,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-     userinfo_test : {
-      Username: 'MiniProgram',
-      Password: '6BF477EBCC446F54E6512AFC0E976C41',
-       CinemaCode:18888888
-    },
     location: "",
     isScroll: false,
     onScroll: "0",
@@ -28,7 +23,14 @@ Page({
     waitActivity: null,
     isBind:false,
     merOrder:null,
-    cinemaList:[]//影院信息列表
+    cinemaList:[],//影院信息列表
+
+    UrlMap:{
+      bannerUrl: app.globalData.url + '/Api/Banner/QueryBanner/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001',
+      goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001',
+      goodTypesUrl: app.globalData.url +'/Api/Goods/QueryGoodsType/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001'
+    }
+    
   },
 
   /**
@@ -55,7 +57,8 @@ Page({
         });
         
         that.getBanner();
-        that.getGoods();
+        that.getGoodTypes();
+        
       }
      
     });
@@ -198,64 +201,90 @@ Page({
       isBind:true
     })
   },
+  //根据商品类型选择商品列表
+  changeGoodType:function(selecttype){
+    
+    let that=this;
+    //todo:currenttype
+    let goodTypeList = that.data.goodTypeList;
+    if (goodTypeList){
+      that.setData({
+        currenttype: selecttype
+    })
+      //todo: filterlist
+      that.getGoods();
+   }
+  },
+
+  getGoodTypes:function(){
+    var that = this;
+
+    wx.request({
+      url: that.data.UrlMap.goodTypesUrl,
+      method: "GET",
+      header: {
+        "Content-Type": "application/json"
+      },
+      success: function (res) {
+        console.log(res)
+        //类型筛选商品                         
+        that.setData({
+          goodTypeList: res.data.data.type
+        });
+        that.changeGoodType(that.data.goodTypeList[0]);
+      }
+    })
+  },
   getGoods: function() { //获取卖品
     var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('merchandiseList', nowtime);
-    wx.request({
-      url: app.globalData.url + '/Api/Goods/QueryGoods/' + that.data.userinfo_test.Username + '/' + that.data.userinfo_test.Password + '/' + that.data.userinfo_test.CinemaCode,
-      // data: {
-      //   cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-      //   UserName: that.data.userinfo_test.Username,
-      //   Password: that.data.userinfo_test.Password,
-      //   CinemaCode: that.data.userinfo_test.CinemaCode //that.data.cinemaList[0].cinemaCode,
-      // },
+     wx.request({
+      url: that.data.UrlMap.goodsUrl,
+     
       method: "get",
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": 'application/json'
       },
       success: function(res) {
-        debugger;
-        if (!res.data.goodss){
+        var goodsList = res.data.data.goods;
+        if (!goodsList){
           return;
         }
        
-        // console.log(res.data.data)
-        var goodsList = res.data.goodss.goods;
+        let tempgoodsList=[];
         for (var i = 0; i < goodsList.length; i++) {
-          goodsList[i].buyNum=0;
-          // for (var j = 0; j < goodsList[i]..length; j++) {
-          //   goodsList[i].merchandiseList[j].buyNum = 0;
-          // }
+          if (goodsList[i].goodsType == that.data.currenttype.typeId)
+          {
+            goodsList[i].itemClass={
+              name: that.data.currenttype.typeName
+            }
+            goodsList[i].buyNum = 0;
+            tempgoodsList.appen(goodsList[i]);
+          }
         }
         that.setData({
-          goodsList: goodsList
+          goodsList: tempgoodsList
         })
       }
     })
   },
   getBanner: function() { //获取轮播图
     var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('banners', nowtime);
+    
     wx.request({
-      url: app.globalData.url + '/api/banner/banners',
-      data: {
-        cinemaCode: that.data.cinemaList[0].cinemaCode,
-        category: "4",//4 卖品
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
+      url: that.data.UrlMap.bannerUrl,
+      method: "GET",
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/json"
       },
       success: function(res) {
         // console.log(res)
         if (res.data.data){
-          that.setData({
-            banner: res.data.data
-          })
+          let bannerList = res.data.data;
+          if (bannerList && bannerList.count>0){
+            that.setData({
+              banner: bannerList
+            })
+          }
         }
         
       }

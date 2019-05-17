@@ -5,7 +5,7 @@
   <swiper class='bannerbg' wx:if="{{!isScroll}}" autoplay>
     <block wx:for="{{banner}}" wx:for-item="banner" wx:key="banner">
       <swiper-item>
-        <image src='{{banner.imageUrl}}' bindtap='bannerTap' data-index='{{index}}'></image>
+        <image src='{{banner.Image}}' bindtap='bannerTap' data-index='{{index}}'></image>
       </swiper-item>
     </block>
   </swiper>
@@ -15,10 +15,10 @@
   </view>
   <view class='content {{isScroll?"contentscroll":""}}'>
     <scroll-view class='foodclass' scroll-y>
-      <block wx:for="{{goodsList}}" wx:for-item="goodstitle" wx:key="goodstitle">
+      <block wx:for="{{goodTypeList}}" wx:for-item="goodstitle" wx:key="goodstitle">
         <view class='foodtitle {{onScroll == index?"onkey":""}}' bindtap='chooseType' data-index="{{index}}">
-          <image src='{{goodstitle.itemClass.imageUrl}}'></image>
-          <text>{{goodstitle.itemClass.name}}</text>
+          <image src='{{goodstitle.typePic}}'></image>
+          <text>{{goodstitle.typeName}}</text>
         </view>
       </block>
     </scroll-view>
@@ -32,21 +32,21 @@
           <text>{{goodsClass.itemClass.name}}</text>
           <image src='/images/dot.png' class='rotate180'></image>
         </view>
-        <block wx:for="{{goodsClass.merchandiseList}}" wx:for-item="merchandise" wx:key="merchandise">
+       
           <view class='food'>
-            <image src='{{merchandise.imageUrl}}' class='foodpic'></image>
+            <image src='{{goodsClass.GoodsPic}}' class='foodpic'></image>
             <view class='foodname'>
              
               {{merchandise.merName}}
             </view>
-            <view class='foodprice'><text wx:if="{{merchandise.originalPrice!=null}}">￥{{merchandise.originalPrice}}</text>￥{{merchandise.listingPrice}}</view>
+            <view class='foodprice'><text wx:if="{{goodsClass.originalPrice!=null}}">￥{{merchandise.originalPrice}}</text>￥{{merchandise.listingPrice}}</view>
             <view class='foodnum {{merchandise.buyNum>0?"width180":""}}'>
               <image src='/images/minus.png' class='minus' data-id="{{merchandise.id}}" bindtap='minus'></image>
               <image src='/images/add.png' class='add' data-id="{{merchandise.id}}" bindtap='add'></image>
               <text>{{merchandise.buyNum}}</text>
             </view>
           </view>
-        </block>
+        
       </block>
     </scroll-view>
   </view>
