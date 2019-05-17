@@ -6,10 +6,10 @@
   <!-- 已购食品 -->
   <block wx:for="{{goodsList}}" wx:for-item="good" wx:key="good">
     <view class='food' wx:if="{{!good.repetition}}">
-      <image src='{{good.imageUrl}}' class='foodpic'></image>
-      <view class='foodname'>{{good.merName}}</view>
+      <image src='{{good.goodsPic}}' class='foodpic'></image>
+      <view class='foodname'>{{good.goodsName}}</view>
       <view class='foodprice'>
-        <text wx:if="{{good.originalPrice!=null}}">￥{{good.originalPrice}}</text>￥{{good.listingPrice}}</view>
+        <text wx:if="{{good.standardPrice!=null}}">￥{{good.standardPrice}}</text>￥{{good.settlePrice}}</view>
       <view class='foodnum '>
         <text>{{good.buyNum}}</text>
       </view>

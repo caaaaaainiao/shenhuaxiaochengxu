@@ -1,5 +1,6 @@
 // pages/foodOrder/foodOrder.js
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -26,7 +27,10 @@ Page({
     messageshow: false,
     userMessage: "",
     showReady:false,
-    cinema:null
+    cinema:null,
+    UrlMap: { 
+      goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001',
+    }
   },
 
   /**
@@ -34,42 +38,101 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    var goodsList = app.globalData.goodsList;
-    var newList = [];
-    var totalPrice = 0;
-   
-    for(var i = 0;i < goodsList.length;i++){
-      for(var j = 0;j < goodsList[i].merchandiseList.length;j++){
-        if (goodsList[i].merchandiseList[j].buyNum > 0){
-          newList.push(goodsList[i].merchandiseList[j])
-          
+    util.getgoodList(that.data.UrlMap, function (goodsList){
+      var newList = [];
+      var totalPrice = 0;
+  debugger;
+      for (var i = 0; i < goodsList.length; i++) {
+        if (goodsList[i].buyNum>0){
+          newList.push(goodsList[i]);
         }
       }
-    }
-    var json2 = [];
-    var arr = [];
-    for (var i = 0; i < newList.length; i++) {   
-      if (arr.indexOf(newList[i].id) == -1) {
-        arr.push(newList[i].id);
-        json2.push(newList[i])
-        // totalPrice = totalPrice + newList[i].buyNum * newList[i].listingPrice
-      }else{
-        newList[i].repetition = true;
+      var json2 = [];
+      var arr = [];
+      for (var i = 0; i < newList.length; i++) {
+        if (arr.indexOf(newList[i].goodsId) == -1) {
+          arr.push(newList[i].goodsId);
+          json2.push(newList[i])
+          if (newList[i].buyNum>0){
+            totalPrice  += newList[i].buyNum * newList[i].settlePrice;
+          }
+      
+        } else {
+          newList[i].repetition = true;
+        }
       }
-    }
-    // console.log(newList)
-    that.setData({
-      type:options.type,
-      goodsList: newList,
-      phone: app.globalData.userInfo.mobile,
-      // totalPrice: totalPrice,
-      cinema: app.globalData.cinemaList[app.globalData.cinemaNo],
-      type2address: app.globalData.type2address,
-      merOrder: app.globalData.merOrder
-    })
-    that.ask();
-  },
+debugger;
+      that.setData({
+        goodsList: newList,
+        totalPrice: totalPrice,
+        disPrice: totalPrice
+        });
+    
+        that.updatetotalPrice();
+    });
 
+    // console.log(newList)
+    util.getcinemaList(function (res) {
+      if (res && res.data) {
+        that.setData({
+          cinemaList: res.data,
+           
+        });
+
+        that.setData({
+          type: options.type,
+        
+         // phone: app.globalData.userInfo.mobile,
+       
+          cinema: that.data.cinemaList[0],
+          //type2address: app.globalData.type2address,
+          //merOrder: app.globalData.merOrder
+        })
+      }
+    });
+   
+    // var newList = [];
+    // var totalPrice = 0;
+   
+    // for(var i = 0;i < goodsList.length;i++){
+    //   for(var j = 0;j < goodsList[i].merchandiseList.length;j++){
+    //     if (goodsList[i].merchandiseList[j].buyNum > 0){
+    //       newList.push(goodsList[i].merchandiseList[j])
+          
+    //     }
+    //   }
+    // }
+    // var json2 = [];
+    // var arr = [];
+    // for (var i = 0; i < newList.length; i++) {   
+    //   if (arr.indexOf(newList[i].id) == -1) {
+    //     arr.push(newList[i].id);
+    //     json2.push(newList[i])
+    //     // totalPrice = totalPrice + newList[i].buyNum * newList[i].listingPrice
+    //   }else{
+    //     newList[i].repetition = true;
+    //   }
+    // }
+    // // console.log(newList)
+    // that.setData({
+    //   type:options.type,
+    //   goodsList: newList,
+    //   phone: app.globalData.userInfo.mobile,
+    //   // totalPrice: totalPrice,
+    //   cinema: app.globalData.cinemaList[app.globalData.cinemaNo],
+    //   type2address: app.globalData.type2address,
+    //   merOrder: app.globalData.merOrder
+    // })
+    //that.ask();
+  },
+  //(减去优惠的)
+  updatetotalPrice(){
+    let that=this;
+    that.setData({
+   
+      disPrice: that.data.totalPrice
+    });
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -57,11 +57,25 @@ Page({
         });
         
         that.getBanner();
-        that.getGoodTypes();
-        
+        that.getGoodTypes(); 
       }
-     
     });
+ wx.getStorage({
+      key: 'cinemaList',
+      success: function (res) {
+        var movieList = that.data.movieList
+        var movieList = res.data
+        console.log(movieList)
+        that.setData({
+          movieList: movieList
+        })
+
+        var recent = movieList.sort(util.sortDistance("distance"))[0].cinemaName;
+        that.setData({
+          location: recent
+        })
+      }
+      });
 
     // wx.getStorage({
     //   key: 'cinemaList',
@@ -72,7 +86,7 @@ Page({
     //     that.setData({
     //       movieList: movieList
     //     })
-    //     debugger;
+ 
     //     var recent = movieList.sort(util.sortDistance("distance"))[0].cinemaName;
     //     that.setData({
     //       location: recent
@@ -93,7 +107,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-
+    util.clearCart(null);
+    util.removegoodList(null);
   },
 
   /**
@@ -200,6 +215,9 @@ Page({
     that.setData({
       isBind:true
     })
+  
+    let currenttype=that.data.goodTypeList[index];
+    that.changeGoodType(currenttype);
   },
   //根据商品类型选择商品列表
   changeGoodType:function(selecttype){
@@ -237,35 +255,29 @@ Page({
   },
   getGoods: function() { //获取卖品
     var that = this;
-     wx.request({
-      url: that.data.UrlMap.goodsUrl,
-     
-      method: "get",
-      header: {
-        "Content-Type": 'application/json'
-      },
-      success: function(res) {
-        var goodsList = res.data.data.goods;
-        if (!goodsList){
-          return;
-        }
-       
-        let tempgoodsList=[];
-        for (var i = 0; i < goodsList.length; i++) {
-          if (goodsList[i].goodsType == that.data.currenttype.typeId)
-          {
-            goodsList[i].itemClass={
-              name: that.data.currenttype.typeName
-            }
-            goodsList[i].buyNum = 0;
-            tempgoodsList.appen(goodsList[i]);
+
+    util.getgoodList(that.data.UrlMap, function (goodsList){
+      let tempgoodsList = [];
+      for (var i = 0; i < goodsList.length; i++) {
+        if (goodsList[i].goodsType == that.data.currenttype.typeCode) {
+          goodsList[i].itemClass = {
+            name: that.data.currenttype.typeName
           }
+          if (!goodsList[i].buyNum){
+            goodsList[i].buyNum = 0;
+          }
+       
+          tempgoodsList.push(goodsList[i]);
         }
-        that.setData({
-          goodsList: tempgoodsList
-        })
       }
-    })
+      that.setData({
+        goodsList: tempgoodsList,
+      })
+      
+      //所有商品列表
+      util.updategoodList(null, goodsList);
+      
+    });
   },
   getBanner: function() { //获取轮播图
     var that = this;
@@ -282,7 +294,7 @@ Page({
           let bannerList = res.data.data;
           if (bannerList && bannerList.count>0){
             that.setData({
-              banner: bannerList
+              banner: bannerList.images
             })
           }
         }
@@ -294,51 +306,105 @@ Page({
     var that = this;
     var id = e.currentTarget.dataset.id;
     var goodList = that.data.goodsList;
-    var totalNum = 0;
-    var totalPrice = 0;
     for (var i = 0; i < goodList.length; i++) {
-      for (var j = 0; j < goodList[i].merchandiseList.length; j++) {
-        if (goodList[i].merchandiseList[j].id == id) {
-          goodList[i].merchandiseList[j].buyNum++;
+      if (goodList[i].goodsId == id) {
+      
+        if (goodList[i].buyNum < goodList[i].stockCount){
+          goodList[i].buyNum += 1;
         }
-        // if (goodList[i].merchandiseList[j].buyNum > 0) {
-        //   totalNum = totalNum + goodList[i].merchandiseList[j].buyNum;
-        //   totalPrice = totalPrice + goodList[i].merchandiseList[j].buyNum * goodList[i].merchandiseList[j].listingPrice;
-        // }
+
+        util.updategoodList(goodList[i]);
+
+        util.addCart(goodList[i],function(result){
+          that.setData({
+            goodsList: goodList,
+            
+          });
+         
+          //更新购物车
+
+          let tempCart = util.updateCart(result);
+          that.setData({
+            carList: tempCart.list,
+            totalNum: tempCart.totalNum,
+            totalPrice: tempCart.totalPrice
+          });
+        })
       }
     }
-    that.setData({
-      goodsList: goodList,
-      // totalNum: totalNum,
-      // totalPrice: totalPrice
-    })
-   // that.ask()
+
+  //   var totalNum = 0;
+  //   var totalPrice = 0;
+  //   for (var i = 0; i < goodList.length; i++) {
+  //     for (var j = 0; j < goodList[i].merchandiseList.length; j++) {
+  //       if (goodList[i].merchandiseList[j].id == id) {
+  //         goodList[i].merchandiseList[j].buyNum++;
+  //       }
+  //       // if (goodList[i].merchandiseList[j].buyNum > 0) {
+  //       //   totalNum = totalNum + goodList[i].merchandiseList[j].buyNum;
+  //       //   totalPrice = totalPrice + goodList[i].merchandiseList[j].buyNum * goodList[i].merchandiseList[j].listingPrice;
+  //       // }
+  //     }
+  //   }
+  //   that.setData({
+  //     goodsList: goodList,
+  //     // totalNum: totalNum,
+  //     // totalPrice: totalPrice
+  //   })
+  //  // that.ask()
   },
   minus: function(e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
     var goodList = that.data.goodsList;
-    var totalNum = 0;
-    var totalPrice = 0;
+
     for (var i = 0; i < goodList.length; i++) {
-      for (var j = 0; j < goodList[i].merchandiseList.length; j++) {
-        if (goodList[i].merchandiseList[j].id == id) {
-          goodList[i].merchandiseList[j].buyNum--;
-          if (goodList[i].merchandiseList[j].buyNum < 0) {
-            goodList[i].merchandiseList[j].buyNum = 0;
-          }
+      if (goodList[i].goodsId == id) {
+        goodList[i].buyNum -= 1;
+        if (goodList[i].buyNum<0){
+          goodList[i].buyNum=0;
         }
-        // if (goodList[i].merchandiseList[j].buyNum > 0) {
-        //   totalNum = totalNum + goodList[i].merchandiseList[j].buyNum;
-        //   totalPrice = totalPrice + goodList[i].merchandiseList[j].buyNum * goodList[i].merchandiseList[j].listingPrice;
-        // }
+        util.updategoodList(goodList[i]);
+        util.delCart(goodList[i], function (result) {
+          that.setData({
+            goodsList: goodList,
+           
+          });
+         
+          //更新购物车
+
+          let tempCart=util.updateCart(result);
+          that.setData({
+            goodsList: tempCart.list,
+            totalNum: tempCart.totalNum,
+            totalPrice: tempCart.totalPrice
+          });
+
+        })
       }
     }
-    that.setData({
-      goodsList: goodList,
-      // totalNum: totalNum,
-      // totalPrice: totalPrice
-    })
+
+    // var totalNum = 0;
+    // var totalPrice = 0;
+    // for (var i = 0; i < goodList.length; i++) {
+    //   for (var j = 0; j < goodList[i].merchandiseList.length; j++) {
+    //     if (goodList[i].merchandiseList[j].id == id) {
+    //       goodList[i].merchandiseList[j].buyNum--;
+    //       if (goodList[i].merchandiseList[j].buyNum < 0) {
+    //         goodList[i].merchandiseList[j].buyNum = 0;
+    //       }
+    //     }
+    //     // if (goodList[i].merchandiseList[j].buyNum > 0) {
+    //     //   totalNum = totalNum + goodList[i].merchandiseList[j].buyNum;
+    //     //   totalPrice = totalPrice + goodList[i].merchandiseList[j].buyNum * goodList[i].merchandiseList[j].listingPrice;
+    //     // }
+    //   }
+    // }
+    // that.setData({
+    //   goodsList: goodList,
+    //   // totalNum: totalNum,
+    //   // totalPrice: totalPrice
+    // })
     //that.ask()
   },
   picked: function() {

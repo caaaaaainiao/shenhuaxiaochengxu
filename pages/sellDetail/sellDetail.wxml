@@ -5,7 +5,7 @@
   <swiper class='bannerbg' wx:if="{{!isScroll}}" autoplay>
     <block wx:for="{{banner}}" wx:for-item="banner" wx:key="banner">
       <swiper-item>
-        <image src='{{banner.Image}}' bindtap='bannerTap' data-index='{{index}}'></image>
+        <image src='{{banner.image}}' bindtap='bannerTap' data-index='{{index}}'></image>
       </swiper-item>
     </block>
   </swiper>
@@ -34,16 +34,16 @@
         </view>
        
           <view class='food'>
-            <image src='{{goodsClass.GoodsPic}}' class='foodpic'></image>
+            <image src='{{goodsClass.goodsPic}}' class='foodpic'></image>
             <view class='foodname'>
              
-              {{merchandise.merName}}
+              {{goodsClass.goodsName}}
             </view>
-            <view class='foodprice'><text wx:if="{{goodsClass.originalPrice!=null}}">￥{{merchandise.originalPrice}}</text>￥{{merchandise.listingPrice}}</view>
-            <view class='foodnum {{merchandise.buyNum>0?"width180":""}}'>
-              <image src='/images/minus.png' class='minus' data-id="{{merchandise.id}}" bindtap='minus'></image>
-              <image src='/images/add.png' class='add' data-id="{{merchandise.id}}" bindtap='add'></image>
-              <text>{{merchandise.buyNum}}</text>
+            <view class='foodprice'><text wx:if="{{goodsClass.standardPrice!=null}}">￥{{goodsClass.standardPrice}}</text>￥{{goodsClass.settlePrice}}</view>
+            <view class='foodnum {{goodsClass.buyNum>0?"width180":""}}'>
+              <image src='/images/minus.png' class='minus' data-id="{{goodsClass.goodsId}}" bindtap='minus'></image>
+              <image src='/images/add.png' class='add' data-id="{{goodsClass.goodsId}}" bindtap='add'></image>
+              <text>{{goodsClass.buyNum}}</text>
             </view>
           </view>
         
