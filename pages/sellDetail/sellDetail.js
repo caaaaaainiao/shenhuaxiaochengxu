@@ -283,7 +283,7 @@ Page({
   groupGoodsTypeList: function (goodsList){
     let that = this;
     let tempList=[];
-    
+    debugger;
     let goodtypes = that.data.goodTypeList;
     for(var i=0;i<goodtypes.length;i++){
       let tempobj={
