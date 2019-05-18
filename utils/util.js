@@ -270,7 +270,20 @@ const clearCart = (callback) => {
     success: callback,
   });
 }
+//获取购物车列表
+const getcartObj = (callback) => {
+  let key = 'cartObj';
+  return wx.getStorageSync(key);
+}
+const clearcartObj = (callback) => {
+  let key = 'cartObj';
+  return wx.removeStorage({
+    key: key,
+    success: callback,
+  });
+}
 const updateCart= cartlist=>{
+  let key='cartObj';
   let cartObj={
     list:cartlist,
     totalNum:0,
@@ -280,7 +293,10 @@ const updateCart= cartlist=>{
     cartObj.totalNum += cartlist[i].buyNum;
     cartObj.totalPrice += parseFloat(cartlist[i].settlePrice) * cartlist[i].buyNum;
   }
-
+  wx.setStorage({
+    key: key,
+    data: cartObj,
+  });
   return cartObj;
 }
 module.exports = {
@@ -293,5 +309,7 @@ module.exports = {
   addCart: addCart,
   delCart: delCart,
   clearCart: clearCart,
-  updateCart: updateCart
+  updateCart: updateCart,
+  getcartObj: getcartObj,
+  clearcartObj: clearcartObj
 }

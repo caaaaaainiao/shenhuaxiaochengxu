@@ -284,3 +284,107 @@
 .buy text{
   color:#E04F2D; 
 }
+
+
+ 
+.up_full_box {
+  width: 100%;
+  position: absolute;
+  bottom: 0rpx;
+  padding-bottom: 150rpx;
+  background-color: #fff;
+  z-index: 8;
+}
+.full_shopcar {
+  position: relative;
+}
+.f_title {
+  height: 70rpx;
+  font-size: 28rpx;
+  background: #E04F2D;
+  color: #fff;
+  padding: 0rpx 25rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1rpx solid #e6e6e6;
+}
+.f_goodsList {
+  background: #fff;
+  padding: 0rpx 25rpx;
+  height: 98rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #EFEFEF;
+  position: relative;
+}
+.f_canke {
+  height: 90rpx;
+  background: #fff;
+  padding: 0rpx 24rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 1rpx solid #EFEFEF;
+
+}
+.f_canke_pack{
+  position: absolute;
+  left: 320rpx;
+  color: #FF6483;
+}
+.f_goodsPrice {
+  display: flex;
+  align-items: center;
+}
+ 
+
+.min_plus1 {
+  display: flex;
+}
+.min_plus1 image {
+  width: 35rpx;
+  height: 35rpx;
+}
+
+.min_plus1 text {
+  width: 70rpx;
+  text-align: center;
+  color: #ABABAB;
+}
+
+.min_plus image {
+  width: 36rpx;
+  height: 36rpx;
+}
+.f_goodsPrice>view:first-child text {
+  font-size: 30rpx;
+}
+
+.f_delete {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.f_delete image {
+  width: 20rpx;
+  height: 20rpx;
+  padding-right: 16rpx;
+}
+.discount {
+  height: 55rpx;
+  line-height: 55rpx;
+  text-align: center;
+  background-color: #fff8d9
+}
+
+.goods_cover {
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 2;
+}

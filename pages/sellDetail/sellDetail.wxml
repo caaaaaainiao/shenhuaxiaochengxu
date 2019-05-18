@@ -26,27 +26,27 @@
 
       <!-- wx:for -->
       <!-- 新品热卖 -->
-      <block wx:for="{{goodsList}}" wx:for-item="goodsClass" wx:key="goodsClass">
+      <block wx:for="{{allGoodTypeList}}" wx:for-item="goodsClass" wx:key="goodsClass">
         <view class='detailclass' id='detailclass{{index}}'>
           <image src='/images/dot.png'></image>
-          <text>{{goodsClass.itemClass.name}}</text>
+          <text>{{goodsClass.currentItemClass}}</text>
           <image src='/images/dot.png' class='rotate180'></image>
         </view>
-       
+        <block wx:for="{{allGoodTypeList.goodsList}}" >
           <view class='food'>
-            <image src='{{goodsClass.goodsPic}}' class='foodpic'></image>
+            <image src='{{item.goodsPic}}' class='foodpic'></image>
             <view class='foodname'>
              
-              {{goodsClass.goodsName}}
+              {{item.goodsName}}
             </view>
-            <view class='foodprice'><text wx:if="{{goodsClass.standardPrice!=null}}">￥{{goodsClass.standardPrice}}</text>￥{{goodsClass.settlePrice}}</view>
-            <view class='foodnum {{goodsClass.buyNum>0?"width180":""}}'>
-              <image src='/images/minus.png' class='minus' data-id="{{goodsClass.goodsId}}" bindtap='minus'></image>
-              <image src='/images/add.png' class='add' data-id="{{goodsClass.goodsId}}" bindtap='add'></image>
-              <text>{{goodsClass.buyNum}}</text>
+            <view class='foodprice'><text wx:if="{{item.standardPrice!=null}}">￥{{item.standardPrice}}</text>￥{{item.settlePrice}}</view>
+            <view class='foodnum {{item.buyNum>0?"width180":""}}'>
+              <image src='/images/minus.png' class='minus' data-id="{{item.goodsId}}" bindtap='minus'></image>
+              <image src='/images/add.png' class='add' data-id="{{item.goodsId}}" bindtap='add'></image>
+              <text>{{item.buyNum}}</text>
             </view>
           </view>
-        
+        </block>
       </block>
     </scroll-view>
   </view>
@@ -57,7 +57,7 @@
     <block  wx:if="{{waitActivity != null}}">
   ，再买 <text>{{waitActivity.lackMoney}}元</text>，可减 <text>{{waitActivity.reduceMoney}}元</text></block>
   </view>
-    <view class='bottom_left'>
+    <view class='bottom_left' bindtap='showcart'>
       <image src='/images/foodicon.png'></image>
       ￥
       <text>{{totalPrice}}</text>
@@ -69,3 +69,37 @@
     </view>
   </view>
 </view>
+
+ 
+
+ <view class='up_full_box' hidden='{{fullCar}}'>
+    <view class='full_shopcar'>
+      <view class='discount' wx:if="{{coupon}}">
+        {{coupon}}
+      </view>
+    </view>
+    <view class='f_title'>
+      <text>已选商品</text>
+      <view class='f_delete' bindtap='emptyCart'>
+        <image src='/images/delete_store.png'></image>
+        <text>清空</text>
+      </view>
+    </view>
+    <!-- ... -->
+    <view class='f_goodsList' wx:for='{{cattObj.list}}' wx:key="{{index}}">
+      <view>{{item.goodsName}}</view>
+      <view class='f_canke_pack'>
+          ￥{{item.settlePrice*100*item.buyNum/100}}
+        </view>
+      <view class='f_goodsPrice'>      
+        <view class='min_plus1'>
+          <image src='/images/minuscart.png' data-index="{{index}}" data-id="{{item.goodsId}}" bindtap='minus'></image>
+          <text>{{item.buyNum}}</text>
+          <image src='/images/pluscart.png' data-index="{{index}}" data-id="{{item.goodsId}}" bindtap='add'></image>
+        </view>
+      </view>
+    </view>
+  </view>
+    <!-- 商品遮罩层top -->
+<view class='goods_cover' hidden='{{fullCar}}' bindtap='hidecart' catchtouchmove="preventD"></view>
+ 

@@ -41,7 +41,7 @@ Page({
     util.getgoodList(that.data.UrlMap, function (goodsList){
       var newList = [];
       var totalPrice = 0;
-  debugger;
+ 
       for (var i = 0; i < goodsList.length; i++) {
         if (goodsList[i].buyNum>0){
           newList.push(goodsList[i]);
@@ -61,7 +61,7 @@ Page({
           newList[i].repetition = true;
         }
       }
-debugger;
+
       that.setData({
         goodsList: newList,
         totalPrice: totalPrice,
