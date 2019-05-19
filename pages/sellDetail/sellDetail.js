@@ -283,30 +283,32 @@ Page({
   groupGoodsTypeList: function (goodsList){
     let that = this;
     let tempList=[];
-    debugger;
+   
     let goodtypes = that.data.goodTypeList;
     for(var i=0;i<goodtypes.length;i++){
       let tempobj={
         currentItemClass: goodtypes[i].typeName,
         goodsList:[]
       };
-      for (var j = 0; i < goodsList.length; j++) {
-        if (goodsList[i].goodsType == goodtypes[i].typeCode) {
+      for (var j = 0; j < goodsList.length; j++) {
+        if (goodsList[j].goodsType == goodtypes[i].typeCode) {
            
-          if (!goodsList[i].buyNum) {
-            goodsList[i].buyNum = 0;
+          if (!goodsList[j].buyNum) {
+            goodsList[j].buyNum = 0;
           }
 
-          tempobj.goodsList.push(goodsList[i]);
+          tempobj.goodsList.push(goodsList[j]);
         }
       }
 
-      tempList.push(tempobj);
+      if (tempobj.goodsList.length>0){
+        tempList.push(tempobj);
+      }
     }
 
     that.setData({
-      allGoodTypeList: tempList
-
+      allGoodTypeList: tempList,
+goodsList: goodsList
     });
   },
   getBanner: function() { //获取轮播图
@@ -338,6 +340,7 @@ Page({
     util.clearcartObj(null);
     this.setData({
       goodsList: null,
+      groupGoodsTypeList:null,
       cattObj: null,
       totalNum:0,
       totalPrice: 0,
@@ -363,9 +366,9 @@ Page({
             goodsList: goodList,
             
           });
-         
-          //更新购物车
 
+          that.groupGoodsTypeList(goodList);
+          //更新购物车
           let tempCart = util.updateCart(result);
           that.setData({
             cattObj: tempCart,
@@ -394,9 +397,8 @@ Page({
             goodsList: goodList,
            
           });
-         
+          that.groupGoodsTypeList(goodList);
           //更新购物车
-
           let tempCart=util.updateCart(result);
           that.setData({
             cattObj: tempCart,

@@ -32,7 +32,7 @@
           <text>{{goodsClass.currentItemClass}}</text>
           <image src='/images/dot.png' class='rotate180'></image>
         </view>
-        <block wx:for="{{allGoodTypeList.goodsList}}" >
+        <block wx:for="{{goodsClass.goodsList}}"  wx:key="{{index}}" >
           <view class='food'>
             <image src='{{item.goodsPic}}' class='foodpic'></image>
             <view class='foodname'>
