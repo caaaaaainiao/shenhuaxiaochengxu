@@ -39,17 +39,17 @@
       </view>
       <view class='moviesBox'>
         <scroll-view class='movies' scroll-y="true">
-          <block wx:for="{{FlimList}}" wx:for-item="movie" wx:key="movie">
+          <block wx:for="{{indexList}}" wx:for-item="movie" wx:key="movie">
             <view class='movie' bindtap='toDetails' data-index="{{index}}">
-              <image class='moviePic' src='{{movie.picture}}'></image>
-              <text class='movieName'>{{movie.data.data.filmName}}</text>
-              <text class='movieText'>{{movie.data.data.introduction}}</text>
-              <text class='moviePeople'>{{movie.data.data.cast}}</text>
+              <image class='moviePic' src='{{movie.image}}'></image>
+              <text class='movieName'>{{movie.name}}</text>
+              <text class='movieText'>{{movie.introduction}}</text>
+              <text class='moviePeople'>{{movie.cast}}</text>
               <view class='label'>
-              <text>{{movie.data.data.version}}</text>
+              <text>{{movie.version}}</text>
               </view>
-              <image class='check' src='/images/buy_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:if="{{movie.data.data.status == '通过'}}"></image>
-              <image class='check' src='/images/buy2_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:elif="{{movie.data.data.status == '未审核'}}"></image>
+              <image class='check' src='/images/buy_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:if="{{movie.time <  Nowtimestamp}}"></image>
+              <image class='check' src='/images/buy2_btn.png' catchtap='buy' data-id="{{movie.id}}" data-index="{{index}}" wx:elif="{{movie.time>Nowtimestamp}}"></image>
             </view>
           </block>
         </scroll-view>

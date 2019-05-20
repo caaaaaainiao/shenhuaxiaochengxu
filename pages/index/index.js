@@ -24,12 +24,22 @@ Page({
     text: "授权访问当前地址",
     zchb: "",
     onLoad: false,
-    sza: []
+    sza: [],
+    indexList: null
   },
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
+  getdate: function(now) {
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var date = now.getDate();
+    return year + "-" + month + "-" + date;
+  },
+
   onLoad: function(options) {
     var that = this
+  
+
 
     var accreditInfo = wx.getStorage({
       key: 'accredit',
@@ -142,6 +152,7 @@ Page({
   // bindGetUserInfo(e) {
   //   console.log(e.detail)
   // },
+
   format: function() {
     //rua 把里面的数据拿出来 放到最外面一层
     var that = this;
@@ -184,150 +195,71 @@ Page({
     }
     app.globalData.movieList = that.data.movieList;
   },
-  getMovie: function (a) {
+  getMovie: function(a) {
     console.log(a)
     var that = this;
+    var Nowtimestamp = new Date().getTime()
+    var NowtimestampOne = new Date(Nowtimestamp);
+    var NowtimestampTwo = new Date(Nowtimestamp + 604800000);
+    this.setData({
+      Nowtimestamp: Nowtimestamp
+    })
     var data = {
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
       CinemaCode: a,
-      StartDate: '2019-05-01',
-      EndDate: '2019-05-12',
+      StartDate: this.getdate(NowtimestampOne),
+      EndDate: this.getdate(NowtimestampTwo),
     }
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Session/QuerySessions' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.StartDate + '/' + data.EndDate,
+      url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessions' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.StartDate + '/' + data.EndDate,
       method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
-        wx.hideLoading();
-        var movieList = res.data.sessions.session
+        var timestamp = new Date().getTime() + 2592000000
+        for (var i = 0; i < res.data.data.film.length; i++) {
+          var NowDate = res.data.data.film[i].publishDate
+          if (NowDate != null) {
+            NowDate = NowDate.substring(0, 19);
+            NowDate = NowDate.replace(/-/g, '/');
+            var timestamp1 = new Date(NowDate).getTime();
+            res.data.data.film[i].time = timestamp1
+          }
+        }
         that.setData({
-          movieList: movieList
+          indexList: res.data.data.film
         })
-        // console.log(movieList)
-        that.format();
-        wx.showTabBar();
       }
     })
+    // var data = {
+    //   Username: 'MiniProgram',
+    //   Password: '6BF477EBCC446F54E6512AFC0E976C41',
+    //   CinemaCode: 33111001,
+    //   StartDate: '2019-05-16',
+    //   EndDate: '2019-06-16',
+    // }
+    // wx.request({
+    //   url: 'https://xc.80piao.com:8443/Api/Session/QuerySessions' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.StartDate + '/' + data.EndDate,
+    //   method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+    //   header: {
+    //     'content-type': 'application/json' // 默认值
+    //   },
+    //   success: function(res) {
+    //     console.log(res)
+    //     wx.hideLoading();
+    //     var movieList = res.data.sessions.session
+    //     that.setData({
+    //       movieList: movieList
+    //     })
+    //     // console.log(movieList)
+    //     that.format();
+    //     wx.showTabBar();
+    //   }
+    // })
 
   },
-  // 获取用户位置，请求影院列表
-  // getPlace: function() {
-  //   var that = this;
-  //   // console.log("place")
-  //   wx.getStorage({
-  //     key: 'location',
-  //     success: function(res) {
-  //       // console.log(res)
-  //       wx.getStorage({
-  //         key: 'areaNo',
-  //         success: function(e) {
-  //           // console.log(e)
-  //           if (res.data.length > 0) { //有内容
-  //             var list = res.data;
-  //             that.setData({
-  //               moviearea: list[e.data], //电影区域
-  //               cinemaList: list //电影列表
-  //             })
-  //             // console.log(that.data.cinemaList)
-  //             app.globalData.cinemaList = list; //设置全局电影列表
-  //             that.getMovies();
-  //             return;
-  //           }
-  //         },
-  //         fail: function(e) {
-  //           if (res.data.length > 0) {
-  //             var list = res.data;
-  //             that.setData({
-  //               moviearea: list[0],
-  //               cinemaList: list
-  //             })
-  //             // console.log(that.data.cinemaList)
-  //             app.globalData.cinemaList = list;
-  //             that.getMovies();
-  //             wx.setStorage({
-  //               key: "areaNo", //无区域
-  //               data: '0'
-  //             })
-  //             return;
-  //           }
-  //         }
-  //       })
-  //     },
-  //     fail: function(res) {
-  //       wx.getLocation({
-  //         type: 'wgs84', //wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
-  //         success: function(res) {
-  //           // console.log(res)
-  //           var la = res.latitude; //纬度
-  //           var lg = res.longitude; //经度
-  //           var nowtime = new Date().getTime(); //时间
-  //           var sign = app.createMD5('cinemas', nowtime);
-  //           wx.request({ //获取影院的城市
-  //             url: app.globalData.url + '/api/cinema/cinemas',
-  //             data: {
-  //               latitude: la, //经度
-  //               longitude: lg, //纬度
-  //               // city: city,
-  //               // city:"衢州市",
-  //               timeStamp: nowtime, //时间
-  //               mac: sign //信息
-  //             },
-  //             method: "POST",
-  //             header: {
-  //               "Content-Type": "application/x-www-form-urlencoded"
-  //             },
-  //             success: function(data) {
-  //               console.log(data)
-  //               if (data.data.status == 0) { //数据返回错误
-  //                 // console.log(data.data.message)
-  //                 wx.showToast({
-  //                   title: data.data.message,
-  //                   duration: 2000, //延迟两秒
-  //                   icon: "loading"
-  //                 })
-  //               } else { //返回影院列表
-  //                 if (data.data.data.length == 0) { //当前地区没有该影院
-  //                   wx.showToast({
-  //                     title: "当前地区无影院",
-  //                     duration: 2000, //延迟两秒
-  //                     icon: "loading"
-  //                   })
-  //                 } else { //当前有影院
-  //                   var list = data.data.data;
-  //                   for (var i = 0; i < list.length; i++) { //影院的距离
-  //                     list[i].distance = (list[i].distance / 1000).toFixed(1) + "km";
-  //                   }
-  //                   that.setData({
-  //                     moviearea: list[app.globalData.cinemaNo],
-  //                     cinemaList: list
-  //                   })
-  //                   // console.log(that.data.cinemaList)
-  //                   app.globalData.cinemaList = list;
-  //                   wx.setStorage({
-  //                     key: "location",
-  //                     data: list
-  //                   })
-  //                   wx.setStorage({ //当数据存储在本地缓存的areaNo这个指定的key中
-  //                     key: "areaNo",
-  //                     data: '0'
-  //                   })
-  //                   that.getMovies();
-  //                 }
-  //               }
-
-  //             }
-  //           })
-  //         },
-  //       })
-  //     }
-  //   })
-
-  // },
-  // 计算用户与影院距离
   distance: function(la1, lo1, la2, lo2) {
     var La1 = la1 * Math.PI / 180.0;
     var La2 = la2 * Math.PI / 180.0;
@@ -436,114 +368,7 @@ Page({
     // wx.navigateBack({
     //   delta : 1
     // })
-    // wx.request({
-    //   url: app.globalData.url + '/api/Movie/hotMovie',
-    //   data: {
-    //     cinemaCode: that.data.moviearea.cinemaCode,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     console.log(res)
-    //     wx.hideLoading();
-    //     that.setData({
-    //       movieList: res.data.data
-    //     })
-    //     that.format();
-    //     wx.showTabBar();
-    //   }
-    // })
   },
-  // format: function () {
-  //   var json = this.data.movieList;
-  //   for (var i = 0; i < json.length; i++) {
-  //     json[i].movieDimensional = json[i].movieDimensional.split(",");
-  //   }
-  //   this.setData({
-  //     movieList: json
-  //   })
-
-  //   app.globalData.movieList = this.data.movieList;
-  //   // console.log(this.data.movieList)
-  // },
-  // chooseCity: function(e) {
-  //   var city = e.currentTarget.dataset.name;
-  //   var that = this;
-  //   that.setData({
-  //     currentCity: city
-  //   });
-
-  //   wx.getLocation({
-  //     type: 'wgs84',
-  //     success: function(res) {
-  //       // console.log(res)
-  //       var la = res.latitude;
-  //       var lg = res.longitude;
-
-  //       var nowtime = new Date().getTime();
-  //       var sign = app.createMD5('cinemas', nowtime);
-  //       wx.request({
-  //         url: app.globalData.url + '/api/cinema/cinemas',
-  //         data: {
-  //           latitude: la,
-  //           longitude: lg,
-  //           city: city,
-  //           timeStamp: nowtime,
-  //           mac: sign
-  //         },
-  //         method: "POST",
-  //         header: {
-  //           "Content-Type": "application/x-www-form-urlencoded"
-  //         },
-  //         success: function(data) {
-  //           // console.log(data)
-  //           if (data.data.status == 0) { //数据返回错误
-  //             // console.log(data.data.message)
-  //             wx.showToast({
-  //               title: data.data.message,
-  //               duration: 2000,
-  //               icon: "loading"
-  //             })
-  //           } else { //返回影院列表
-  //             if (data.data.data.length == 0) { //当前地区没有该影院
-  //               wx.showToast({
-  //                 title: "当前地区无影院",
-  //                 duration: 2000,
-  //                 icon: "loading"
-  //               })
-  //             } else {
-  //               var list = data.data.data;
-  //               for (var i = 0; i < list.length; i++) {
-  //                 list[i].distance = (list[i].distance / 1000).toFixed(1) + "km";
-  //               }
-  //               that.setData({
-  //                 moviearea: list[0],
-  //                 cinemaList: list
-  //               })
-  //               // console.log(that.data.cinemaList)
-  //               app.globalData.cinemaList = list;
-  //               app.globalData.cinemaNo = 0;
-  //               wx.setStorage({
-  //                 key: "location",
-  //                 data: list
-  //               })
-  //               wx.setStorage({
-  //                 key: "areaNo",
-  //                 data: 0
-  //               })
-  //               that.getMovies();
-  //             }
-  //           }
-
-  //         }
-  //       })
-  //     },
-  //   })
-  // },
   chooseCity: function(e) {
     var that = this;
     var crCity = e.currentTarget.dataset.name;
@@ -605,25 +430,13 @@ Page({
     // })
   },
   chooseCinema: function(e) { //选择影院
-  var that = this
+    var that = this
     app.globalData.cinemaNo = e.currentTarget.dataset.index;
     app.globalData.cinemacode = e.currentTarget.dataset.cinemacode;
     app.globalData.moviearea = e.currentTarget.dataset.cinemaname;
     that.setData({
       moviearea: app.globalData.moviearea
     })
-    // this.setData({
-    //   isChoose: false,
-    //   moviearea: app.globalData.cinemaList[app.globalData.cinemaNo]
-    // })
-    // wx.setStorage({
-    //   key: "location",
-    //   data: app.globalData.cinemaList
-    // })
-    // wx.setStorage({
-    //   key: "areaNo",
-    //   data: index
-    // })
     this.getMovies();
     that.getMovie(app.globalData.cinemacode)
   },
