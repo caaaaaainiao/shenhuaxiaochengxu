@@ -19,8 +19,8 @@
   </view>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{userInfo.header}}' mode='aspectFill'></image>
-      <view wx:if="{{onLoad}}" bindtouchstart='tologin' class='noUser'> <image src='/images/imgurl.png' class='moren' wx:if="{{userInfo.mobile==null||userInfo.mobile==''}}"></image></view>
+      <image src='{{userInfo.headlmgUrl}}' mode='aspectFill'></image>
+      <view wx:if="{{onLoad}}" bindtouchstart='tologin' class='noUser'> <image src='/images/imgurl.png' class='moren' wx:if="{{userInfo.mobilePhone==null||userInfo.mobilePhone==''}}"></image></view>
     </view>
     <view class='bottom'>
       <view class='messages'>

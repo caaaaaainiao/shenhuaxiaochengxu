@@ -39,7 +39,7 @@ Page({
         // console.log(res)
         that.setData({
           wxInfo: res.data.userInfo, //用户信息
-          userInfo: res.data.userInfo,
+         // userInfo: res.data.userInfo,
           userInfoDetail: res.data.userInfoDetail
         })
        
@@ -77,7 +77,7 @@ Page({
     })
     //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等 监听页面加载
     util.getCity(function (res, userLat, userLng){
-      debugger;
+      
     var cinemas = res;
     var recent = []
     for (let i = 0; i < cinemas.length; i++) {
@@ -127,13 +127,16 @@ Page({
   })
   },
   getMovie: function (cinemaNo) {
-    console.log(cinemaNo)
-    var that = this;
-    util.getQueryFilmSession(cinemaNo,function(res){
-      that.setData({
-        movieList: res
-      })
-    });
+    if (cinemaNo){
+      console.log(cinemaNo)
+      var that = this;
+      util.getQueryFilmSession(cinemaNo, function (res) {
+        that.setData({
+          movieList: res
+        })
+      });
+    }
+   
   },
   // 获取用户位置，请求影院列表
   getPlace: function() {
@@ -562,7 +565,7 @@ Page({
     } else if (e.detail.errMsg == "getUserInfo:ok") {
       wx.showTabBar();
       this.setData({
-        userInfo: e.detail.userInfo,
+       // userInfo: e.detail.userInfo,
         userInfoDetail: e.detail
       })
       app.globalData.userInfo = e.detail.userInfo;
@@ -693,7 +696,11 @@ Page({
   onShow: function() {
     var that = this;
     that.getMovie(app.globalData.cinemacode);
-
+    let loginInfo=wx.getStorageSync('loginInfo');
+    app.globalData.userInfo = loginInfo.userInfo;
+    that.setData({
+      userInfo: loginInfo.userInfo
+    });
 return;
     that.setData({
       userInfo: app.globalData.userInfo,
