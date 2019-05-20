@@ -4,39 +4,66 @@ let _this;
 Page({
   // 页面的初始数据
   data: {
-
-
-    tabContent:[1,0,0,0,0],
-    array999:['选择卡类别','选择卡类别2','选择卡类别3','选择卡类别4','选择卡类别5'],
+    tabContent: [1, 0, 0, 0, 0],
+    array999: ['选择卡类别', '选择卡类别2', '选择卡类别3', '选择卡类别4', '选择卡类别5'],
     index999: 0,
   },
-  bindPickerChange999: function(e) {
+  bindPickerChange999: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
-    this.setData({index999: e.detail.value})
+    this.setData({
+      index999: e.detail.value
+    })
   },
-  btnTabSwitch:(e)=>{
+  btnTabSwitch: (e) => {
     console.log(e);
-    let idx=e.currentTarget.dataset.id;
-    let temp=_this.data.tabContent;
-    temp.forEach((item,index)=>{
-      if (index==idx) {
-        temp[index]=1
-      }else{
-        temp[index]=0
+    let idx = e.currentTarget.dataset.id;
+    let temp = _this.data.tabContent;
+    temp.forEach((item, index) => {
+      if (index == idx) {
+        temp[index] = 1
+      } else {
+        temp[index] = 0
       }
     })
-    _this.setData({tabContent:temp})
+    _this.setData({
+      tabContent: temp
+    })
   },
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
-    _this=this;
-    wx.setNavigationBarTitle({title: '会员卡'});
+    _this = this;
+    wx.setNavigationBarTitle({
+      title: '会员卡'
+    });
   },
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
   querenbangding: function () {
-    wx.navigateTo({
-      url: '../page05/index'
+    var data = {
+      Username: "MiniProgram",
+      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      CinemaCode: 33097601,
+      OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
+      CardNo: 'e042208925',
+      CardPassword: 'mima123'
+    };
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data)
+        var cinemaCode = res.data.cinemaCode;
+        var cardNo = res.data.card.cardNo;
+        var cardPassword = res.data.card.cardPassword;
+        var userName = data.Username;
+        var passWord = data.Password;
+        wx.navigateTo({
+          url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord
+        })
+      }
     })
   },
   zhuce: function () {
@@ -45,15 +72,15 @@ Page({
     })
   },
   // 生命周期函数--监听页面显示
-  onShow: function () {},
+  onShow: function () { },
   // 生命周期函数--监听页面隐藏
-  onHide: function () {},
+  onHide: function () { },
   // 生命周期函数--监听页面卸载
-  onUnload: function () {},
+  onUnload: function () { },
   // 页面相关事件处理函数--监听用户下拉动作
-  onPullDownRefresh: function () {},
+  onPullDownRefresh: function () { },
   // 页面上拉触底事件的处理函数
-  onReachBottom: function () {},
+  onReachBottom: function () { },
   // 用户点击右上角分享
   onShareAppMessage: function () { },
   //获取影院会员卡设置
