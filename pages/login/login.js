@@ -1,5 +1,6 @@
 // pages/login/login.js
 const app = getApp()
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -97,23 +98,24 @@ Page({
     wx.showLoading({
       title: '请稍等',
     })
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('shRegister', nowtime);
+    let apiuser = util.getAPIUserData(null);
+
+    
     wx.request({
-      url: app.globalData.url + '/shDistributor/shRegister',
+      url: app.globalData.url + '/Api/User/MobilePhoneRegister',
+      method: "POST",
       data: {
-        verification: yzm,
-        phone: phone,
-        appUserId: that.data.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        apikey: 'HLBW2018SHAPPLET',
-        mac: sign
+        verifyCode: yzm,
+        mobilePhone: phone,
+        openID: app.globalData.userInfo.openID,
+        cinemaCode: app.globalData.cinemacode,
+        userName: apiuser.UserName,
+        password: apiuser.Password,
       },
       success: function(res) {
         // console.log(res)
         wx.hideLoading()
-        if (res.data.status == 1) {
+        if (res.data.Status == "Success") {
           if (res.data.data.alertPhoto){
             wx.setStorage({
               key: 'zchb',
@@ -185,21 +187,23 @@ Page({
       })
       //发送请求获取验证码
       // console.log(phone)
-      var nowtime = new Date().getTime();
-      var sign = app.createMD5('shVerification', nowtime);
+      let apiuser = util.getAPIUserData(null);
+       
+ 
+     
       wx.request({
-        url: app.globalData.url + '/shDistributor/shVerification',
-        // method:"POST",
+        url: app.globalData.url + '/Api/User/SendVerifyCode',
+         method:"POST",
         data: {
-          phone: phone,
-          verificationType: 'register',
-          timeStamp: nowtime,
-          apikey: 'HLBW2018SHAPPLET',
-          mac: sign
+          userName: apiuser.UserName,
+          password: apiuser.Password,
+          cinemaCode:app.globalData.cinemacode,
+          openID: app.globalData.userInfo.openID,
+          mobilePhone:phone
         },
         success: function(res) {
           // console.log(res)
-          if (res.data.code == "0") {
+          if (res.data.Status == "Success") {
             //倒计时
             that.setData({
               yzmText: that.data.yzmTime + "s后重新发送"

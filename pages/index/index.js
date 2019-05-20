@@ -116,7 +116,7 @@ Page({
     app.globalData.cinemacode = cinemas[0].cinemaCode
     // console.log(app.globalData.cinemacode)
     that.getMovie(app.globalData.cinemacode)
-    var recent = cinemas.sort(sortDistance("distance"))[0].cinemaName;
+    var recent = cinemas.sort(util.sortDistance("distance"))[0].cinemaName;
     that.setData({
       moviearea: recent
     })
