@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
   data: {
     FlimList: [],
@@ -36,8 +37,11 @@ Page({
       success: function(res) { //key所对应的内容
         // console.log(res)
         that.setData({
-          wxInfo: res.data.userInfo //用户信息
+          wxInfo: res.data.userInfo, //用户信息
+          userInfo: res.data.userInfo,
+          userInfoDetail: res.data.userInfoDetail
         })
+       
         wx.hideTabBar(); //隐藏栏
         that.wxLogin(); //获取信息函数
       },
@@ -645,12 +649,14 @@ Page({
     } else if (e.detail.errMsg == "getUserInfo:ok") {
       this.setData({
         userInfo: e.detail.userInfo,
+        userInfoDetail: e.detail
       })
       app.globalData.userInfo = e.detail.userInfo;
       wx.setStorage({
         key: 'accredit',
         data: {
-          "userInfo": e.detail.userInfo
+          "userInfo": e.detail.userInfo,
+          "userInfoDetail": e.detail
         },
         success: function(res) {
           // console.log(res)
@@ -670,20 +676,26 @@ Page({
     wx.login({
       success: function(msg) {
         var wxCode = msg.code; // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        var nowtime = new Date().getTime();
-
-        var sign = app.createMD5('appletAuthorize', nowtime);
+        let encryptedData = that.data.userInfoDetail.encryptedData;
+        let iv = that.data.userInfoDetail.iv;
+        let url ='https://xc.80piao.com:8443/Api/User/UserLogin';
+        // var nowtime = new Date().getTime();
+        let apiuser = util.getAPIUserData(null);
+        // var sign = app.createMD5('appletA  uthorize', nowtime);
         wx.request({
-          url: app.globalData.url + '/shDistributor/appletAuthorize',
+          //url: app.globalData.url + '/shDistributor/appletAuthorize',
+          url: app.globalData.url + '/Api/User/UserLogin',  
           data: {
             code: wxCode,
-            userInfo: JSON.stringify(that.data.wxInfo), //JSON.stringify(wxInfo),
-            timeStamp: nowtime,
-            mac: sign
+            userName: apiuser.UserName,
+            password: apiuser.Password,
+            encryptedData: encryptedData,
+            iv: iv,
+            cinemaCode: app.globalData.cinemacode
           },
           method: "POST",
           header: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
+            "Content-Type": "application/json"
           },
           success: function(e) {
             console.log(e)
@@ -692,7 +704,7 @@ Page({
             that.setData({
               onLoad: true
             })
-            if (e.data.status != 1) {
+            if (e.data.Status != 'Success') {
               // wx.showModal({
               //   title: '登录失败',
               //   content: e.data.message, //请先登录
@@ -817,7 +829,7 @@ Page({
   tologin: function() {
     var that = this;
     if (!that.data.userInfo || !that.data.userInfo.mobile || that.data.userInfo.mobile == "") {
-      wx.redirectTo({
+      wx.navigateTo({
         url: '../login/login',
       })
     }
