@@ -56,7 +56,8 @@ Page({
     util.getcinemaList(function (res) {
       if (res&&res.data){
         that.setData({
-          cinemaList:res.data
+          cinemaList:res.data,
+          cinema: res.data[0],
         });
         
         that.getBanner();
@@ -420,7 +421,7 @@ goodsList: goodsList
     if (that.data.totalNum > 0) {
       app.globalData.goodsList = that.data.goodsList;
       //app.globalData.merOrder = that.data.merOrder;
-      
+      //todo:https://xc.80piao.com:8443/Api/Goods/QueryLocalGoodsOrder
       wx.navigateTo({
         url: '../foodOrder/foodOrder?type=' + that.data.type,
       })

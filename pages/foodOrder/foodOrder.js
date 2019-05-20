@@ -30,6 +30,7 @@ Page({
     cinema:null,
     UrlMap: { 
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001',
+      conponsUrl: app.globalData.url + '/Api/Conpon/QueryUserConpons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001/o9gGQ4nuoKAZq1Xjp_N3iu3bmpZs/All',
     }
   },
 
@@ -68,26 +69,56 @@ Page({
         disPrice: totalPrice
         });
     
-        that.updatetotalPrice();
+      //todo 优惠券
+      util.getconponsList(that.data.UrlMap, function (res) {
+        
+        if (res && res.length > 0) {
+
+          //formatTime
+          for(var i=0;i<res.length;i++){
+            if (res[i].validityDate){
+              res[i].validityDateStr = util.formatTimeGMT(res[i].validityDate);
+            }else{
+              res[i].validityDateStr=""
+            }
+           
+          }
+
+          let merOrder = {
+         
+            merTicket:{
+              conponId: res[0].conponId,
+                 couponPrice:parseFloat(res[0].price),
+            },
+            merTicketList: res
+          };
+          that.setData({
+            merOrder: merOrder,
+           
+          });
+console.log('merOrder-->');
+          console.log(merOrder);
+          that.updatetotalPrice();
+        }
+      });
     });
 
     // console.log(newList)
     util.getcinemaList(function (res) {
       if (res && res.data) {
-        that.setData({
-          cinemaList: res.data,
-           
-        });
-
+       
         that.setData({
           type: options.type,
-        
+          cinemaList: res.data,
+         
          // phone: app.globalData.userInfo.mobile,
        
           cinema: that.data.cinemaList[0],
           //type2address: app.globalData.type2address,
           //merOrder: app.globalData.merOrder
-        })
+        });
+
+       
       }
     });
    
@@ -128,9 +159,17 @@ Page({
   //(减去优惠的)
   updatetotalPrice(){
     let that=this;
+    let price =0;
+    if (that.data.merOrder && that.data.merOrder.merTicket && that.data.merOrder.merTicket.couponPrice){
+      price = that.data.totalPrice - that.data.merOrder.merTicket.couponPrice;
+
+    }else {
+
+      price = that.data.totalPrice;
+    }
     that.setData({
    
-      disPrice: that.data.totalPrice
+      disPrice: price
     });
   },
   /**
@@ -630,10 +669,16 @@ Page({
   setFoodCoupon:function(e){
     var that = this;
     var id = e.currentTarget.dataset.id;
-    that.setData({
-      merTicketId:id
-    })
-    that.ask();
+    let merOrder = that.data.merOrder;
+    if (merOrder){
+      merOrder.merTicket.conponId = id;
+      that.setData({
+        merTicketId: id,
+        merOrder: merOrder
+      })
+    }
+    
+   // that.ask();
   },
   closeChoose: function () {
     this.setData({

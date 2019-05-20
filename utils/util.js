@@ -8,6 +8,25 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+const formatTimeGMT = date => {
+  date = dateToGMT(date);
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return [year, month, day].map(formatNumber).join('/') //+ ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
+
+const dateToGMT = strDate => {
+  var dateStr = strDate.split(" ");
+  var strGMT = dateStr[0] + " " + dateStr[1] + " " + dateStr[2] + " " + dateStr[5] + " " + dateStr[3] + " GMT+0800";
+  var date = new Date(Date.parse(strGMT));
+  return date;
+}
+
 
 const formatNumber = n => {
   n = n.toString()
@@ -299,8 +318,41 @@ const updateCart= cartlist=>{
   });
   return cartObj;
 }
+//优惠券列表
+const getconponsList = (UrlMap,callback)=>{
+  wx.request({
+    url: UrlMap.conponsUrl,
+
+    method: "get",
+    header: {
+      "Content-Type": 'application/json'
+    },
+    success: function (res) {
+      var conponsList = res.data.data.conpons;
+      if (!conponsList) {
+        return;
+      }
+
+      
+
+      callback && callback(conponsList);
+    }
+  });
+}
+const getAPIUserData=callback=>{
+  let obj = {
+    UserName: 'MiniProgram',
+    Password: '6BF477EBCC446F54E6512AFC0E976C41'
+  };
+  wx.setStorage({
+    key: 'APIUSER',
+    data: obj,
+  });
+  return obj;
+}
 module.exports = {
   formatTime: formatTime,
+  formatTimeGMT: formatTimeGMT,
   sortDistance: sortDistance,//计算出最近的影院显示在定位处
   getcinemaList: getcinemaList,
   getgoodList: getgoodList,
@@ -311,5 +363,7 @@ module.exports = {
   clearCart: clearCart,
   updateCart: updateCart,
   getcartObj: getcartObj,
-  clearcartObj: clearcartObj
+  clearcartObj: clearcartObj,
+  getconponsList: getconponsList,
+  getAPIUserData: getAPIUserData//获取固定的平台用户名密码
 }
