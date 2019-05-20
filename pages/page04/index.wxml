@@ -15,9 +15,9 @@
 			<view class="item">
 				<input placeholder="输入您的会员卡密码" class="input" value="" bindinput="" bindblur="btnBlurInput"  placeholder-class="phColor"/>
 			</view>
-			<view class="item">
+			<!-- <view class="item">
 				<picker bindchange="bindPickerChange999" value="{{index999}}" range="{{array999}}"><view class="picker gray">{{array999[index999]}}</view></picker>
-			</view>
+			</view> -->
 		</view>
 		<view class="operate">
 			<button class="btns btns1" bindtap="querenbangding" hover-class="none">绑定会员卡</button>

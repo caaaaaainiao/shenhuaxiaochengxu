@@ -9,7 +9,19 @@
 	</view>
 
 	<view class="list">
-		<view class="item">
+    <view wx:for="{{memberCard}}" wx:for-item="card" wx:key="card" style='position:relative'>
+      <image src="http://wx.80piao.com:83/cdnimg/card5.png" class="card" mode="widthFix"></image>
+      <view class="number">NO：{{card.num}}</view>
+      <view class="center">
+				<view class="txt1">{{card.levelName}}</view>
+				<view class="txt2">余额：{{card.balance}}¥</view>
+			</view>
+      <button class="btn-delete" bindtap="btnDelete" data-id="1" hover-class="none">
+				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
+			</button>
+			<button class="btns" bindtap="btnShowExchange2" hover-class="none">立即充值</button>
+    </view>
+		<!-- <view class="item">
 			<image src="http://wx.80piao.com:83/cdnimg/card5.png" class="card" mode="widthFix"></image>
 			<view class="number">NO：15700005234</view>
 			<view class="center">
@@ -20,8 +32,8 @@
 				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
 			</button>
 			<button class="btns" bindtap="btnShowExchange2" hover-class="none">立即充值</button>
-		</view>
-		<view class="item">
+		</view> -->
+		<!-- <view class="item">
 			<image src="http://wx.80piao.com:83/cdnimg/card5.png" class="card" mode="widthFix"></image>
 			<view class="number">NO：15700005234</view>
 			<view class="center">
@@ -32,7 +44,7 @@
 				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
 			</button>
 			<button class="btns" bindtap="btnShowExchange" hover-class="none">立即续费</button>
-		</view>
+		</view> -->
 	</view>
 
 	<view class="fixed-operate">
