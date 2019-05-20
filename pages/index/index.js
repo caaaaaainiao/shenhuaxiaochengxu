@@ -80,12 +80,15 @@ Page({
       
     var cinemas = res;
     var recent = []
-    for (let i = 0; i < cinemas.length; i++) {
-      var lat = cinemas[i].latitude;
-      var lng = cinemas[i].longitude;
-      var distance = that.distance(userLat, userLng, lat, lng);
-      cinemas[i].distance = distance
-    }
+      if (userLat && userLng){
+        for (let i = 0; i < cinemas.length; i++) {
+          var lat = cinemas[i].latitude;
+          var lng = cinemas[i].longitude;
+          var distance = that.distance(userLat, userLng, lat, lng);
+          cinemas[i].distance = distance
+        }
+      }
+  
     // 声明一个新数组 将市区添加到新数组内
     var arr = [];
     for (let i = 0; i < cinemas.length; i++) {
