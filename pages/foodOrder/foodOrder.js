@@ -105,11 +105,11 @@ console.log('merOrder-->');
 
     // console.log(newList)
     util.getcinemaList(function (res) {
-      if (res && res.data) {
+      if (res) {
        
         that.setData({
           type: options.type,
-          cinemaList: res.data,
+          cinemaList: res,
          
          // phone: app.globalData.userInfo.mobile,
        

@@ -8,6 +8,16 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+const formatTimeDay = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return [year, month, day].map(formatNumber).join('-')
+}
 const formatTimeGMT = date => {
   date = dateToGMT(date);
   const year = date.getFullYear()
@@ -57,8 +67,8 @@ const getcinemaList = callback => {
     wx.getStorage({
       key: 'cinemaList',
       success: function (res) {
-        callback && callback(res);
-         return res;
+        callback && callback(res.data);
+        return res.data;
       },
     })
 
@@ -342,7 +352,8 @@ const getconponsList = (UrlMap,callback)=>{
 const getAPIUserData=callback=>{
   let obj = {
     UserName: 'MiniProgram',
-    Password: '6BF477EBCC446F54E6512AFC0E976C41'
+    Password: '6BF477EBCC446F54E6512AFC0E976C41',
+    AppId: 'wx8079e2f2a9958d05'
   };
   wx.setStorage({
     key: 'APIUSER',
@@ -350,8 +361,92 @@ const getAPIUserData=callback=>{
   });
   return obj;
 }
+const getQueryFilmSession = (cinemaNo,callback)=>{
+  let key ='movieList';
+  if (wx.getStorageSync(key) != "") {
+    wx.getStorage({
+      key: key,
+      success: function (res) {
+        callback && callback(res.data);
+        return res.data;
+      }
+      })
+      return;
+  }
+
+  let apiuser = getAPIUserData(null);
+  var nowtime = new Date();
+  let nowday = formatTimeDay(nowtime);
+  let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 7);//add 15 day
+  let endday = formatTimeDay(endtime);
+  var data = {
+    UserName: apiuser.UserName,
+    Password: apiuser.Password,
+    CinemaCode: cinemaNo,
+    StartDate: nowday,
+    EndDate: endday,
+  }
+  wx.request({
+    url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessions' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.StartDate + '/' + data.EndDate,
+    method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success: function (res) {
+      console.log(res)
+      wx.hideLoading();
+      var movieList = res.data.data.film;
+      
+      wx.setStorageSync(key, movieList)
+      callback && callback(movieList);
+      return movieList;
+      // console.log(movieList)
+      // that.format();
+      // wx.showTabBar();
+    }
+  })
+
+}
+const getCity=(callback)=>{
+  let key = 'city';
+  if (wx.getStorageSync(key) != "") {
+    wx.getStorage({
+      key: key,
+      success: function (res) {
+        callback && callback(res.data);
+        return res.data;
+      }
+    })
+    return;
+  }
+
+  wx.getLocation({
+    type: 'wgs84',
+    success: function (res) {
+
+
+      var userLat = res.latitude;
+      var userLng = res.longitude;
+      let apiuser = getAPIUserData(null);
+
+      wx.request({
+        url: 'https://xc.80piao.com:8443/Api/Cinema/QueryCinemas/' + apiuser.UserName + '/' + apiuser.Password + '/' + apiuser.AppId,
+        method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          
+          callback && callback(res.data.data.cinemas, userLat, userLng);
+          return res.data;
+        }
+      });
+    },
+  });
+}
 module.exports = {
   formatTime: formatTime,
+  formatTimeDay: formatTimeDay,//day
   formatTimeGMT: formatTimeGMT,
   sortDistance: sortDistance,//计算出最近的影院显示在定位处
   getcinemaList: getcinemaList,
@@ -365,5 +460,7 @@ module.exports = {
   getcartObj: getcartObj,
   clearcartObj: clearcartObj,
   getconponsList: getconponsList,
-  getAPIUserData: getAPIUserData//获取固定的平台用户名密码
+  getAPIUserData: getAPIUserData,//获取固定的平台用户名密码
+  getQueryFilmSession: getQueryFilmSession, //获取首页影院排期列表
+  getCity: getCity,//获取影院信息列表 通用
 }

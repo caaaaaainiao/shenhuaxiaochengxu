@@ -34,7 +34,7 @@ Page({
     util.getcinemaList(function(res){
   
 
-      let movilisttemp = res.data.sort(util.sortDistance("distance"));
+      let movilisttemp = res.sort(util.sortDistance("distance"));
       var recent = movilisttemp[0].cinemaName;
       that.setData({
         location: recent
@@ -138,7 +138,7 @@ Page({
         duration: 2000,
         success: function () {
           setTimeout(function () {
-            wx.redirectTo({
+            wx.navigateTo({
               url: '../login/login'
             })
           }, 2000)

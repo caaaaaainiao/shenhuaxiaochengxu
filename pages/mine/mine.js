@@ -22,7 +22,7 @@ Page({
       userInfo: app.globalData.userInfo
     })
     if (this.data.userInfo.mobile == null || this.data.userInfo.mobile == ""){
-      wx.redirectTo({
+      wx.navigateTo({
         url: '../login/login',
       })
     }

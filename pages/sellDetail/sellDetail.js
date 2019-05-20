@@ -54,10 +54,10 @@ Page({
    
     var that = this;
     util.getcinemaList(function (res) {
-      if (res&&res.data){
+      if (res){
         that.setData({
-          cinemaList:res.data,
-          cinema: res.data[0],
+          cinemaList:res,
+          cinema: res[0],
         });
         
         that.getBanner();
