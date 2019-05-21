@@ -4,14 +4,37 @@ let _this;
 Page({
   // 页面的初始数据
   data: {
+    isShow: false,
     tabContent: [1, 0, 0, 0, 0],
     array999: ['选择卡类别', '选择卡类别2', '选择卡类别3', '选择卡类别4', '选择卡类别5'],
     index999: 0,
+    inputNum: '',
+    inputPass: ''
   },
   bindPickerChange999: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       index999: e.detail.value
+    })
+  },
+  getNum: function (e) {
+    this.setData({
+      inputNum: e.detail.value
+    })
+  },
+  getPass: function (e) {
+    this.setData({
+      inputPass: e.detail.value
+    })
+  },
+  btnShowExchange2: (e) => {
+    _this.setData({ isShow: !_this.data.isShow })
+  },
+  btnChoose: (e) => {
+    console.log(e._relatedInfo.anchorRelatedText);
+    _this.setData({
+      inputNum: e._relatedInfo.anchorRelatedText,
+      isShow: !_this.data.isShow
     })
   },
   btnTabSwitch: (e) => {
@@ -39,16 +62,48 @@ Page({
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
   querenbangding: function () {
+    var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+    var that = this;
     var data = {
       Username: "MiniProgram",
       Password: "6BF477EBCC446F54E6512AFC0E976C41",
       CinemaCode: 33097601,
       OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
-      CardNo: 'e042208925',
-      CardPassword: 'mima123',
-      MobilePhone: '15268553143'
+      // CardNo: 'e042208925',
+      CardNo: that.data.inputNum,
+      // CardPassword: 'mima123',
+      CardPassword: that.data.inputPass,
+      // MobilePhone: '15268553143'
+      MobilePhone: that.data.inputNum
     };
-    wx.request({
+    if (Num.test(that.data.inputNum)) {
+      // 手机号
+      wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByPhone' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+            console.log(res)
+            var memberPhones = [];
+            for (var i = 0; i < res.data.data.memberPhones.length; i++) {
+              memberPhones.push(res.data.data.memberPhones[i]);
+              var levelName = "memberPhones[" + i + "].levelName";
+              var cardNo = "memberPhones[" + i + "].cardNo";
+              that.setData({
+                [levelName]: res.data.data.memberPhones[i].levelName,
+                [cardNo]: res.data.data.memberPhones[i].cardNo,
+                isShow: true
+              })
+            };
+        },
+        // fail: function (res) {
+        //   console.log(res)
+        // }
+      })
+    } else {
+      wx.request({
       // 会员卡号
       url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
       method: 'GET',
@@ -57,16 +112,19 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
+        res.data.card
         var cinemaCode = res.data.cinemaCode;
         var cardNo = res.data.card.cardNo;
         var cardPassword = res.data.card.cardPassword;
+        var phone = res.data.card.mobilePhone;
         var userName = data.Username;
         var passWord = data.Password;
         wx.navigateTo({
-          url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord
+          url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord + '&Phone=' + phone
         })
       }
     })
+    }
   },
   zhuce: function () {
     wx.navigateTo({
