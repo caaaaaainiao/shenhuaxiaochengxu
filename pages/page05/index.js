@@ -27,11 +27,8 @@ Page({
       { text: '400', tips: '送80元', checked: false },
       { text: '500', tips: '送100元', checked: false },
     ],
-    // memberCard: [{
-    //   num: '',
-    //   levelName: '',
-    //   balance: ''
-    // }]
+    username: null,
+    score: null
   },
   btnShowExchange: (e) => {
     _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
@@ -99,6 +96,8 @@ Page({
       },
       success: function (res) {
         var memberCard = [];
+        var username = '';
+        var score = '';
         memberCard.push(res.data.card)
         console.log(memberCard)
         console.log(that.data)
@@ -109,7 +108,9 @@ Page({
           that.setData({
             [num]: memberCard[i].cardNo,
             [levelName]: memberCard[i].levelName,
-            [balance]: memberCard[i].balance
+            [balance]: memberCard[i].balance,
+            username: memberCard[i].userName,
+            score: memberCard[i].score
           })
         }
       }

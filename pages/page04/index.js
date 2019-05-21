@@ -45,9 +45,11 @@ Page({
       CinemaCode: 33097601,
       OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
       CardNo: 'e042208925',
-      CardPassword: 'mima123'
+      CardPassword: 'mima123',
+      MobilePhone: '15268553143'
     };
     wx.request({
+      // 会员卡号
       url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
       method: 'GET',
       header: {

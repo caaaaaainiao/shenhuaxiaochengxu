@@ -1,5 +1,6 @@
 {
   "pages": [
+    
     "pages/index/index",
     "pages/sell/sell",
     "pages/mine/mine",
@@ -33,6 +34,7 @@
     "pages/comments/comments",
     "pages/acivityUrl/acivityUrl",
     "pages/couponDetail/couponDetail",
+    "pages/page04/index",
     "pages/openCard/openCard"
   ],
   "window": {
