@@ -7,7 +7,7 @@
 </button>
 <view wx:else>请升级微信版本</view> -->
 <view class="container">
-  <view class='first' bindtap='removeBlack' wx:if="{{isFirst&&moviearea.cinemaName}}">
+  <view class='first' bindtap='removeBlack' wx:if="{{isFirst&&moviearea}}">
     <image src='/images/firstTip.png' class='firstTip'></image>
     <view class='firstbox'></view>
   </view>
