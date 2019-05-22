@@ -68,7 +68,7 @@ Page({
       Username: "MiniProgram",
       Password: "6BF477EBCC446F54E6512AFC0E976C41",
       CinemaCode: 33097601,
-      OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
+      OpenID: '12345',
       // CardNo: 'e042208925',
       CardNo: that.data.inputNum,
       // CardPassword: 'mima123',
@@ -76,6 +76,7 @@ Page({
       // MobilePhone: '15268553143'
       MobilePhone: that.data.inputNum
     };
+    // 判断是会员卡号还是手机号
     if (Num.test(that.data.inputNum)) {
       // 手机号
       wx.request({
@@ -98,9 +99,6 @@ Page({
               })
             };
         },
-        // fail: function (res) {
-        //   console.log(res)
-        // }
       })
     } else {
       wx.request({
@@ -112,21 +110,44 @@ Page({
       },
       success: function (res) {
         console.log(res.data)
-        res.data.card
-        var cinemaCode = res.data.cinemaCode;
-        var cardNo = res.data.card.cardNo;
-        var cardPassword = res.data.card.cardPassword;
-        var phone = res.data.card.mobilePhone;
-        var userName = data.Username;
-        var passWord = data.Password;
-        wx.navigateTo({
-          url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord + '&Phone=' + phone
-        })
+        if (res.data.Status == "Success") {
+          var cinemaCode = res.data.cinemaCode;
+          var cardNo = res.data.card.cardNo;
+          var cardPassword = res.data.card.cardPassword;
+          var phone = res.data.card.mobilePhone;
+          var userName = data.Username;
+          var passWord = data.Password;
+          var openID = data.OpenID
+          wx.navigateTo({
+            url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord + '&Phone=' + phone + '&OpenID=' + openID
+          })
+        }
+        else if (res.data.Status == 'Failure') {
+          wx.showToast({
+            title: res.data.ErrorMessage,
+            icon: 'none',
+            duration: 3000
+          })
+        }
       }
     })
     }
   },
-  zhuce: function () {
+  // 选择会员卡类型注册
+  zhuce: function (e) {
+    // console.log(e)
+    // let idx = e.currentTarget.dataset.id;
+    // let temp = _this.data.tabContent;
+    // temp.forEach((item, index) => {
+    //   if (index == idx) {
+    //     temp[index] = 1
+    //   } else {
+    //     temp[index] = 0
+    //   }
+    // })
+    // _this.setData({
+    //   tabContent: temp
+    // })
     wx.navigateTo({
       url: '../page06/index'
     })

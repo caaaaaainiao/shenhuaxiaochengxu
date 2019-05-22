@@ -21,7 +21,7 @@
     </view>
     <view class="operate">
       <button class="btns btns1" bindtap="querenbangding" hover-class="none">绑定会员卡</button>
-      <button class="btns btns2" bindtap="zhuce" hover-class="none">还没有会员卡?在线开通，立享多重观影福利！</button>
+      <button class="btns btns2" bindtap="zhuce" hover-class="none" data-id="1">还没有会员卡?在线开通，立享多重观影福利！</button>
     </view>
   </block>
   <block wx:if="{{isShow}}">
