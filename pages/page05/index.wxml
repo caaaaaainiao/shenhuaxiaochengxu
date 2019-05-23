@@ -2,8 +2,8 @@
 	<view class="panel">
 		<image src="/images/face.png" class="icon" mode="widthFix"></image>
 		<view class="r">
-			<view class="txt1">昵称</view>
-			<view class="txt2">积分：20</view>
+			<view class="txt1">{{username}}</view>
+			<view class="txt2">积分：{{score}}</view>
 		</view>
 		<navigator class="btn-record" url="">充值记录</navigator>
 	</view>

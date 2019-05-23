@@ -27,11 +27,8 @@ Page({
       { text: '400', tips: '送80元', checked: false },
       { text: '500', tips: '送100元', checked: false },
     ],
-    // memberCard: [{
-    //   num: '',
-    //   levelName: '',
-    //   balance: ''
-    // }]
+    username: null,
+    score: null
   },
   btnShowExchange: (e) => {
     _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
@@ -92,26 +89,38 @@ Page({
     console.log(options)
     var that = this;
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Member/QueryCard' + '/' + options.Username + '/' + options.PassWord + '/' + options.CinemaCode + '/' + options.CardNo + '/' + options.CardPassword,
+      url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + options.Username + '/' + options.PassWord + '/' + options.CinemaCode + '/' + options.OpenID,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         var memberCard = [];
-        memberCard.push(res.data.card)
-        console.log(memberCard)
-        console.log(that.data)
-        for (var i = 0; i < memberCard.length; i++) {
-          var num = "memberCard[" + i + "].num";
-          var levelName = "memberCard[" + i + "].levelName";
-          var balance = "memberCard[" + i + "].balance";
-          that.setData({
-            [num]: memberCard[i].cardNo,
-            [levelName]: memberCard[i].levelName,
-            [balance]: memberCard[i].balance
-          })
-        }
+        var allScore = [];
+        var n = 0;
+        var username = '';
+        var score = '';
+        // var memberCard = res.data.data.memberPhones
+        // for (var i = 0; i < memberCard.length; i++) {
+        //   var num = "memberCard[" + i + "].num";
+        //   var levelName = "memberCard[" + i + "].levelName";
+        //   var balance = "memberCard[" + i + "].balance";
+        //   allScore.push(memberCard[i].score)
+        //   that.setData({
+        //     [num]: memberCard[i].cardNo,
+        //     [levelName]: memberCard[i].levelName,
+        //     [balance]: memberCard[i].balance,
+        //     username: memberCard[0].userName,       
+        //   })
+        // }
+        // 计算总积分
+        // for (let i = 0; i < allScore.length; i++) {
+        //   n += allScore[i];
+        // }
+        // that.setData({
+        //   score: n
+        // })
       }
     })
     _this = this;

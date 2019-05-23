@@ -404,13 +404,24 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
     },
     success: function (res) {
       console.log(res)
+      var timestamp = new Date().getTime() + 2592000000
+      for (var i = 0; i < res.data.data.film.length; i++) {
+        var NowDate = res.data.data.film[i].publishDate
+        if (NowDate != null) {
+          NowDate = NowDate.substring(0, 19);
+          NowDate = NowDate.replace(/-/g, '/');
+          var timestamp1 = new Date(NowDate).getTime();
+          res.data.data.film[i].time = timestamp1
+        }
+      }
       wx.hideLoading();
       var movieList = res.data.data.film;
+       // console.log(movieList)
       
       wx.setStorageSync(key, movieList)
       callback && callback(movieList);
       return movieList;
-      // console.log(movieList)
+   
       // that.format();
       // wx.showTabBar();
     }

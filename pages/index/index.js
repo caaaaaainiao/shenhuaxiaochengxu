@@ -28,6 +28,7 @@ Page({
     sza: [],
     
   },
+
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
   onLoad: function(options) {
@@ -47,7 +48,6 @@ Page({
         that.wxLogin(); //获取信息函数
       },
       fail: function(res) {
-        // console.log(res) //失败打印内容
         that.setData({
           shouquan: true
         })
@@ -290,9 +290,7 @@ Page({
           break
         }
         if (that.data.sza.length == that.data.FilmCodes.length) {
-          //  console.log(that.data.sza)
           app.globalData.movieList = that.data.sza
-          // console.log(app.globalData.movieList)
         }
       }
     })
@@ -359,47 +357,7 @@ Page({
     // wx.navigateBack({
     //   delta : 1
     // })
-    // wx.request({
-    //   url: app.globalData.url + '/api/Movie/hotMovie',
-    //   data: {
-    //     cinemaCode: that.data.moviearea.cinemaCode,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     console.log(res)
-    //     wx.hideLoading();
-    //     that.setData({
-    //       movieList: res.data.data
-    //     })
-    //     that.format();
-    //     wx.showTabBar();
-    //   }
-    // })
   },
-  // format: function () {
-  //   var json = this.data.movieList;
-  //   for (var i = 0; i < json.length; i++) {
-  //     json[i].movieDimensional = json[i].movieDimensional.split(",");
-  //   }
-  //   this.setData({
-  //     movieList: json
-  //   })
-
-  //   app.globalData.movieList = this.data.movieList;
-  //   // console.log(this.data.movieList)
-  // },
-  // chooseCity: function(e) {
-  //   var city = e.currentTarget.dataset.name;
-  //   var that = this;
-  //   that.setData({
-  //     currentCity: city
-  //   });
-
   //   wx.getLocation({
   //     type: 'wgs84',
   //     success: function(res) {
@@ -535,20 +493,17 @@ Page({
     that.setData({
       moviearea: app.globalData.moviearea
     })
-    // this.setData({
-    //   isChoose: false,
-    //   moviearea: app.globalData.cinemaList[app.globalData.cinemaNo]
-    // })
-    // wx.setStorage({
-    //   key: "location",
-    //   data: app.globalData.cinemaList
-    // })
-    // wx.setStorage({
-    //   key: "areaNo",
-    //   data: index
-    // })
-   // this.getMovies();
-    that.getMovie(app.globalData.cinemacode)
+  that.setData({
+    isChoose:false
+  })
+    // that.getMovie(app.globalData.cinemacode)
+    console.log(app.globalData.cinemacode)
+    util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
+      console.log(res)
+      that.setData({
+        movieList: res
+      })
+    });
   },
   startChoose: function() {
     this.setData({
