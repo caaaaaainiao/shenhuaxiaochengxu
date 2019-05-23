@@ -26,11 +26,13 @@ Page({
     cinemaList:[],//影院信息列表
     fullCar:true,
     UrlMap:{
-      bannerUrl: app.globalData.url + '/Api/Banner/QueryBanner/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001',
-      goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001',
-      goodTypesUrl: app.globalData.url +'/Api/Goods/QueryGoodsType/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001'
-    }
-    
+      bannerUrl: app.globalData.url + '/Api/Banner/QueryBanner/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
+      goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
+      goodTypesUrl: app.globalData.url +'/Api/Goods/QueryGoodsType/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
+      createOrderUrl: app.globalData.url +'/Api/Goods/CreateGoodsOrder'
+    },
+        showReady: false,
+    isReady: 0,
   },
 
   /**
@@ -46,7 +48,124 @@ Page({
     util.clearcartObj(null);
   // this.ask();
   },
+  chooseClose: function () {
+    this.setData({
+      showReady: false
+    })
+  },
+  chooseReadyType: function (e) {
+    var that = this;
+    var type = e.currentTarget.dataset.type;
+    that.setData({
+      isReady: type,
+    })
+  },
+  gettypeaddr:function(){
+     
+    if (this.data.isReady==1){
+      return '到店后取餐';
+    }
 
+    return '我在店里，马上取餐';
+  },
+  sureChoose: function () {
+     let that=this;
+    let xml = '<CreateGoodsOrder><CinemaCode>' + app.globalData.cinemacode +'</CinemaCode><PayType>0</PayType><GoodsList>';
+
+    
+    if (this.data.totalNum > 0){
+      let cartobj = util.getcartObj(null);
+      if (cartobj && cartobj.list){
+        for (var i = 0; i < cartobj.list.length;i++){
+          let item = cartobj.list[i];
+          xml +='<Goods>';
+          xml += '<GoodsCode>' + item.goodsCode+'</GoodsCode>';
+          xml += '<GoodsCount>' + item.buyNum+ '</GoodsCount>';
+          xml += '<StandardPrice>' + item.settlePrice + '</StandardPrice>';
+          xml += '<GoodsChannelFee>' +item.channelFee+ '</GoodsChannelFee>';
+          xml += '<Goods>';
+        }
+      }
+    }
+    xml += ' </GoodsList></CreateGoodsOrder >';
+    console.log(xml);
+    var nowtime = new Date();
+    
+    let endtime = new Date(nowtime.getTime() + 1000 * 60 );
+    let endday = util.formatTime2(endtime);
+
+    let apiuser = util.getAPIUserData(null);
+    //todo: 创建订单
+    wx.request({
+      url:that.data.UrlMap.createOrderUrl,
+      method: "POST",
+      data: {
+        deliveryType:that.data.type,
+        deliveryAddress: that.gettypeaddr(),
+        deliveryTime: endday,
+        queryXml: xml,
+        userName: apiuser.UserName,
+        password: apiuser.Password,
+      },
+      success: function (res) {
+        // console.log(res)
+        wx.hideLoading()
+        if (res.data.Status == "Success") {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'loading',
+            image: '',
+            duration: 2000,
+            mask: true,
+            success: function (res) {
+              wx.navigateTo({
+                url: '../foodOrder/foodOrder?type=' + that.data.type,
+              })
+            },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+      
+        } else {
+          wx.showToast({
+            title: res.data.message,
+            icon: 'loading',
+            image: '',
+            duration: 2000,
+            mask: true,
+            success: function (res) { },
+            fail: function (res) { },
+            complete: function (res) { },
+          })
+        }
+
+      }
+    })
+
+  },
+  createGoodsOrder:function(){
+    let that=this;
+    
+    wx.showModal({
+      title: '确认购买吗？',
+      content: '确认之后不可修改',
+      success: function (res) {
+        if (res.confirm) {
+          //创建订单
+          if (that.data.type == 1) {
+            that.setData({
+              showReady: true
+            })
+          } 
+        
+        
+        } else if (res.cancel) {
+         
+        }
+      }
+    })
+
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -239,25 +358,28 @@ Page({
     var that = this;
 
     wx.request({
-      url: that.data.UrlMap.goodTypesUrl,
+      url: that.data.UrlMap.goodTypesUrl +  app.globalData.cinemacode,
       method: "GET",
       header: {
         "Content-Type": "application/json"
       },
       success: function (res) {
         console.log(res)
-        //类型筛选商品                         
-        that.setData({
-          goodTypeList: res.data.data.type
-        });
-        that.changeGoodType(that.data.goodTypeList[0]);
+        if (res.data.data.typeCount>0){
+          //类型筛选商品                         
+          that.setData({
+            goodTypeList: res.data.data.type
+          });
+          that.changeGoodType(that.data.goodTypeList[0]);
+        }
+       
       }
     })
   },
   getGoods: function() { //获取卖品
     var that = this;
-
-    util.getgoodList(that.data.UrlMap, function (goodsList){
+  
+    util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
       let tempgoodsList = [];
       
       for (var i = 0; i < goodsList.length; i++) {
@@ -316,7 +438,7 @@ goodsList: goodsList
     var that = this;
     
     wx.request({
-      url: that.data.UrlMap.bannerUrl,
+      url: that.data.UrlMap.bannerUrl + app.globalData.cinemacode,
       method: "GET",
       header: {
         "Content-Type": "application/json"

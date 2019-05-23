@@ -37,7 +37,7 @@ Page({
       userInfo:app.globalData.userInfo
     })
     // console.log(app.globalData.userInfo)
-    if (that.data.userInfo.dxInsiderInfo != null){
+    if (app.globalData.userInfo.dxInsiderInfo.memberPhoneCount >0){
       that.syn();
       that.activity();
     }
@@ -147,7 +147,7 @@ Page({
         pwd: that.data.cardmm,
         card:that.data.cardnum,
         appUserId:app.globalData.userInfo.id,
-        cinemaCode:app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+        cinemaCode: app.globalData.cinemacode,
         timeStamp: nowtime,
         mac: sign
       },
@@ -191,7 +191,7 @@ Page({
       url: app.globalData.url + '/api/shAppuser/userCard',
       data: {
         appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+        cinemaCode: app.globalData.cinemacode,
         timeStamp: nowtime,
         mac: sign
       },
@@ -243,9 +243,14 @@ Page({
     })
   },
   recharge:function(){
+    if (app.globalData.userInfo.dxInsiderInfo.memberPhoneCount <=0) {
+      return;
+    }
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('minipay', nowtime);
+    if (that.data.index<0)
+      return;
     var rechargeMoney = that.data.money[that.data.index].money;
     // var realPrice = app.globalData.cinemaList[app.globalData.cinemaNo].rechargeDisconut * rechargeMoney;
     if (that.data.index == -1){
@@ -276,7 +281,7 @@ Page({
       url: app.globalData.url + '/api/shCardRecharge/minipay',
       data: {
         appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+        cinemaCode: app.globalData.cinemaList[app.globalData.cinemacode].cinemaCode,
         cardNum: that.data.userInfo.dxInsiderInfo.cardNumber,
         rechargeMoney: rechargeMoney,
         app:"2",
@@ -329,6 +334,9 @@ Page({
     })
   },
   untying:function(){
+    if (app.globalData.userInfo.dxInsiderInfo.memberPhoneCount <= 0) {
+      return;
+    }
     var that = this;
     wx.showModal({
       title: '提示',
@@ -372,6 +380,8 @@ Page({
     })
   },
   activity: function () {//获取活动
+    if (app.globalData.userInfo.dxInsiderInfo.memberPhoneCount<=0)
+      return;
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('queryActivity', nowtime);
@@ -379,7 +389,7 @@ Page({
       url: app.globalData.url + '/api/cardOrder/queryActivity',
       data: {
         cardNum: app.globalData.userInfo.dxInsiderInfo.cardNumber,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+        cinemaCode: app.globalData.cinemaList[app.globalData.cinemacode].cinemaCode,
         timeStamp: nowtime,
         mac: sign
       },

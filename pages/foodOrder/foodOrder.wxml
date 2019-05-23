@@ -42,7 +42,7 @@
     <view class='phonetext'>手机号</view>
     <view class='tip'>购票成功后，会收到取票码短信</view>
     <view class='phonenum'>
-      <input value='{{phone}}' type='number' />
+      <input value='{{userInfo.mobilePhone}}' type='number' />
       <image src='/images/gray_more.png'></image>
     </view>
   </view>
@@ -134,7 +134,7 @@
     </block>
     <view class='checkok' bindtap='closeChoose'>选好了</view>
   </view>
-  <view class='black2' wx:if='{{showReady}}'>
+  <!-- <view class='black2' wx:if='{{showReady}}'>
     <view class='ready'>
       <image src='/images/styleicon.png' class='styleicon'></image>
       <image src='/images/close5.png' class='close5' bindtap='chooseClose'></image>
@@ -154,5 +154,5 @@
       </view>
       <view class='chooseSure' bindtap='sureChoose'>确 定</view>
     </view>
-  </view>
+  </view> -->
 </view>

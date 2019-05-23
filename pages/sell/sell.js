@@ -7,10 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userinfo_test: {
-      Username: 'MiniProgram',
-      Password: '6BF477EBCC446F54E6512AFC0E976C41',
-    },
+ 
     //userInfo: null,
     movieList: null,
     timeList:null,
@@ -130,7 +127,7 @@ Page({
     var setType = e.currentTarget.dataset.type;
     var that = this;
     console.log(setType)
-    if (app.globalData.userInfo&&(app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "")) {
+    if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone == null || app.globalData.userInfo.mobilePhone == "")) {
       wx.showToast({
         title: '请先注册手机号',
         icon: "loading",
@@ -146,6 +143,7 @@ Page({
       })
       return;
     }
+    app.globalData.sendtype=setType;
     that.setData({
       sendtype: setType
     })
@@ -164,7 +162,7 @@ Page({
         that.data.movieList[i].foodcheck = false;
       }
     }
-   
+    app.globalData.sendtype = 0;
     that.setData({
       startChoose:false,
       sendtype:0,

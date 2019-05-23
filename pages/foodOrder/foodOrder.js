@@ -29,8 +29,8 @@ Page({
     showReady:false,
     cinema:null,
     UrlMap: { 
-      goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001',
-      conponsUrl: app.globalData.url + '/Api/Conpon/QueryUserConpons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/33111001/o9gGQ4nuoKAZq1Xjp_N3iu3bmpZs/All',
+      goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
+      conponsUrl: app.globalData.url + '/Api/Conpon/QueryUserConpons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
     }
   },
 
@@ -39,7 +39,7 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    util.getgoodList(that.data.UrlMap, function (goodsList){
+    util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
       var newList = [];
       var totalPrice = 0;
  
@@ -70,7 +70,7 @@ Page({
         });
     
       //todo 优惠券
-      util.getconponsList(that.data.UrlMap, function (res) {
+      util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID+"/All", function (res) {
         
         if (res && res.length > 0) {
 
@@ -88,7 +88,7 @@ Page({
          
             merTicket:{
               conponId: res[0].conponId,
-                 couponPrice:parseFloat(res[0].price),
+              couponPrice: res[0].price?parseFloat(res[0].price):0,
             },
             merTicketList: res
           };
@@ -113,7 +113,7 @@ console.log('merOrder-->');
          
          // phone: app.globalData.userInfo.mobile,
        
-          cinema: that.data.cinemaList[0],
+          cinema: res[0],
           //type2address: app.globalData.type2address,
           //merOrder: app.globalData.merOrder
         });
@@ -121,7 +121,14 @@ console.log('merOrder-->');
        
       }
     });
-   
+    if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone != null || app.globalData.userInfo.mobilePhone != "")) {
+      util.getMemberCardByPhone(app.globalData.cinemacode, app.globalData.userInfo.mobilePhone,function(res){
+          
+            app.globalData.userInfo.dxInsiderInfo=res;
+         
+      });
+    }
+    
     // var newList = [];
     // var totalPrice = 0;
    
@@ -183,7 +190,9 @@ console.log('merOrder-->');
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+      this.setData({
+        userInfo: app.globalData.userInfo
+      })
   },
 
   /**
@@ -327,10 +336,8 @@ console.log('merOrder-->');
     if(that.data.canClick != 1){  
       return;
     }
-    that.setData({
-      canClick: 0
-    })//防止多次点击
-    if(that.data.phone.length != 11){
+
+    if (app.globalData.userInfo.mobilePhone.length != 11){
       wx.showToast({
         title: '手机格式不正确',
         icon: 'loading',
@@ -340,6 +347,9 @@ console.log('merOrder-->');
       })
       return;
     }
+    that.setData({
+      canClick: 0
+    })//防止多次点击
     var json = [];
     for (var i = 0; i < that.data.goodsList.length; i++) {
       var row = {};
@@ -638,13 +648,13 @@ console.log('merOrder-->');
     })
   },
   showM: function () {
-    if (app.globalData.userInfo.dxInsiderInfo == null) {
+    if (app.globalData.userInfo.dxInsiderInfo == null || app.globalData.userInfo.dxInsiderInfo.memberPhoneCount==0) {
       wx.showModal({
         title: '支付失败',
         content: "您还没有会员卡，是否前去绑定/开卡？",
         success: function (res) {
           if (res.confirm) {
-            wx.redirectTo({
+            wx.navigateTo({
               url: '../mycard/mycard',
             })
           }

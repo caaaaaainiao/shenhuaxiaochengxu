@@ -8,6 +8,16 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+const formatTime2 = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
 const formatTimeDay = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -145,7 +155,7 @@ const updategoodList = (updategood) => {
     data: goodsList,
   });
 }
-const getgoodList =(UrlMap,callback) => {
+const getgoodList = (goodsUrl,callback) => {
    
   let key ='goodList';
   if (wx.getStorageSync(key) != "") {
@@ -165,7 +175,7 @@ const getgoodList =(UrlMap,callback) => {
     success: function (res) {
         
       wx.request({
-        url: UrlMap.goodsUrl,
+        url: goodsUrl,
 
         method: "get",
         header: {
@@ -329,9 +339,9 @@ const updateCart= cartlist=>{
   return cartObj;
 }
 //优惠券列表
-const getconponsList = (UrlMap,callback)=>{
+const getconponsList = (conponsUrl,callback)=>{
   wx.request({
-    url: UrlMap.conponsUrl,
+    url: conponsUrl,
 
     method: "get",
     header: {
@@ -444,8 +454,52 @@ const getCity=(callback)=>{
     },
   });
 }
+const getMemberCardByPhone = (cinemaNo, mobilePhone, callback) => {
+  let key = 'CardInfo';
+  if (wx.getStorageSync(key) != "") {
+    wx.getStorage({
+      key: key,
+      success: function (res) {
+        callback && callback(res.data);
+        return res.data;
+      }
+    })
+    return;
+  }
+
+  let cardList=[];
+  let apiuser = getAPIUserData(null);
+ 
+  var data = {
+    UserName: apiuser.UserName,
+    Password: apiuser.Password,
+    CinemaCode: cinemaNo,
+    MobilePhone: mobilePhone
+  }
+  wx.request({
+    url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByPhone' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone ,
+    method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success: function (res) {
+      console.log(res)
+      wx.hideLoading();
+      var cardInfo = res.data.data;
+
+      wx.setStorageSync(key, cardInfo)
+      callback && callback(cardInfo);
+      return cardInfo;
+      // console.log(movieList)
+      // that.format();
+      // wx.showTabBar();
+    }
+  })
+
+}
 module.exports = {
   formatTime: formatTime,
+  formatTime2: formatTime2,
   formatTimeDay: formatTimeDay,//day
   formatTimeGMT: formatTimeGMT,
   sortDistance: sortDistance,//计算出最近的影院显示在定位处
@@ -463,4 +517,5 @@ module.exports = {
   getAPIUserData: getAPIUserData,//获取固定的平台用户名密码
   getQueryFilmSession: getQueryFilmSession, //获取首页影院排期列表
   getCity: getCity,//获取影院信息列表 通用
+  getMemberCardByPhone: getMemberCardByPhone,//根据手机号获取会员卡列表
 }

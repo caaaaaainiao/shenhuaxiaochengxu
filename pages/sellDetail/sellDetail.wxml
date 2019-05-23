@@ -63,9 +63,35 @@
       <text>{{totalPrice}}</text>
       <view class='totalnum' wx:if="{{totalNum>0}}">{{totalNum}}</view>
     </view>
-    <view class='bottom_right' bindtap='picked'>
+    <view class='bottom_right' wx:if="{{fullCar}}" bindtap='picked'>
       <text>选好了</text>
       <image src='/images/next.png'></image>
+    </view>
+    <view class='bottom_right' hidden="{{fullCar}}" bindtap='createGoodsOrder'>
+      <text>确定购买</text>
+      <image src='/images/next.png'></image>
+    </view>
+  </view>
+
+   <view class='black2' wx:if='{{showReady}}'>
+    <view class='ready'>
+      <image src='/images/styleicon.png' class='styleicon'></image>
+      <image src='/images/close5.png' class='close5' bindtap='chooseClose'></image>
+      <view class='name'>{{cinema.cinemaName}}</view>
+      <view class='address'>{{cinema.address}}</view>
+      <view class='style {{isReady == 0?"onchoose":""}}' bindtap='chooseReadyType' data-type='0'>
+        <image src='/images/choose5.png' class='choose5' wx:if="{{isReady == 0}}"></image>
+        <image src='/images/unchoose5.png' class='choose5' wx:else></image>
+        <view class='texttop'>我在店里，马上取餐</view>
+        <view class='textbottom'>(现在支付，3分钟内可取)</view>
+      </view>
+      <view class='style {{isReady == 1?"onchoose":""}}' bindtap='chooseReadyType' data-type='1'>
+        <image src='/images/choose5.png' class='choose5' wx:if="{{isReady == 1}}"></image>
+        <image src='/images/unchoose5.png' class='choose5' wx:else></image>
+        <view class='texttop'>到店后取餐</view>
+        <view class='textbottom'>(支付成功稍后凭取票码到前台取餐)</view>
+      </view>
+      <view class='chooseSure' bindtap='sureChoose'>确 定</view>
     </view>
   </view>
 </view>
