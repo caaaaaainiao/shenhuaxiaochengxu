@@ -21,6 +21,7 @@
   </view>
   <scroll-view scroll-x class='dates'>
     <block wx:for="{{moviesList[swiperIndex].session}}" wx:for-item="date" wx:key="date">
+    <view>{{date.startDate}} </view>
       <!-- <view class='date select'>10-28 今天</view>
       <view class='date'>10-29 明天</view>
       <view class='date'>10-30 后天</view> -->

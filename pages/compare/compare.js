@@ -204,7 +204,11 @@ Page({
       console.log(app.globalData.cinemacode)
       var that = this;
       util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
-        console.log(res)
+        // console.log(res)
+        that.setData({
+          moviesList: res
+        })
+        console.log(that.data.moviesList)
       });
     }
     that.setData({

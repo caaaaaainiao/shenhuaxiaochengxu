@@ -583,7 +583,7 @@ Page({
             "Content-Type": "application/json"
           },
           success: function(e) {
-            console.log(e)
+            // console.log(e)
             // console.log("登录")
             //个人信息
             that.setData({
@@ -603,7 +603,7 @@ Page({
                   "userInfo": e.data.data
                 },
                 success: function() {
-                  console.log(e)
+                  // console.log(e)
                   app.globalData.userInfo = e.data.data;
                   that.setData({
                     userInfo: e.data.data
