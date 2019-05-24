@@ -34,6 +34,16 @@ Page({
     _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
   },
   btnShowExchange2: (e) => {
+    // console.log(e)
+    // var data = {
+    //   Username: "MiniProgram",
+    //   Password: "6BF477EBCC446F54E6512AFC0E976C41",
+    //   CinemaCode: 33097601,
+    //   CardNo: '',
+    // };
+    // wx.request({
+    //   url: 'https://xc.80piao.com:8443/Api/Member/CardCharge',
+    // })
     _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
   },
   btnChoose: (e) => {
