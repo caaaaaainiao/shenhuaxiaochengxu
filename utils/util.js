@@ -8,6 +8,16 @@ const formatTime = date => {
 
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
+const formatTime2 = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+
+  return [year, month, day].map(formatNumber).join('-') + ' ' + [hour, minute, second].map(formatNumber).join(':')
+}
 const formatTimeDay = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -145,7 +155,7 @@ const updategoodList = (updategood) => {
     data: goodsList,
   });
 }
-const getgoodList =(UrlMap,callback) => {
+const getgoodList = (goodsUrl,callback) => {
    
   let key ='goodList';
   if (wx.getStorageSync(key) != "") {
@@ -165,7 +175,7 @@ const getgoodList =(UrlMap,callback) => {
     success: function (res) {
         
       wx.request({
-        url: UrlMap.goodsUrl,
+        url: goodsUrl,
 
         method: "get",
         header: {
@@ -329,9 +339,9 @@ const updateCart= cartlist=>{
   return cartObj;
 }
 //优惠券列表
-const getconponsList = (UrlMap,callback)=>{
+const getconponsList = (conponsUrl,callback)=>{
   wx.request({
-    url: UrlMap.conponsUrl,
+    url: conponsUrl,
 
     method: "get",
     header: {
@@ -362,17 +372,19 @@ const getAPIUserData=callback=>{
   return obj;
 }
 const getQueryFilmSession = (cinemaNo,callback)=>{
+  var that = this
+  // console.log(cinemaNo)
   let key ='movieList';
-  if (wx.getStorageSync(key) != "") {
-    wx.getStorage({
-      key: key,
-      success: function (res) {
-        callback && callback(res.data);
-        return res.data;
-      }
-      })
-      return;
-  }
+  // if (wx.getStorageSync(key) != "") {
+  //   wx.getStorage({
+  //     key: key,
+  //     success: function (res) {
+  //       callback && callback(res.data);
+  //       return res.data;
+  //     }
+  //     })
+  //     return;
+  // }
 
   let apiuser = getAPIUserData(null);
   var nowtime = new Date();
@@ -394,20 +406,25 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
     },
     success: function (res) {
       console.log(res)
-      var timestamp = new Date().getTime() + 2592000000
-      for (var i = 0; i < res.data.data.film.length; i++) {
-        var NowDate = res.data.data.film[i].publishDate
-        if (NowDate != null) {
-          NowDate = NowDate.substring(0, 19);
-          NowDate = NowDate.replace(/-/g, '/');
-          var timestamp1 = new Date(NowDate).getTime();
-          res.data.data.film[i].time = timestamp1
+      // if (res.data.code == 200){
+        var timestamp = new Date().getTime() + 2592000000
+        for (var i = 0; i < res.data.data.film.length; i++) {
+          var NowDate = res.data.data.film[i].publishDate
+          if (NowDate != null) {
+            NowDate = NowDate.substring(0, 19);
+            NowDate = NowDate.replace(/-/g, '/');
+            var timestamp1 = new Date(NowDate).getTime();
+            res.data.data.film[i].time = timestamp1
+          }
         }
-      }
+      // }
+      
       wx.hideLoading();
       var movieList = res.data.data.film;
        // console.log(movieList)
-      
+      // this.setData({
+      //   movieList: res.data.data.film
+      // })
       wx.setStorageSync(key, movieList)
       callback && callback(movieList);
       return movieList;
@@ -455,8 +472,52 @@ const getCity=(callback)=>{
     },
   });
 }
+const getMemberCardByPhone = (cinemaNo, mobilePhone, callback) => {
+  let key = 'CardInfo';
+  if (wx.getStorageSync(key) != "") {
+    wx.getStorage({
+      key: key,
+      success: function (res) {
+        callback && callback(res.data);
+        return res.data;
+      }
+    })
+    return;
+  }
+
+  let cardList=[];
+  let apiuser = getAPIUserData(null);
+ 
+  var data = {
+    UserName: apiuser.UserName,
+    Password: apiuser.Password,
+    CinemaCode: cinemaNo,
+    MobilePhone: mobilePhone
+  }
+  wx.request({
+    url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByPhone' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone ,
+    method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success: function (res) {
+      console.log(res)
+      wx.hideLoading();
+      var cardInfo = res.data.data;
+
+      wx.setStorageSync(key, cardInfo)
+      callback && callback(cardInfo);
+      return cardInfo;
+      // console.log(movieList)
+      // that.format();
+      // wx.showTabBar();
+    }
+  })
+
+}
 module.exports = {
   formatTime: formatTime,
+  formatTime2: formatTime2,
   formatTimeDay: formatTimeDay,//day
   formatTimeGMT: formatTimeGMT,
   sortDistance: sortDistance,//计算出最近的影院显示在定位处
@@ -474,4 +535,5 @@ module.exports = {
   getAPIUserData: getAPIUserData,//获取固定的平台用户名密码
   getQueryFilmSession: getQueryFilmSession, //获取首页影院排期列表
   getCity: getCity,//获取影院信息列表 通用
+  getMemberCardByPhone: getMemberCardByPhone,//根据手机号获取会员卡列表
 }

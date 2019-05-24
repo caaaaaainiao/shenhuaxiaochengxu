@@ -4,22 +4,23 @@
   <image src='/images/comparebg.jpg' class='bannerbg'></image>
   <view class='location'>
     <image src='/images/location.png'></image>
-    <text>{{cinemaList[cinemaNo].cinemaName}}</text>
+    <text>{{moviearea}}</text>
   </view>
   <swiper display-multiple-items="0.85" previous-margin="285rpx" next-margin="285rpx" current="{{swiperIndex}}" class='swiper-block' bindchange="swiperChange">
     <block wx:for="{{moviesList}}" wx:index="{{index}}" wx:key="movie" wx:for-item="movie">
       <swiper-item class="swiper-item">
-        <image src='{{movie.picture}}' class="slide-image {{swiperIndex == index ? 'active' : ''}}" bindtap='toDetail' data-index='{{index}}'></image>
+        <image src='{{movie.image}}' class="slide-image {{swiperIndex == index ? 'active' : ''}}" bindtap='toDetail' data-index='{{index}}'></image>
       </swiper-item>
     </block>
   </swiper>
   <view class='check'></view>
   <view class='movieDetail'>
-    <view class='movieName'>{{moviesList[swiperIndex].movieName}}</view>
-    <view class='movieMessage'>{{moviesList[swiperIndex].playTime}}分钟 | {{moviesList[swiperIndex].movieType}} | <block wx:for="{{moviesList[swiperIndex].dxActors}}" wx:for-item="actor" wx:key="actor"><text>{{actor.name}}</text></block></view>
+    <view class='movieName'>{{moviesList[swiperIndex].name}}</view>
+    <view class='movieMessage'>{{moviesList[swiperIndex].duration}}分钟 | {{moviesList[swiperIndex].movieType}} | {{moviesList[swiperIndex].cast}}
+    </view>
   </view>
   <scroll-view scroll-x class='dates'>
-    <block wx:for="{{screenPlanList}}" wx:for-item="date" wx:key="date">
+    <block wx:for="{{moviesList[swiperIndex].session}}" wx:for-item="date" wx:key="date">
       <!-- <view class='date select'>10-28 今天</view>
       <view class='date'>10-29 明天</view>
       <view class='date'>10-30 后天</view> -->
