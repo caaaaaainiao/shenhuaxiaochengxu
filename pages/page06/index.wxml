@@ -43,13 +43,13 @@
 		<view class="item">
 			<image src="/images/icon-person.png" class="icon" mode="widthFix"></image>
 			<picker mode="date" value="{{date999}}" start="" end="2018-09-01" bindchange="bindDateChange999">
-				<input class="input" value="{{date999}}" bindinput="" adjust-position="true" bindblur="btnBlurInput" placeholder="选择生日" readonly placeholder-class="phColor"/>
+				<input class="input"  value="{{date999}}" bindinput="" adjust-position="true" bindblur="btnBlurInput" placeholder="选择生日" disabled='disabled' placeholder-class="phColor"/>
 			</picker>
 		</view>
 		<view class="item">
 			<image src="/images/icon-sex.png" class="icon" mode="widthFix"></image>
 			<picker bindchange="bindPickerChange002" value="{{index002}}" range="{{array002}}">
-				<input class="input" value="{{array002[index002]}}" bindinput="" adjust-position="true" bindblur="btnBlurInput" placeholder="选择性别" readonly placeholder-class="phColor"/>
+				<input class="input" value="{{array002[index002]}}" bindinput="" adjust-position="true" bindblur="btnBlurInput" placeholder="选择性别" disabled='disabled' placeholder-class="phColor"/>
 			</picker>
 		</view>
 	</view>

@@ -90,14 +90,6 @@ Page({
     };
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Conpon/QueryUserConpons' + '/' + data.Username + '/' +data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.Status,
-      // data: {
-      //   appUserId: app.globalData.userInfo.id,
-      //   cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-      //   pageNo: pageNo,
-      //   pageSize: that.data.pageSize,
-      //   timeStamp: nowtime,
-      //   mac: sign
-      // },
       method: "Get",
       header: {
         'content-type': 'application/json' // 默认值

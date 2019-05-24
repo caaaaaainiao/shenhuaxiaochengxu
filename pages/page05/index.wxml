@@ -54,7 +54,7 @@
 
 
 <!-- 月卡续费弹窗  -->
-<block wx:if="{{showAlertExchange}}">
+<!-- <block wx:if="{{showAlertExchange}}">
 	<view class="alert alert-exchange">
 		<view class="over-close" bindtap="btnShowExchange"></view>
 		<view class="box-bottom">
@@ -72,7 +72,7 @@
 			</view>
 		</view>
 	</view>
-</block>
+</block> -->
 
 <!-- 会员卡续费弹窗   -->
 <block wx:if="{{showAlertExchange2}}">
