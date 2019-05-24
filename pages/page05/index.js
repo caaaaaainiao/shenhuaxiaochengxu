@@ -101,26 +101,26 @@ Page({
         var n = 0;
         var username = '';
         var score = '';
-        // var memberCard = res.data.data.memberPhones
-        // for (var i = 0; i < memberCard.length; i++) {
-        //   var num = "memberCard[" + i + "].num";
-        //   var levelName = "memberCard[" + i + "].levelName";
-        //   var balance = "memberCard[" + i + "].balance";
-        //   allScore.push(memberCard[i].score)
-        //   that.setData({
-        //     [num]: memberCard[i].cardNo,
-        //     [levelName]: memberCard[i].levelName,
-        //     [balance]: memberCard[i].balance,
-        //     username: memberCard[0].userName,       
-        //   })
-        // }
+        var memberCard = res.data.data.memberCard
+        for (var i = 0; i < memberCard.length; i++) {
+          var num = "memberCard[" + i + "].num";
+          var levelName = "memberCard[" + i + "].levelName";
+          var balance = "memberCard[" + i + "].balance";
+          allScore.push(memberCard[i].score)
+          that.setData({
+            [num]: memberCard[i].cardNo,
+            [levelName]: memberCard[i].levelName,
+            [balance]: memberCard[i].balance,
+            username: memberCard[0].userName,       
+          })
+        }
         // 计算总积分
-        // for (let i = 0; i < allScore.length; i++) {
-        //   n += allScore[i];
-        // }
-        // that.setData({
-        //   score: n
-        // })
+        for (let i = 0; i < allScore.length; i++) {
+          n += allScore[i];
+        }
+        that.setData({
+          score: n
+        })
       }
     })
     _this = this;

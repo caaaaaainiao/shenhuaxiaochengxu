@@ -9,8 +9,8 @@ Page({
   data: {
     isAdd:false,
     result: null,
-    pageNo: 1,
-    pageSize: 10,
+    // pageNo: 1,
+    // pageSize: 10,
     couponCount:0,
     couponNum:""
   },
@@ -81,33 +81,33 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userTickets', nowtime);
     var pageNo = that.data.pageNo;
+    var data = {
+      Username: 'MiniProgram',
+      Password: '6BF477EBCC446F54E6512AFC0E976C41',
+      CinemaCode: '33097601',
+      OpenID: 'o9gGQ4nuoKAZq1Xjp_N3iu3bmpZs',
+      Status: 'All'
+    };
     wx.request({
-      url: app.globalData.url + '/api/ticket/userTickets',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        pageNo: pageNo,
-        pageSize: that.data.pageSize,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
+      url: 'https://xc.80piao.com:8443/Api/Conpon/QueryUserConpons' + '/' + data.Username + '/' +data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.Status,
+      // data: {
+      //   appUserId: app.globalData.userInfo.id,
+      //   cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+      //   pageNo: pageNo,
+      //   pageSize: that.data.pageSize,
+      //   timeStamp: nowtime,
+      //   mac: sign
+      // },
+      method: "Get",
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        
-        // that.data.result = res.data.data.result;
         var result = that.addJson(that.data.result, res.data.data);
         console.log(result)
-        for (var i = 0; i < result.length; i++) {
-          result[i].endTime2 = result[i].endTime.substring(0, 10)
-        }
-        pageNo++;
         that.setData({
-          result: result,
-          pageNo: pageNo,
-          couponCount:result.length
+          result: result.conpons,
+          couponCount: result.conponCount
         })
       }
     })
