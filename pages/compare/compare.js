@@ -1,5 +1,6 @@
 // pages/compare/compare.js
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -118,10 +119,6 @@ Page({
       movieId: that.data.moviesList[e.detail.current].id,
       select: 0
     })
-    // wx.showLoading({
-    //   title: '加载中',
-    //   mask: true
-    // })
     setTimeout(function() {
       wx.hideLoading();
     }, 500)
@@ -203,12 +200,12 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('screening', nowtime);
-    var data = {
-      Username: 'MiniProgram',
-      Password: '6BF477EBCC446F54E6512AFC0E976C41',
-      CinemaCode: '33097601',
-      StartDate: '2019-05-01',
-      EndDate: '2019-05-12',
+    if (app.globalData.cinemacode) {
+      console.log(app.globalData.cinemacode)
+      var that = this;
+      util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
+        console.log(res)
+      });
     }
     that.setData({
       isLoading:true
@@ -216,32 +213,6 @@ Page({
     // wx.showLoading({
     //   title: '加载中',
     // })
-    wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Session/QuerySessions' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.StartDate + '/' + data.EndDate,
-      method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res)
-      }
-
-    })
-    // wx.request({
-    //   url: app.globalData.url + '/api/shMovie/screening',
-    //   data: {
-    //     cinemaCode: that.data.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     movieId: that.data.movieId,
-    //     appUserId:app.globalData.userInfo.id,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function(res) {
-    //     // console.log(res)
 
     //    that.manage(res.data.data.screenPlanList);
     //    wx.hideLoading();
