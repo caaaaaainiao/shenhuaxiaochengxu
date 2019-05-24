@@ -14,6 +14,7 @@ Page({
     isFirst: false,
     cinemaList: null, //影院列表
     isChoose: false, //选择影院
+    timestamp: new Date().getTime(),
     nowCity: [{
       name: "",
       show: ""
@@ -33,7 +34,11 @@ Page({
   //授权信息
   onLoad: function(options) {
     var that = this
-
+    var timestamp = new Date().getTime()
+    that.setData({
+      timestamp: new Date().getTime()
+    })
+    console.log(timestamp)
     var accreditInfo = wx.getStorage({
       key: 'accredit',
       success: function(res) { //key所对应的内容
@@ -120,9 +125,11 @@ Page({
     // console.log(app.globalData.cinemacode)
     that.getMovie(app.globalData.cinemacode)
     var recent = cinemas.sort(util.sortDistance("distance"))[0].cinemaName;
+    
     that.setData({
       moviearea: recent
     })
+      app.globalData.moviearea = recent
     wx.setStorage({
       key: 'city',
       data: cinemas,
@@ -137,6 +144,7 @@ Page({
         that.setData({
           movieList: res
         })
+        console.log(that.data.movieList)
       });
     }
    
@@ -499,10 +507,12 @@ Page({
     // that.getMovie(app.globalData.cinemacode)
     console.log(app.globalData.cinemacode)
     util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
-      console.log(res)
+    
+      // console.log(res)
       that.setData({
         movieList: res
       })
+      // that.onShow()
     });
   },
   startChoose: function() {
@@ -680,9 +690,11 @@ return;
     // console.log(app.globalData.userInfo)
     if (app.globalData.movieList != null) {
       console.log(0)
+      
       this.setData({
         moviearea: app.globalData.cinemaList[app.globalData.cinemaNo],
       })
+     
     }
   },
   onShareAppMessage: function() {

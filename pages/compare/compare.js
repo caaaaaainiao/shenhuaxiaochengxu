@@ -16,7 +16,7 @@ Page({
     orderNum:0,
     showTask:false,
     showTip:0,
-    cinemaList:null,
+    moviearea:null,
     isLoading:true
   },
 
@@ -32,15 +32,39 @@ Page({
    */
   onReady: function() {
     var that = this;
-    // console.log(app.globalData)
-    that.setData({
-      movieId: app.globalData.movieId,
-      cinemaList: app.globalData.cinemaList,
-      cinemaNo: app.globalData.cinemaNo,
-      moviesList: app.globalData.movieList,
+    
+    this.setData({
       swiperIndex: app.globalData.movieIndex
     })
+    this.swiperIndex = this.data.swiperIndex
+    console.log(this.swiperIndex)
+    // console.log(app.globalData)
+    this.moviesList = app.globalData.moviearea
+    console.log(app.globalData.moviearea)
+    that.setData({
+      movieId: app.globalData.movieId,
+      moviearea: app.globalData.moviearea,
+      cinemaNo: app.globalData.cinemaNo,
+      // moviesList: app.globalData.movieList,
+      swiperIndex: app.globalData.movieIndex
+    })
+    that.getStorageMovieList()
     that.ask();
+  },
+  getStorageMovieList(){
+    var that = this
+    wx.getStorage({
+      key: 'movieList',
+      success: function (res) {
+       
+        that.setData({
+          moviesList: res.data
+          })
+        console.log(that.data.moviesList) 
+      },
+      fail: function (res) { },
+      complete: function (res) { },
+    })
   },
 
   /**
@@ -94,10 +118,10 @@ Page({
       movieId: that.data.moviesList[e.detail.current].id,
       select: 0
     })
-    wx.showLoading({
-      title: '加载中',
-      mask: true
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    //   mask: true
+    // })
     setTimeout(function() {
       wx.hideLoading();
     }, 500)
