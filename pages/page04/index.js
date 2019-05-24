@@ -32,9 +32,8 @@ Page({
     _this.setData({ isShow: !_this.data.isShow })
   },
   btnChoose: (e) => {
-    console.log(e._relatedInfo.anchorTargetText);
     _this.setData({
-      inputNum: e._relatedInfo.anchorTargetText,
+      inputNum: e.target.dataset.cardno,
       isShow: !_this.data.isShow
     })
   },
