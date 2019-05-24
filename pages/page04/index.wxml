@@ -31,7 +31,7 @@
         <view class="title" style="text-align: center;">选择会员卡号</view>
         <view class="choose">
           <block wx:for="{{memberPhones}}" wx:key="item" wx:for-item="item">
-            <button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" hover-class="none">
+            <button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{item.cardNo}}" hover-class="none">
               {{item.cardNo}}
               <!-- <view class="tips">{{item.levelName}}</view> -->
             </button>
