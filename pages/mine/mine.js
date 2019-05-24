@@ -132,7 +132,7 @@ Page({
   },
   toMycard: function() {
     wx.navigateTo({
-      url: '../mycard/mycard',
+      url: '../page04/index',
     })
   },
   ask: function() {

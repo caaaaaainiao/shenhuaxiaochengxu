@@ -5,13 +5,13 @@
   <view class='header'>
     <image src='/images/cardbg.png' class='card'></image>
     <view class='cardnumber'>No.
-      <text>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.cardNumber:"- - -"}}</text>
+      <text>{{userInfo.dxInsiderInfo.memberPhoneCount?userInfo.dxInsiderInfo.cardNumber:"- - -"}}</text>
     </view>
     <view class='balance'>余额：
-      <text>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.balance:"- - -"}}</text>
+      <text>{{userInfo.dxInsiderInfo.memberPhoneCount?userInfo.dxInsiderInfo.balance:"- - -"}}</text>
     </view>
   </view>
-  <view wx:if="{{userInfo.dxInsiderInfo!=null}}">
+  <view wx:if="{{userInfo.dxInsiderInfo.memberPhoneCount}}">
     <view class='control'>
       <view class='record' bindtap='record'>充值记录 <image src='/images/in.png'></image></view>
       <view class='style {{type == 1?"chosed":""}}' bindtap='changeTap' data-type='1'>充值</view>
