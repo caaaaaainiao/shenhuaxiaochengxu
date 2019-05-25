@@ -144,7 +144,8 @@ Page({
         that.setData({
           movieList: res
         })
-        console.log(that.data.movieList)
+        app.globalData.movieList = that.data.movieList
+        // console.log(that.data.movieList)
       });
     }
    
