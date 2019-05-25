@@ -9,7 +9,7 @@ Page({
     array999: ['选择卡类别', '选择卡类别2', '选择卡类别3', '选择卡类别4', '选择卡类别5'],
     index999: 0,
     inputNum: '',
-    inputPass: ''
+    inputPass: '',
   },
   bindPickerChange999: function (e) {
     console.log('picker发送选择改变，携带值为', e.detail.value)
@@ -17,6 +17,7 @@ Page({
       index999: e.detail.value
     })
   },
+  // 获取手机号 密码
   getNum: function (e) {
     this.setData({
       inputNum: e.detail.value
@@ -31,19 +32,52 @@ Page({
     _this.setData({ isShow: !_this.data.isShow })
   },
   btnChoose: (e) => {
-    console.log(e._relatedInfo.anchorRelatedText);
     _this.setData({
-      inputNum: e._relatedInfo.anchorRelatedText,
+      inputNum: e.target.dataset.cardno,
       isShow: !_this.data.isShow
     })
   },
-  btnTabSwitch: (e) => {
-    console.log(e);
+  manage: function (e) {
+    var id = e.currentTarget.dataset.id;
+    console.log(id);
+    wx.navigateTo({
+      url: '../page06/index?id=' + id,
+    })
+  },
+  // 选择会员卡类型注册
+  btnTabSwitch: function(e){
+    var that = this;
+    // console.log(e);
     let idx = e.currentTarget.dataset.id;
     let temp = _this.data.tabContent;
     temp.forEach((item, index) => {
       if (index == idx) {
-        temp[index] = 1
+        var data = {
+          Username: 'MiniProgram',
+          Password: '6BF477EBCC446F54E6512AFC0E976C41',
+          CinemaCode: '33097601'
+        };
+        temp[index] = 1;
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevel' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode,
+          method: 'GET',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            // console.log(res.data.data)
+            var memberCardLevel = [];
+            memberCardLevel = res.data.data.level;
+            for (var i = 0; i < memberCardLevel.length; i ++) {
+              var levelName = "memberCardLevel[" + i + "].levelName";
+              var levelCode = "memberCardLevel[" + i + "].levelCode";
+              that.setData({
+                [levelName]: memberCardLevel[i].levelName,
+                [levelCode]: memberCardLevel[i].levelCode,
+              })
+            }
+          }
+        })
       } else {
         temp[index] = 0
       }
@@ -61,6 +95,7 @@ Page({
   },
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
+  //  绑定会员卡
   querenbangding: function () {
     var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
     var that = this;
@@ -135,22 +170,47 @@ Page({
   },
   // 选择会员卡类型注册
   zhuce: function (e) {
-    // console.log(e)
-    // let idx = e.currentTarget.dataset.id;
-    // let temp = _this.data.tabContent;
-    // temp.forEach((item, index) => {
-    //   if (index == idx) {
-    //     temp[index] = 1
-    //   } else {
-    //     temp[index] = 0
-    //   }
-    // })
-    // _this.setData({
-    //   tabContent: temp
-    // })
-    wx.navigateTo({
-      url: '../page06/index'
+    var that = this;
+    let idx = e.currentTarget.dataset.id;
+    let temp = _this.data.tabContent;
+    temp.forEach((item, index) => {
+      if (index == idx) {
+        var data = {
+          Username: 'MiniProgram',
+          Password: '6BF477EBCC446F54E6512AFC0E976C41',
+          CinemaCode: '33097601'
+        };
+        temp[index] = 1;
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevel' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode,
+          method: 'GET',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            // console.log(res.data.data)
+            var memberCardLevel = [];
+            memberCardLevel = res.data.data.level;
+            for (var i = 0; i < memberCardLevel.length; i++) {
+              var levelName = "memberCardLevel[" + i + "].levelName";
+              var levelCode = "memberCardLevel[" + i + "].levelCode";
+              that.setData({
+                [levelName]: memberCardLevel[i].levelName,
+                [levelCode]: memberCardLevel[i].levelCode,
+              })
+            }
+          }
+        })
+      } else {
+        temp[index] = 0
+      }
     })
+    _this.setData({
+      tabContent: temp
+    })
+    // wx.navigateTo({
+    //   url: '../page06/index'
+    // })
   },
   // 生命周期函数--监听页面显示
   onShow: function () { },

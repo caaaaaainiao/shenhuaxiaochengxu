@@ -34,6 +34,16 @@ Page({
     _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
   },
   btnShowExchange2: (e) => {
+    // console.log(e)
+    // var data = {
+    //   Username: "MiniProgram",
+    //   Password: "6BF477EBCC446F54E6512AFC0E976C41",
+    //   CinemaCode: 33097601,
+    //   CardNo: '',
+    // };
+    // wx.request({
+    //   url: 'https://xc.80piao.com:8443/Api/Member/CardCharge',
+    // })
     _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
   },
   btnChoose: (e) => {
@@ -101,26 +111,26 @@ Page({
         var n = 0;
         var username = '';
         var score = '';
-        // var memberCard = res.data.data.memberPhones
-        // for (var i = 0; i < memberCard.length; i++) {
-        //   var num = "memberCard[" + i + "].num";
-        //   var levelName = "memberCard[" + i + "].levelName";
-        //   var balance = "memberCard[" + i + "].balance";
-        //   allScore.push(memberCard[i].score)
-        //   that.setData({
-        //     [num]: memberCard[i].cardNo,
-        //     [levelName]: memberCard[i].levelName,
-        //     [balance]: memberCard[i].balance,
-        //     username: memberCard[0].userName,       
-        //   })
-        // }
+        var memberCard = res.data.data.memberCard
+        for (var i = 0; i < memberCard.length; i++) {
+          var num = "memberCard[" + i + "].num";
+          var levelName = "memberCard[" + i + "].levelName";
+          var balance = "memberCard[" + i + "].balance";
+          allScore.push(memberCard[i].score)
+          that.setData({
+            [num]: memberCard[i].cardNo,
+            [levelName]: memberCard[i].levelName,
+            [balance]: memberCard[i].balance,
+            username: memberCard[0].userName,       
+          })
+        }
         // 计算总积分
-        // for (let i = 0; i < allScore.length; i++) {
-        //   n += allScore[i];
-        // }
-        // that.setData({
-        //   score: n
-        // })
+        for (let i = 0; i < allScore.length; i++) {
+          n += allScore[i];
+        }
+        that.setData({
+          score: n
+        })
       }
     })
     _this = this;

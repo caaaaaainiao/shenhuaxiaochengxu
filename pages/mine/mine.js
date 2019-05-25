@@ -18,16 +18,23 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    this.setData({
-      userInfo: app.globalData.userInfo
+    var that = this;
+    wx.getStorage({
+      key: 'accredit',
+      success: function(res) {
+        // console.log(res.data.userInfo)
+        that.setData({
+          userInfo: res.data.userInfo
+        })
+      },
     })
-    if (this.data.userInfo.mobile == null || this.data.userInfo.mobile == ""){
-      wx.navigateTo({
-        url: '../login/login',
-      })
-    }
-    this.getBanner();
-    this.getBanner2();
+    // if (this.data.userInfo.mobile == null || this.data.userInfo.mobile == ""){
+    //   wx.navigateTo({
+    //     url: '../login/login',
+    //   })
+    // }
+    // this.getBanner();
+    // this.getBanner2();
   },
 
   /**
@@ -41,10 +48,19 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    this.setData({
-      userInfo: app.globalData.userInfo
+    var that = this;
+    wx.getStorage({
+      key: 'accredit',
+      success: function (res) {
+        that.setData({
+          userInfo: res.data.userInfo
+        })
+      },
     })
-    this.ask();
+    // this.setData({
+    //   userInfo: app.globalData.userInfo
+    // })
+    // this.ask();
   },
 
   /**
@@ -102,7 +118,8 @@ Page({
     //   duration: 2000
     // })
     wx.navigateTo({
-      url: '../mycoupon/mycoupon?number=' + that.data.count.couponCount,
+      url: '../mycoupon/mycoupon',
+      // url: '../mycoupon/mycoupon?number=' + that.data.count.couponCount,
     })
   },
   myPrize: function() {

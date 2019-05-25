@@ -20,7 +20,9 @@
   <view class='content'>
     <view class='userimage'>
       <image src='{{userInfo.headlmgUrl}}' mode='aspectFill'></image>
-      <view wx:if="{{onLoad}}" bindtouchstart='tologin' class='noUser'> <image src='/images/imgurl.png' class='moren' wx:if="{{userInfo.mobilePhone==null||userInfo.mobilePhone==''}}"></image></view>
+      <!-- <view wx:if="{{onLoad}}" bindtouchstart='tologin' class='noUser'> <image src='/images/imgurl.png' class='moren' wx:if="{{userInfo.mobilePhone==null||userInfo.mobilePhone==''}}">
+      </image>
+      </view> -->
     </view>
     <view class='bottom'>
       <view class='messages'>
@@ -76,8 +78,8 @@
               </block>
             
               </view>
-              <image class='check' src='/images/buy_btn.png' catchtap='buy' data-id="{{movie.code}}" data-index="{{index}}" wx:if="{{movie.status == '1'}}"></image>
-              <image class='check' src='/images/buy2_btn.png' catchtap='buy' data-id="{{movie.code}}" data-index="{{index}}" wx:elif="{{movie.status == '0'}}"></image>
+              <image class='check' src='/images/buy_btn.png' catchtap='buy' data-id="{{movie.code}}" data-index="{{index}}" wx:if="{{movie.time < timestamp}}"></image>
+              <image class='check' src='/images/buy2_btn.png' catchtap='buy' data-id="{{movie.code}}" data-index="{{index}}" wx:elif="{{movie.time > timestamp}}"></image>
             </view>
           </block>
         </scroll-view>

@@ -372,17 +372,19 @@ const getAPIUserData=callback=>{
   return obj;
 }
 const getQueryFilmSession = (cinemaNo,callback)=>{
+  var that = this
+  // console.log(cinemaNo)
   let key ='movieList';
-  if (wx.getStorageSync(key) != "") {
-    wx.getStorage({
-      key: key,
-      success: function (res) {
-        callback && callback(res.data);
-        return res.data;
-      }
-      })
-      return;
-  }
+  // if (wx.getStorageSync(key) != "") {
+  //   wx.getStorage({
+  //     key: key,
+  //     success: function (res) {
+  //       callback && callback(res.data);
+  //       return res.data;
+  //     }
+  //     })
+  //     return;
+  // }
 
   let apiuser = getAPIUserData(null);
   var nowtime = new Date();
@@ -403,21 +405,26 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
       'content-type': 'application/json' // 默认值
     },
     success: function (res) {
-      console.log(res)
-      var timestamp = new Date().getTime() + 2592000000
-      for (var i = 0; i < res.data.data.film.length; i++) {
-        var NowDate = res.data.data.film[i].publishDate
-        if (NowDate != null) {
-          NowDate = NowDate.substring(0, 19);
-          NowDate = NowDate.replace(/-/g, '/');
-          var timestamp1 = new Date(NowDate).getTime();
-          res.data.data.film[i].time = timestamp1
+      // console.log(res)
+      // if (res.data.code == 200){
+        var timestamp = new Date().getTime() + 2592000000
+        for (var i = 0; i < res.data.data.film.length; i++) {
+          var NowDate = res.data.data.film[i].publishDate
+          if (NowDate != null) {
+            NowDate = NowDate.substring(0, 19);
+            NowDate = NowDate.replace(/-/g, '/');
+            var timestamp1 = new Date(NowDate).getTime();
+            res.data.data.film[i].time = timestamp1
+          }
         }
-      }
+      // }
+      
       wx.hideLoading();
       var movieList = res.data.data.film;
        // console.log(movieList)
-      
+      // this.setData({
+      //   movieList: res.data.data.film
+      // })
       wx.setStorageSync(key, movieList)
       callback && callback(movieList);
       return movieList;

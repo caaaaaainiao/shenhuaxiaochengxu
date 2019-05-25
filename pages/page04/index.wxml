@@ -31,7 +31,7 @@
         <view class="title" style="text-align: center;">选择会员卡号</view>
         <view class="choose">
           <block wx:for="{{memberPhones}}" wx:key="item" wx:for-item="item">
-            <button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" hover-class="none">
+            <button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{item.cardNo}}" hover-class="none">
               {{item.cardNo}}
               <!-- <view class="tips">{{item.levelName}}</view> -->
             </button>
@@ -45,15 +45,14 @@
   </block>
   <block wx:if="{{tabContent[1]}}">
     <view class="list2">
-      <view class="item">
+      <view class="item" wx:for="{{memberCardLevel}}" wx:for-item="level" wx:key="level" >
         <view class="tt">VIP会员卡
           <text class="red">充200送30</text>
         </view>
-        <navigator class="con" url="">
+        <view class="con"  bindtap='manage' data-Id='{{level.levelCode}}'>
           <view class="l">
-            <!-- <view class="txt1">储值卡</view> -->
             <view class="txt5">
-              <text class="tag">储值卡</text>
+              <text class="tag">{{level.levelName}}</text>
             </view>
             <view class="txt2">
               <view class="p">首充200起</view>
@@ -64,11 +63,11 @@
           </view>
           <view class="r">
             <view class="big">VIP</view>
-            <view class="txt4">立即办理</view>
+            <view class="txt4" bindtap='manage'>立即办理</view>
           </view>
-        </navigator>
+        </view>
       </view>
-      <view class="item style2">
+      <!-- <view class="item style2">
         <view class="tt">悦影卡
           <text class="red">限时特惠</text>
         </view>
@@ -115,7 +114,7 @@
             </view>
           </view>
         </navigator>
-      </view>
+      </view> -->
 
     </view>
   </block>

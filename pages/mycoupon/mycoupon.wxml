@@ -8,21 +8,21 @@
   <view wx:if="{{result.length>0}}">
     <block wx:for="{{result}}" wx:for-item="coupon" wx:key="coupon">
       <view class='coupon {{coupon.status==0?"":"past" }}' catchtap='toDetail' data-id='{{coupon.id}}'>
-        <image src='/images/couponicon.png' class='icon' wx:if="{{coupon.dxPlatTicket.ticketType == 1}}"></image>
-        <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.dxPlatTicket.ticketType == 2}}"></image>
-        <image src='/images/couponicon2.png' class='icon' wx:elif="{{coupon.dxPlatTicket.ticketType == 3}}"></image>
-        <view class='name'>{{coupon.dxPlatTicket.name}}</view>
+        <image src='/images/couponicon.png' class='icon' wx:if="{{coupon.typeCode == 1}}"></image>
+        <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.typeCode == 2}}"></image>
+        <image src='/images/couponicon2.png' class='icon' wx:elif="{{coupon.typeCode == 3}}"></image>
+        <view class='name'>{{coupon.title}}</view>
         <view class='scope'>全店通用</view>
-        <view class='time'>有效期至：{{coupon.endTime2}}</view>
+        <view class='time'>有效期至：{{coupon.validityDate}}</view>
         <view class='right'>
-          <view class='money' wx:if="{{coupon.dxPlatTicket.platformType==2}}">
+          <view class='money' wx:if="{{coupon.typeCode==2}}">
             <text>1</text>张</view>
           <!--平台券-->
-          <view class='money' wx:elif="{{coupon.dxPlatTicket.ticketType == 1}}">
-            <text>{{coupon.dxPlatTicket.amount}}</text>元</view>
-          <view class='money' wx:elif="{{coupon.dxPlatTicket.ticketType == 2}}">
-            <text>{{coupon.dxPlatTicket.amount}}</text>元</view>
-          <view class='money' wx:elif="{{coupon.dxPlatTicket.ticketType == 3}}">
+          <view class='money' wx:elif="{{coupon.typeCode == 1}}">
+            <text>{{coupon.price}}</text>元</view>
+          <view class='money' wx:elif="{{coupon.typeCode == 2}}">
+            <text>{{couponprice}}</text>元</view>
+          <view class='money' wx:elif="{{coupon.typeCode == 3}}">
             <text>1</text>张</view>
           <!--观影券-->
 
