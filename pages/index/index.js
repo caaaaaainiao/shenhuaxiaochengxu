@@ -29,7 +29,20 @@ Page({
     sza: [],
     
   },
+  onPullDownRefresh: function () {
 
+    wx.showNavigationBarLoading() //在标题栏中显示加载
+    console.log(2222)
+    this.onLoad()
+
+    setTimeout(function () {
+
+      wx.hideNavigationBarLoading() //完成停止加载
+
+      wx.stopPullDownRefresh() //停止下拉刷新
+
+    }, 1500);
+  },
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
   onLoad: function(options) {
@@ -139,10 +152,6 @@ Page({
     })
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
-    wx.setStorage({
-      key: 'city',
-      data: cinemas,
-    });
   })
   },
   getMovie: function (cinemaNo) {
@@ -626,9 +635,8 @@ Page({
                   "userInfo": e.data.data
                 },
                 success: function() {
-                  console.log(e)
-                  app.globalData.openId = e.data.data.openID;
                   // console.log(e)
+                  app.globalData.openId = e.data.data.openID;
                   app.globalData.userInfo = e.data.data;
                   that.setData({
                     userInfo: e.data.data

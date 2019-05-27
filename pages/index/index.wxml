@@ -13,7 +13,7 @@
   </view>
 
   <image class='bannerbg' src='/images/bannerbg.jpg'></image>
-  <view class='location' bindtap='startChoose'>
+  <view class='location' bindtap='startChoose' >
     <image src='/images/location.png'></image>
     <text>{{moviearea}}</text>
   </view>

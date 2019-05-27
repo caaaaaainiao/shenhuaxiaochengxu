@@ -39,6 +39,7 @@
     "pages/openCard/openCard"
   ],
   "window": {
+    "backgroundColor": "#E04F2E",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#E04F2E",
     "navigationBarTitleText": "神画电影",
