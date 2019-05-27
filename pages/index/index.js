@@ -90,7 +90,6 @@ Page({
     })
     //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等 监听页面加载
     util.getCity(function (res, userLat, userLng){
-      
     var cinemas = res;
     var recent = []
       if (userLat && userLng){
@@ -129,6 +128,7 @@ Page({
       }
     }
     // console.log(cinemas)
+      app.globalData.areaList = cinemas
     app.globalData.cinemacode = cinemas[0].cinemaCode
     // console.log(app.globalData.cinemacode)
     that.getMovie(app.globalData.cinemacode)
@@ -451,15 +451,13 @@ Page({
       currentCity: crCity
     });
     // 获取存入缓存的数据开始渲染
-    wx.getStorage({
-      key: 'city',
-      success: function(res) {
         var show = [];
         // console.log(this.cinemaList)
+        // console.log(app.globalData.areaList)
         that.data.cinemaList = []
-        for (let i = 0; i < res.data.length; i++) {
-          if (crCity === res.data[i].city) {
-            show.push(res.data[i]);
+        for (let i = 0; i < app.globalData.areaList.length; i++) {
+          if (crCity === app.globalData.areaList[i].city) {
+            show.push(app.globalData.areaList[i]);
           }
         }
         // 清空列表
@@ -478,8 +476,6 @@ Page({
             [cinemaCode]: show[j].cinemaCode
           })
         }
-      }
-    })
   },
   showCity: function() { //展示城市
     // var that = this;
@@ -506,16 +502,12 @@ Page({
   chooseCinema: function(e) { //选择影院
     console.log(e.currentTarget.dataset.cinemacode)
     var cinemacode = e.currentTarget.dataset.cinemacode;
-    wx.getStorage({
-      key: 'city',
-      success: function(res) {
-        for (var i = 0; i < res.data.length; i ++) {
-          if (res.data[i].cinemaCode == cinemacode) {
-            app.globalData.cinemaList = res.data[i]
+        // console.log(app.globalData.areaList)
+        for (var i = 0; i < app.globalData.areaList.length; i ++) {
+          if (app.globalData.areaList[i].cinemaCode == cinemacode) {
+            app.globalData.cinemaList = app.globalData.areaList[i]
           }
         }
-      },
-    })
     var that = this
     app.globalData.cinemaNo = e.currentTarget.dataset.index;
     app.globalData.cinemacode = e.currentTarget.dataset.cinemacode;
