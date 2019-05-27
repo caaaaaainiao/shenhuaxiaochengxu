@@ -5,7 +5,7 @@
 			<view class="txt1">{{username}}</view>
 			<view class="txt2">积分：{{score}}</view>
 		</view>
-		<navigator class="btn-record" url="">充值记录</navigator>
+		<!-- <navigator class="btn-record" url="">充值记录</navigator> -->
 	</view>
 
 	<view class="list">
@@ -19,7 +19,7 @@
       <button class="btn-delete" bindtap="btnDelete" data-id="1" hover-class="none">
 				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
 			</button>
-			<button class="btns" bindtap="btnShowExchange2" hover-class="none">立即充值</button>
+			<button class="btns" bindtap="btnShowExchange2" hover-class="none" data-cardNo="{{card.num}}" data-pass="mima123">立即充值</button>
     </view>
 		<!-- <view class="item">
 			<image src="http://wx.80piao.com:83/cdnimg/card5.png" class="card" mode="widthFix"></image>
@@ -77,12 +77,12 @@
 <!-- 会员卡续费弹窗   -->
 <block wx:if="{{showAlertExchange2}}">
 	<view class="alert alert-exchange">
-		<view class="over-close" bindtap="btnShowExchange2"></view>
+		<view class="over-close" bindtap="closeShow"></view>
 		<view class="box-bottom">
 			<view class="title">储值卡：15700003456</view>
 			<view class="choose">
 				<block wx:for="{{exchangeList}}" wx:key="item" wx:for-item="item" wx:for-index="index">
-					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" hover-class="none">
+					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-price="{{item.text}}" hover-class="none">
 						{{item.text}}
 						<view class="tips">{{item.tips}}</view>
 					</button>
@@ -92,7 +92,7 @@
 				送20元卖品券
 			</view>
 			<view class="operate">
-				<button class="btn btn-red" bindtap="" hover-class="none">确认充值</button>
+				<button class="btn btn-red" bindtap="pay" hover-class="none">确认充值</button>
 			</view>
 		</view>
 	</view>

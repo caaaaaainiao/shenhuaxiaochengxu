@@ -38,6 +38,13 @@ Page({
     that.setData({
       timestamp: new Date().getTime()
     })
+    // 读取 设置全局openId
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function(res) {
+        app.globalData.openId = res.data.userInfo.openID
+      },
+    })
     console.log(timestamp)
     var accreditInfo = wx.getStorage({
       key: 'accredit',
@@ -125,11 +132,12 @@ Page({
     // console.log(app.globalData.cinemacode)
     that.getMovie(app.globalData.cinemacode)
     var recent = cinemas.sort(util.sortDistance("distance"))[0].cinemaName;
-    
+    var cinemaList = cinemas.sort(util.sortDistance("distance"))[0];
     that.setData({
       moviearea: recent
     })
-      app.globalData.moviearea = recent
+      app.globalData.moviearea = recent;
+      app.globalData.cinemaList = cinemaList;
     wx.setStorage({
       key: 'city',
       data: cinemas,
@@ -494,7 +502,19 @@ Page({
     // })
   },
   chooseCinema: function(e) { //选择影院
-  var that = this
+    console.log(e.currentTarget.dataset.cinemacode)
+    var cinemacode = e.currentTarget.dataset.cinemacode;
+    wx.getStorage({
+      key: 'city',
+      success: function(res) {
+        for (var i = 0; i < res.data.length; i ++) {
+          if (res.data[i].cinemaCode == cinemacode) {
+            app.globalData.cinemaList = res.data[i]
+          }
+        }
+      },
+    })
+    var that = this
     app.globalData.cinemaNo = e.currentTarget.dataset.index;
     app.globalData.cinemacode = e.currentTarget.dataset.cinemacode;
     app.globalData.moviearea = e.currentTarget.dataset.cinemaname;
@@ -604,6 +624,7 @@ Page({
                 },
                 success: function() {
                   console.log(e)
+                  app.globalData.openId = e.data.data.openID;
                   app.globalData.userInfo = e.data.data;
                   that.setData({
                     userInfo: e.data.data
