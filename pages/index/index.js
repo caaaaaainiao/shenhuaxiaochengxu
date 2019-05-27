@@ -559,6 +559,15 @@ Page({
   },
   wxLogin: function() { //用户信息
     var that = this;
+    let loginInfo = wx.getStorageSync('loginInfo');
+    if (loginInfo){
+      app.globalData.userInfo = loginInfo.userInfo;
+      that.setData({
+        userInfo: loginInfo.userInfo
+      });
+      return;
+    }
+   
     wx.login({
       success: function(msg) {
         var wxCode = msg.code; // 发送 res.code 到后台换取 openId, sessionKey, unionId
@@ -666,10 +675,13 @@ Page({
     var that = this;
     that.getMovie(app.globalData.cinemacode);
     let loginInfo=wx.getStorageSync('loginInfo');
-    app.globalData.userInfo = loginInfo.userInfo;
-    that.setData({
-      userInfo: loginInfo.userInfo
-    });
+    if (loginInfo){
+      app.globalData.userInfo = loginInfo.userInfo;
+      that.setData({
+        userInfo: loginInfo.userInfo
+      });
+    }
+   
 return;
     that.setData({
       userInfo: app.globalData.userInfo,
