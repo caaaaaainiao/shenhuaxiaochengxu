@@ -5,13 +5,13 @@ Page({
   // 页面的初始数据
   data: {
     showAlertExchange2: false,
-    exchangeList2: [
-      { text: '100', tips: '', checked: false },
-      { text: '200', tips: '送20元', checked: true },
-      { text: '300', tips: '送50元', checked: false },
-      { text: '400', tips: '送80元', checked: false },
-      { text: '500', tips: '送100元', checked: false },
-    ],
+    // exchangeList2: [
+    //   { text: '100', tips: '', checked: false },
+    //   { text: '200', tips: '送20元', checked: true },
+    //   { text: '300', tips: '送50元', checked: false },
+    //   { text: '400', tips: '送80元', checked: false },
+    //   { text: '500', tips: '送100元', checked: false },
+    // ],
     date999: '',
     array002: ['', '男', '女'],
     index002: 0,
@@ -57,62 +57,97 @@ Page({
   bindPickerChange002: function (e) {
     this.setData({ index002: e.detail.value })
   },
-  btnShowExchange2: (e) => {
+  btnShowExchange2:function(){
+    var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
-    console.log(_this)
-    // var data = {
-    //   Username: "MiniProgram",
-    //   Password: "6BF477EBCC446F54E6512AFC0E976C41",
-    //   CinemaCode: cinemaCode,
-    //   OpenID: _this.data.openId,
-    //   // 会员卡密码
-    //   CardPassword: _this.data.password,
-    //   // 等级编号
-    //   LevelCode: _this.data.id,
-    //   // 初始金额
-    //   InitialAmount: '200',
-    //   // 用户名
-    //   CardUserName: _this.data.name,
-    //   // 手机号
-    //   MobilePhone: _this.data.phone,
-    //   // 身份证号
-    //   IDNumber: '362528199608210013',
-    //   // 性别
-    //   Sex: _this.data.index002
-    // };
-    // console.log(val)
-    // var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
-    // if (!Num.test(_this.data.phone)) {
-    //   wx.showToast({
-    //     title: '手机号码错误',
-    //     icon: 'none',
-    //     duration: 3000
-    //   })
-    // } 
-    // else {
-    //   wx.request({
-    //     url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.OpenID + '/' + data.CinemaCode + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
-    //     method: 'GET',
-    //     header: {
-    //       'content-type': 'application/json' // 默认值
-    //     },
-    //     success: function (res) {
-    //       console.log(res.data)
-    //       wx.navigateTo({
-    //         url: '../page05/index?Username=' + data.Username + '&PassWord=' + data.Password + '&CinemaCode=' + data.CinemaCode + '&OpenID=' + data.OpenID
-    //       })
-    //     }
-    //   })
-    //   _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
-    // }
+    var data = {
+        Username: "MiniProgram",
+        Password: "6BF477EBCC446F54E6512AFC0E976C41",
+        CinemaCode: cinemaCode,
+        OpenID: that.data.openId,
+        // 会员卡密码
+        CardPassword: that.data.password,
+        // 等级编号
+        LevelCode: that.data.id,
+        // 初始金额
+        InitialAmount: that.data.credit,
+        // 用户名
+        CardUserName: that.data.name,
+        // 手机号
+        MobilePhone: that.data.phone,
+        // 身份证号
+        IDNumber: '362528199608210013',
+        // 性别
+        Sex: that.data.index002
+      };
+      var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+    if (that.data.phone == '' || that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
+        wx.showToast({
+          title: '请填写必要信息！',
+          icon: 'none',
+          duration: 3000
+        })
+    } else if (!Num.test(that.data.phone)) {
+        wx.showToast({
+          title: '手机号码错误',
+          icon: 'none',
+          duration: 3000
+        })
+      }
+      else {
+        that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
+          method: 'GET',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            console.log(res.data)
+            if (res.data.Status == 'Success') {
+              var levelRule = res.data.data;
+              var rule = levelRule.rule;
+              for (var i = 0; i < rule.length; i++) {
+                var credit = "rule[" + i + "].credit";
+                that.setData({
+                  levelName: levelRule.levelName,
+                  [credit]: rule[i].credit
+                })
+              }
+            } else if (res.data.Status == 'Failure') {
+              wx.showToast({
+                title: res.data.ErrorMessage,
+                icon: 'none',
+                duration: 3000
+              })
+            }
+          },
+        })
+      }
+      // else {
+      //   wx.request({
+      //     url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
+      //     method: 'GET',
+      //     header: {
+      //       'content-type': 'application/json' // 默认值
+      //     },
+      //     success: function (res) {
+      //       console.log(res)
+      //       wx.navigateTo({
+      //         url: '../page05/index?Username=' + data.Username + '&PassWord=' + data.Password + '&CinemaCode=' + data.CinemaCode + '&OpenID=' + data.OpenID + '&Credit=' + data.InitialAmount
+      //       })
+      //     }
+      //   })
+      // }
   },
-  btnShowExchange3: (e) => {
-    _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
+  closeShow: function () {
+    this.setData({ showAlertExchange2: !this.data.showAlertExchange2 })
   },
-  btnChoose2: (e) => {
-    console.log(e);
+  btnChoose: function (e) {
+    let that = this;
+    let price = e.currentTarget.dataset.price;
     let idx = e.currentTarget.dataset.id;
-    let temp = _this.data.exchangeList2;
+    let temp = that.data.rule;
     temp.forEach((item, index) => {
       if (index == idx) {
         item.checked = true
@@ -120,11 +155,25 @@ Page({
         item.checked = false
       }
     })
-    _this.setData({ exchangeList2: temp })
+    that.setData({
+      rule: temp,
+      price: price
+    })
+  },
+  btnChoose2: function () {
+    let idx = e.currentTarget.dataset.id;
+    let temp = this.data.exchangeList2;
+    temp.forEach((item, index) => {
+      if (index == idx) {
+        item.checked = true
+      } else {
+        item.checked = false
+      }
+    })
+    this.setData({ exchangeList2: temp })
   },
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
-    console.log(app.globalData)
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var movieName = app.globalData.moviearea;
@@ -137,7 +186,6 @@ Page({
       effectiveDays: options.time,
       credit: options.credit
     })
-    console.log(that.data)
     wx.setNavigationBarTitle({ title: '会员卡' });
   },
   // 生命周期函数--监听页面初次渲染完成

@@ -71,6 +71,7 @@ Page({
           success: function (res) {
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;
+            console.log(memberCardLevel);
             for (var i = 0; i < memberCardLevel.length; i ++) {
               var levelName = "memberCardLevel[" + i + "].levelName";
               var levelCode = "memberCardLevel[" + i + "].levelCode";
@@ -101,7 +102,6 @@ Page({
   },
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
-    console.log(app.globalData.openId)
     _this = this;
     wx.setNavigationBarTitle({
       title: '会员卡'
@@ -121,7 +121,7 @@ Page({
       Username: "MiniProgram",
       Password: "6BF477EBCC446F54E6512AFC0E976C41",
       CinemaCode: cinemaCode,
-      OpenID: that.data.openID,
+      OpenID: openID,
       CardNo: that.data.inputNum,
       CardPassword: that.data.inputPass,
       MobilePhone: that.data.inputNum
@@ -247,6 +247,7 @@ Page({
               var ruleName = "memberCardLevel[" + i + "].ruleName";
               var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
+              var credit = "memberCardLevel[" + i + "].credit";
               var str = memberCardLevel[i].ruleDescription
               var newDescription = str.replace(/，/g, "，\n")
               that.setData({
@@ -255,6 +256,7 @@ Page({
                 [ruleName]: memberCardLevel[i].ruleName,
                 [ruleDescription]: newDescription,
                 [effectiveDays]: memberCardLevel[i].effectiveDays,
+                [credit]: memberCardLevel[i].credit
               })
             }
           }
