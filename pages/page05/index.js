@@ -6,49 +6,61 @@ Page({
   data: {
     showAlertExchange: false,
     showAlertExchange2: false,
-    exchangeList: [
-      { text: '100', tips: '', checked: false },
-      { text: '200', tips: '', checked: false },
-      { text: '300', tips: '升级为季卡', checked: false },
-      { text: '600', tips: '升级为半年卡', checked: false },
-      { text: '1200', tips: '升级为年卡', checked: false },
-    ],
-    exchangeList_a: [
-      { text: '1个月', tips: '', checked: false },
-      { text: '2个月', tips: '', checked: true },
-      { text: '3个月', tips: '升级为季卡', checked: false },
-      { text: '6个月', tips: '升级为半年卡', checked: false },
-      { text: '12个月', tips: '升级为年卡', checked: false },
-    ],
-    exchangeList2: [
-      { text: '100', tips: '', checked: false },
-      { text: '200', tips: '送20元', checked: true },
-      { text: '300', tips: '送50元', checked: false },
-      { text: '400', tips: '送80元', checked: false },
-      { text: '500', tips: '送100元', checked: false },
-    ],
     username: null,
     score: null,
     cardno: '',
     pass: '',
     price: '',
+    levelcode: '',
+    levelName: '',
+    credit: ''
   },
   btnShowExchange: (e) => {
     _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
   },
   btnShowExchange2: (e) => {
-    let cardno = e.currentTarget.dataset.cardno;
-    let pass = e.currentTarget.dataset.pass;
+    var cardno = e.currentTarget.dataset.cardno;
+    var pass = e.currentTarget.dataset.pass;
+    var levelcode = e.currentTarget.dataset.code;
     _this.setData({
       cardno: cardno,
       pass: pass,
+      levelcode: levelcode,
       showAlertExchange2: !_this.data.showAlertExchange2
+    });
+    var cardNo = _this.data.cardno;
+    var levelcode = _this.data.levelcode;
+    let cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var data = {
+      Username: "MiniProgram",
+      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      CinemaCode: cinemaCode,
+      CardNo: cardNo,
+      LevelCode: levelcode
+    };
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var levelRule = res.data.data;
+        var rule = levelRule.rule;
+        for (var i = 0; i < rule.length; i ++) {
+          var credit = "rule[" + i + "].credit";
+          _this.setData({
+            levelName: levelRule.levelName,
+            [credit]: rule[i].credit
+          })
+        }
+      }
     })
   },
   btnChoose: (e) => {
     let price = e.currentTarget.dataset.price;
     let idx = e.currentTarget.dataset.id;
-    let temp = _this.data.exchangeList;
+    let temp = _this.data.rule;
     temp.forEach((item, index) => {
       if (index == idx) {
         item.checked = true
@@ -57,7 +69,7 @@ Page({
       }
     })
     _this.setData({ 
-      exchangeList: temp,
+      rule: temp,
       price: price
     })
   },
@@ -135,7 +147,6 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
         var memberCard = [];
         var allScore = [];
         var n = 0;
@@ -146,11 +157,13 @@ Page({
           var num = "memberCard[" + i + "].num";
           var levelName = "memberCard[" + i + "].levelName";
           var balance = "memberCard[" + i + "].balance";
+          var levelCode = "memberCard[" + i + "].levelCode";
           allScore.push(memberCard[i].score)
           that.setData({
             [num]: memberCard[i].cardNo,
             [levelName]: memberCard[i].levelName,
             [balance]: memberCard[i].balance,
+            [levelCode]: memberCard[i].levelCode,
             username: memberCard[0].userName,       
           })
         }
