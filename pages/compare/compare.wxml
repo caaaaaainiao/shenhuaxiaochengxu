@@ -16,15 +16,16 @@
   <view class='check'></view>
   <view class='movieDetail'>
     <view class='movieName'>{{moviesList[swiperIndex].name}}</view>
-    <view class='movieMessage'>{{moviesList[swiperIndex].duration}}分钟 | {{moviesList[swiperIndex].movieType}} | {{moviesList[swiperIndex].cast}}
+    <view class='movieMessage'>{{moviesList[swiperIndex].duration}}分钟 | {{moviesList[swiperIndex].type}} | {{moviesList[swiperIndex].cast}}
     </view>
   </view>
   <scroll-view scroll-x class='dates'>
     <block wx:for="{{moviesList[swiperIndex].session}}" wx:for-item="date" wx:key="date">
+    <!-- <view data-index='{{index}}' class='date'>{{date.startDate}} {{index}}</view> -->
       <!-- <view class='date select'>10-28 今天</view>
       <view class='date'>10-29 明天</view>
       <view class='date'>10-30 后天</view> -->
-      <view class='date {{index == select?"select":""}}' data-index="{{index}}" bindtap='dayChange'>{{date.date}}</view>
+      <view class='date {{index == select?"select":""}}' data-index="{{index}}" bindtap='dayChange'>{{date.startDate}}{{date.isToday == "true" ? '今天':''}}</view>
     </block>
   </scroll-view>
   <view  wx:if="{{screenPlanList[select].list.length>0}}">

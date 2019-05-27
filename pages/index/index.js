@@ -152,7 +152,8 @@ Page({
         that.setData({
           movieList: res
         })
-        console.log(that.data.movieList)
+        app.globalData.movieList = that.data.movieList
+        // console.log(that.data.movieList)
       });
     }
    
@@ -603,7 +604,7 @@ Page({
             "Content-Type": "application/json"
           },
           success: function(e) {
-            console.log(e)
+            // console.log(e)
             // console.log("登录")
             //个人信息
             that.setData({
@@ -625,6 +626,7 @@ Page({
                 success: function() {
                   console.log(e)
                   app.globalData.openId = e.data.data.openID;
+                  // console.log(e)
                   app.globalData.userInfo = e.data.data;
                   that.setData({
                     userInfo: e.data.data
