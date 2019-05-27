@@ -31,7 +31,7 @@
           <text class='number'>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.integralBalance:"- - -"}}</text>
         </view>
         <view class="middleBlock">
-          <text>{{userInfo.nickName}}</text>
+          <text>{{wxInfo.nickName}}</text>
         </view>
         <view class="rightBlock" bindtap='toCard'>
           <text class='title'>余额</text>
