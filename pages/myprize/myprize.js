@@ -75,24 +75,23 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('myGift', nowtime);
     var pageNo = that.data.pageNo;
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     wx.request({
-      url: app.globalData.url + '/api/userGift/myGift',
+      url: 'https://xc.80piao.com:8443/Api/User/QueryGiftRecord',
       data: {
-        pageNo: pageNo,
-        pageSize: that.data.pageSize,
-        phone: app.globalData.userInfo.mobile,
-        timeStamp: nowtime,
-        mac: sign
+        "userName": "MiniProgram",
+        "password": "6BF477EBCC446F54E6512AFC0E976C41",
+        "cinemaCode": "33097601",
+        "openID": "o9gGQ4nuoKAZq1Xjp_N3iu3bmpZs"
       },
-      method: "POST",
+      method: "Post",
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        'content-type': 'application/json'
       },
       success: function (res) {
-        // console.log(res)
+        console.log(res.data)
         wx.hideLoading()
         var result = that.addJson(that.data.result, res.data.data);
         for (var i = 0; i < result.length; i++) {
@@ -105,10 +104,10 @@ Page({
             result[i].status = 1
           }
         }
-        pageNo++;
+        // pageNo++;
         that.setData({
           result: result,
-          pageNo: pageNo
+          // pageNo: pageNo
         })
       }
     })

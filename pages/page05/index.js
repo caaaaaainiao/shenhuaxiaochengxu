@@ -5,10 +5,10 @@ Page({
   // 页面的初始数据
   data: {
     showAlertExchange: false,
-    showAlertExchange2: true,
+    showAlertExchange2: false,
     exchangeList: [
       { text: '100', tips: '', checked: false },
-      { text: '200', tips: '', checked: true },
+      { text: '200', tips: '', checked: false },
       { text: '300', tips: '升级为季卡', checked: false },
       { text: '600', tips: '升级为半年卡', checked: false },
       { text: '1200', tips: '升级为年卡', checked: false },
@@ -28,26 +28,25 @@ Page({
       { text: '500', tips: '送100元', checked: false },
     ],
     username: null,
-    score: null
+    score: null,
+    cardno: '',
+    pass: '',
+    price: '',
   },
   btnShowExchange: (e) => {
     _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
   },
   btnShowExchange2: (e) => {
-    // console.log(e)
-    // var data = {
-    //   Username: "MiniProgram",
-    //   Password: "6BF477EBCC446F54E6512AFC0E976C41",
-    //   CinemaCode: 33097601,
-    //   CardNo: '',
-    // };
-    // wx.request({
-    //   url: 'https://xc.80piao.com:8443/Api/Member/CardCharge',
-    // })
-    _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
+    let cardno = e.currentTarget.dataset.cardno;
+    let pass = e.currentTarget.dataset.pass;
+    _this.setData({
+      cardno: cardno,
+      pass: pass,
+      showAlertExchange2: !_this.data.showAlertExchange2
+    })
   },
   btnChoose: (e) => {
-    console.log(e);
+    let price = e.currentTarget.dataset.price;
     let idx = e.currentTarget.dataset.id;
     let temp = _this.data.exchangeList;
     temp.forEach((item, index) => {
@@ -57,7 +56,38 @@ Page({
         item.checked = false
       }
     })
-    _this.setData({ exchangeList: temp })
+    _this.setData({ 
+      exchangeList: temp,
+      price: price
+    })
+  },
+  pay: (e) => {
+    let price = _this.data.price;
+    let cardno = _this.data.cardno;
+    let pass = _this.data.pass;
+    let cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var data = {
+      Username: "MiniProgram",
+      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      CinemaCode: cinemaCode,
+      CardNo: cardno,
+      CardPassword: pass,
+      ChargeType: 'WxPay',
+      ChargeAmount: price
+    };
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Member/CardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.ChargeType + '/' + data.ChargeAmount,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+      }
+    })
+  },
+  closeShow: (e) => {
+    _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
   },
   btnChoose2: (e) => {
     console.log(e);
