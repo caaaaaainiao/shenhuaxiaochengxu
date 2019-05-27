@@ -437,16 +437,16 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
 }
 const getCity=(callback)=>{
   let key = 'city';
-  if (wx.getStorageSync(key) != "") {
-    wx.getStorage({
-      key: key,
-      success: function (res) {
-        callback && callback(res.data);
-        return res.data;
-      }
-    })
-    return;
-  }
+  // if (wx.getStorageSync(key) != "") {
+  //   wx.getStorage({
+  //     key: key,
+  //     success: function (res) {
+  //       callback && callback(res.data);
+  //       return res.data;
+  //     }
+  //   })
+  //   return;
+  // }
 
   wx.getLocation({
     type: 'wgs84',

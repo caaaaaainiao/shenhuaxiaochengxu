@@ -26,7 +26,7 @@ Page({
     cinemaList:[],//影院信息列表
     fullCar:true,
     UrlMap:{
-      bannerUrl: app.globalData.url + '/Api/Banner/QueryBanner/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
+      bannerUrl: app.globalData.url + '/Api/Activity/QueryActivitys/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
       goodTypesUrl: app.globalData.url +'/Api/Goods/QueryGoodsType/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
       createOrderUrl: app.globalData.url +'/Api/Goods/CreateGoodsOrder'
@@ -70,6 +70,27 @@ Page({
   },
   sureChoose: function () {
      let that=this;
+    let loginInfo = wx.getStorageSync('loginInfo');
+    if (!loginInfo) {
+      wx.showToast({
+        title: '您还没有登录，请重新登录',
+        icon: "loading",
+        mask: true,
+        duration: 2000
+      });
+      return;
+    }
+    if (that.data.totalNum <= 0) {
+      wx.showToast({
+        title: '还没有选择商品哦',
+        icon: "loading",
+        mask: true,
+        duration: 2000
+      });
+
+      return;
+    }  
+
     let xml = '<CreateGoodsOrder><CinemaCode>' + app.globalData.cinemacode +'</CinemaCode><PayType>0</PayType><GoodsList>';
 
     
@@ -82,7 +103,12 @@ Page({
           xml += '<GoodsCode>' + item.goodsCode+'</GoodsCode>';
           xml += '<GoodsCount>' + item.buyNum+ '</GoodsCount>';
           xml += '<StandardPrice>' + item.settlePrice + '</StandardPrice>';
-          xml += '<GoodsChannelFee>' +item.channelFee+ '</GoodsChannelFee>';
+          if (item.channelFee){
+            xml += '<GoodsChannelFee>' + item.channelFee + '</GoodsChannelFee>';
+          }else{
+            xml += '<GoodsChannelFee>0</GoodsChannelFee>';
+          }
+        
           xml += '<Goods>';
         }
       }
@@ -106,6 +132,7 @@ Page({
         queryXml: xml,
         userName: apiuser.UserName,
         password: apiuser.Password,
+      //  openID: loginInfo.openID,
       },
       success: function (res) {
         // console.log(res)
