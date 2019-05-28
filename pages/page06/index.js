@@ -24,7 +24,9 @@ Page({
     levelName: '',
     ruleDescription: '',
     effectiveDays: '',
-    credit: ''
+    credit: '',
+    ruleCode: '',
+    disabled: false
   },
   getPhone: function (e) {
     this.setData({ phone: e.detail.value })
@@ -103,15 +105,16 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res.data)
             if (res.data.Status == 'Success') {
               var levelRule = res.data.data;
               var rule = levelRule.rule;
               for (var i = 0; i < rule.length; i++) {
                 var credit = "rule[" + i + "].credit";
+                var ruleCode = "rule[" + i + "].ruleCode";
                 that.setData({
                   levelName: levelRule.levelName,
-                  [credit]: rule[i].credit
+                  [credit]: rule[i].credit,
+                  [ruleCode]: rule[i].ruleCode
                 })
               }
             } else if (res.data.Status == 'Failure') {
@@ -147,7 +150,17 @@ Page({
     let that = this;
     let price = e.currentTarget.dataset.price;
     let idx = e.currentTarget.dataset.id;
+    let rulecode = e.currentTarget.dataset.rule;
     let temp = that.data.rule;
+    let credit = that.data.credit;
+    if (price < credit) {
+      that.setData({ disabled: true})
+    } else {
+      that.setData({
+         disabled: false,
+         ruleCode: rulecode
+      })
+    }
     temp.forEach((item, index) => {
       if (index == idx) {
         item.checked = true
@@ -158,6 +171,33 @@ Page({
     that.setData({
       rule: temp,
       price: price
+    })
+  },
+  // 预支付
+  pay: function () {
+    let that = this;
+    let price = that.data.price;
+    let openId = that.data.openId;
+    let cinemaCode = app.globalData.cinemaList.cinemaCode;
+    let ruleCode = that.data.ruleCode;
+    var data = {
+      Username: "MiniProgram",
+      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      CinemaCode: cinemaCode,
+      OpenID: that.data.openId,
+      InitialAmount: price,
+      RuleCode: ruleCode
+    };
+    console.log(that.data.openId)
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.RuleCode + '/'  + data.InitialAmount,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+      }
     })
   },
   btnChoose2: function () {
@@ -186,6 +226,7 @@ Page({
       effectiveDays: options.time,
       credit: options.credit
     })
+    console.log(that.data.openId)
     wx.setNavigationBarTitle({ title: '会员卡' });
   },
   // 生命周期函数--监听页面初次渲染完成
