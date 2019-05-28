@@ -149,7 +149,7 @@ Page({
   },
   toMycard: function() {
     wx.navigateTo({
-      url: '../page04/index',
+      url: '../page05/index',
     })
   },
   ask: function() {

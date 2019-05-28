@@ -71,7 +71,6 @@ Page({
           success: function (res) {
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;
-            console.log(memberCardLevel);
             for (var i = 0; i < memberCardLevel.length; i ++) {
               var levelName = "memberCardLevel[" + i + "].levelName";
               var levelCode = "memberCardLevel[" + i + "].levelCode";

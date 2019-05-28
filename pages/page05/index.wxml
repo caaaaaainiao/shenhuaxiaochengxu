@@ -9,7 +9,7 @@
 	</view>
 
 	<view class="list">
-    <view wx:for="{{memberCard}}" wx:for-item="card" wx:key="card" style='position:relative'>
+    <view wx:for="{{status}}" wx:for-item="card" wx:key="card" style='position:relative' wx:if="{{show==0}}">
       <image src="http://wx.80piao.com:83/cdnimg/card5.png" class="card" mode="widthFix"></image>
       <view class="number">NO：{{card.num}}</view>
       <view class="center">
@@ -24,6 +24,7 @@
 	</view>
 
 	<view class="fixed-operate">
+    <!-- <button class="btn btn-red" bindtap="clear" hover-class="none">清除缓存</button> -->
 		<navigator class="btns" url="../page04/index">＋绑定/注册 更多其他类型会员卡</navigator>
 	</view>
 </view>
@@ -35,7 +36,7 @@
 			<view class="title">{{levelName}}：{{cardno}}</view>
 			<view class="choose">
 				<block wx:for="{{rule}}" wx:key="item" wx:for-item="item" wx:for-index="index">
-					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-price="{{item.credit}}" hover-class="none">
+					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-price="{{item.credit}}" data-rule="{{item.ruleCode}}" hover-class="none">
 						{{item.credit}}
 						<!-- <view class="tips">{{item.tips}}</view> -->
 					</button>
