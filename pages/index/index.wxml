@@ -19,7 +19,7 @@
   </view>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{userInfo.headlmgUrl}}' mode='aspectFill'></image>
+      <image src='{{wxInfo.avatarUrl}}' mode='aspectFill'></image>
       <!-- <view wx:if="{{onLoad}}" bindtouchstart='tologin' class='noUser'> <image src='/images/imgurl.png' class='moren' wx:if="{{userInfo.mobilePhone==null||userInfo.mobilePhone==''}}">
       </image>
       </view> -->

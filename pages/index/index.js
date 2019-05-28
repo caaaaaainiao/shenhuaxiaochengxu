@@ -32,7 +32,6 @@ Page({
   onPullDownRefresh: function () {
 
     wx.showNavigationBarLoading() //在标题栏中显示加载
-    console.log(2222)
     this.onLoad()
 
     setTimeout(function () {
@@ -69,6 +68,9 @@ Page({
          // userInfo: res.data.userInfo,
           userInfoDetail: res.data.userInfoDetail
         })
+        // console.log(that.data.wxInfo)
+        app.globalData.getUsename=that.data.wxInfo.nickName
+        // console.log(app.globalData.getUsename)
        
        // wx.hideTabBar(); //隐藏栏
         that.wxLogin(); //获取信息函数

@@ -79,6 +79,7 @@ Page({
     // console.log("login")
     var phone = this.data.phone;
     var yzm = this.data.inputYzm;
+    console.log(yzm)
     var that = this;
     if (!(/^1\d{10}$/.test(phone))) {
       wx.showModal({

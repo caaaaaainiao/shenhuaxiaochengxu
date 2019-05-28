@@ -28,6 +28,16 @@ Page({
   onLoad: function(options) {
     var that = this;
     // 读取缓存  设置影院信息
+    wx.getStorage({
+      key: 'accredit',
+      success: function (res) {
+        // console.log(res.data.userInfo)
+        that.setData({
+          userInfo: res.data.userInfo
+        })
+        // console.log(that.data.userInfo)
+      },
+    })
     util.getcinemaList(function(res){
   
 
