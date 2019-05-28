@@ -91,7 +91,7 @@ Page({
       return;
     }  
 
-    let xml = '<CreateGoodsOrder><CinemaCode>' + app.globalData.cinemacode +'</CinemaCode><PayType>0</PayType><GoodsList>';
+    let xml = '<CreateGoodsOrder><cinemaCode>' + app.globalData.cinemacode +'</cinemaCode><payType>0</payType><goodsList>';
 
     
     if (this.data.totalNum > 0){
@@ -99,21 +99,21 @@ Page({
       if (cartobj && cartobj.list){
         for (var i = 0; i < cartobj.list.length;i++){
           let item = cartobj.list[i];
-          xml +='<Goods>';
-          xml += '<GoodsCode>' + item.goodsCode+'</GoodsCode>';
-          xml += '<GoodsCount>' + item.buyNum+ '</GoodsCount>';
-          xml += '<StandardPrice>' + item.settlePrice + '</StandardPrice>';
+          xml +='<goods>';
+          xml += '<goodsCode>' + item.goodsCode+'</goodsCode>';
+          xml += '<goodsCount>' + item.buyNum+ '</goodsCount>';
+          xml += '<standardPrice>' + item.settlePrice + '</standardPrice>';
           if (item.channelFee){
-            xml += '<GoodsChannelFee>' + item.channelFee + '</GoodsChannelFee>';
+            xml += '<goodsChannelFee>' + item.channelFee + '</goodsChannelFee>';
           }else{
-            xml += '<GoodsChannelFee>0</GoodsChannelFee>';
+            xml += '<goodsChannelFee>0</goodsChannelFee>';
           }
         
-          xml += '<Goods>';
+          xml += '</goods>';
         }
       }
     }
-    xml += ' </GoodsList></CreateGoodsOrder >';
+    xml += '</goodsList></CreateGoodsOrder>';
     console.log(xml);
     var nowtime = new Date();
     
@@ -132,22 +132,41 @@ Page({
         queryXml: xml,
         userName: apiuser.UserName,
         password: apiuser.Password,
-      //  openID: loginInfo.openID,
+        openID: loginInfo.userInfo.openID,
       },
       success: function (res) {
-        // console.log(res)
+        console.log(res)
         wx.hideLoading()
         if (res.data.Status == "Success") {
           wx.showToast({
-            title: res.data.message,
+            title: '订单创建成功',
             icon: 'loading',
             image: '',
             duration: 2000,
             mask: true,
             success: function (res) {
-              wx.navigateTo({
-                url: '../foodOrder/foodOrder?type=' + that.data.type,
-              })
+              //复制购物车列表到待支付物品列表
+              //let cattObj = util.getcartObj(null);
+              //wx.setStorageSync('toSubmitGoods', cattObj);
+              let key = 'goodList';
+              if (wx.getStorageSync(key) != "") {
+                wx.getStorage({
+                  key: key,
+                  success: function (res) {
+                    wx.setStorageSync('toSubmitGoods', res);
+                    //重置购物阶段数据
+                    that.emptyCart();
+
+                    //新增待支付购物列表
+                    wx.navigateTo({
+                      url: '../foodOrder/foodOrder?type=' + that.data.type,
+                    })
+                  },
+                })
+ 
+              }
+
+
             },
             fail: function (res) { },
             complete: function (res) { },
@@ -155,7 +174,7 @@ Page({
       
         } else {
           wx.showToast({
-            title: res.data.message,
+            title: '订单创建失败,请重试',
             icon: 'loading',
             image: '',
             duration: 2000,

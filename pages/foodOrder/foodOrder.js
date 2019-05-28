@@ -39,7 +39,12 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
+ 
+    let goodsList = wx.getStorageSync('toSubmitGoods');
+    if (!goodsList)
+        return;
+    goodsList = goodsList.data;
+   // util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
       var newList = [];
       var totalPrice = 0;
  
@@ -101,7 +106,7 @@ console.log('merOrder-->');
           that.updatetotalPrice();
         }
       });
-    });
+  //  });
 
     // console.log(newList)
     util.getcinemaList(function (res) {
@@ -296,16 +301,19 @@ console.log('merOrder-->');
     })
   },
   choosePay:function(){
-    var that = this;
-    if(that.data.type == 1){
-      that.setData({
-        showReady: true
-      })
-    }else{
-      this.setData({
-        showBlack: true
-      })
-    }
+     
+    this.setData({
+      showBlack: true
+    })
+    // if(that.data.type == 1){
+    //   this.setData({
+    //     showReady: true
+    //   })
+    // }else{
+    //   this.setData({
+    //     showBlack: true
+    //   })
+    // }
     
   },
   chooseClose:function(){
