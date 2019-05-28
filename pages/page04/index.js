@@ -9,10 +9,11 @@ Page({
     array999: ['选择卡类别', '选择卡类别2', '选择卡类别3', '选择卡类别4', '选择卡类别5'],
     index999: 0,
     inputNum: '',
-    inputPass: ''
+    inputPass: '',
+    Username: '',
+    Password: ''
   },
   bindPickerChange999: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       index999: e.detail.value
     })
@@ -54,11 +55,13 @@ Page({
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     let idx = e.currentTarget.dataset.id;
     let temp = _this.data.tabContent;
+    var userName = _this.data.Username;
+    var passWord = _this.data.Password;
     temp.forEach((item, index) => {
       if (index == idx) {
         var data = {
-          Username: 'MiniProgram',
-          Password: '6BF477EBCC446F54E6512AFC0E976C41',
+          Username: userName,
+          Password: passWord,
           CinemaCode: cinemaCode
         };
         temp[index] = 1;
@@ -105,6 +108,11 @@ Page({
     wx.setNavigationBarTitle({
       title: '会员卡'
     });
+    _this.setData({
+      Username: app.usermessage.Username,
+      Password: app.usermessage.Password
+    })
+    console.log(app.globalData)
   },
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
@@ -114,11 +122,13 @@ Page({
     var cinemaType = app.globalData.cinemaList.cinemaType;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var openID = app.globalData.openId;
+    var userName = _this.data.Username;
+    var passWord = _this.data.Password;
     var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
     var that = this;
     var data = {
-      Username: "MiniProgram",
-      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      Username: userName,
+      Password: passWord,
       CinemaCode: cinemaCode,
       OpenID: openID,
       CardNo: that.data.inputNum,
@@ -159,13 +169,12 @@ Page({
       if (Num.test(that.data.inputNum)) {
         // 手机号返回会员卡号进行选择绑定
         wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByPhone' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
+          url: 'https://xc.80piao.com:8443/Api/Member/GetMemberCardByMobile' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
           method: 'GET',
           header: {
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res)
             var memberPhones = [];
             for (var i = 0; i < res.data.data.memberPhones.length; i++) {
               memberPhones.push(res.data.data.memberPhones[i]);
@@ -190,7 +199,6 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res.data)
             if (res.data.Status == "Success") {
               var cinemaCode = res.data.cinemaCode;
               var cardNo = res.data.card.cardNo;
@@ -221,11 +229,13 @@ Page({
     let idx = e.currentTarget.dataset.id;
     let temp = _this.data.tabContent;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var userName = _this.data.Username;
+    var passWord = _this.data.Password;
     temp.forEach((item, index) => {
       if (index == idx) {
         var data = {
-          Username: 'MiniProgram',
-          Password: '6BF477EBCC446F54E6512AFC0E976C41',
+          Username: userName,
+          Password: passWord,
           CinemaCode: cinemaCode
         };
         temp[index] = 1;
@@ -236,7 +246,6 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res)
             // console.log(res.data.data)
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;

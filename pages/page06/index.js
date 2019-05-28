@@ -26,7 +26,9 @@ Page({
     effectiveDays: '',
     credit: '',
     ruleCode: '',
-    disabled: false
+    disabled: false,
+    username: '',
+    password: ''
   },
   getPhone: function (e) {
     this.setData({ phone: e.detail.value })
@@ -63,8 +65,8 @@ Page({
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var data = {
-        Username: "MiniProgram",
-        Password: "6BF477EBCC446F54E6512AFC0E976C41",
+        Username: that.data.username,
+        Password: that.data.password,
         CinemaCode: cinemaCode,
         OpenID: that.data.openId,
         // 会员卡密码
@@ -136,7 +138,7 @@ Page({
       //     },
       //     success: function (res) {
       //       console.log(res)
-      //       wx.navigateTo({
+      //       wx.redirectTo({
       //         url: '../page05/index?Username=' + data.Username + '&PassWord=' + data.Password + '&CinemaCode=' + data.CinemaCode + '&OpenID=' + data.OpenID + '&Credit=' + data.InitialAmount
       //       })
       //     }
@@ -180,15 +182,16 @@ Page({
     let openId = that.data.openId;
     let cinemaCode = app.globalData.cinemaList.cinemaCode;
     let ruleCode = that.data.ruleCode;
+    let username = that.data.username;
+    let password = that.data.password;
     var data = {
-      Username: "MiniProgram",
-      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      Username: username,
+      Password: password,
       CinemaCode: cinemaCode,
-      OpenID: that.data.openId,
+      OpenID: openId,
       InitialAmount: price,
       RuleCode: ruleCode
     };
-    console.log(that.data.openId)
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.RuleCode + '/'  + data.InitialAmount,
       method: 'GET',
@@ -217,6 +220,8 @@ Page({
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var movieName = app.globalData.moviearea;
+    var username = app.usermessage.Username;
+    var password = app.usermessage.Password;
     that.setData({
       id: options.id,
       openId: options.openId,
@@ -224,9 +229,10 @@ Page({
       levelName: options.name,
       ruleDescription: options.text,
       effectiveDays: options.time,
-      credit: options.credit
+      credit: options.credit,
+      username: username,
+      password: password
     })
-    console.log(that.data.openId)
     wx.setNavigationBarTitle({ title: '会员卡' });
   },
   // 生命周期函数--监听页面初次渲染完成

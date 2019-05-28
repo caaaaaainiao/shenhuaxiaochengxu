@@ -16,7 +16,7 @@
 				<view class="txt1">{{card.levelName}}</view>
 				<view class="txt2">余额：{{card.balance}}¥</view>
 			</view>
-      <button class="btn-delete" bindtap="btnDelete" data-id="1" hover-class="none">
+      <button class="btn-delete" bindtap="btnDelete" data-cardno="{{card.num}}" data-pass="{{card.pass}}" hover-class="none">
 				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
 			</button>
 			<button class="btns" bindtap="btnShowExchange2" hover-class="none" data-code="{{card.levelCode}}" data-cardNo="{{card.num}}" data-pass="mima123">立即充值</button>

@@ -6,7 +6,9 @@ Page({
   data: {
     showAlertExchange: false,
     showAlertExchange2: false,
-    username: null,
+    username: '',
+    userName: '',
+    passWord: '',
     score: null,
     cardno: '',
     pass: '',
@@ -35,9 +37,11 @@ Page({
     var cardNo = _this.data.cardno;
     var levelcode = _this.data.levelcode;
     let cinemaCode = app.globalData.cinemaList.cinemaCode;
+    let username = _this.data.userName;
+    let password = _this.data.passWord;
     var data = {
-      Username: "MiniProgram",
-      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      Username: username,
+      Password: password,
       CinemaCode: cinemaCode,
       CardNo: cardNo,
       LevelCode: levelcode
@@ -89,9 +93,11 @@ Page({
     let cinemaCode = app.globalData.cinemaList.cinemaCode;
     let openId = _this.data.openId;
     let ruleCode = _this.data.ruleCode;
+    let username = _this.data.userName;
+    let password = _this.data.passWord;
     var data = {
-      Username: "MiniProgram",
-      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      Username: username,
+      Password: password,
       CinemaCode: cinemaCode,
       OpenID: openId,
       ChargeAmount: price,
@@ -125,9 +131,20 @@ Page({
     })
     _this.setData({ exchangeList2: temp })
   },
-  btnDelete: (e) => {
-    // console.log(e);
-    let idx = e.currentTarget.dataset.id;
+  // 解绑
+  btnDelete: function (e) {
+    // console.log(e)
+    var that = this;
+    let cardno = e.currentTarget.dataset.cardno;
+    let pass = e.currentTarget.dataset.pass;
+    var data = {
+      Username: that.data.userName,
+      Password: that.data.passWord,
+      CinemaCode: that.data.cinemaCode,
+      CardNo: cardno,
+      CardPassword: pass,
+      OpenID: that.data.openId,
+    };
     wx.showModal({
       title: '解绑',
       content: "解除绑定后,将不再享受相应的会员权益",
@@ -137,14 +154,94 @@ Page({
       confirmText: "确定",
       confirmColor: "#999999",
       success: function (res) {
-
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/Member/MemberCardUnbind'+ '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
+          method: 'GET',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            wx.showToast({
+              title: '解绑成功！',
+              icon: 'none',
+              duration: 3000
+            });
+            wx.redirectTo({
+              url: '../page05/index',
+            })
+            // wx.request({
+            //   url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
+            //   method: 'GET',
+            //   header: {
+            //     'content-type': 'application/json' // 默认值
+            //   },
+            //   success: function (res) {
+            //     console.log(data)
+            //     console.log(res)
+            //     var memberCard = [];
+            //     var allScore = [];
+            //     var status = [];
+            //     var n = 0;
+            //     var username = '';
+            //     var score = '';
+            //     var memberCard = res.data.data.memberCard;
+            //     if (memberCard == null) {
+            //       that.setData({
+            //         username: '未登录',
+            //         score: 0
+            //       });
+            //       // wx.showToast({
+            //       //   title: '3秒后自动跳转至登录',
+            //       //   icon: 'none',
+            //       //   duration: 3000
+            //       // });
+            //       // setTimeout(function () {
+            //       //   wx.redirectTo({
+            //       //     url: '../page04/index',
+            //       //   })
+            //       // }, 3000)
+            //     }
+            //     else {
+            //       for (var i = 0; i < memberCard.length; i++) {
+            //         if (memberCard[i].status == 1) {
+            //           status.push(memberCard[i]);
+            //         }
+            //       }
+            //       for (var i = 0; i < status.length; i++) {
+            //         var num = "status[" + i + "].num";
+            //         var levelName = "status[" + i + "].levelName";
+            //         var balance = "status[" + i + "].balance";
+            //         var levelCode = "status[" + i + "].levelCode";
+            //         var pass = "status[" + i + "].pass";
+            //         allScore.push(status[i].score)
+            //         that.setData({
+            //           [num]: status[i].cardNo,
+            //           [pass]: status[i].cardPassword,
+            //           [levelName]: status[i].levelName,
+            //           [balance]: status[i].balance,
+            //           [levelCode]: status[i].levelCode,
+            //           username: status[0].userName,
+            //         })
+            //       }
+            //       // 计算总积分
+            //       for (let i = 0; i < allScore.length; i++) {
+            //         n += allScore[i];
+            //       }
+            //       that.setData({
+            //         score: n
+            //       })
+            //     }
+            //   }
+            // })
+          }
+        })
       },
-      fail: function (res) {
+      // fail: function (res) {
 
-      },
-      complete: function (res) {
+      // },
+      // complete: function (res) {
 
-      }
+      // }
     });
   },
   // 清除缓存 方便真机调试
@@ -158,12 +255,14 @@ Page({
     // console.log(app.globalData)
     that.setData({
       openId: app.globalData.openId,
-      cinemaCode: app.globalData.cinemacode
+      cinemaCode: app.globalData.cinemacode,
+      userName: app.usermessage.Username,
+      passWord: app.usermessage.Password,
     })
     // console.log(that.data.openId)
     var data = {
-      Username: 'MiniProgram',
-      PassWord: '6BF477EBCC446F54E6512AFC0E976C41',
+      Username: that.data.userName,
+      PassWord: that.data.passWord,
       OpenID: that.data.openId,
       CinemaCode: that.data.cinemaCode
     }
@@ -192,7 +291,7 @@ Page({
             duration: 3000
           });
           setTimeout(function () {
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../page04/index',
             })
           },3000) 
@@ -208,9 +307,11 @@ Page({
             var levelName = "status[" + i + "].levelName";
             var balance = "status[" + i + "].balance";
             var levelCode = "status[" + i + "].levelCode";
+            var pass = "status[" + i + "].pass";
             allScore.push(status[i].score)
             that.setData({
               [num]: status[i].cardNo,
+              [pass]: status[i].cardPassword,
               [levelName]: status[i].levelName,
               [balance]: status[i].balance,
               [levelCode]: status[i].levelCode,
@@ -233,11 +334,16 @@ Page({
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
   // 生命周期函数--监听页面显示
-  onShow: function () { },
+  onShow: function () {
+   },
   // 生命周期函数--监听页面隐藏
   onHide: function () { },
   // 生命周期函数--监听页面卸载
-  onUnload: function () { },
+  onUnload: function () {
+    // wx.reLaunch({
+    //   url: '../logs/logs'
+    // })
+   },
   // 页面相关事件处理函数--监听用户下拉动作
   onPullDownRefresh: function () { },
   // 页面上拉触底事件的处理函数
