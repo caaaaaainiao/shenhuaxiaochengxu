@@ -6,7 +6,7 @@
     <image src='/images/location.png'></image>
     <text>{{moviearea}}</text>
   </view>
-  <swiper display-multiple-items="0.85" previous-margin="285rpx" next-margin="285rpx" current="{{swiperIndex}}" class='swiper-block' bindchange="swiperChange">
+  <swiper display-multiple-items="1" previous-margin="285rpx" next-margin="285rpx" current="{{swiperIndex}}" class='swiper-block' bindchange="swiperChange">
     <block wx:for="{{moviesList}}" wx:index="{{index}}" wx:key="movie" wx:for-item="movie">
       <swiper-item class="swiper-item">
         <image src='{{movie.image}}' class="slide-image {{swiperIndex == index ? 'active' : ''}}" bindtap='toDetail' data-index='{{index}}'></image>

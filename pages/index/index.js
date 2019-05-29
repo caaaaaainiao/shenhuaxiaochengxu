@@ -46,10 +46,13 @@ Page({
   //授权信息
   onLoad: function(options) {
     var that = this
+    // console.log(app.globalData)
     var timestamp = new Date().getTime()
     that.setData({
       timestamp: new Date().getTime()
     })
+    // console.log(that.data.timestamp)
+    
     // 读取 设置全局openId
     wx.getStorage({
       key: 'loginInfo',
@@ -58,7 +61,6 @@ Page({
         app.globalData.openId = res.data.userInfo.openID
       },
     })
-    // console.log(timestamp)
     var accreditInfo = wx.getStorage({
       key: 'accredit',
       success: function(res) { //key所对应的内容
@@ -169,16 +171,44 @@ Page({
   getMovie: function (cinemaNo) {
     if (cinemaNo){
       console.log(cinemaNo)
+      var timestamp1 = new Date().getTime()
+      // console.log(timestamp1)
       var that = this;
       util.getQueryFilmSession(cinemaNo, function (res) {
+        // that.setData({
+        //   movieList: res
+        // })
+        // console.log(that.data.movieList)
+        for(var x in res){// 影片的预售和购票排序
+          res[x].jian = res[x].time - timestamp1
+        }
+
+       res.sort(that.compare("jian"));
+        app.globalData.movieList = res
         that.setData({
           movieList: res
         })
-        app.globalData.movieList = that.data.movieList
-        // console.log(that.data.movieList)
+      
       });
     }
    
+  },
+
+
+  //json数组比较
+
+  compare: function (property) {
+
+    return function (a, b) {
+
+      var value1 = a[property];
+
+      var value2 = b[property];
+
+      return value2 - value1;
+
+    }
+
   },
   // 获取用户位置，请求影院列表
   getPlace: function() {
@@ -360,6 +390,10 @@ Page({
   // 比价购票
   buy: function(e) {
     console.log(e.currentTarget.dataset)
+    wx.setStorage({
+      key: 'movieList',
+      data: app.globalData.movieList,
+    })
     // return;
     // if (app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "") {
     //   wx.showToast({
@@ -386,7 +420,6 @@ Page({
   getMovies: function() {
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('hotMovie', nowtime);
     // wx.showLoading({
     //   title: '加载中',
     // })
@@ -542,12 +575,21 @@ Page({
     // that.getMovie(app.globalData.cinemacode)
     console.log(app.globalData.cinemacode)
     util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
-    
+      var timestamp1 = new Date().getTime()
       // console.log(res)
+      // that.setData({
+      //   movieList: res
+      // })
+      // console.log(that.data.movieList)
+      for (var x in res) {// 影片的预售和购票排序
+        res[x].jian = res[x].time - timestamp1
+      }
+
+      res.sort(that.compare("jian"));
+      app.globalData.movieList = res
       that.setData({
         movieList: res
       })
-      // that.onShow()
     });
   },
   startChoose: function() {

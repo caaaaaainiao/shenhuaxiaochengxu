@@ -61,7 +61,6 @@ Page({
         that.setData({
           moviesList: res.data
           })
-        console.log(that.data.moviesList) 
       },
       fail: function (res) { },
       complete: function (res) { },
@@ -199,18 +198,17 @@ Page({
   ask: function() { //请求数据
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('screening', nowtime);
-    if (app.globalData.cinemacode) {
-      console.log(app.globalData.cinemacode)
-      var that = this;
-      util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
-        // console.log(res)
-        that.setData({
-          moviesList: res
-        })
-        console.log(that.data.moviesList)
-      });
-    }
+    // if (app.globalData.cinemacode) {
+    //   console.log(app.globalData.cinemacode)
+    //   var that = this;
+    //   util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
+    //     // console.log(res)
+    //     that.setData({
+    //       moviesList: res
+    //     })
+    //     console.log(that.data.moviesList)
+    //   });
+    // }
     that.setData({
       isLoading:true
     })
