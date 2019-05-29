@@ -86,7 +86,6 @@ Page({
         // 性别
         Sex: that.data.index002
       };
-      console.log(data)
       var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
     if (that.data.phone == '' || that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
         wx.showToast({
@@ -100,7 +99,8 @@ Page({
           icon: 'none',
           duration: 3000
         })
-    } else if (cinemaType == "辰星" && "粤科" && "满天星") {
+    } else if (cinemaType == ("辰星" || "粤科")) {
+      // console.log(cinemaType)
       wx.request({
         url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
         method: 'GET',
@@ -114,34 +114,34 @@ Page({
       }
       else {
         that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
-        wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
-          method: 'GET',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            if (res.data.Status == 'Success') {
-              var levelRule = res.data.data;
-              var rule = levelRule.rule;
-              for (var i = 0; i < rule.length; i++) {
-                var credit = "rule[" + i + "].credit";
-                var ruleCode = "rule[" + i + "].ruleCode";
-                that.setData({
-                  levelName: levelRule.levelName,
-                  [credit]: rule[i].credit,
-                  [ruleCode]: rule[i].ruleCode
-                })
-              }
-            } else if (res.data.Status == 'Failure') {
-              wx.showToast({
-                title: res.data.ErrorMessage,
-                icon: 'none',
-                duration: 3000
-              })
-            }
-          },
-        })
+        // wx.request({
+        //   url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
+        //   method: 'GET',
+        //   header: {
+        //     'content-type': 'application/json' // 默认值
+        //   },
+        //   success: function (res) {
+        //     if (res.data.Status == 'Success') {
+        //       var levelRule = res.data.data;
+        //       var rule = levelRule.rule;
+        //       for (var i = 0; i < rule.length; i++) {
+        //         var credit = "rule[" + i + "].credit";
+        //         var ruleCode = "rule[" + i + "].ruleCode";
+        //         that.setData({
+        //           levelName: levelRule.levelName,
+        //           [credit]: rule[i].credit,
+        //           [ruleCode]: rule[i].ruleCode
+        //         })
+        //       }
+        //     } else if (res.data.Status == 'Failure') {
+        //       wx.showToast({
+        //         title: res.data.ErrorMessage,
+        //         icon: 'none',
+        //         duration: 3000
+        //       })
+        //     }
+        //   },
+        // })
       }
   },
   closeShow: function () {

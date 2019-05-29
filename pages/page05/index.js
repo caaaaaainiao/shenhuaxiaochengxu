@@ -286,20 +286,23 @@ Page({
               username: status[0].userName,
             })
           }
-          // 计算余额最多的会员卡并存入缓存
+          // 计算余额最多的会员卡
           var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
           first.cinemaCode = that.data.cinemaCode;
-          wx.setStorage({
-            key: 'card',
-            data: first,
-          })
-          // 计算总积分
-          for (let i = 0; i < allScore.length; i++) {
-            n += allScore[i];
+          var cardList = [];
+          cardList.push(first)
+          app.globalData.cardList = cardList;
+          console.log(app.globalData.cardList)
+          // 判断积分  显示余额最多的积分
+          if (first.score == null) {
+            that.setData({
+              score: 0
+            })
+          } else {
+            that.setData({
+              score: first.score
+            })
           }
-          that.setData({
-            score: n
-          })
         }
       }
     })

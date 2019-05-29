@@ -158,20 +158,6 @@ Page({
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
   })
-    wx.getStorage({
-      key: 'card',
-      success: function (res) {
-        console.log(res.data)
-        if (res.data.cinemaCode == 1) {
-
-        }
-        if (res.data.score == null)
-          that.setData({
-              memberCardScore: "- - -",
-              memberCardBalance: res.data.balance
-          })
-      },
-    })
   },
   getMovie: function (cinemaNo) {
     if (cinemaNo){
@@ -535,17 +521,6 @@ Page({
             [cinemaCode]: show[j].cinemaCode
           })
         }
-    wx.getStorage({
-      key: 'card',
-      success: function (res) {
-        console.log(res.data)
-        if (res.data.score == null)
-          that.setData({
-            memberCardScore: "- - -",
-            memberCardBalance: res.data.balance
-          })
-      },
-    })
   },
   showCity: function() { //展示城市
     // var that = this;
@@ -802,17 +777,6 @@ return;
       })
      
     }
-    wx.getStorage({
-      key: 'card',
-      success: function (res) {
-        console.log(res.data)
-        if (res.data.score == null)
-          that.setData({
-            memberCardScore: "- - -",
-            memberCardBalance: res.data.balance
-          })
-      },
-    })
   },
   onShareAppMessage: function() {
     return {
