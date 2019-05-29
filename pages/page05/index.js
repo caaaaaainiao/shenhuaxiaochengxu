@@ -1,5 +1,5 @@
 //获取应用实例
-const app = getApp()
+const app = getApp();
 let _this;
 Page({
   // 页面的初始数据
@@ -19,7 +19,8 @@ Page({
     openId: '',
     cinemaCode: '',
     ruleCode: '',
-    show: ''
+    show: '',
+    face: ''
   },
   btnShowExchange: (e) => {
     _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
@@ -103,7 +104,6 @@ Page({
       ChargeAmount: price,
       RuleCode: ruleCode
     };
-    // console.log(_this.data.openId)
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.RuleCode + '/' + data.ChargeAmount,
       method: 'GET',
@@ -111,7 +111,29 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
+        console.log(res.data.data)
+        // var str = res.data.data.nonceStr.toUpperCase();
+        // console.log(str)
+          // 微信支付接口
+        wx.requestPayment({
+          timeStamp: res.data.data.timeStamp,
+          // nonceStr: str,
+          nonceStr: res.data.data.nonceStr.toUpperCase(),
+          package: res.data.data.packages,
+          signType: res.data.data.signType,
+          paySign: res.data.data.paySign,
+          success(res) {
+            console.log(res)
+           },
+          fail(res) {
+            wx.showToast({
+              title: res.err_desc,
+              icon: 'none',
+              duration: 3000
+            });
+            console.log(res)
+           } 
+        })
       }
     })
   },
@@ -169,70 +191,6 @@ Page({
             wx.redirectTo({
               url: '../page05/index',
             })
-            // wx.request({
-            //   url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
-            //   method: 'GET',
-            //   header: {
-            //     'content-type': 'application/json' // 默认值
-            //   },
-            //   success: function (res) {
-            //     console.log(data)
-            //     console.log(res)
-            //     var memberCard = [];
-            //     var allScore = [];
-            //     var status = [];
-            //     var n = 0;
-            //     var username = '';
-            //     var score = '';
-            //     var memberCard = res.data.data.memberCard;
-            //     if (memberCard == null) {
-            //       that.setData({
-            //         username: '未登录',
-            //         score: 0
-            //       });
-            //       // wx.showToast({
-            //       //   title: '3秒后自动跳转至登录',
-            //       //   icon: 'none',
-            //       //   duration: 3000
-            //       // });
-            //       // setTimeout(function () {
-            //       //   wx.redirectTo({
-            //       //     url: '../page04/index',
-            //       //   })
-            //       // }, 3000)
-            //     }
-            //     else {
-            //       for (var i = 0; i < memberCard.length; i++) {
-            //         if (memberCard[i].status == 1) {
-            //           status.push(memberCard[i]);
-            //         }
-            //       }
-            //       for (var i = 0; i < status.length; i++) {
-            //         var num = "status[" + i + "].num";
-            //         var levelName = "status[" + i + "].levelName";
-            //         var balance = "status[" + i + "].balance";
-            //         var levelCode = "status[" + i + "].levelCode";
-            //         var pass = "status[" + i + "].pass";
-            //         allScore.push(status[i].score)
-            //         that.setData({
-            //           [num]: status[i].cardNo,
-            //           [pass]: status[i].cardPassword,
-            //           [levelName]: status[i].levelName,
-            //           [balance]: status[i].balance,
-            //           [levelCode]: status[i].levelCode,
-            //           username: status[0].userName,
-            //         })
-            //       }
-            //       // 计算总积分
-            //       for (let i = 0; i < allScore.length; i++) {
-            //         n += allScore[i];
-            //       }
-            //       that.setData({
-            //         score: n
-            //       })
-            //     }
-            //   }
-            // })
           }
         })
       },
@@ -252,20 +210,28 @@ Page({
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
     var that = this;
-    // console.log(app.globalData)
+    // 设置头像
+    wx.getStorage({
+      key: 'accredit',
+      success: function (res) {
+        that.setData({
+          face: res.data.userInfo.avatarUrl
+        })
+      },
+    })
     that.setData({
       openId: app.globalData.openId,
       cinemaCode: app.globalData.cinemacode,
       userName: app.usermessage.Username,
       passWord: app.usermessage.Password,
     })
-    // console.log(that.data.openId)
     var data = {
       Username: that.data.userName,
       PassWord: that.data.passWord,
       OpenID: that.data.openId,
       CinemaCode: that.data.cinemaCode
     }
+    // 读取已绑定的会员卡
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
       method: 'GET',
@@ -280,6 +246,7 @@ Page({
         var username = '';
         var score = '';
         var memberCard = res.data.data.memberCard;
+        // 判断是否绑定了会员卡  未绑定则跳转至绑定页面
         if (memberCard == null) {
           that.setData({
             username: '未登录',
@@ -296,6 +263,7 @@ Page({
             })
           },3000) 
         } 
+        // 将已绑定的会员卡循环出来
         else {
           for (var i = 0; i < memberCard.length; i++) {
             if ( memberCard[i].status == 1 ) {
@@ -318,6 +286,13 @@ Page({
               username: status[0].userName,
             })
           }
+          // 计算余额最多的会员卡并存入缓存
+          var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
+          first.cinemaCode = that.data.cinemaCode;
+          wx.setStorage({
+            key: 'card',
+            data: first,
+          })
           // 计算总积分
           for (let i = 0; i < allScore.length; i++) {
             n += allScore[i];

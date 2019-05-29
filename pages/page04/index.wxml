@@ -13,7 +13,7 @@
         <input placeholder="输入您的会员卡号/手机号" class="input" value="{{inputNum}}" bindinput="getNum" bindblur="btnBlurInput" placeholder-class="phColor" />
       </view>
       <view class="item">
-        <input placeholder="输入您的会员卡密码" class="input" value="{{inputPass}}" bindinput="getPass" bindblur="btnBlurInput" placeholder-class="phColor" />
+        <input placeholder="输入您的会员卡密码" class="input" value="{{inputPass}}" bindinput="" bindblur="getPass" placeholder-class="phColor" />
       </view>
       <!-- <view class="item">
 				<picker bindchange="bindPickerChange999" value="{{index999}}" range="{{array999}}"><view class="picker gray">{{array999[index999]}}</view></picker>
@@ -30,10 +30,9 @@
       <view class="box-bottom">
         <view class="title" style="text-align: center;">选择会员卡号</view>
         <view class="choose">
-          <block wx:for="{{memberPhones}}" wx:key="item" wx:for-item="item">
-            <button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{item.cardNo}}" data-cardPassword="{{item.cardPassword}}" hover-class="none">
-              {{item.cardNo}}
-              <!-- <view class="tips">{{item.levelName}}</view> -->
+          <block wx:for="{{memberPhones}}">
+            <button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{item}}" hover-class="none">
+              {{item}}
             </button>
           </block>
         </view>

@@ -156,15 +156,20 @@ Page({
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
   })
-  // console.log(app.globalData)
-    // //检查会员卡是否已绑定
-    // var card = {
-    //   Username: app.usermessage.Username,
-    //   PassWord: app.usermessage.Password,
-    //   OpenID: app.globalData.openId,
-    //   CinemaCode: app.globalData.cinemacode
-    // }
-    // console.log(card)
+    wx.getStorage({
+      key: 'card',
+      success: function (res) {
+        console.log(res.data)
+        if (res.data.cinemaCode == 1) {
+
+        }
+        if (res.data.score == null)
+          that.setData({
+              memberCardScore: "- - -",
+              memberCardBalance: res.data.balance
+          })
+      },
+    })
   },
   getMovie: function (cinemaNo) {
     if (cinemaNo){
@@ -497,6 +502,17 @@ Page({
             [cinemaCode]: show[j].cinemaCode
           })
         }
+    wx.getStorage({
+      key: 'card',
+      success: function (res) {
+        console.log(res.data)
+        if (res.data.score == null)
+          that.setData({
+            memberCardScore: "- - -",
+            memberCardBalance: res.data.balance
+          })
+      },
+    })
   },
   showCity: function() { //展示城市
     // var that = this;
@@ -744,6 +760,17 @@ return;
       })
      
     }
+    wx.getStorage({
+      key: 'card',
+      success: function (res) {
+        console.log(res.data)
+        if (res.data.score == null)
+          that.setData({
+            memberCardScore: "- - -",
+            memberCardBalance: res.data.balance
+          })
+      },
+    })
   },
   onShareAppMessage: function() {
     return {

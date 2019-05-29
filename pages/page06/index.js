@@ -27,8 +27,8 @@ Page({
     credit: '',
     ruleCode: '',
     disabled: false,
-    username: '',
-    password: ''
+    userName: '',
+    passWord: ''
   },
   getPhone: function (e) {
     this.setData({ phone: e.detail.value })
@@ -64,10 +64,12 @@ Page({
   btnShowExchange2:function(){
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var cinemaType = app.globalData.cinemaList.cinemaType;
     var data = {
-        Username: that.data.username,
-        Password: that.data.password,
+        Username: that.data.userName,
+        Password: that.data.passWord,
         CinemaCode: cinemaCode,
+        // OpenID: 'o9gGQ4jbp2TkTNZka6UGoAu7lx - A',
         OpenID: that.data.openId,
         // 会员卡密码
         CardPassword: that.data.password,
@@ -80,10 +82,11 @@ Page({
         // 手机号
         MobilePhone: that.data.phone,
         // 身份证号
-        IDNumber: '362528199608210013',
+        IDNumber: '120101200005299837',
         // 性别
         Sex: that.data.index002
       };
+      console.log(data)
       var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
     if (that.data.phone == '' || that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
         wx.showToast({
@@ -97,6 +100,17 @@ Page({
           icon: 'none',
           duration: 3000
         })
+    } else if (cinemaType == "辰星" && "粤科" && "满天星") {
+      wx.request({
+        url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res)
+        }
+      })
       }
       else {
         that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
@@ -129,21 +143,6 @@ Page({
           },
         })
       }
-      // else {
-      //   wx.request({
-      //     url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
-      //     method: 'GET',
-      //     header: {
-      //       'content-type': 'application/json' // 默认值
-      //     },
-      //     success: function (res) {
-      //       console.log(res)
-      //       wx.redirectTo({
-      //         url: '../page05/index?Username=' + data.Username + '&PassWord=' + data.Password + '&CinemaCode=' + data.CinemaCode + '&OpenID=' + data.OpenID + '&Credit=' + data.InitialAmount
-      //       })
-      //     }
-      //   })
-      // }
   },
   closeShow: function () {
     this.setData({ showAlertExchange2: !this.data.showAlertExchange2 })
@@ -182,8 +181,8 @@ Page({
     let openId = that.data.openId;
     let cinemaCode = app.globalData.cinemaList.cinemaCode;
     let ruleCode = that.data.ruleCode;
-    let username = that.data.username;
-    let password = that.data.password;
+    let username = that.data.userName;
+    let password = that.data.passWord;
     var data = {
       Username: username,
       Password: password,
@@ -220,8 +219,8 @@ Page({
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var movieName = app.globalData.moviearea;
-    var username = app.usermessage.Username;
-    var password = app.usermessage.Password;
+    var userName = app.usermessage.Username;
+    var passWord = app.usermessage.Password;
     that.setData({
       id: options.id,
       openId: options.openId,
@@ -230,8 +229,8 @@ Page({
       ruleDescription: options.text,
       effectiveDays: options.time,
       credit: options.credit,
-      username: username,
-      password: password
+      userName: userName,
+      passWord: passWord
     })
     wx.setNavigationBarTitle({ title: '会员卡' });
   },

@@ -1,6 +1,6 @@
 <view class="wrap page05">
 	<view class="panel">
-		<image src="/images/face.png" class="icon" mode="widthFix"></image>
+		<image src="{{face}}" class="icon" mode="widthFix"></image>
 		<view class="r">
 			<view class="txt1">{{username}}</view>
 			<view class="txt2">积分：{{score}}</view>
@@ -19,7 +19,7 @@
       <button class="btn-delete" bindtap="btnDelete" data-cardno="{{card.num}}" data-pass="{{card.pass}}" hover-class="none">
 				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
 			</button>
-			<button class="btns" bindtap="btnShowExchange2" hover-class="none" data-code="{{card.levelCode}}" data-cardNo="{{card.num}}" data-pass="mima123">立即充值</button>
+			<button class="btns" bindtap="btnShowExchange2" hover-class="none" data-code="{{card.levelCode}}" data-cardNo="{{card.num}}" data-pass="{{card.pass}}">立即充值</button>
     </view>
 	</view>
 
