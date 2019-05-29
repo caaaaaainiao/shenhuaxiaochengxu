@@ -18,7 +18,8 @@ Page({
     showTask:false,
     showTip:0,
     moviearea:null,
-    isLoading:true
+    isLoading:true,
+    moviesListDate: null,
   },
 
   /**
@@ -364,6 +365,7 @@ Page({
     })
   },
   toDetail:function(e){
+    var that = this
     if (this.data.swiperIndex == e.currentTarget.dataset.index){
       app.globalData.movieIndex = this.data.swiperIndex;
 
@@ -374,6 +376,24 @@ Page({
       this.setData({
         swiperIndex: e.currentTarget.dataset.index
       })
+      let apiuser = util.getAPIUserData(null);
+      let cinemacode = app.globalData.cinemacode
+     
+      wx.request({
+        url: 'https://xc.80piao.com:8443/Api/Session/QueryFimlSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode + '/' + '2019-05-29' + '/' + '2019-06-01',
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          that.setData({
+            moviesListDate : res.data.data
+            })
+          console.log(that.data.moviesListDate)
+        }
+      })
+      // moviesListDate
+      // console.log(this.data.swiperIndex)
     }
   }
 })
