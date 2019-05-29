@@ -158,15 +158,6 @@ Page({
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
   })
-  // console.log(app.globalData)
-    // //检查会员卡是否已绑定
-    // var card = {
-    //   Username: app.usermessage.Username,
-    //   PassWord: app.usermessage.Password,
-    //   OpenID: app.globalData.openId,
-    //   CinemaCode: app.globalData.cinemacode
-    // }
-    // console.log(card)
   },
   getMovie: function (cinemaNo) {
     if (cinemaNo){

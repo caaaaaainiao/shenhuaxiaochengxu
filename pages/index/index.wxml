@@ -28,14 +28,14 @@
       <view class='messages'>
         <view class="leftBlock" bindtap='toCard'>
           <text class='title'>积分</text>
-          <text class='number'>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.integralBalance:"- - -"}}</text>
+          <text class='number'>{{memberCardScore}}</text>
         </view>
         <view class="middleBlock">
           <text>{{wxInfo.nickName}}</text>
         </view>
         <view class="rightBlock" bindtap='toCard'>
           <text class='title'>余额</text>
-          <text class='number'>{{userInfo.dxInsiderInfo.balance!=null?userInfo.dxInsiderInfo.balance:"- - -"}}</text>
+          <text class='number'>{{memberCardBalance}}</text>
           <text class='discounts'>{{moviearea.rechargeDisconutDesc == null?"":moviearea.rechargeDisconutDesc}}</text>
         </view>
       </view>

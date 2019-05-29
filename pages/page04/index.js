@@ -6,7 +6,7 @@ Page({
   data: {
     isShow: false,
     tabContent: [1, 0, 0, 0, 0],
-    array999: ['选择卡类别', '选择卡类别2', '选择卡类别3', '选择卡类别4', '选择卡类别5'],
+    // array999: ['选择卡类别', '选择卡类别2', '选择卡类别3', '选择卡类别4', '选择卡类别5'],
     index999: 0,
     inputNum: '',
     inputPass: '',
@@ -35,7 +35,6 @@ Page({
   btnChoose: (e) => {
     _this.setData({
       inputNum: e.target.dataset.cardno,
-      inputPass: e.target.dataset.cardpassword,
       isShow: !_this.data.isShow
     })
   },
@@ -82,15 +81,26 @@ Page({
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var str = memberCardLevel[i].ruleDescription
-              var newDescription = str.replace(/，/g, "，\n")
-              that.setData({
-                [levelName]: memberCardLevel[i].levelName,
-                [levelCode]: memberCardLevel[i].levelCode,
-                [ruleName]: memberCardLevel[i].ruleName,
-                [ruleDescription]: newDescription,
-                [effectiveDays]: memberCardLevel[i].effectiveDays,
-                [credit]: memberCardLevel[i].credit
-              })
+              if (str != null) {
+                var newDescription = str.replace(/，/g, "，\n")
+                that.setData({
+                  [levelName]: memberCardLevel[i].levelName,
+                  [levelCode]: memberCardLevel[i].levelCode,
+                  [ruleName]: memberCardLevel[i].ruleName,
+                  [ruleDescription]: newDescription,
+                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  [credit]: memberCardLevel[i].credit
+                })
+              } else {
+                that.setData({
+                  [levelName]: memberCardLevel[i].levelName,
+                  [levelCode]: memberCardLevel[i].levelCode,
+                  [ruleName]: memberCardLevel[i].ruleName,
+                  [ruleDescription]: memberCardLevel[i].ruleDescription,
+                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  [credit]: memberCardLevel[i].credit
+                })
+              }
             }
           }
         })
@@ -112,7 +122,7 @@ Page({
       Username: app.usermessage.Username,
       Password: app.usermessage.Password
     })
-    console.log(app.globalData)
+    // console.log(app.globalData)
   },
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
@@ -135,7 +145,8 @@ Page({
       CardPassword: that.data.inputPass,
       MobilePhone: that.data.inputNum
     };
-    if (cinemaType == "辰星" && "满天星") {
+    if (cinemaType == ("辰星" || "满天星")) {
+      console.log(cinemaType)
       wx.request({
         // 会员卡号
         url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
@@ -157,6 +168,7 @@ Page({
             })
           }
           else if (res.data.Status == 'Failure') {
+            console.log(res)
             wx.showToast({
               title: res.data.ErrorMessage,
               icon: 'none',
@@ -165,7 +177,7 @@ Page({
           }
         }
       })
-    } else if (cinemaType == "电影1905" && "粤科") {
+    } else if (cinemaType == ("电影1905" || "粤科")) {
       if (Num.test(that.data.inputNum)) {
         // 手机号返回会员卡号进行选择绑定
         wx.request({
@@ -176,15 +188,12 @@ Page({
           },
           success: function (res) {
             var memberPhones = [];
-            for (var i = 0; i < res.data.data.memberPhones.length; i++) {
-              memberPhones.push(res.data.data.memberPhones[i]);
-              var levelName = "memberPhones[" + i + "].levelName";
-              var cardNo = "memberPhones[" + i + "].cardNo";
-              var cardPassword = "memberPhones[" + i + "].cardPassword";
+            // console.log(res.data.data)
+            for (var i = 0; i < res.data.data.cards.cardNo.length; i++) {
+              memberPhones.push(res.data.data.cards.cardNo[i]);
+              var cardNo = "memberPhones[" + i + "]";
               that.setData({
-                [levelName]: res.data.data.memberPhones[i].levelName,
-                [cardNo]: res.data.data.memberPhones[i].cardNo,
-                [cardPassword]: res.data.data.memberPhones[i].cardPassword,
+                [cardNo]: res.data.data.cards.cardNo[i],
                 isShow: true
               })
             };
@@ -246,7 +255,6 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            // console.log(res.data.data)
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;
             for (var i = 0; i < memberCardLevel.length; i++) {
@@ -257,15 +265,26 @@ Page({
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var str = memberCardLevel[i].ruleDescription
-              var newDescription = str.replace(/，/g, "，\n")
-              that.setData({
-                [levelName]: memberCardLevel[i].levelName,
-                [levelCode]: memberCardLevel[i].levelCode,
-                [ruleName]: memberCardLevel[i].ruleName,
-                [ruleDescription]: newDescription,
-                [effectiveDays]: memberCardLevel[i].effectiveDays,
-                [credit]: memberCardLevel[i].credit
-              })
+              if (str != null) {
+                var newDescription = str.replace(/，/g, "，\n")
+                that.setData({
+                  [levelName]: memberCardLevel[i].levelName,
+                  [levelCode]: memberCardLevel[i].levelCode,
+                  [ruleName]: memberCardLevel[i].ruleName,
+                  [ruleDescription]: newDescription,
+                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  [credit]: memberCardLevel[i].credit
+                })
+              } else {
+                that.setData({
+                  [levelName]: memberCardLevel[i].levelName,
+                  [levelCode]: memberCardLevel[i].levelCode,
+                  [ruleName]: memberCardLevel[i].ruleName,
+                  [ruleDescription]: memberCardLevel[i].ruleDescription,
+                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  [credit]: memberCardLevel[i].credit
+                })
+              }
             }
           }
         })
