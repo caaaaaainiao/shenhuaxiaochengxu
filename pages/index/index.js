@@ -144,6 +144,7 @@ Page({
     }
     // console.log(cinemas)
       app.globalData.areaList = cinemas
+      // console.log(cinemas)
     app.globalData.cinemacode = cinemas[0].cinemaCode
     // console.log(app.globalData.cinemacode)
     that.getMovie(app.globalData.cinemacode)
@@ -155,7 +156,7 @@ Page({
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
   })
-  console.log(app.globalData)
+  // console.log(app.globalData)
     // //检查会员卡是否已绑定
     // var card = {
     //   Username: app.usermessage.Username,

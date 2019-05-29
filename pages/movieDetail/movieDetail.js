@@ -26,36 +26,20 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    console.log(app.globalData.movieList)
+    // console.log(app.globalData.movieList)
     var that = this;
     var movie = app.globalData.movieList[app.globalData.movieIndex];
-    console.log(movie)
+    // console.log(movie)
     var event = movie;
-    console.log(event)
+    // console.log(event)
+    var nameList = event.cast.split(',')
+    // console.log(nameList)
+    that.setData({
+      nameList:nameList
+    })
     that.manage(event);
     // console.log(app.globalData)
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('myComment', nowtime);
-    // wx.request({
-    //   url: app.globalData.url+'/api/Comment/myComment',
-    //   data:{
-    //     movieId: that.data.movie.id,
-    //     appUserId:app.globalData.userInfo.id,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: { "Content-Type": "application/x-www-form-urlencoded" },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     that.setData({
-    //       isWant: res.data.data.wantSee,
-    //       isLooked: res.data.data.commentRecord,
-    //       watchRecord: res.data.data.watchRecord
-    //     })
-    //     that.getComment();
-    //   }
-    // })
   },
 
   /**
