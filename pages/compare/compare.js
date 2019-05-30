@@ -215,7 +215,7 @@ Page({
         that.setData({
           moviesListDate: res.data.data
         })
-        console.log(that.data.moviesListDate)
+        // console.log(that.data.moviesListDate)
       }
     })
     // if (app.globalData.cinemacode) {
