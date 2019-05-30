@@ -33,9 +33,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    var that = this;
-    
+    var that = this;   
     this.setData({
+      checkfilmcode: app.globalData.checkfilmcode,
       swiperIndex: app.globalData.movieIndex
     })
     this.swiperIndex = this.data.swiperIndex
@@ -116,7 +116,7 @@ Page({
     const that = this;
     that.setData({
       swiperIndex: e.detail.current,
-      movieId: that.data.moviesList[e.detail.current].id,
+      checkfilmcode: that.data.moviesList[e.detail.current].code,
       select: 0
     })
     setTimeout(function() {
@@ -198,7 +198,26 @@ Page({
   },
   ask: function() { //请求数据
     var that = this;
-    var nowtime = new Date().getTime();
+    var nowtime = new Date();
+    let nowday = util.formatTimeDay(nowtime);
+    let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30);//add 30 day
+    let endday = util.formatTimeDay(endtime);
+    let apiuser = util.getAPIUserData(null);
+    let cinemacode = app.globalData.cinemacode
+
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + this.data.checkfilmcode + '/' + nowday + '/' + endday,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        that.setData({
+          moviesListDate: res.data.data
+        })
+        console.log(that.data.moviesListDate)
+      }
+    })
     // if (app.globalData.cinemacode) {
     //   console.log(app.globalData.cinemacode)
     //   var that = this;
@@ -370,6 +389,8 @@ Page({
     let nowday = util.formatTimeDay(nowtime);
     let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30);//add 30 day
     let endday = util.formatTimeDay(endtime);
+    let apiuser = util.getAPIUserData(null);
+    let cinemacode = app.globalData.cinemacode
     if (this.data.swiperIndex == e.currentTarget.dataset.index){
       app.globalData.movieIndex = this.data.swiperIndex;
 
@@ -380,9 +401,8 @@ Page({
       this.setData({
         swiperIndex: e.currentTarget.dataset.index
       })
-      let apiuser = util.getAPIUserData(null);
-      let cinemacode = app.globalData.cinemacode
-     
+
+
       wx.request({
         url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode + '/' + nowday + '/' + endday,
         method: 'GET',
@@ -391,11 +411,12 @@ Page({
         },
         success: function (res) {
           that.setData({
-            moviesListDate : res.data.data
-            })
+            moviesListDate: res.data.data
+          })
           console.log(that.data.moviesListDate)
         }
       })
+
       // moviesListDate
       // console.log(this.data.swiperIndex)
     }
