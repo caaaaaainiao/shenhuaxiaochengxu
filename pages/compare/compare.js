@@ -366,6 +366,10 @@ Page({
   },
   toDetail:function(e){
     var that = this
+    var nowtime = new Date();
+    let nowday = util.formatTimeDay(nowtime);
+    let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30);//add 30 day
+    let endday = util.formatTimeDay(endtime);
     if (this.data.swiperIndex == e.currentTarget.dataset.index){
       app.globalData.movieIndex = this.data.swiperIndex;
 
@@ -380,7 +384,7 @@ Page({
       let cinemacode = app.globalData.cinemacode
      
       wx.request({
-        url: 'https://xc.80piao.com:8443/Api/Session/QueryFimlSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode + '/' + '2019-05-29' + '/' + '2019-06-01',
+        url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode + '/' + nowday + '/' + endday,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
