@@ -1,5 +1,27 @@
 //获取应用实例
 const app = getApp();
+// 获取远程余额回调函数
+const getCallBack = function (username, password, cinemacode, cardno, cardpassword, callback) {
+  var card = [];
+  var data = {
+    Username: username,
+    PassWord: password,
+    CinemaCode: cinemacode,
+    CardNo: cardno,
+    CardPassword: cardpassword
+  };
+  wx.request({
+    url: 'https://xc.80piao.com:8443/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
+    method: 'GET',
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success: function (res) {
+      callback && callback(res.data.card);
+      return res.data.card;
+    }
+  })
+}
 let _this;
 Page({
   // 页面的初始数据
@@ -20,7 +42,8 @@ Page({
     cinemaCode: '',
     ruleCode: '',
     show: '',
-    face: ''
+    face: '',
+    userCardList: ''
   },
   btnShowExchange: (e) => {
     _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
@@ -59,10 +82,12 @@ Page({
         for (var i = 0; i < rule.length; i ++) {
           var credit = "rule[" + i + "].credit";
           var ruleCode = "rule[" + i + "].ruleCode";
+          var givenAmount = "rule[" + i + "].givenAmount"
           _this.setData({
             levelName: levelRule.levelName,
             [credit]: rule[i].credit,
-            [ruleCode]: rule[i].ruleCode
+            [ruleCode]: rule[i].ruleCode,
+            [givenAmount]: rule[i].givenAmount
           })
         }
       }
@@ -100,6 +125,10 @@ Page({
       Username: username,
       Password: password,
       CinemaCode: cinemaCode,
+      CardNo: cardno,
+      CardPassword: pass,
+      ChargeType: 'WxPay',
+      RuleCode: ruleCode,
       OpenID: openId,
       ChargeAmount: price,
       RuleCode: ruleCode
@@ -111,19 +140,38 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res.data.data)
-        // var str = res.data.data.nonceStr.toUpperCase();
-        // console.log(str)
           // 微信支付接口
         wx.requestPayment({
           timeStamp: res.data.data.timeStamp,
-          // nonceStr: str,
-          nonceStr: res.data.data.nonceStr.toUpperCase(),
+          nonceStr: res.data.data.nonceStr,
           package: res.data.data.packages,
           signType: res.data.data.signType,
           paySign: res.data.data.paySign,
           success(res) {
-            console.log(res)
+            if (res.errMsg == "requestPayment:ok") {
+              wx.request({
+                url: 'https://xc.80piao.com:8443/Api/Member/CardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.ChargeType + '/' + data.RuleCode + '/' + data.ChargeAmount, 
+                method: 'GET',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  if (res.data.Status == "Success") {
+                    wx.showToast({
+                      title: '充值成功！',
+                      icon: 'none',
+                      duration: 2000
+                    });
+                    _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
+                    setTimeout(function () {
+                      wx.redirectTo({
+                        url: '../page05/index',
+                      })
+                    }, 1000) 
+                  }
+                }
+              })
+            }
            },
           fail(res) {
             wx.showToast({
@@ -152,6 +200,11 @@ Page({
       }
     })
     _this.setData({ exchangeList2: temp })
+  },
+  login: function () {
+    wx.navigateTo({
+      url: '../page04/index',
+    })
   },
   // 解绑
   btnDelete: function (e) {
@@ -210,12 +263,13 @@ Page({
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
     var that = this;
-    // 设置头像
+    // 设置头像 昵称
     wx.getStorage({
       key: 'accredit',
       success: function (res) {
         that.setData({
-          face: res.data.userInfo.avatarUrl
+          face: res.data.userInfo.avatarUrl,
+          username: res.data.userInfo.nickName
         })
       },
     })
@@ -240,28 +294,27 @@ Page({
       },
       success: function (res) {
         var memberCard = [];
-        var allScore = [];
         var status = [];
+        var userCardList = [];
         var n = 0;
         var username = '';
         var score = '';
         var memberCard = res.data.data.memberCard;
         // 判断是否绑定了会员卡  未绑定则跳转至绑定页面
         if (memberCard == null) {
-          that.setData({
-            username: '未登录',
-            score: 0
+          wx.getStorage({
+            key: 'accredit',
+            success: function (res) {
+              that.setData({
+                face: res.data.userInfo.avatarUrl,
+                username: res.data.userInfo.nickName,
+                score: 0
+              })
+            },
           });
-          wx.showToast({
-            title: '3秒后自动跳转至登录',
-            icon: 'none',
-            duration: 3000
-          });
-          setTimeout(function () {
-            wx.redirectTo({
+            wx.navigateTo({
               url: '../page04/index',
             })
-          },3000) 
         } 
         // 将已绑定的会员卡循环出来
         else {
@@ -270,29 +323,50 @@ Page({
               status.push(memberCard[i]);
             }
           }
-          for (var i = 0; i < status.length; i++) {
-            var num = "status[" + i + "].num";
-            var levelName = "status[" + i + "].levelName";
-            var balance = "status[" + i + "].balance";
-            var levelCode = "status[" + i + "].levelCode";
-            var pass = "status[" + i + "].pass";
-            allScore.push(status[i].score)
-            that.setData({
-              [num]: status[i].cardNo,
-              [pass]: status[i].cardPassword,
-              [levelName]: status[i].levelName,
-              [balance]: status[i].balance,
-              [levelCode]: status[i].levelCode,
-              username: status[0].userName,
-            })
+          for (let i = 0; i < status.length; i++) {
+            getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res)             {
+              userCardList.push(res);
+              that.setData({
+                userCardList: userCardList
+              })
+            })   
           }
+          setTimeout(function () { 
+            var card = that.data.userCardList;
+            for (let i = 0; i < card.length; i++) {
+              var num = "status[" + i + "].num";
+              var levelName = "status[" + i + "].levelName";
+              var balance = "status[" + i + "].balance";
+              var levelCode = "status[" + i + "].levelCode";
+              var pass = "status[" + i + "].pass";
+              if (card[i].balance == null) {
+                that.setData({
+                  [balance]: 0,
+                  [num]: card[i].cardNo,
+                  [pass]: card[i].cardPassword,
+                  [levelName]: card[i].levelName,
+                  [levelCode]: card[i].levelCode
+                })
+              } else {
+                that.setData({
+                  [num]: card[i].cardNo,
+                  [pass]: card[i].cardPassword,
+                  [levelName]: card[i].levelName,
+                  [balance]: card[i].balance,
+                  [levelCode]: card[i].levelCode,
+                })
+              }
+            }
+            }, 500);
           // 计算余额最多的会员卡
           var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
           first.cinemaCode = that.data.cinemaCode;
-          var cardList = [];
-          cardList.push(first)
+          var cardList = []
+          if (first.score == null) {
+            first.score = 0
+          }
+          cardList.push(first);
           app.globalData.cardList = cardList;
-          console.log(app.globalData.cardList)
           // 判断积分  显示余额最多的积分
           if (first.score == null) {
             that.setData({

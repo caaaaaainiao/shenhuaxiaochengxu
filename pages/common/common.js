@@ -8,15 +8,29 @@ Page({
    */
   data: {
     sexArr:["男","女"],
-    userInfo:null
+    userInfo:null,
+    phone: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    this.setData({
-      userInfo:app.globalData.userInfo,
+    var that = this;
+    console.log(app.globalData.userInfo)
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        that.setData({
+          userInfo: app.globalData.userInfo,
+          phone: res.data
+        })
+      },
+      fail: function(res) {
+        wx.navigateTo({
+          url: '../login/login',
+        })
+      }
     })
     // console.log(app.globalData.userInfo)
   },
@@ -176,5 +190,9 @@ Page({
       userInfo: userInfo
     })  
     that.change();
+  },
+  phoneChange: function (e) {
+    var that = this;
+    console.log(e)
   }
 })
