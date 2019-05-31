@@ -157,6 +157,26 @@ Page({
     })
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
+      // 调用全局函数设置余额以及积分
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      // app.globalData.cardList = res;
+      if (res == null) {
+        that.setData({
+          memberCardScore: "---",
+          memberCardBalance: "---"
+        })
+      } else if (res.score == null) {
+        that.setData({
+          memberCardScore: 0,
+          memberCardBalance: res.balance
+        })
+      } else {
+        that.setData({
+          memberCardBalance: res.balance,
+          memberCardScore: res.score
+        })
+      }
+    });
   })
   },
   getMovie: function (cinemaNo) {
@@ -182,7 +202,6 @@ Page({
       
       });
     }
-   
   },
 
 
@@ -563,8 +582,6 @@ Page({
   that.setData({
     isChoose:false
   })
-    // that.getMovie(app.globalData.cinemacode)
-    console.log(app.globalData.cinemacode)
     util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
       var timestamp1 = new Date().getTime()
       // console.log(res)
@@ -581,6 +598,27 @@ Page({
       that.setData({
         movieList: res
       })
+    });
+    // 调用全局函数设置余额以及积分
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      console.log(res)
+      // app.globalData.cardList = res;
+      if (res == null) {
+        that.setData({
+          memberCardScore: "---",
+          memberCardBalance: "---"
+        })
+      } else if (res.score == null) {
+        that.setData({
+          memberCardScore: 0,
+          memberCardBalance: res.balance
+        })
+      } else {
+        that.setData({
+          memberCardBalance: res.balance,
+          memberCardScore: res.score
+        })
+      }
     });
   },
   startChoose: function() {
@@ -749,7 +787,26 @@ Page({
         userInfo: loginInfo.userInfo
       });
     }
-   
+    // 调用全局函数设置余额以及积分
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      // app.globalData.cardList = res;
+      if (res == null) {
+        that.setData({
+          memberCardScore: "---",
+          memberCardBalance: "---"
+        })
+      } else if (res.score == null) {
+        that.setData({
+          memberCardScore: 0,
+          memberCardBalance: res.balance
+        })
+      } else {
+        that.setData({
+          memberCardBalance: res.balance,
+          memberCardScore: res.score
+        })
+      }
+    });
 return;
     that.setData({
       userInfo: app.globalData.userInfo,

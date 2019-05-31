@@ -44,8 +44,9 @@ Page({
     var text = e.currentTarget.dataset.text;
     var time = e.currentTarget.dataset.time;
     var credit = e.currentTarget.dataset.price;
+    var rule = e.currentTarget.dataset.rule;
     wx.navigateTo({
-      url: '../page06/index?id=' + id + '&openId=' + app.globalData.openId + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit,
+      url: '../page06/index?id=' + id + '&openId=' + app.globalData.openId + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit + '&ruleCode=' + rule,
     })
   },
   // 选择会员卡类型注册
@@ -71,6 +72,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
+            // console.log(res)
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;
             for (var i = 0; i < memberCardLevel.length; i ++) {
@@ -80,6 +82,7 @@ Page({
               var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
+              var ruleCode = "memberCardLevel[" + i + "].ruleCode";
               var str = memberCardLevel[i].ruleDescription
               if (str != null) {
                 var newDescription = str.replace(/，/g, "，\n")
@@ -89,7 +92,8 @@ Page({
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: newDescription,
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
-                  [credit]: memberCardLevel[i].credit
+                  [credit]: memberCardLevel[i].credit,
+                  [ruleCode]: memberCardLevel[i].ruleCode
                 })
               } else {
                 that.setData({
@@ -98,7 +102,8 @@ Page({
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: memberCardLevel[i].ruleDescription,
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
-                  [credit]: memberCardLevel[i].credit
+                  [credit]: memberCardLevel[i].credit,
+                  [ruleCode]: memberCardLevel[i].ruleCode
                 })
               }
             }
@@ -145,7 +150,7 @@ Page({
       CardPassword: that.data.inputPass,
       MobilePhone: that.data.inputNum
     };
-    if (cinemaType == ("辰星" || "满天星")) {
+    if (cinemaType == "辰星" || cinemaType == "满天星") {
       console.log(cinemaType)
       wx.request({
         // 会员卡号
@@ -177,7 +182,8 @@ Page({
           }
         }
       })
-    } else if (cinemaType == ("电影1905" || "粤科")) {
+    } else if (cinemaType == "电影1905" || cinemaType == "粤科") {
+      console.log(cinemaType)
       if (Num.test(that.data.inputNum)) {
         // 手机号返回会员卡号进行选择绑定
         wx.request({
@@ -255,6 +261,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
+            // console.log(res)
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;
             for (var i = 0; i < memberCardLevel.length; i++) {
@@ -264,6 +271,7 @@ Page({
               var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
+              var ruleCode = "memberCardLevel[" + i + "].ruleCode";
               var str = memberCardLevel[i].ruleDescription
               if (str != null) {
                 var newDescription = str.replace(/，/g, "，\n")
@@ -273,7 +281,8 @@ Page({
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: newDescription,
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
-                  [credit]: memberCardLevel[i].credit
+                  [credit]: memberCardLevel[i].credit,
+                  [ruleCode]: memberCardLevel[i].ruleCode
                 })
               } else {
                 that.setData({
@@ -282,7 +291,8 @@ Page({
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: memberCardLevel[i].ruleDescription,
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
-                  [credit]: memberCardLevel[i].credit
+                  [credit]: memberCardLevel[i].credit,
+                  [ruleCode]: memberCardLevel[i].ruleCode
                 })
               }
             }

@@ -515,6 +515,51 @@ const getMemberCardByPhone = (cinemaNo, mobilePhone, callback) => {
   })
 
 }
+// 获取选中影院余额最多的会员卡信息
+const getCardInfo = function (username, password, openid, cinemacode, callback) {
+  var data = {
+    Username: username,
+    PassWord: password,
+    OpenID: openid,
+    CinemaCode: cinemacode
+  }
+  wx.request({
+    url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
+    method: 'GET',
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success: function (res) {
+      // console.log(res)
+      var memberCard = [];
+      var status = [];
+      if (res.data.Status == "Failure") {
+        return res
+      } 
+      else if (res.data.data.memberCard == null) {
+        return res
+      } 
+      else {
+        var memberCard = res.data.data.memberCard;
+        for (var i = 0; i < memberCard.length; i++) {
+          if (memberCard[i].status == 1) {
+            status.push(memberCard[i]);
+          }
+        }
+        // 计算余额最多的会员卡
+        var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
+        first.cinemaCode = data.CinemaCode;
+        var cardList = []
+        if (first.score == null) {
+          first.score = 0
+        }
+        cardList.push(first);
+        callback && callback(first);
+        return first;
+      } 
+    }
+  })
+}
 module.exports = {
   formatTime: formatTime,
   formatTime2: formatTime2,
@@ -536,4 +581,5 @@ module.exports = {
   getQueryFilmSession: getQueryFilmSession, //获取首页影院排期列表
   getCity: getCity,//获取影院信息列表 通用
   getMemberCardByPhone: getMemberCardByPhone,//根据手机号获取会员卡列表
+  getCardInfo: getCardInfo, //获取选中影院余额最多的会员卡信息
 }
