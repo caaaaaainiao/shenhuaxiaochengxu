@@ -27,17 +27,16 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    // 读取缓存  设置影院信息
-    var getUsename = app.globalData.getUsename
-    var getAvatarUrl= app.globalData.getAvatarUrl
-    that.setData({
-      getUsename: getUsename,
-      getAvatarUrl: getAvatarUrl
-    })
+     // 读取缓存  设置影院信息
+    var movieList = app.globalData.sellMovielist
+   that.setData({
+     movieList:movieList
+   })
+   console.log(that.data.movieList)
     wx.getStorage({
       key: 'accredit',
       success: function (res) {
-        // console.log(res.data.userInfo)
+        // console.log(res)
         that.setData({
           userInfo: res.data.userInfo
         })

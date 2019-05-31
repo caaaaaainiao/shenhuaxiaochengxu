@@ -70,7 +70,7 @@ Page({
          // userInfo: res.data.userInfo,
           userInfoDetail: res.data.userInfoDetail
         })
-        console.log(that.data.wxInfo)
+        // console.log(that.data.wxInfo)
         app.globalData.getUsename=that.data.wxInfo.nickName
         app.globalData.getAvatarUrl = that.data.wxInfo.avatarUrl
         // console.log(app.globalData.getUsename)
@@ -180,6 +180,8 @@ Page({
         that.setData({
           movieList: res
         })
+        console.log(res)
+        app.globalData.sellMovielist = that.data.movieList
       
       });
     }

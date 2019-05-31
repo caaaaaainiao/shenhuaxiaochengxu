@@ -215,7 +215,7 @@ Page({
         that.setData({
           moviesListDate: res.data.data
         })
-        // console.log(that.data.moviesListDate)
+        console.log(that.data.moviesListDate)
       }
     })
     // if (app.globalData.cinemacode) {
@@ -247,49 +247,50 @@ Page({
   },
   buy: function(e) {
     var that = this;
-    var screenCode = e.currentTarget.dataset.screencode;
-    var featureAppNo = e.currentTarget.dataset.num;
-    var code = e.currentTarget.dataset.code;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('checkorder', nowtime);
-    if (code == 0) {//会员购票
-      wx.request({
-        url: app.globalData.url + '/api/shOrder/checkorder',//查询订单
-        data: {
-          appUserId:app.globalData.userInfo.id,
-          timeStamp: nowtime,
-          mac: sign
-        },
-        method: "POST",
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        success: function (res) {
-          // console.log(res)
-          if(res.data.data.order == 0){//没订单
-            wx.navigateTo({
-                  url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&featureAppNo=' + featureAppNo,
-            })
-          } else if (res.data.data.order == 1){
-            // 有订单提示
-            // console.log("有订单提示")
-            that.setData({
-              orderNum: res.data.data.orderNum,
-              showTask: true
-            })
-          }
+    console.log(e)
+    // var screenCode = e.currentTarget.dataset.screencode;
+    // var featureAppNo = e.currentTarget.dataset.num;
+    // var code = e.currentTarget.dataset.code;
+    // var nowtime = new Date().getTime();
+    // var sign = app.createMD5('checkorder', nowtime);
+    // if (code == 0) {//会员购票
+    //   wx.request({
+    //     url: app.globalData.url + '/api/shOrder/checkorder',//查询订单
+    //     data: {
+    //       appUserId:app.globalData.userInfo.id,
+    //       timeStamp: nowtime,
+    //       mac: sign
+    //     },
+    //     method: "POST",
+    //     header: {
+    //       "Content-Type": "application/x-www-form-urlencoded"
+    //     },
+    //     success: function (res) {
+    //       // console.log(res)
+    //       if(res.data.data.order == 0){//没订单
+    //         wx.navigateTo({
+    //               url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&featureAppNo=' + featureAppNo,
+    //         })
+    //       } else if (res.data.data.order == 1){
+    //         // 有订单提示
+    //         // console.log("有订单提示")
+    //         that.setData({
+    //           orderNum: res.data.data.orderNum,
+    //           showTask: true
+    //         })
+    //       }
           
-        }
-      })
-    } else if (code == 36) {//0:神画;36:猫眼；49:淘票票;
-      that.setData({
-        showTip:2
-      })
-    } else if (code == 49) {
-      that.setData({
-        showTip: 3
-      })
-    }
+    //     }
+    //   })
+    // } else if (code == 36) {//0:神画;36:猫眼；49:淘票票;
+    //   that.setData({
+    //     showTip:2
+    //   })
+    // } else if (code == 49) {
+    //   that.setData({
+    //     showTip: 3
+    //   })
+    // }
   },
   hideTip:function(){
     this.setData({

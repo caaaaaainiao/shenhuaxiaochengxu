@@ -6,6 +6,9 @@
   授权登录
 </button>
 <view wx:else>请升级微信版本</view> -->
+<!-- <view>
+<image src='http://xc.80piao.com:8443/upload/filmImage\201905\1559269731376.jpg'></image>
+</view> -->
 <view class="container">
   <view class='first' bindtap='removeBlack' wx:if="{{isFirst&&moviearea}}">
     <image src='/images/firstTip.png' class='firstTip'></image>

@@ -64,7 +64,7 @@
       <view class='totalnum' wx:if="{{totalNum>0}}">{{totalNum}}</view>
     </view>
     <view class='bottom_right' wx:if="{{fullCar}}" bindtap='showcart'>
-      <text>查看购物车</text>
+      <text>点击查看</text>
       <image src='/images/next.png'></image>
     </view>
     <view class='bottom_right' hidden="{{fullCar}}" bindtap='createGoodsOrder'>

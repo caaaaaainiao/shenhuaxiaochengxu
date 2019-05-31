@@ -26,7 +26,7 @@
       <view class='date'>10-29 明天</view>
       <view class='date'>10-30 后天</view> -->
       <!-- <view>{{date.sessionDate}}</view> -->
-      <view class='date {{select == index?"select":""}}' data-index="{{index}}" bindtap='dayChange'>{{date.sessionDate}} {{index == 0 ? '今天':''}}</view>
+      <view class='date {{select == index?"select":""}}' data-index="{{index}}" bindtap='dayChange'>{{date.sessionDate}}</view>
     </block>
   </scroll-view>
   <view  wx:if="{{moviesListDate.sessionDate.length>0}}">
@@ -34,7 +34,7 @@
       <view class='session' data-index="{{index}}" catchtap='checkSession'>
         <view class='time'>
           <view class='session_top'>
-            <text class='start_time'>{{session.sessionTime}}</text>
+            <text class='start_time'>{{session.beginTime}}</text>
           </view>
           <text class='session_bottom'>{{session.endTime}}散场</text>
         </view>
@@ -66,7 +66,7 @@
           <view class='others'>
             <view class='store'>
               <image src='/images/applogo.png' wx:if="{{comparePrices.typeCode==0}}"></image>
-              <image src='/images/applogo.png' wx:if="{{comparePrices.typeCode==46}}"></image>
+              <image src='/images/rmlogo.png' wx:if="{{comparePrices.typeCode==46}}"></image>
               <image src='/images/mylogo.png' wx:elif="{{comparePrices.typeCode==36}}"></image>
               <image src='/images/tpplogo.png' wx:elif="{{comparePrices.typeCode==49}}"></image>
               <text wx:if="{{comparePrices.typeCode==0}}">影城会员</text>
