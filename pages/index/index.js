@@ -70,8 +70,9 @@ Page({
          // userInfo: res.data.userInfo,
           userInfoDetail: res.data.userInfoDetail
         })
-        // console.log(that.data.wxInfo)
+        console.log(that.data.wxInfo)
         app.globalData.getUsename=that.data.wxInfo.nickName
+        app.globalData.getAvatarUrl = that.data.wxInfo.avatarUrl
         // console.log(app.globalData.getUsename)
        
        // wx.hideTabBar(); //隐藏栏
@@ -400,6 +401,7 @@ Page({
   // 比价购票
   buy: function(e) {
     console.log(e.currentTarget.dataset)
+    app.globalData.checkfilmcode = e.currentTarget.dataset.id
     wx.setStorage({
       key: 'movieList',
       data: app.globalData.movieList,

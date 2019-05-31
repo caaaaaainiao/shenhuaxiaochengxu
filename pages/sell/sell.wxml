@@ -5,7 +5,7 @@
   <image class='bannerbg' src='/images/bannerbg.jpg'></image>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{userInfo.avatarUrl}}' mode='aspectFill'></image>
+      <image src='{{getAvatarUrl}}' mode='aspectFill'></image>
     </view>
     <view class='bottom'>
       <view class='messages'>
@@ -14,7 +14,7 @@
           <text class='number'>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.integralBalance:"- - -"}}</text>
         </view>
         <view class="middleBlock">
-          <text>{{userInfo.nickName}}</text>
+          <text>{{getUsename}}</text>
         </view>
         <view class="rightBlock">
           <text class='title'>余额</text>

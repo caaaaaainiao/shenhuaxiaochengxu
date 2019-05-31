@@ -28,6 +28,12 @@ Page({
   onLoad: function(options) {
     var that = this;
     // 读取缓存  设置影院信息
+    var getUsename = app.globalData.getUsename
+    var getAvatarUrl= app.globalData.getAvatarUrl
+    that.setData({
+      getUsename: getUsename,
+      getAvatarUrl: getAvatarUrl
+    })
     wx.getStorage({
       key: 'accredit',
       success: function (res) {
