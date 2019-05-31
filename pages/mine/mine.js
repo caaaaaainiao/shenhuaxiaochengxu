@@ -130,6 +130,7 @@ Page({
   toCommon: function() {
     wx.navigateTo({
       url: '../common/common',
+      // url: '../login/login',
     })
   },
   toActivity: function() {

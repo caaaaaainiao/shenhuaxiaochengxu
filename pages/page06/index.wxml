@@ -28,7 +28,7 @@
 	<view class="form">
 		<view class="item">
 			<image src="/images/icon-phone.png" class="icon" mode="widthFix"></image>
-			<input class="input" value="" bindinput="" bindblur="getPhone" placeholder="输入手机号" placeholder-class="phColor"/>
+			<input class="input" value="{{phone}}" bindinput="" bindblur="getPhone" placeholder="输入手机号" placeholder-class="phColor"/>
 		</view>
 		<view class="item">
 			<image src="/images/icon-password.png" class="icon" mode="widthFix"></image>

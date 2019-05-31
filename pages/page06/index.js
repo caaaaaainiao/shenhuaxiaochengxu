@@ -307,6 +307,14 @@ Page({
       passWord: passWord,
       ruleCode: options.ruleCode
     })
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        that.setData({
+          phone: res.data
+        })
+      },
+    })
     wx.setNavigationBarTitle({ title: '会员卡' });
   },
   // 生命周期函数--监听页面初次渲染完成

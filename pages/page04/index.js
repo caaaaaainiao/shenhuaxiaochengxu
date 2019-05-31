@@ -11,7 +11,7 @@ Page({
     inputNum: '',
     inputPass: '',
     Username: '',
-    Password: ''
+    Password: '',
   },
   bindPickerChange999: function (e) {
     this.setData({
@@ -123,6 +123,14 @@ Page({
     wx.setNavigationBarTitle({
       title: '会员卡'
     });
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        _this.setData({
+          inputNum: res.data
+        })
+      },
+    })
     _this.setData({
       Username: app.usermessage.Username,
       Password: app.usermessage.Password

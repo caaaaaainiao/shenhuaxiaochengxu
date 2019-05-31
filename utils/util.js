@@ -537,6 +537,7 @@ const getCardInfo = function (username, password, openid, cinemacode, callback) 
         return res
       } 
       else if (res.data.data.memberCard == null) {
+        // console.log(res)
         return res
       } 
       else {

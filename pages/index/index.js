@@ -390,44 +390,64 @@ Page({
   },
   // 影片详情
   toDetails: function(e) {
-    // console.log("details")
-
-    app.globalData.movieIndex = e.currentTarget.dataset.index;
-    // console.log(e)
-    wx.navigateTo({
-      url: '../movieDetail/movieDetail', //跳转到影片列表
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        // console.log("details")
+        app.globalData.movieIndex = e.currentTarget.dataset.index;
+        // console.log(e)
+        wx.navigateTo({
+          url: '../movieDetail/movieDetail', //跳转到影片列表
+        })
+      },
+      fail: function(res) {
+        wx.navigateTo({
+          url: '../login/login', 
+        })
+      }
     })
   },
   // 比价购票
   buy: function(e) {
-    console.log(e.currentTarget.dataset)
-    app.globalData.checkfilmcode = e.currentTarget.dataset.id
-    wx.setStorage({
-      key: 'movieList',
-      data: app.globalData.movieList,
-    })
-    // return;
-    // if (app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "") {
-    //   wx.showToast({
-    //     title: '请先注册手机号',
-    //     icon: "loading",
-    //     mask: true,
-    //     duration: 2000,
-    //     success: function() {
-    //       setTimeout(function() {
-    //         wx.redirectTo({
-    //           url: '../login/login'
-    //         })
-    //       }, 2000)
-    //     }
-    //   })
-    //   return;
-    // }
-    app.globalData.movieId = e.currentTarget.dataset.id;
-    app.globalData.movieIndex = e.currentTarget.dataset.index;
-    wx.navigateTo({
-      url: '../compare/compare',
-    })
+      // 读取缓存 判断是否已使用手机号码登录
+      wx.getStorage({
+        key: 'sjhm',
+        success: function(res) {
+          console.log(e.currentTarget.dataset)
+          app.globalData.checkfilmcode = e.currentTarget.dataset.id
+          wx.setStorage({
+            key: 'movieList',
+            data: app.globalData.movieList,
+          })
+          // return;
+          // if (app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "") {
+          //   wx.showToast({
+          //     title: '请先注册手机号',
+          //     icon: "loading",
+          //     mask: true,
+          //     duration: 2000,
+          //     success: function() {
+          //       setTimeout(function() {
+          //         wx.redirectTo({
+          //           url: '../login/login'
+          //         })
+          //       }, 2000)
+          //     }
+          //   })
+          //   return;
+          // }
+          app.globalData.movieId = e.currentTarget.dataset.id;
+          app.globalData.movieIndex = e.currentTarget.dataset.index;
+          wx.navigateTo({
+            url: '../compare/compare',
+          })
+        },
+        fail: function(res) {
+          wx.navigateTo({
+            url: '../login/login',
+          })
+        }
+      })
   },
   getMovies: function() {
     var that = this;
@@ -844,8 +864,18 @@ return;
     }
   },
   toCard: function() {
-    wx.navigateTo({
-      url: '../page05/index',
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        wx.navigateTo({
+          url: '../page05/index',
+        })
+      },
+      fail: function(res) {
+        wx.navigateTo({
+          url: '../login/login',
+        })
+      }
     })
   },
   hidehb: function() {
