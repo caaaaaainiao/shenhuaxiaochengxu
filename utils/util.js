@@ -400,7 +400,7 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
     EndDate: endday,
   }
   wx.request({
-    url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessions' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.StartDate + '/' + data.EndDate,
+    url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessions' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode ,
     method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
     header: {
       'content-type': 'application/json' // 默认值

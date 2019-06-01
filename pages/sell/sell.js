@@ -120,13 +120,22 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+   
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    // console.log(app.globalData.areaList)
+    // console.log(app.globalData.lookcinemaname)
+    if (app.globalData.lookcinemaname == undefined){
+      app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
+    }
+    var lookcinemaname = app.globalData.lookcinemaname
+    this.setData({
+      lookcinemaname: lookcinemaname
+    })
     // this.setData({
     //   userInfo: app.globalData.userInfo,
     //   location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName,

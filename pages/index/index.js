@@ -46,7 +46,6 @@ Page({
   //授权信息
   onLoad: function(options) {
     var that = this
-    // console.log(app.globalData)
     var timestamp = new Date().getTime()
     that.setData({
       timestamp: new Date().getTime()
@@ -594,8 +593,9 @@ Page({
     // })
   },
   chooseCinema: function(e) { //选择影院
-    console.log(e.currentTarget.dataset.cinemacode)
     var cinemacode = e.currentTarget.dataset.cinemacode;
+    app.globalData.lookcinemaname = e.currentTarget.dataset.cinemaname
+    console.log(app.globalData.lookcinemaname)
     // console.log(app.globalData.areaList)
     for (var i = 0; i < app.globalData.areaList.length; i++) {
       if (app.globalData.areaList[i].cinemaCode == cinemacode) {

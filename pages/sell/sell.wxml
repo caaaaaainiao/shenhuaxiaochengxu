@@ -21,7 +21,7 @@
           <text class='number'>{{memberCardBalance}}</text>
         </view>
       </view>
-      <view class='location'>{{location}}</view>
+      <view class='location'>{{lookcinemaname}}</view>
       <view class='resetLocation' bindtap='getPlace'>
         <text>如果不是，点此重新定位</text>
         <image src='/images/reset.png'></image>
