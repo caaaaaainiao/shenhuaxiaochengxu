@@ -8,7 +8,11 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
     PassWord: password,
     CinemaCode: cinemacode,
     CardNo: cardno,
-    CardPassword: cardpassword
+    CardPassword: cardpassword,
+    indicatorDots: false,
+    autoplay: false,
+    interval: 5000,
+    duration: 1000
   };
   wx.request({
     url: 'https://xc.80piao.com:8443/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
@@ -22,7 +26,6 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
     }
   })
 }
-let _this;
 Page({
   // 页面的初始数据
   data: {
@@ -45,24 +48,26 @@ Page({
     face: '',
     userCardList: ''
   },
-  btnShowExchange: (e) => {
-    _this.setData({ showAlertExchange: !_this.data.showAlertExchange })
+  btnShowExchange: function(e) {
+    let that = this;
+    that.setData({ showAlertExchange: !that.data.showAlertExchange })
   },
-  btnShowExchange2: (e) => {
+  btnShowExchange2: function(e) {
+    var that = this;
     var cardno = e.currentTarget.dataset.cardno;
     var pass = e.currentTarget.dataset.pass;
     var levelcode = e.currentTarget.dataset.code;
-    _this.setData({
+    that.setData({
       cardno: cardno,
       pass: pass,
       levelcode: levelcode,
-      showAlertExchange2: !_this.data.showAlertExchange2
+      showAlertExchange2: !that.data.showAlertExchange2
     });
-    var cardNo = _this.data.cardno;
-    var levelcode = _this.data.levelcode;
+    var cardNo = that.data.cardno;
+    var levelcode = that.data.levelcode;
     let cinemaCode = app.globalData.cinemaList.cinemaCode;
-    let username = _this.data.userName;
-    let password = _this.data.passWord;
+    let username = that.data.userName;
+    let password = that.data.passWord;
     var data = {
       Username: username,
       Password: password,
@@ -83,7 +88,7 @@ Page({
           var credit = "rule[" + i + "].credit";
           var ruleCode = "rule[" + i + "].ruleCode";
           var givenAmount = "rule[" + i + "].givenAmount"
-          _this.setData({
+          that.setData({
             levelName: levelRule.levelName,
             [credit]: rule[i].credit,
             [ruleCode]: rule[i].ruleCode,
@@ -93,11 +98,12 @@ Page({
       }
     })
   },
-  btnChoose: (e) => {
+  btnChoose: function(e) {
+    var that = this;
     let price = e.currentTarget.dataset.price;
     let idx = e.currentTarget.dataset.id;
     let rulecode = e.currentTarget.dataset.rule;
-    let temp = _this.data.rule;
+    let temp = that.data.rule;
     temp.forEach((item, index) => {
       if (index == idx) {
         item.checked = true
@@ -105,7 +111,7 @@ Page({
         item.checked = false
       }
     })
-    _this.setData({ 
+    that.setData({ 
       rule: temp,
       price: price,
       ruleCode: rulecode
@@ -113,14 +119,15 @@ Page({
   },
   // 预支付
   pay: function () {
-    let price = _this.data.price;
-    let cardno = _this.data.cardno;
-    let pass = _this.data.pass;
+    var that = this;
+    let price = that.data.price;
+    let cardno = that.data.cardno;
+    let pass = that.data.pass;
     let cinemaCode = app.globalData.cinemaList.cinemaCode;
-    let openId = _this.data.openId;
-    let ruleCode = _this.data.ruleCode;
-    let username = _this.data.userName;
-    let password = _this.data.passWord;
+    let openId = that.data.openId;
+    let ruleCode = that.data.ruleCode;
+    let username = that.data.userName;
+    let password = that.data.passWord;
     var data = {
       Username: username,
       Password: password,
@@ -162,7 +169,7 @@ Page({
                       icon: 'none',
                       duration: 2000
                     });
-                    _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
+                    that.setData({ showAlertExchange2: !that.data.showAlertExchange2 })
                     setTimeout(function () {
                       wx.redirectTo({
                         url: '../page05/index',
@@ -185,13 +192,15 @@ Page({
       }
     })
   },
-  closeShow: (e) => {
-    _this.setData({ showAlertExchange2: !_this.data.showAlertExchange2 })
+  closeShow: function(e)  {
+    var that = this;
+    that.setData({ showAlertExchange2: !that.data.showAlertExchange2 })
   },
-  btnChoose2: (e) => {
+  btnChoose2: function(e) {
     // console.log(e);
+    var that = this;
     let idx = e.currentTarget.dataset.id;
-    let temp = _this.data.exchangeList2;
+    let temp = that.data.exchangeList2;
     temp.forEach((item, index) => {
       if (index == idx) {
         item.checked = true
@@ -199,7 +208,7 @@ Page({
         item.checked = false
       }
     })
-    _this.setData({ exchangeList2: temp })
+    that.setData({ exchangeList2: temp })
   },
   login: function () {
     wx.navigateTo({
@@ -300,24 +309,6 @@ Page({
         var username = '';
         var score = '';
         var memberCard = res.data.data.memberCard;
-        // 判断是否绑定了会员卡  未绑定则跳转至绑定页面
-        if (memberCard == null) {
-          wx.getStorage({
-            key: 'accredit',
-            success: function (res) {
-              that.setData({
-                face: res.data.userInfo.avatarUrl,
-                username: res.data.userInfo.nickName,
-                score: 0
-              })
-            },
-          });
-            wx.navigateTo({
-              url: '../page04/index',
-            })
-        } 
-        // 将已绑定的会员卡循环出来
-        else {
           // 循环出已绑定的会员卡
           for (var i = 0; i < memberCard.length; i++) {
             if ( memberCard[i].status == 1 ) {
@@ -380,10 +371,8 @@ Page({
               score: first.score
             })
           }
-        }
       }
     })
-    _this = this;
     wx.setNavigationBarTitle({ title: '会员卡' });
   },
   // 生命周期函数--监听页面初次渲染完成
