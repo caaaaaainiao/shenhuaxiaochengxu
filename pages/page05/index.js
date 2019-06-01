@@ -12,7 +12,7 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
     indicatorDots: false,
     autoplay: false,
     interval: 5000,
-    duration: 1000
+    duration: 1000,
   };
   wx.request({
     url: 'https://xc.80piao.com:8443/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
@@ -186,7 +186,6 @@ Page({
               icon: 'none',
               duration: 3000
             });
-            console.log(res)
            } 
         })
       }
@@ -238,7 +237,8 @@ Page({
       confirmText: "确定",
       confirmColor: "#999999",
       success: function (res) {
-        wx.request({
+        if (res.confirm == true) {
+          wx.request({
           url: 'https://xc.80piao.com:8443/Api/Member/MemberCardUnbind'+ '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
           method: 'GET',
           header: {
@@ -250,11 +250,28 @@ Page({
               icon: 'none',
               duration: 3000
             });
-            wx.redirectTo({
-              url: '../page05/index',
+            // 读取已绑定的会员卡判断是否还有会员卡绑定跳转到相应页面
+            wx.request({
+              url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                if (res.data.data.memberPhoneCount == null) {
+                  wx.redirectTo({
+                    url: '../page04/index',
+                  })
+                } else {
+                  wx.redirectTo({
+                    url: '../page05/index',
+                  })
+                }
+              }
             })
           }
         })
+        }
       },
       // fail: function (res) {
 

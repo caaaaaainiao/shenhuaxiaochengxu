@@ -255,7 +255,7 @@ Page({
                       icon: 'none',
                       duration: 2000
                     });
-                    that.setData({ showAlertExchange2: !this.data.showAlertExchange2 });
+                    that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
                     wx.redirectTo({
                       url: '../page05/index',
                     })
