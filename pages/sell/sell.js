@@ -140,12 +140,19 @@ Page({
   // },
   chooseType: function(e) {
     // 读取缓存 判断是否已使用手机号码登录
+    var setType = e.currentTarget.dataset.type;
+    var that = this;
+    console.log(setType)
+    app.globalData.sendtype = setType;
+    that.setData({
+      sendtype: setType
+    })
+    console.log(that.data.sendtype)
+    wx.showTabBar()
     wx.getStorage({
       key: 'sjhm',
       success: function(res) {
-        var setType = e.currentTarget.dataset.type;
-        var that = this;
-        console.log(setType)
+      
         // if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone == null || app.globalData.userInfo.mobilePhone == "")) {
         //   wx.showToast({
         //     title: '请先注册手机号',
@@ -162,17 +169,13 @@ Page({
         //   })
         //   return;
         // }
-        app.globalData.sendtype = setType;
-        that.setData({
-          sendtype: setType
-        })
         // if (setType == 2) {
         //   wx.hideTabBar()
         //   that.setData({
         //     startChoose: true
         //   })
         // } 
-        wx.showTabBar()
+    
       },
       fail: function(res) {
         wx.navigateTo({
