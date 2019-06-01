@@ -182,7 +182,6 @@ Page({
   },
   getMovie: function (cinemaNo) {
     if (cinemaNo){
-      console.log(cinemaNo)
       var timestamp1 = new Date().getTime()
       // console.log(timestamp1)
       var that = this;
@@ -200,7 +199,6 @@ Page({
         that.setData({
           movieList: res
         })
-        console.log(res)
         app.globalData.sellMovielist = that.data.movieList
       
       });

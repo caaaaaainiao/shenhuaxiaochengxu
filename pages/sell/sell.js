@@ -142,12 +142,10 @@ Page({
     // 读取缓存 判断是否已使用手机号码登录
     var setType = e.currentTarget.dataset.type;
     var that = this;
-    console.log(setType)
     app.globalData.sendtype = setType;
     that.setData({
       sendtype: setType
     })
-    console.log(that.data.sendtype)
     wx.showTabBar()
     wx.getStorage({
       key: 'sjhm',
@@ -207,44 +205,51 @@ Page({
     var movieid = e.currentTarget.dataset.id;
     var moviename = e.currentTarget.dataset.name;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('screening', nowtime);
     var index = e.currentTarget.dataset.index;
-    wx.showLoading({
-      title: '加载中',
+    console.log(that.data.movieList)
+    var beginmovieList = that.data.movieList[index].session
+    console.log(beginmovieList)
+    that.setData({
+      step: 2,
+      beginmovieList:beginmovieList
     })
-    wx.request({
-      url: app.globalData.url + '/api/shMovie/screening',
-      data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        movieId: movieid,
-        buyGoods:1,
-        appUserId:app.globalData.userInfo.id,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
+    
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    // wx.request({
+    //   url: app.globalData.url + '/api/shMovie/screening',
+    //   data: {
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     movieId: movieid,
+    //     buyGoods:1,
+    //     appUserId:app.globalData.userInfo.id,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
 
-        that.manage(res.data.data.screenPlanList);
-        for(var i = 0;i < that.data.movieList.length;i++){
-          that.data.movieList[i].foodcheck = false;
-        }
-        that.data.movieList[index].foodcheck = true;
-        that.setData({
-          step:2,
-          detailStr: moviename+",",
-          movieList: that.data.movieList
-        })
+    //     that.manage(res.data.data.screenPlanList);
+    //     for(var i = 0;i < that.data.movieList.length;i++){
+    //       that.data.movieList[i].foodcheck = false;
+    //     }
+    //     that.data.movieList[index].foodcheck = true;
+    //     that.setData({
+    //       step:2,
+    //       detailStr: moviename+",",
+    //       movieList: that.data.movieList
+    //     })
         
-        // console.log(that.data.movieList)
-        // console.log(app.globalData)
-        wx.hideLoading()
-      }
-    })
+    //     // console.log(that.data.movieList)
+    //     // console.log(app.globalData)
+    //     wx.hideLoading()
+    //   }
+    // })
   },
   manage: function (data) { //影片排片数据处理
     var that = this;
@@ -333,28 +338,28 @@ Page({
     var timeList = that.data.timeList;
     var hallList = [];
     var screenPlanList = that.data.screenPlanList;
-    for (var i = 0; i < screenPlanList.length; i++) {
-      if (screenPlanList[i].date.indexOf("今天") > 0) {
-        for (var j = 0; j < screenPlanList[i].list.length; j++) {
-          if (screenPlanList[i].list[j].startTime2 == time){
-            var row = {};
-            row.name = screenPlanList[i].list[j].hallName;
-            row.featureAppNo = screenPlanList[i].list[j].featureAppNo;
-            hallList.push(row)
-          }
-        }
-      }
-    }
+    // for (var i = 0; i < screenPlanList.length; i++) {
+    //   if (screenPlanList[i].date.indexOf("今天") > 0) {
+    //     for (var j = 0; j < screenPlanList[i].list.length; j++) {
+    //       if (screenPlanList[i].list[j].startTime2 == time){
+    //         var row = {};
+    //         row.name = screenPlanList[i].list[j].hallName;
+    //         row.featureAppNo = screenPlanList[i].list[j].featureAppNo;
+    //         hallList.push(row)
+    //       }
+    //     }
+    //   }
+    // }
     
-    for(var i = 0;i < timeList.length;i++){
-      timeList[i].foodcheck = false;
-    }
-    timeList[index].foodcheck = true;
+    // for(var i = 0;i < timeList.length;i++){
+    //   timeList[i].foodcheck = false;
+    // }
+    // timeList[index].foodcheck = true;
     that.setData({
-      hallList: hallList,
+      // hallList: hallList,
       step:3,
-      detailStr:that.data.detailStr+time+",",
-      timeList:timeList
+      // detailStr:that.data.detailStr+time+",",
+      // timeList:timeList
     })
     // console.log(hallList)
     // console.log(timeList)
@@ -363,18 +368,18 @@ Page({
     var that = this;
     var hall = e.currentTarget.dataset.hall;
     var index = e.currentTarget.dataset.index;
-    var hallList = that.data.hallList;
-    var detailStr = that.data.detailStr.split(",");
-    detailStr = detailStr[0] + "," + detailStr[1]+",";
-    for (var i = 0; i < hallList.length; i++) {
-      hallList[i].foodcheck = false;
-    }
-    hallList[index].foodcheck = true;
+    // var hallList = that.data.hallList;
+    // var detailStr = that.data.detailStr.split(",");
+    // detailStr = detailStr[0] + "," + detailStr[1]+",";
+    // for (var i = 0; i < hallList.length; i++) {
+    //   hallList[i].foodcheck = false;
+    // }
+    // hallList[index].foodcheck = true;
     that.setData({
-      detailStr:detailStr+hall,
+      // detailStr:detailStr+hall,
       isOk:true,
-      hallList:hallList,
-      sellfeatureAppNo: hallList[index].featureAppNo
+      // hallList:hallList,
+      // sellfeatureAppNo: hallList[index].featureAppNo
     })
   },
   back:function(){
