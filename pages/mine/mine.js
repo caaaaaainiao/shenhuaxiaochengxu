@@ -149,9 +149,10 @@ Page({
     })
   },
   toMycard: function() {
-    wx.navigateTo({
-      url: '../page05/index',
-    })
+      wx.navigateTo({
+        url: '../page05/index',
+      })
+    
   },
   ask: function() {
     var that = this;

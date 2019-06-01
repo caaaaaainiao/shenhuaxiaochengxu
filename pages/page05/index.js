@@ -319,30 +319,35 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        var memberCard = [];
-        var status = [];
-        var userCardList = [];
-        var n = 0;
-        var username = '';
-        var score = '';
-        var memberCard = res.data.data.memberCard;
+        if (res.data.data.memberCard == null) {
+          wx.navigateTo({
+            url: '../page04/index',
+          })
+        } else {
+          var memberCard = [];
+          var status = [];
+          var userCardList = [];
+          var n = 0;
+          var username = '';
+          var score = '';
+          var memberCard = res.data.data.memberCard;
           // 循环出已绑定的会员卡
           for (var i = 0; i < memberCard.length; i++) {
-            if ( memberCard[i].status == 1 ) {
+            if (memberCard[i].status == 1) {
               status.push(memberCard[i]);
             }
           }
           // 循环绑定会员卡调用方法请求到最新的余额以及积分
           for (let i = 0; i < status.length; i++) {
-            getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res)             {
+            getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res) {
               userCardList.push(res);
               that.setData({
                 userCardList: userCardList
               })
-            })   
+            })
           }
           // 设置计时器解决request异步问题
-          setTimeout(function () { 
+          setTimeout(function () {
             var card = that.data.userCardList;
             for (let i = 0; i < card.length; i++) {
               var num = "status[" + i + "].num";
@@ -368,7 +373,7 @@ Page({
                 })
               }
             }
-            }, 1000);
+          }, 1000);
           // 计算余额最多的会员卡
           var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
           first.cinemaCode = that.data.cinemaCode;
@@ -376,8 +381,6 @@ Page({
           if (first.score == null) {
             first.score = 0
           }
-          cardList.push(first);
-          app.globalData.cardList = cardList;
           // 判断积分  显示余额最多的积分
           if (first.score == null) {
             that.setData({
@@ -388,6 +391,8 @@ Page({
               score: first.score
             })
           }
+        }
+        
       }
     })
     wx.setNavigationBarTitle({ title: '会员卡' });
