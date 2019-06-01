@@ -201,10 +201,21 @@ Page({
     })
   },
   toCompare:function(){
-    app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
-    wx.navigateTo({
-      url: '../compare/compare',
-    })
+    // 读取缓存判断是否已使用用手机号码登录
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
+        wx.navigateTo({
+          url: '../compare/compare',
+        })
+      },
+      fail: function (res) {
+        wx.navigateTo({
+          url: '../login/login',
+        })
+      }
+    }) 
   },
   toComments:function(){
     var id = app.globalData.movieList[app.globalData.movieIndex].id;

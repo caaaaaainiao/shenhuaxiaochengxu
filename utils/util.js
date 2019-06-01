@@ -530,34 +530,8 @@ const getCardInfo = function (username, password, openid, cinemacode, callback) 
       'content-type': 'application/json' // 默认值
     },
     success: function (res) {
-      // console.log(res)
-      var memberCard = [];
-      var status = [];
-      if (res.data.Status == "Failure") {
-        return res
-      } 
-      else if (res.data.data.memberCard == null) {
-        // console.log(res)
-        return res
-      } 
-      else {
-        var memberCard = res.data.data.memberCard;
-        for (var i = 0; i < memberCard.length; i++) {
-          if (memberCard[i].status == 1) {
-            status.push(memberCard[i]);
-          }
-        }
-        // 计算余额最多的会员卡
-        var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
-        first.cinemaCode = data.CinemaCode;
-        var cardList = []
-        if (first.score == null) {
-          first.score = 0
-        }
-        cardList.push(first);
-        callback && callback(first);
-        return first;
-      } 
+      callback && callback(res);
+      return res
     }
   })
 }

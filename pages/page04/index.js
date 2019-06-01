@@ -32,12 +32,57 @@ Page({
   btnShowExchange2: (e) => {
     _this.setData({ isShow: !_this.data.isShow })
   },
-  btnChoose: (e) => {
-    _this.setData({
+  btnChoose: function (e) {
+    var that = this;
+    that.setData({
       inputNum: e.target.dataset.cardno,
-      isShow: !_this.data.isShow
+      isShow: !that.data.isShow
+    })
+    var cinemaType = app.globalData.cinemaList.cinemaType;
+    var cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var openID = app.globalData.openId;
+    var userName = that.data.Username;
+    var passWord = that.data.Password;
+    var data = {
+      Username: userName,
+      Password: passWord,
+      CinemaCode: cinemaCode,
+      OpenID: openID,
+      CardNo: that.data.inputNum,
+      CardPassword: that.data.inputPass,
+      MobilePhone: that.data.inputNum
+    };
+    wx.request({
+      // 点击会员卡号输入密码直接绑定
+      url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.Status == "Success") {
+          var cinemaCode = res.data.cinemaCode;
+          var cardNo = res.data.card.cardNo;
+          var cardPassword = res.data.card.cardPassword;
+          var phone = res.data.card.mobilePhone;
+          var userName = data.Username;
+          var passWord = data.Password;
+          var openID = data.OpenID
+          wx.navigateTo({
+            url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord + '&Phone=' + phone + '&OpenID=' + openID
+          })
+        }
+        else if (res.data.Status == 'Failure') {
+          wx.showToast({
+            title: res.data.ErrorMessage,
+            icon: 'none',
+            duration: 3000
+          })
+        }
+      }
     })
   },
+  // 选择会员卡类别进行开卡
   manage: function (e) {
     var id = e.currentTarget.dataset.id;
     var name = e.currentTarget.dataset.name;
@@ -49,7 +94,7 @@ Page({
       url: '../page06/index?id=' + id + '&openId=' + app.globalData.openId + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit + '&ruleCode=' + rule,
     })
   },
-  // 选择会员卡类型注册
+  // 跳转到会员卡类别
   btnTabSwitch: function(e){
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
@@ -168,6 +213,7 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
+          console.log(res)
           if (res.data.Status == "Success") {
             var cinemaCode = res.data.cinemaCode;
             var cardNo = res.data.card.cardNo;
@@ -213,7 +259,8 @@ Page({
             };
           },
         })
-      } else {
+      } 
+      else {
         wx.request({
           // 会员卡号输入密码直接绑定
           url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
@@ -246,7 +293,7 @@ Page({
       }
     }
   },
-  // 选择会员卡类型注册
+  // 跳转到会员卡类别
   zhuce: function (e) {
     var that = this;
     let idx = e.currentTarget.dataset.id;

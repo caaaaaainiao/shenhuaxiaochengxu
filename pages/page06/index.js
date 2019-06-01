@@ -30,6 +30,7 @@ Page({
     userName: '',
     passWord: ''
   },
+  //  获取页面用户输入信息
   getPhone: function (e) {
     this.setData({ phone: e.detail.value })
   },
@@ -101,7 +102,7 @@ Page({
           duration: 3000
         })
     } else if (cinemaType == "辰星" || cinemaType == "粤科") {
-      console.log(cinemaType)
+      // 判断售票系统进行数据请求
       wx.request({
         url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
         method: 'GET',
@@ -131,7 +132,7 @@ Page({
       })
       }
     else if (cinemaType == "电影1905" || cinemaType == "满天星"){
-      console.log(cinemaType)
+      // 此售票系统需进行充值  调取多个接口
         that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
         wx.request({
           url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
@@ -140,7 +141,6 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res)
             if (res.data.Status == 'Success') {
               var levelRule = res.data.data;
               var rule = levelRule.rule;
@@ -232,7 +232,6 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
         // 微信支付接口
         wx.requestPayment({
           timeStamp: res.data.data.timeStamp,
@@ -241,6 +240,7 @@ Page({
           signType: res.data.data.signType,
           paySign: res.data.data.paySign,
           success(res) {
+            // 成功之后调取开卡接口
             if (res.errMsg == "requestPayment:ok") {
               wx.request({
                 url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,

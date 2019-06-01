@@ -318,11 +318,13 @@ Page({
         } 
         // 将已绑定的会员卡循环出来
         else {
+          // 循环出已绑定的会员卡
           for (var i = 0; i < memberCard.length; i++) {
             if ( memberCard[i].status == 1 ) {
               status.push(memberCard[i]);
             }
           }
+          // 循环绑定会员卡调用方法请求到最新的余额以及积分
           for (let i = 0; i < status.length; i++) {
             getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res)             {
               userCardList.push(res);
@@ -331,6 +333,7 @@ Page({
               })
             })   
           }
+          // 设置计时器解决request异步问题
           setTimeout(function () { 
             var card = that.data.userCardList;
             for (let i = 0; i < card.length; i++) {
@@ -357,7 +360,7 @@ Page({
                 })
               }
             }
-            }, 500);
+            }, 1000);
           // 计算余额最多的会员卡
           var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
           first.cinemaCode = that.data.cinemaCode;
