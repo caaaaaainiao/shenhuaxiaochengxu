@@ -82,6 +82,38 @@ Page({
     // wx.hideTabBar({
 
     // })
+    // 调用全局函数设置余额以及积分
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      var memberCard = [];
+      var status = [];
+      if (res.data.Status == "Failure") {
+        that.setData({
+          memberCardScore: '---',
+          memberCardBalance: '---'
+        })
+      } else if (res.data.data.memberCard == null) {
+        that.setData({
+          memberCardScore: '---',
+          memberCardBalance: '---'
+        })
+      } else {
+        var memberCard = res.data.data.memberCard;
+        for (var i = 0; i < memberCard.length; i++) {
+          if (memberCard[i].status == 1) {
+            status.push(memberCard[i]);
+          }
+        }
+        // 计算余额最多的会员卡
+        var first = memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+        if (first.score == null) {
+          first.score = 0
+        }
+        that.setData({
+          memberCardBalance: first.balance,
+          memberCardScore: first.score
+        })
+      }
+    });
   },
 
   /**
@@ -94,13 +126,46 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  // onShow: function() {
-  //   this.setData({
-  //     userInfo: app.globalData.userInfo,
-  //     location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName,
-  //     movieList: app.globalData.movieList
-  //   })
-  // },
+  onShow: function() {
+    // this.setData({
+    //   userInfo: app.globalData.userInfo,
+    //   location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName,
+    //   movieList: app.globalData.movieList
+    // })
+    var that = this;
+    // 调用全局函数设置余额以及积分
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      var memberCard = [];
+      var status = [];
+      if (res.data.Status == "Failure") {
+        that.setData({
+          memberCardScore: '---',
+          memberCardBalance: '---'
+        })
+      } else if (res.data.data.memberCard == null) {
+        that.setData({
+          memberCardScore: '---',
+          memberCardBalance: '---'
+        })
+      } else {
+        var memberCard = res.data.data.memberCard;
+        for (var i = 0; i < memberCard.length; i++) {
+          if (memberCard[i].status == 1) {
+            status.push(memberCard[i]);
+          }
+        }
+        // 计算余额最多的会员卡
+        var first = memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+        if (first.score == null) {
+          first.score = 0
+        }
+        that.setData({
+          memberCardBalance: first.balance,
+          memberCardScore: first.score
+        })
+      }
+    });
+  },
 
   /**
    * 生命周期函数--监听页面隐藏

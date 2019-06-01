@@ -17,7 +17,6 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    console.log(app.globalData.userInfo)
     wx.getStorage({
       key: 'sjhm',
       success: function(res) {

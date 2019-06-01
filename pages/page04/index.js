@@ -117,7 +117,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            // console.log(res)
+            console.log(res)
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;
             for (var i = 0; i < memberCardLevel.length; i ++) {

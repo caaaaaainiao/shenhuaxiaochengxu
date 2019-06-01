@@ -889,13 +889,22 @@ Page({
       path: '/pages/index/index'
     }
   },
+  
   toCard: function() {
+    var that = this;
     wx.getStorage({
       key: 'sjhm',
       success: function(res) {
-        wx.navigateTo({
-          url: '../page05/index',
-        })
+        if (that.data.memberCardBalance == "---") {
+          wx.navigateTo({
+            url: '../page04/index',
+          })
+        }
+        else {
+          wx.navigateTo({
+            url: '../page05/index',
+          })
+        }
       },
       fail: function(res) {
         wx.navigateTo({
