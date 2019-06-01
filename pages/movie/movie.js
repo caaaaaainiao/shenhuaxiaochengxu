@@ -91,6 +91,13 @@ Page({
     // this.setData({
     //   userInfo: app.globalData.userInfo
     // })
+    if (app.globalData.lookcinemaname == undefined) {
+      app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
+    }
+    var lookcinemaname = app.globalData.lookcinemaname
+    this.setData({
+      lookcinemaname: lookcinemaname
+    })
     var that = this;
     this.setData({
       location: app.usermessage.moviearea,

@@ -593,10 +593,10 @@ Page({
     // })
   },
   chooseCinema: function(e) { //选择影院
+    app.globalData.lookcinemaadd = e._relatedInfo.anchorTargetText
     var cinemacode = e.currentTarget.dataset.cinemacode;
     app.globalData.lookcinemaname = e.currentTarget.dataset.cinemaname
     console.log(app.globalData.lookcinemaname)
-    // console.log(app.globalData.areaList)
     for (var i = 0; i < app.globalData.areaList.length; i++) {
       if (app.globalData.areaList[i].cinemaCode == cinemacode) {
         app.globalData.cinemaList = app.globalData.areaList[i]
