@@ -14,8 +14,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var result= app.globalData.thisresult
+    console.log(result)
     this.setData({
-      id:options.id
+      id:options.id,
+      result: result
     })
     this.ask();
   },
@@ -72,26 +75,26 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('ticketInfo', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/ticket/ticketInfo',
-      data: {
-        id:that.data.id,
-        // id:8,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        var coupon = res.data.data;
-        coupon.endTime2 = coupon.endTime.substring(0,10);
-        that.setData({
-          coupon: coupon
-        })
-      }
-    })
+    // wx.request({
+    //   url: app.globalData.url + '/api/ticket/ticketInfo',
+    //   data: {
+    //     id:that.data.id,
+    //     // id:8,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
+    //     var coupon = res.data.data;
+    //     coupon.endTime2 = coupon.endTime.substring(0,10);
+    //     that.setData({
+    //       coupon: coupon
+    //     })
+    //   }
+    // })
   },
 })

@@ -33,7 +33,7 @@ Page({
    that.setData({
      movieList:movieList
    })
-   console.log(that.data.movieList)
+  //  console.log(that.data.movieList)
     wx.getStorage({
       key: 'accredit',
       success: function (res) {
@@ -207,9 +207,9 @@ Page({
     var moviename = e.currentTarget.dataset.name;
     var nowtime = new Date().getTime();
     var index = e.currentTarget.dataset.index;
-    console.log(that.data.movieList)
+    // console.log(that.data.movieList)
     var beginmovieList = that.data.movieList[index].session
-    console.log(beginmovieList)
+    // console.log(beginmovieList)
     that.setData({
       step: 2,
       beginmovieList:beginmovieList
@@ -338,7 +338,11 @@ Page({
     var index = e.currentTarget.dataset.index;
     var timeList = that.data.timeList;
     var hallList = [];
-    var screenPlanList = that.data.screenPlanList;
+    var screenname = that.data.beginmovieList[index].screenName
+    that.setData({
+      screenname:screenname
+    })
+
     // for (var i = 0; i < screenPlanList.length; i++) {
     //   if (screenPlanList[i].date.indexOf("今天") > 0) {
     //     for (var j = 0; j < screenPlanList[i].list.length; j++) {

@@ -95,12 +95,14 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         var result = that.addJson(that.data.result, res.data.data);
         console.log(result)
         that.setData({
           result: result.conpons,
           couponCount: result.conponCount
         })
+        app.globalData.resultList = that.data.result
       }
     })
   },
@@ -168,6 +170,9 @@ Page({
   },
   toDetail:function(e){
     var id = e.currentTarget.dataset.id;
+    var index = e.currentTarget.dataset.index;
+    app.globalData.thisresult = this.data.result[index]
+
     wx.navigateTo({
       url: '../couponDetail/couponDetail?id='+id,
     })

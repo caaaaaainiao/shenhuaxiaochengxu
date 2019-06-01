@@ -202,7 +202,11 @@ Page({
             that.setData({
               showReady: true
             })
-          } 
+          } else if (that.data.type == 2){
+            that.setData({
+              showReady: true
+            })
+          }
         
         
         } else if (res.cancel) {
@@ -490,7 +494,7 @@ goodsList: goodsList
         "Content-Type": "application/json"
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         if (res.data.data){
           let bannerList = res.data.data;
           if (bannerList && bannerList.count>0){
@@ -651,7 +655,7 @@ goodsList: goodsList
         "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         that.setData({
           merOrder:res.data.data,
           totalPrice: res.data.data.totalPrice,

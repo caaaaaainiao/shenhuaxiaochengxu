@@ -7,13 +7,13 @@
   </view>
   <view wx:if="{{result.length>0}}">
     <block wx:for="{{result}}" wx:for-item="coupon" wx:key="coupon">
-      <view class='coupon {{coupon.status==0?"":"past" }}' catchtap='toDetail' data-id='{{coupon.id}}'>
+      <view class='coupon {{coupon.status==0?"":"past" }}' catchtap='toDetail' data-id='{{coupon.id}}' data-index='{{index}}'>
         <image src='/images/couponicon.png' class='icon' wx:if="{{coupon.typeCode == 1}}"></image>
         <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.typeCode == 2}}"></image>
         <image src='/images/couponicon2.png' class='icon' wx:elif="{{coupon.typeCode == 3}}"></image>
         <view class='name'>{{coupon.title}}</view>
         <view class='scope'>全店通用</view>
-        <view class='time'>有效期至：{{coupon.validityDate}}</view>
+        <view class='time'>有效期至：{{coupon.expireDate}}</view>
         <view class='right'>
           <view class='money' wx:if="{{coupon.typeCode==2}}">
             <text>1</text>张</view>
