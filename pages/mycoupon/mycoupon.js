@@ -79,7 +79,6 @@ Page({
   ask: function () {
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('userTickets', nowtime);
     var pageNo = that.data.pageNo;
     var data = {
       Username: 'MiniProgram',

@@ -416,6 +416,7 @@ Page({
   },
   // 比价购票
   buy: function(e) {
+    console.log(e)
     // 读取缓存 判断是否已使用手机号码登录
     wx.getStorage({
       key: 'sjhm',
