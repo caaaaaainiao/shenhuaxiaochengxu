@@ -26,7 +26,7 @@
       <view class='date'>10-29 明天</view>
       <view class='date'>10-30 后天</view> -->
       <!-- <view>{{date.sessionDate}}</view> -->
-      <view class='date {{select == index?"select":""}}' data-index="{{index}}" bindtap='dayChange'>{{date.sessionDate}}</view>
+      <view class='date {{select == index?"select":""}}' data-index="{{index}}" data-text="{{date.sessionDate}}" bindtap='dayChange'>{{date.sessionDate}}</view>
     </block>
   </scroll-view>
   <view  wx:if="{{moviesListDate.sessionDate.length>0}}">
@@ -58,7 +58,7 @@
           </view>
         </view>
         <view class='btns'>
-            <view class='buy' data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="0" catchtap='buy'>购票</view>
+            <view class='buy' data-index="{{index}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="0" catchtap='buy'>购票</view>
           <text class='session_bottom'>￥{{session.standardPrice}}</text>
         </view>
         <view class='node'></view>

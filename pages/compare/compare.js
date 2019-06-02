@@ -194,7 +194,6 @@ Page({
       screenPlanList: screenPlanList
     })
     app.globalData.screenPlanList = that.data.screenPlanList;
-    // console.log(screenPlanList)
   },
   ask: function() { //请求数据
     var that = this;
@@ -215,7 +214,6 @@ Page({
         that.setData({
           moviesListDate: res.data.data
         })
-        console.log(that.data.moviesListDate)
       }
     })
     // if (app.globalData.cinemacode) {
@@ -247,8 +245,17 @@ Page({
   },
   buy: function(e) {
     var that = this;
-    console.log(e)
-    // var screenCode = e.currentTarget.dataset.screencode;
+    var i = that.data.select;
+    var index = e.currentTarget.dataset.index
+    var sessionDate = that.data.moviesListDate.sessionDate[i].sessionDate
+    var screenCode = e.currentTarget.dataset.screencode;
+    var time = that.data.moviesListDate.sessionDate[i].session[index].beginTime;
+    var screenName = that.data.moviesListDate.sessionDate[i].session[index].screenName;
+    var sessionCode = that.data.moviesListDate.sessionDate[i].session[index].sessionCode;
+    var filmType = that.data.moviesListDate.filmType;
+    wx.navigateTo({
+      url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&screenName=' + screenName + '&sessionCode=' + sessionCode + '&&filmType=' + filmType,
+    })
     // var featureAppNo = e.currentTarget.dataset.num;
     // var code = e.currentTarget.dataset.code;
     // var nowtime = new Date().getTime();
