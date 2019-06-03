@@ -137,61 +137,78 @@ Page({
       success: function (res) {
         console.log(res)
         var ordercode = res.data.order.orderCode
+        app.globalData.ordercode = ordercode
+        //查询订单
         wx.request({
           url: 'https://xc.80piao.com:8443/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
           method: "GET",
           success: function(res) {
-            console.log(res)
+            // console.log(res)
+            var arr = res.data.data.goodsList 
+            // console.log(arr)
+            var goodslist=[]
+            var obj ={}
+            for (var x = 0; x < arr.goods.length; x++){
+              obj.goodsCode = arr.goods[x].goodsCode
+              obj.goodsCount = arr.goods[x].goodsCount
+              goodslist.push(obj)
+              that.setData({
+                goodslist: goodslist
+              })
+            } 
+            console.log(that.data.goodslist)
+            app.globalData.goodslist = that.data.goodslist
+            if (res.data.Status == "Success") {
+              wx.showToast({
+                title: '订单创建成功',
+                icon: 'loading',
+                image: '',
+                duration: 2000,
+                mask: true,
+                success: function (res) {
+                  //复制购物车列表到待支付物品列表
+                  //let cattObj = util.getcartObj(null);
+                  //wx.setStorageSync('toSubmitGoods', cattObj);
+                  let key = 'goodList';
+                  if (wx.getStorageSync(key) != "") {
+                    wx.getStorage({
+                      key: key,
+                      success: function (res) {
+                        wx.setStorageSync('toSubmitGoods', res);
+                        //重置购物阶段数据
+                        that.emptyCart();
+
+                        //新增待支付购物列表
+                        wx.navigateTo({
+                          url: '../foodOrder/foodOrder?type=' + that.data.type,
+                        })
+                      },
+                    })
+
+                  }
+
+
+                },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+
+            } else {
+              wx.showToast({
+                title: '订单创建失败,请重试',
+                icon: 'loading',
+                image: '',
+                duration: 2000,
+                mask: true,
+                success: function (res) { },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+            }
           },
         })
         wx.hideLoading()
-        if (res.data.Status == "Success") {
-          wx.showToast({
-            title: '订单创建成功',
-            icon: 'loading',
-            image: '',
-            duration: 2000,
-            mask: true,
-            success: function (res) {
-              //复制购物车列表到待支付物品列表
-              //let cattObj = util.getcartObj(null);
-              //wx.setStorageSync('toSubmitGoods', cattObj);
-              let key = 'goodList';
-              if (wx.getStorageSync(key) != "") {
-                wx.getStorage({
-                  key: key,
-                  success: function (res) {
-                    wx.setStorageSync('toSubmitGoods', res);
-                    //重置购物阶段数据
-                    that.emptyCart();
-
-                    //新增待支付购物列表
-                    wx.navigateTo({
-                      url: '../foodOrder/foodOrder?type=' + that.data.type,
-                    })
-                  },
-                })
- 
-              }
-
-
-            },
-            fail: function (res) { },
-            complete: function (res) { },
-          })
-      
-        } else {
-          wx.showToast({
-            title: '订单创建失败,请重试',
-            icon: 'loading',
-            image: '',
-            duration: 2000,
-            mask: true,
-            success: function (res) { },
-            fail: function (res) { },
-            complete: function (res) { },
-          })
-        }
+    
 
       }
     })
