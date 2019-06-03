@@ -41,8 +41,8 @@
         <block wx:for="{{rows}}" wx:for-item="row" wx:key="row">
           <view class='row'>
             <block wx:for="{{row.seats}}" wx:for-item="column" wx:key="column">
-              <view class='column seat {{column.loveFlag=="N"?"seatMiddle":""}} {{column.loveFlag=="L"?"seatLeft":""}} {{column.loveFlag=="R"?"seatRight":""}} {{column.status=="Sold"?"selled":""}}  {{column.status=="Available"?"available":""}} {{column.groupCode?"unempty":"empty"}} {{column.isSelect?"select":""}}' catchtap='choose' 
-                data-code="{{column.groupCode}}" data-status='{{column.status=="Available"?"available":"sell"}}'>
+              <view class='column seat {{column.loveFlag=="N"?"seatMiddle":""}} {{column.loveFlag=="L"?"seatLeft":""}} {{column.loveFlag=="R"?"seatRight":""}} {{column.status=="Sold"?"selled":""}} {{column.status=="Booked"?"selled":""}} {{column.status=="Locked"?"selled":""}} {{column.status=="Available"?"available":""}} {{column.groupCode?"unempty":"empty"}} {{column.isSelect?"select":""}}' catchtap='choose' 
+                data-code="{{column.seatCode}}" data-status='{{column.status=="Available"?"available":"sell"}}'>
               </view>
             </block>
           </view>
@@ -66,7 +66,7 @@
         </view>
         <view wx:else>
           <!-- 无优惠 -->
-          <view class='seatprice p1' wx:if="{{nowlist.globalLeftNum == null}}">VIP:￥{{price}}</view>
+          <view class='seatprice p1' wx:if="{{nowlist.globalLeftNum == null}}">￥{{price}}</view>
         </view>
       </view>
     </block>

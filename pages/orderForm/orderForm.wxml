@@ -6,13 +6,13 @@
   <view class='header'>
     <image class='bg' src='/images/orderbg.png'></image>
     <view class='moviename'>
-      <text>{{seatOrder.order.dxMovie.movieName}}</text>{{seatsJson.length}}张</view>
+      <text>{{movieName}}</text>{{count}}张</view>
     <view class='time header_p'>{{date}}</view>
-    <view class='address header_p'>{{seatOrder.order.cinemaName}} </view>
+    <view class='address header_p'>{{cinemaName}} </view>
     <view class='seats header_p'>
-      {{seatOrder.order.hallName}}
-      <block wx:for="{{seatsJson}}" wx:for-item="seat" wx:key="seat">
-        <text>{{seat.name}}</text>
+      {{hallName}}
+      <block wx:for="{{seat}}">
+        <text>{{item}}</text>
       </block>
     </view>
     <view class='last'>
@@ -33,29 +33,31 @@
   <view class='option'>
     影票总价
     <text>元</text>
-    <text class='money'>{{filters.toFix(seatOrder.order.ticketRealPrice)}}</text>
+    <text class='money'>{{price}}</text>
   </view>
   <view class='gray_line'></view>
-  <block wx:if="{{seatOrder.comboList.length > 0}}">
+  <block wx:if="{{comboList.length > 0}}">
     <!-- 推荐食品 -->
     <view class='detailclass' id='detailclass1'>
       <image src='/images/dot.png'></image>
       <text>热卖套餐</text>
       <image src='/images/dot.png' class='rotate180'></image>
     </view>
-    <block wx:for="{{seatOrder.comboList}}" wx:for-item="combo" wx:key="combo">
+    <block wx:for="{{comboList}}" wx:for-item="combo" wx:key="combo">
       <view class='food'>
-        <image src='{{combo.imageUrl}}' class='foodpic'></image>
+        <image src='{{combo.packagePic}}' class='foodpic'></image>
         <view class='foodname'>
-          <text wx:if="{{combo.personNum == 1}}">单人</text>
-          <text wx:elif="{{combo.personNum == 2}}">双人</text>
-          <text wx:elif="{{combo.personNum == 3}}">多人</text> {{combo.name}}
+          <text wx:if="{{count == 1}}">单人</text>
+          <text wx:elif="{{count == 2}}">双人</text>
+          <text wx:elif="{{count == 3}}">多人</text>
+          <text wx:elif="{{count == 4}}">多人</text>
+           {{combo.packageName}}
         </view>
         <view class='foodprice'>
-          <text wx:if="{{combo.originalPrice!=null}}">￥{{combo.originalPrice}}</text>￥{{combo.salePrice}}</view>
+          <text wx:if="{{combo.packageStandarPrice!=null}}">￥{{combo.packageStandarPrice}}</text>￥{{combo.packageSettlePrice}}</view>
         <view class='foodnum {{combo.buyNum > 0?"width180":""}}'>
-          <image src='/images/minus.png' class='minus' bindtap='minus' data-id='{{combo.id}}'></image>
-          <image src='/images/add.png' class='add' bindtap='add' data-id='{{combo.id}}'></image>
+          <image src='/images/minus.png' class='minus' bindtap='minus' data-id='{{combo.packageCode}}'></image>
+          <image src='/images/add.png' class='add' bindtap='add' data-id='{{combo.packageCode}}'></image>
           <text>{{combo.buyNum}}</text>
         </view>
       </view>
@@ -68,7 +70,7 @@
     <view class='option'>
       小食总价
       <text>元</text>
-      <text class='money'>{{seatOrder.merOrder == null?"0":seatOrder.merOrder.disPrice}}</text>
+      <text class='money'>{{refreshments}}</text>
     </view>
   </block>
   <view class='gray_line'></view>
@@ -108,7 +110,7 @@
         <text>-{{seatOrder.price-seatOrder.disPrice}}元</text>
       </view>
       <view class='right'>应付
-        <text class='numpay'>{{seatOrder.disPrice}}</text>
+        <text class='numpay'>{{allPrice}}</text>
         <text>元</text>
       </view>
     </view>

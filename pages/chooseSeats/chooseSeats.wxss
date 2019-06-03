@@ -211,7 +211,7 @@
   background-size: 100% 100%;
 }
 .seatMiddle.sell{
-  background: url(https://app.legendpicture.com/upload/seat/seatmiddlesell.png) no-repeat;
+  background: url(https://app.legendpicture.com/upload/seat/seatmiddleselect.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatRight.sell{
@@ -227,7 +227,7 @@
   background-size: 100% 100%;
 }
 .seatMiddle.select{
-  background: url(https://app.legendpicture.com/upload/seat/seatmiddleselect.png) no-repeat;
+  background: url(https://app.legendpicture.com/upload/seat/seat2.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatRight.select{

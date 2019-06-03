@@ -211,6 +211,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        // console.log(res)
         that.setData({
           moviesListDate: res.data.data
         })
@@ -250,11 +251,13 @@ Page({
     var sessionDate = that.data.moviesListDate.sessionDate[i].sessionDate
     var screenCode = e.currentTarget.dataset.screencode;
     var time = that.data.moviesListDate.sessionDate[i].session[index].beginTime;
+    var endtime = that.data.moviesListDate.sessionDate[i].session[index].endTime;
     var screenName = that.data.moviesListDate.sessionDate[i].session[index].screenName;
     var sessionCode = that.data.moviesListDate.sessionDate[i].session[index].sessionCode;
     var filmType = that.data.moviesListDate.filmType;
+    var standardPrice = that.data.moviesListDate.sessionDate[i].session[index].standardPrice
     wx.navigateTo({
-      url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&screenName=' + screenName + '&sessionCode=' + sessionCode + '&&filmType=' + filmType,
+      url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&standardPrice=' + standardPrice + '&&endtime=' + endtime,
     })
     // var featureAppNo = e.currentTarget.dataset.num;
     // var code = e.currentTarget.dataset.code;

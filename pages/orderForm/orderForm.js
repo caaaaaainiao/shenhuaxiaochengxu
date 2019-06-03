@@ -19,14 +19,20 @@ Page({
     canClick: 1,
     marActivity: null, //参与活动id
     seatsJson: null,
-    endTime: "0:00",
+    endTime: "",
     showM: false,
     password: "",
     merTicketId: "",
     seatTicketId: "",
     chooseType: 0,
     messageshow: false,
-    userMessage: ""
+    userMessage: "",
+    movieName:'',
+    count: '',
+    autoUnlockDatetime: '',
+    comboList: null,
+    refreshments: 0,
+    allPrice: 0,
     // waitActivity: null,//可參與活動
 
   },
@@ -35,8 +41,36 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    this.setData({
-      date: options.date
+    var that = this;
+    that.data.allPrice = Number(options.price) + Number(that.data.refreshments);
+    that.setData({
+      date: options.date,
+      movieName: options.title,
+      count: options.count,
+      cinemaName: app.globalData.moviearea,
+      price: options.price,
+      hallName: options.screenName,
+      seat: options.seat,
+      autoUnlockDatetime: options.autoUnlockDatetime,
+      phone: app.globalData.userInfo.mobilePhone,
+      allPrice: that.data.allPrice,
+    });
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Goods/QueryComponents' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + options.count,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.Status == "Success") {
+          // console.log(res)
+          var comboList = res.data.data
+          that.setData({
+              comboList: comboList
+          });
+          that.manage();
+        }
+      }
     })
   },
 
@@ -46,7 +80,6 @@ Page({
   onReady: function() {
     var that = this;
     // console.log(app.globalData.seatOrder)
-    that.manage();
   },
 
   /**
@@ -55,7 +88,36 @@ Page({
   onShow: function() {
 
   },
+  leftTime: function () {
+    var that = this;
+    var timer = setInterval(function () {
+      var nowTime = parseInt(new Date().getTime());
+      var date = new Date(that.data.autoUnlockDatetime)
+      var leftTime = parseInt((date - nowTime)/1000);
+      var str = "";
+      var minute = parseInt(leftTime / 60);
+      var second = parseInt(leftTime % 60);
+      if (minute == 0 && second < 1) {
+        clearInterval(timer)
+        wx.switchTab({
+          url: '../index/index',
+        })
 
+        return;
+      }
+      if (minute < 10) {
+        minute = "0" + minute;
+      }
+      if (second < 10) {
+        second = "0" + second;
+      }
+      str = minute + ":" + second;
+      // console.log(str)
+      that.setData({
+        endTime: str
+      })
+    }, 1000)
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */
@@ -95,88 +157,102 @@ Page({
   },
   manage: function() {
     var that = this;
-    var seatOrder = app.globalData.seatOrder;
-    var seats = seatOrder.order.seats.split(",");
-    var seatsJson = [];
-    for (var i = 0; i < seats.length; i++) {
-      var row = {};
-      row.name = seats[i]
-      seatsJson.push(row);
-    }
-    that.setData({
-      seatsJson: seatsJson
-    })
-    if (seatOrder.comboList != null) {
-      for (var i = 0; i < seatOrder.comboList.length; i++) {
-        seatOrder.comboList[i].buyNum = 0;
+    // console.log(that.data)
+    // var seatOrder = app.globalData.seatOrder;
+    // var seats = seatOrder.order.seats.split(",");
+    // var seatsJson = [];
+    // for (var i = 0; i < seats.length; i++) {
+    //   var row = {};
+    //   row.name = seats[i]
+    //   seatsJson.push(row);
+    // }
+    // that.setData({
+    //   seatsJson: seatsJson
+    // })
+    if (that.data.comboList != null) {
+      for (var i = 0; i < that.data.comboList.length; i++) {
+        that.data.comboList[i].buyNum = 0;
       }
+      // console.log(that.data.comboList)
     }
-    var seatCouponList = seatOrder.order.seatTicketList;
-    if (seatCouponList) {
-      for (var i = 0; i < seatCouponList.length; i++) {
-        var time = seatCouponList[i].dxPlatTicket.endTime;
-        seatCouponList[i].dxPlatTicket.endTime2 = time.substring(0, 4) + "年" + time.substring(5, 7) + "月" + time.substring(8, 10) + "日";
-      }
-    }
-
+    // var seatCouponList = seatOrder.order.seatTicketList;
+    // if (seatCouponList) {
+    //   for (var i = 0; i < seatCouponList.length; i++) {
+    //     var time = seatCouponList[i].dxPlatTicket.endTime;
+    //     seatCouponList[i].dxPlatTicket.endTime2 = time.substring(0, 4) + "年" + time.substring(5, 7) + "月" + time.substring(8, 10) + "日";
+    //   }
+    // }
     that.setData({
-      seatOrder: seatOrder,
-      seatCoupon: seatOrder.order.seatTicket,
-      seatCouponList: seatCouponList,
-      foodCoupon: seatOrder.merOrder,
-      foodCouponList: seatOrder.merOrder,
-      phone: app.globalData.userInfo.mobile
+      comboList: that.data.comboList,
+      price: that.data.price,
+      allPrice: that.data.allPrice,
     })
+    // that.setData({
+    //   seatOrder: seatOrder,
+    //   seatCoupon: seatOrder.order.seatTicket,
+    //   seatCouponList: seatCouponList,
+    //   foodCoupon: seatOrder.merOrder,
+    //   foodCouponList: seatOrder.merOrder,
+    //   phone: app.globalData.userInfo.mobile
+    // })
     // console.log(that.data.seatOrder)
     that.leftTime();
   },
   add: function(e) {
     var that = this;
-    var seatOrder = that.data.seatOrder;
+    var comboList = that.data.comboList;
+    var refreshments = that.data.refreshments;
+    var allPrice = that.data.allPrice;
+    var price = that.data.price;
     var id = e.currentTarget.dataset.id;
-    for (var i = 0; i < seatOrder.comboList.length; i++) {
-      if (seatOrder.comboList[i].id == id) {
-        seatOrder.comboList[i].buyNum = seatOrder.comboList[i].buyNum + 1;
+    for (let i = 0; i < comboList.length; i++) {
+      if (comboList[i].packageCode == id) {
+        comboList[i].buyNum += 1;
+        refreshments = (comboList[i].buyNum) * (comboList[i].packageSettlePrice)
       }
     }
+    // console.log(comboList)
+    allPrice = Number(refreshments) + Number(price)
     that.setData({
-      seatOrder: seatOrder,
-      seatCoupon: seatOrder.order.seatTicket,
-      // seatCouponList: seatOrder.order.seatTicketList,
-      foodCoupon: seatOrder.merOrder,
-      foodCouponList: seatOrder.merOrder,
+      comboList: comboList,
+      refreshments: refreshments,
+      allPrice: allPrice,
     })
-    that.calculate();
+    // that.calculate();
   },
   minus: function(e) {
     var that = this;
-    var seatOrder = that.data.seatOrder;
+    var comboList = that.data.comboList;
+    var refreshments = that.data.refreshments;
+    var allPrice = that.data.allPrice;
+    var price = that.data.price;
     var id = e.currentTarget.dataset.id;
-    for (var i = 0; i < seatOrder.comboList.length; i++) {
-      if (seatOrder.comboList[i].id == id) {
-        seatOrder.comboList[i].buyNum = seatOrder.comboList[i].buyNum - 1;
-        if (seatOrder.comboList[i].buyNum < 0) {
-          seatOrder.comboList[i].buyNum = 0;
+    for (let i = 0; i < comboList.length; i++) {
+      if (comboList[i].packageCode == id) {
+        comboList[i].buyNum -= 1;
+        refreshments = (comboList[i].buyNum) * (comboList[i].packageSettlePrice)
+        if (comboList[i].buyNum < 0) {
+          comboList[i].buyNum = 0;
+          refreshments = 0;
         }
       }
     }
+    allPrice = Number(refreshments) + Number(price)
     that.setData({
-      seatOrder: seatOrder,
-      seatCoupon: seatOrder.order.seatTicket,
-      // seatCouponList: seatOrder.order.seatTicketList,
-      foodCoupon: seatOrder.merOrder,
-      foodCouponList: seatOrder.merOrder,
+      comboList: comboList,
+      refreshments: refreshments,
+      allPrice: allPrice,
     })
-    that.calculate();
+    // that.calculate();
   },
   calculate: function() { //计算价格
     var that = this;
     var json = [];
-    for (var i = 0; i < that.data.seatOrder.comboList.length; i++) {
-      if (that.data.seatOrder.comboList[i].buyNum > 0) {
+    for (var i = 0; i < that.data.comboList.length; i++) {
+      if (that.data.comboList[i].buyNum > 0) {
         var row = {};
-        row.id = that.data.seatOrder.comboList[i].id;
-        row.number = that.data.seatOrder.comboList[i].buyNum;
+        row.id = that.data.comboList[i].id;
+        row.number = that.data.comboList[i].buyNum;
         json.push(row)
       }
 
@@ -191,59 +267,6 @@ Page({
       id = that.data.seatCoupon.id
     }
     wx.showLoading()
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('modifyOrderPrice', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/shOrder/modifyOrderPrice',
-      data: {
-        orderNum: that.data.seatOrder.orderNum,
-        appUserId: app.globalData.userInfo.id,
-        merchandiseInfo: json,
-        seatTicketId: id,
-        merTicketId: that.data.merTicketId,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function(res) {
-        // console.log(res)
-        wx.hideLoading();
-        if (res.data.status == 0) {
-          wx.showToast({
-            title: '锁座失败',
-          })
-        } else if (res.data.status == 1) { //修改成功
-
-          var seatOrder = that.data.seatOrder;
-          seatOrder.merOrder = res.data.data.merOrder;
-          seatOrder.waitActivity = res.data.data.waitActivity;
-          seatOrder.disPrice = res.data.data.disPrice;
-          seatOrder.price = res.data.data.price;
-          seatOrder.order = res.data.data.order;
-          that.setData({
-            seatOrder: seatOrder,
-            seatCoupon: seatOrder.order.seatTicket,
-            foodCoupon: seatOrder.merOrder,
-            foodCouponList: seatOrder.merOrder,
-          })
-          if (res.data.data.merOrder != null && res.data.data.merOrder.merTicket != null) {
-            that.setData({
-              merTicketId: res.data.data.merOrder.merTicket.id
-            })
-          }
-          if (res.data.data.orderActivity != null) {
-            that.setData({
-              marActivity: res.data.data.orderActivity
-            })
-          }
-
-        }
-
-      }
-    })
   },
   choosePay: function() {
     this.setData({
@@ -274,7 +297,7 @@ Page({
       return;
     }
     var json = [];
-    for (var i = 0; i < that.data.seatOrder.comboList.length; i++) {
+    for (var i = 0; i < that.data.comboList.length; i++) {
       var row = {};
       row.id = that.data.seatOrder.comboList[i].id;
       row.number = that.data.seatOrder.comboList[i].buyNum;
@@ -376,35 +399,6 @@ Page({
         })
       }
     })
-  },
-  leftTime: function() {
-    var that = this;
-    var timer = setInterval(function() {
-      var nowTime = parseInt(new Date().getTime() / 1000);
-      var leftTime = that.data.seatOrder.order.orderExpireSecond - nowTime;
-      var str = "";
-      var minute = parseInt(leftTime / 60);
-      var second = parseInt(leftTime % 60);
-      if (minute == 0 && second < 1) {
-        clearInterval(timer)
-        wx.switchTab({
-          url: '../index/index',
-        })
-
-        return;
-      }
-      if (minute < 10) {
-        minute = "0" + minute;
-      }
-      if (second < 10) {
-        second = "0" + second;
-      }
-      str = minute + ":" + second;
-
-      that.setData({
-        endTime: str
-      })
-    }, 1000)
   },
   cardPay: function() {
     var that = this;
