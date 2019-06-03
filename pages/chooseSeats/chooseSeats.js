@@ -55,49 +55,105 @@ Page({
     screenName: "",
     seatx:50,
     seaty:50,
+    seats: '',
+    // isEmpty: 'empty',
+    rows: '',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log(options)
     var that = this;
     that.setData({
       screenCode: options.screenCode,
-      featureAppNo: options.featureAppNo,
-      location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName
+      featureAppNo: options.sessionCode,
+      location: app.globalData.moviearea,
+      date: options.sessionDate,
+      startTime2: options.time,
+      movieDimensional: options.filmType,
+      screenName: options.screenName,
     })
     // 单价
 
     // 头部信息
-    var screenPlanList = app.globalData.screenPlanList;
-    for (var i = 0; i < screenPlanList.length; i++) {
-      var screenPlanList2 = screenPlanList[i].list;
-      for (var j = 0; j < screenPlanList2.length; j++) {
-        if (screenPlanList[i].list[j].featureAppNo == options.featureAppNo) {
-          // console.log("true")
-          var price = 0;
-          var activityId = null;
-          for (var g = 0; g < screenPlanList[i].list[j].qmmComparePrices.length; g++) {
-            if (screenPlanList[i].list[j].qmmComparePrices[g].dataType == 0) {
-              price = screenPlanList[i].list[j].marketPrice;
-              activityId = screenPlanList[i].list[j].activityId
-            }
-          }
-          that.setData({
-            date: screenPlanList[i].date,
-            nowlist: screenPlanList[i].list[j],
-            // time: screenPlanList[i].list[j].startTime2,
-            // style: screenPlanList[i].list[j].movieDimensional,
-            price: price,
-            activityId: activityId
-          })
-          // console.log(that.data.nowlist)
-        }
-      }
+    // var screenPlanList = app.globalData.screenPlanList;
+    // for (var i = 0; i < screenPlanList.length; i++) {
+    //   var screenPlanList2 = screenPlanList[i].list;
+    //   for (var j = 0; j < screenPlanList2.length; j++) {
+    //     if (screenPlanList[i].list[j].featureAppNo == options.featureAppNo) {
+    //       // console.log("true")
+    //       var price = 0;
+    //       var activityId = null;
+    //       for (var g = 0; g < screenPlanList[i].list[j].qmmComparePrices.length; g++) {
+    //         if (screenPlanList[i].list[j].qmmComparePrices[g].dataType == 0) {
+    //           price = screenPlanList[i].list[j].marketPrice;
+    //           activityId = screenPlanList[i].list[j].activityId
+    //         }
+    //       }
+    //       that.setData({
+    //         date: screenPlanList[i].date,
+    //         nowlist: screenPlanList[i].list[j],
+    //         // time: screenPlanList[i].list[j].startTime2,
+    //         // style: screenPlanList[i].list[j].movieDimensional,
+    //         price: price,
+    //         activityId: activityId
+    //       })
+    //       // console.log(that.data.nowlist)
+    //     }
+    //   }
+    // }
+    // that.touchend();
+    var data = {
+      Username: app.usermessage.Username,
+      Password: app.usermessage.Password,
+      CinemaCode: app.globalData.cinemacode,
+      ScreenCode: that.data.screenCode,
+      FeatureAppNo: that.data.featureAppNo,
+      Status: 'All'
     }
-    that.touchend();
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Screen/QueryScreenSeatsArrangement' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.ScreenCode,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var seats = res.data.data.rows;
+        that.setData({
+          seats: seats,
+        });
+      }
+    });
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Session/QuerySessionSeat' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.FeatureAppNo + '/' + data.Status,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        var seat = res.data.sessionSeat.seat;
+        var seats = that.data.seats;
+        for (let i = 0; i < seats.length; i++) {
+          for (let j = 0; j < seats[i].seats.length; j++) {
+            if (seats[i].seats[j] != null) {
+              for (let k in seat) {
+                if (seats[i].seats[j].seatCode == seat[k].code) {
+                  seats[i].seats[j].status = seat[k].status
+                }
+              }
+              // that.setData({
+              //   isEmpty: 'unempty',
+              // })
+            };
+          }
+        }
+        that.setData({
+          rows: seats
+        })
+        console.log(that.data.rows)
+      }
+    })
   },
 
   /**
@@ -105,7 +161,7 @@ Page({
    */
   onReady: function() {
     wx.setNavigationBarTitle({
-      title: app.globalData.movieList[app.globalData.movieIndex].movieName //页面标题
+      title: app.globalData.movieList[app.globalData.movieIndex].name //页面标题
     })
     // console.log(app.globalData)
     // console.log("app" + app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode)
@@ -113,27 +169,28 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('seatInfos', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/halls/screening/seatInfos',
-      data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        screenCode: that.data.screenCode,
-        featureAppNo: that.data.featureAppNo,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function(res) {
-        // console.log(res)
-        that.setData({
-          screenName: res.data.data.screenName
-        })
-        that.manage(res.data.data.seatsInfo)
-      }
-    })
+    // wx.request({
+    //   url: app.globalData.url + '/api/halls/screening/seatInfos',
+    //   data: {
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     screenCode: that.data.screenCode,
+    //     featureAppNo: that.data.featureAppNo,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function(res) {
+    //     // console.log(res)
+    //     that.setData({
+    //       screenName: res.data.data.screenName
+    //     })
+    //     that.manage(res.data.data.seatsInfo)
+    //   }
+    // })
+    
   },
   manage: function(res) { //处理数据
     var that = this;

@@ -152,7 +152,7 @@
   width: 58rpx;
   height: 56rpx;
   margin-right: 8rpx;
-  background:url(http://wx.80piao.com:83/images/seat2.png) no-repeat;
+  background:url(http://wx.80piao.com:83/images/seat3.png) no-repeat;
   background-size: 100% 100%;
   /* float: left; */
   display: inline-block;
@@ -163,11 +163,16 @@
 }
 
 .empty {
-  background: #f6f6f6;
+  /* background: #f6f6f6; */
+  opacity: 0;
+}
+
+.unempty {
+  opacity: 1;
 }
 
 .available {
-  background:url(http://wx.80piao.com:83/images/seat3.png) no-repeat;
+  background:url(http://wx.80piao.com:83/images/seat1.png) no-repeat;
   background-size: 100% 100%;
 }
 
@@ -183,7 +188,7 @@
   width: 62rpx;
   height: 55rpx;
   margin-right: 0;
-  background:url(https://app.legendpicture.com/upload/seat/seatmiddle.png) no-repeat;
+  background:url(http://wx.80piao.com:83/images/seat2.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatRight {
@@ -193,9 +198,11 @@
   background-size: 100% 100%;
 }
 
-.seatRight {
-  /* background: gray; */
+.selled{
+  background:url(http://wx.80piao.com:83/images/seat3.png) no-repeat;
+  background-size: 100% 100%;
 }
+
 .seat.empty{
   visibility: hidden;
 }
@@ -212,7 +219,7 @@
   background-size: 100% 100%;
 }
 .seat.select{
-  background: url(http://wx.80piao.com:83/images/seat1.png) no-repeat;
+  background: url(http://wx.80piao.com:83/images/seat2.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatLeft.select{
