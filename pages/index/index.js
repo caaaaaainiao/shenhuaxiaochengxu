@@ -29,23 +29,24 @@ Page({
     sza: [],
 
   },
-  onPullDownRefresh: function() {
+  // onPullDownRefresh: function() {
 
-    wx.showNavigationBarLoading() //在标题栏中显示加载
-    this.onLoad()
+  //   wx.showNavigationBarLoading() //在标题栏中显示加载
+  //   this.onLoad()
 
-    setTimeout(function() {
+  //   setTimeout(function() {
 
-      wx.hideNavigationBarLoading() //完成停止加载
+  //     wx.hideNavigationBarLoading() //完成停止加载
 
-      wx.stopPullDownRefresh() //停止下拉刷新
+  //     wx.stopPullDownRefresh() //停止下拉刷新
 
-    }, 1500);
-  },
+  //   }, 1500);
+  // },
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
   onLoad: function(options) {
     var that = this
+   
     var timestamp = new Date().getTime()
     that.setData({
       timestamp: new Date().getTime()

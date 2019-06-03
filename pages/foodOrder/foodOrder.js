@@ -301,7 +301,6 @@ console.log('merOrder-->');
     })
   },
   choosePay:function(){
-     
     this.setData({
       showBlack: true
     })
@@ -388,6 +387,43 @@ console.log('merOrder-->');
       merTicketId = that.data.merOrder.merTicket.id;
     }
     var nowtime = new Date().getTime();
+     //预支付
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Goods/PrePayGoodsOrder',
+      method: "POST",
+      data: {
+        userName: "MiniProgram",
+        password: "6BF477EBCC446F54E6512AFC0E976C41",
+        orderCode: app.globalData.ordercode,
+        cinemaCode: app.globalData.cinemacode,
+        couponsCode: "155875242760147267",
+        reductionPrice: "5.0",
+        goodsList: app.globalData.goodslist
+
+      },
+      success: function (res) {
+        console.log(res.data.data)
+        wx.requestPayment({
+          timeStamp: res.data.data.timeStamp,
+          nonceStr: res.data.data.nonceStr,
+          package: res.data.data.packages,
+          signType: res.data.data.signType,
+          paySign: res.data.data.paySign,
+          success(res) {
+            console.log(res)
+            wx.redirectTo({
+              url: '../foodSuccess/foodSuccess?orderNum='
+            })
+           },
+          fail(res) { 
+            console.log(res)
+            that.setData({
+              canClick: 1
+            })
+          }
+        })
+      }
+    })
     //预支付
     // wx.request({
     //   url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
@@ -438,18 +474,18 @@ console.log('merOrder-->');
     //           package: res.data.data.package,
     //           signType: res.data.data.signType,
     //           paySign: res.data.data.paySign,
-    //           success:function(res){
-    //             // console.log(res)
-    //             wx.redirectTo({
-    //               url: '../foodSuccess/foodSuccess?orderNum=' + ordernum,
-    //             })
-    //           },
-    //           fail:function(res){
-    //             // console.log(res)
-    //             that.setData({
-    //               canClick: 1
-    //             })
-    //           }
+              // success:function(res){
+              //   // console.log(res)
+              //   wx.redirectTo({
+              //     url: '../foodSuccess/foodSuccess?orderNum=' + ordernum,
+              //   })
+              // },
+              // fail:function(res){
+              //   // console.log(res)
+              //   that.setData({
+              //     canClick: 1
+              //   })
+              // }
     //         })
     //       }
     //     })
