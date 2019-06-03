@@ -182,7 +182,7 @@ const getgoodList = (goodsUrl,callback) => {
           "Content-Type": 'application/json'
         },
         success: function (res) {
-          console.log(res)
+          // console.log(res)
           var goodsList = res.data.data.goods;
           if (!goodsList) {
             return;

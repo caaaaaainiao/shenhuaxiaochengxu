@@ -359,6 +359,7 @@ console.log('merOrder-->');
       canClick: 0
     })//防止多次点击
     var json = [];
+    console.log(that.data.goodsList)
     for (var i = 0; i < that.data.goodsList.length; i++) {
       var row = {};
       row.id = that.data.goodsList[i].id;
@@ -387,79 +388,73 @@ console.log('merOrder-->');
       merTicketId = that.data.merOrder.merTicket.id;
     }
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('submitMerchaniseOrder', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/shOrder/submitMerchaniseOrder',
-      data: {
-        phone:that.data.phone,
-        address: that.data.type2address,
-        deliveryType: that.data.type - 1,//取货方式 0 自取,1送达;
-        featureAppNo: app.globalData.sellfeatureAppNo,//场次唯一编码
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        appUserId:app.globalData.userInfo.id,
-        merchandiseInfo: json,
-        activityId: marActivityId, //参与的活动的id
-        isReady:that.data.isReady,
-        memo: that.data.userMessage,
-        merTicketId:merTicketId,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        if (res.data.status == 0) {
-          wx.showModal({
-            title: '',
-            content: res.data.message,
-          })
-          return;
-        }
-        var ordernum = res.data.data.orderNum;
-        // console.log(ordernum)
-        var nowtime = new Date().getTime();
-        var sign = app.createMD5('minipay', nowtime);
-        wx.request({
-          url: app.globalData.url + '/api/shOrder/minipay',
-          data: {
-            appUserId: app.globalData.userInfo.id,
-            orderNum:ordernum,
-            timeStamp: nowtime,
-            mac: sign
-          },
-          method: "POST",
-          header: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          success: function (res) {
-            // console.log(res)
-            // return;
-            wx.requestPayment({
-              timeStamp: res.data.data.timeStamp,
-              nonceStr: res.data.data.nonceStr,
-              package: res.data.data.package,
-              signType: res.data.data.signType,
-              paySign: res.data.data.paySign,
-              success:function(res){
-                // console.log(res)
-                wx.redirectTo({
-                  url: '../foodSuccess/foodSuccess?orderNum=' + ordernum,
-                })
-              },
-              fail:function(res){
-                // console.log(res)
-                that.setData({
-                  canClick: 1
-                })
-              }
-            })
-          }
-        })
-      }
-    })
+    //预支付
+    // wx.request({
+    //   url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
+    //   data: {
+    //     username: "MiniProgram",
+    //     password: "6BF477EBCC446F54E6512AFC0E976C41",
+    //     cinemaCode: "33097601",
+    //     orderCode: "867856796787055",
+    //     CouponsCode: "867856796787055",
+    //     ReductionPrice: "5.00",
+    //     GoodsList: '[{ "GoodsCode": "0000000000000496", "GoodsCount": "2" }, { "GoodsCode": "0000000000000497", "GoodsCount": "1" }]'
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     console.log(res)
+    //     // if (res.data.status == 0) {
+    //     //   wx.showModal({
+    //     //     title: '',
+    //     //     content: res.data.message,
+    //     //   })
+    //     //   return;
+    //     // }
+    //     var ordernum = res.data.data.orderNum;
+    //     // console.log(ordernum)
+    //     var nowtime = new Date().getTime();
+    //     var sign = app.createMD5('minipay', nowtime);
+    //     wx.request({
+    //       url: app.globalData.url + '/api/shOrder/minipay',
+    //       data: {
+    //         appUserId: app.globalData.userInfo.id,
+    //         orderNum:ordernum,
+    //         timeStamp: nowtime,
+    //         mac: sign
+    //       },
+    //       method: "POST",
+    //       header: {
+    //         "Content-Type": "application/x-www-form-urlencoded"
+    //       },
+    //       success: function (res) {
+    //         // console.log(res)
+    //         // return;
+    //         wx.requestPayment({
+    //           timeStamp: res.data.data.timeStamp,
+    //           nonceStr: res.data.data.nonceStr,
+    //           package: res.data.data.package,
+    //           signType: res.data.data.signType,
+    //           paySign: res.data.data.paySign,
+    //           success:function(res){
+    //             // console.log(res)
+    //             wx.redirectTo({
+    //               url: '../foodSuccess/foodSuccess?orderNum=' + ordernum,
+    //             })
+    //           },
+    //           fail:function(res){
+    //             // console.log(res)
+    //             that.setData({
+    //               canClick: 1
+    //             })
+    //           }
+    //         })
+    //       }
+    //     })
+    //   }
+    // })
   },
   cardPay: function () {
     var that = this;

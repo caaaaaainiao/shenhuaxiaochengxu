@@ -127,7 +127,7 @@
       <view class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.conponId}}'>
         <view class='couponMoney'>￥{{foodCoupons.price}}</view>
         <!-- <view class='couponLimit'>满{{foodCoupons.dxPlatTicket.achieveMoney}}元可用</view> -->
-        <view class='couponTime'>有效期 {{foodCoupons.validityDateStr}}</view>
+        <view class='couponTime'>有效期至{{foodCoupons.expireDate}}</view>
         <image src='/images/gou.png' class='couponStatus1' wx:if="{{foodCoupons.conponId==merOrder.merTicket.conponId}}"></image>
         <view class='couponStatus2' wx:else></view>
       </view>

@@ -597,7 +597,7 @@ Page({
     app.globalData.lookcinemaadd = e._relatedInfo.anchorTargetText
     var cinemacode = e.currentTarget.dataset.cinemacode;
     app.globalData.lookcinemaname = e.currentTarget.dataset.cinemaname
-    console.log(app.globalData.lookcinemaname)
+    // console.log(app.globalData.lookcinemaname)
     for (var i = 0; i < app.globalData.areaList.length; i++) {
       if (app.globalData.areaList[i].cinemaCode == cinemacode) {
         app.globalData.cinemaList = app.globalData.areaList[i]
@@ -606,6 +606,7 @@ Page({
     var that = this
     app.globalData.cinemaNo = e.currentTarget.dataset.index;
     app.globalData.cinemacode = e.currentTarget.dataset.cinemacode;
+    console.log(app.globalData.cinemacode)
     app.globalData.moviearea = e.currentTarget.dataset.cinemaname;
     that.setData({
       moviearea: app.globalData.moviearea

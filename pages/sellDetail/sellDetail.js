@@ -136,6 +136,14 @@ Page({
       },
       success: function (res) {
         console.log(res)
+        var ordercode = res.data.order.orderCode
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
+          method: "GET",
+          success: function(res) {
+            console.log(res)
+          },
+        })
         wx.hideLoading()
         if (res.data.Status == "Success") {
           wx.showToast({
@@ -238,7 +246,7 @@ Page({
       success: function (res) {
         var movieList = that.data.movieList
         var movieList = res.data
-        console.log(movieList)
+        // console.log(movieList)
         that.setData({
           movieList: movieList
         })
@@ -426,7 +434,7 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.data.typeCount>0){
           //类型筛选商品                         
           that.setData({
@@ -506,7 +514,7 @@ goodsList: goodsList
         "Content-Type": "application/json"
       },
       success: function(res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.data){
           let bannerList = res.data.data;
           if (bannerList && bannerList.count>0){
