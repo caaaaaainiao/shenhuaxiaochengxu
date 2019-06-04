@@ -36,7 +36,7 @@
       </block>
     </view>
     <!-- <view class='seats' style='transform-origin:{{seatx}}% {{seaty}}%; transform:translate({{translateX}}px,{{translateY}}px) scale({{scale}})' bindtouchstart="touchstart" catchtouchmove="touchmove" catchtouchend="touchend"> -->
-    <view class='seats' style='transform-origin:{{seatx}}% {{seaty}}%; transform:translate({{translateX}}px,{{translateY}}px) scale({{scale}})'>
+    <view class='seats' style='transform:translate({{translateX}}px,{{translateY}}px) scale({{scale}})'>
       <view class='box'>
         <block wx:for="{{rows}}" wx:for-item="row" wx:key="row">
           <view class='row'>

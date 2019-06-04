@@ -75,7 +75,8 @@ App({
     roomNum:0,
     acivityUrl:"",
     cardList:null,
-    sellMovielist:null
+    sellMovielist:null,
+    seat: null,
   },
   createMD5: function (apiname, nowtime) {
     var sign = utilMd5.hexMD5("HLBW2018SHAPPLET" + apiname + "SH076WZ80D98X5G2" + nowtime);

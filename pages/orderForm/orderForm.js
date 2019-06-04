@@ -1,6 +1,7 @@
 // pages/orderForm/orderForm.js
 //获取应用实例
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -33,8 +34,12 @@ Page({
     comboList: null,
     refreshments: 0,
     allPrice: 0,
+    orderCode: '',
     // waitActivity: null,//可參與活動
-
+    UrlMap: {
+      goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
+      conponsUrl: app.globalData.url + '/Api/Conpon/QueryUserConpons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
+    }
   },
 
   /**
@@ -42,8 +47,10 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    // console.log(options)
     that.data.allPrice = Number(options.price) + Number(that.data.refreshments);
     that.setData({
+      orderCode: options.orderCode,
       date: options.date,
       movieName: options.title,
       count: options.count,
@@ -70,6 +77,21 @@ Page({
           });
           that.manage();
         }
+      }
+    })
+    // 获取优惠券
+    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID + "/All", function (res) {
+      if (res && res.length > 0) {
+        let movieCouponList = [];
+        for (let i = 0; i < res.length;i ++) {
+          if (res[i].reductionType == 1) {
+            movieCouponList.push(res[i])
+          }
+        }
+        that.setData({
+          seatCouponList: movieCouponList
+        })
+        console.log(that.data.seatCouponList)
       }
     })
   },
@@ -297,108 +319,136 @@ Page({
       return;
     }
     var json = [];
+    console.log(that.data)
+    let list = app.globalData.seat;
+    console.log(list)
+    for (let i = 0; i < list.length; i ++) {
+     let seatCode = list[i].seatCode
+      json.push({ "SeatCode": seatCode, "CouponsCode": "", "ReductionPrice": ""})
+    }
+    console.log(json)
     for (var i = 0; i < that.data.comboList.length; i++) {
-      var row = {};
-      row.id = that.data.seatOrder.comboList[i].id;
-      row.number = that.data.seatOrder.comboList[i].buyNum;
-      if (row.number > 0) {
-        json.push(row)
-      }
-    }
-    if (json.length == 0) {
-      json = ""
-    } else {
-      json = JSON.stringify(json);
-    }
-    var marActivityId = "";
-    if (that.data.marActivity != null) {
-      marActivityId = that.data.marActivity.id;
-    }
-    var seatCouponId = "";
-    if (that.data.seatCoupon != null) {
-      seatCouponId = that.data.seatCoupon.id
-    }
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('confirmTotalOrder', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/shOrder/confirmTotalOrder',
-      data: {
-        phone: that.data.phone,
-        appUserId: app.globalData.userInfo.id,
-        orderNum: that.data.seatOrder.orderNum,
-        merchandiseInfo: json,
-        seatTicketId: seatCouponId,
-        merTicketId: that.data.merTicketId,
-        activityId: marActivityId, //参与的活动的id
-        memo: that.data.userMessage,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function(res) {
-        var ordernum = res.data.data.orderNum;
-        var nowtime = new Date().getTime();
-        var sign = app.createMD5('minipay', nowtime);
+      if (that.data.comboList[i].buyNum == 0) {
         wx.request({
-          url: app.globalData.url + '/api/shOrder/minipay',
+          url: 'https://xc.80piao.com:8443/Api/Order/PrePayOrder',
           data: {
-            appUserId: app.globalData.userInfo.id,
-            orderNum: ordernum,
-            timeStamp: nowtime,
-            mac: sign
+            "userName": app.usermessage.Username,
+            "password": app.usermessage.Password,
+            "cinemaCode": app.globalData.cinemacode,
+            "orderCode":  that.data.orderCode,
+            "seats": json
           },
-          method: "POST",
+          method: 'POST',
           header: {
-            "Content-Type": "application/x-www-form-urlencoded"
+            'content-type': 'application/json' // 默认值
           },
-          success: function(res) {
-            // console.log(res)
-            // return;
-            wx.requestPayment({
-              timeStamp: res.data.data.timeStamp,
-              nonceStr: res.data.data.nonceStr,
-              package: res.data.data.package,
-              signType: res.data.data.signType,
-              paySign: res.data.data.paySign,
-              success: function(res) {
-                that.setData({
-                  canClick: 1
-                }) //防止多次点击
-                that.setData({
-                  showPay: false
-                })
-                wx.showToast({
-                  title: '支付成功',
-                  mask: true,
-                  duration: 2000
-                })
-                setTimeout(function() {
-                  wx.redirectTo({
-                    url: '../success/success?orderNum=' + ordernum,
-                  })
-                }, 1000)
-              },
-              fail: function(res) {
-                // console.log(res)
-                wx.showToast({
-                  title: '支付失败',
-                  mask: true,
-                  duration: 2000
-                })
-                setTimeout(function() {
-                  wx.redirectTo({
-                    url: '../waitPay/waitPay?orderNum=' + ordernum,
-                  })
-                }, 1000)
-              }
-            })
+          success: function (res) {
+            console.log(res)
           }
         })
+        
       }
-    })
+      // var row = {};
+      // row.id = that.data.seatOrder.comboList[i].id;
+      // row.number = that.data.seatOrder.comboList[i].buyNum;
+      // if (row.number > 0) {
+      //   json.push(row)
+      // }
+    }
+    // if (json.length == 0) {
+    //   json = ""
+    // } else {
+    //   json = JSON.stringify(json);
+    // }
+    // var marActivityId = "";
+    // if (that.data.marActivity != null) {
+    //   marActivityId = that.data.marActivity.id;
+    // }
+    // var seatCouponId = "";
+    // if (that.data.seatCoupon != null) {
+    //   seatCouponId = that.data.seatCoupon.id
+    // }
+    // var nowtime = new Date().getTime();
+    // var sign = app.createMD5('confirmTotalOrder', nowtime);
+    // wx.request({
+    //   url: app.globalData.url + '/api/shOrder/confirmTotalOrder',
+    //   data: {
+    //     phone: that.data.phone,
+    //     appUserId: app.globalData.userInfo.id,
+    //     orderNum: that.data.seatOrder.orderNum,
+    //     merchandiseInfo: json,
+    //     seatTicketId: seatCouponId,
+    //     merTicketId: that.data.merTicketId,
+    //     activityId: marActivityId, //参与的活动的id
+    //     memo: that.data.userMessage,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function(res) {
+    //     var ordernum = res.data.data.orderNum;
+    //     var nowtime = new Date().getTime();
+    //     var sign = app.createMD5('minipay', nowtime);
+    //     wx.request({
+    //       url: app.globalData.url + '/api/shOrder/minipay',
+    //       data: {
+    //         appUserId: app.globalData.userInfo.id,
+    //         orderNum: ordernum,
+    //         timeStamp: nowtime,
+    //         mac: sign
+    //       },
+    //       method: "POST",
+    //       header: {
+    //         "Content-Type": "application/x-www-form-urlencoded"
+    //       },
+    //       success: function(res) {
+    //         // console.log(res)
+    //         // return;
+    //         wx.requestPayment({
+    //           timeStamp: res.data.data.timeStamp,
+    //           nonceStr: res.data.data.nonceStr,
+    //           package: res.data.data.package,
+    //           signType: res.data.data.signType,
+    //           paySign: res.data.data.paySign,
+    //           success: function(res) {
+    //             that.setData({
+    //               canClick: 1
+    //             }) //防止多次点击
+    //             that.setData({
+    //               showPay: false
+    //             })
+    //             wx.showToast({
+    //               title: '支付成功',
+    //               mask: true,
+    //               duration: 2000
+    //             })
+    //             setTimeout(function() {
+    //               wx.redirectTo({
+    //                 url: '../success/success?orderNum=' + ordernum,
+    //               })
+    //             }, 1000)
+    //           },
+    //           fail: function(res) {
+    //             // console.log(res)
+    //             wx.showToast({
+    //               title: '支付失败',
+    //               mask: true,
+    //               duration: 2000
+    //             })
+    //             setTimeout(function() {
+    //               wx.redirectTo({
+    //                 url: '../waitPay/waitPay?orderNum=' + ordernum,
+    //               })
+    //             }, 1000)
+    //           }
+    //         })
+    //       }
+    //     })
+    //   }
+    // })
   },
   cardPay: function() {
     var that = this;
@@ -528,7 +578,7 @@ Page({
                   success: function(res) {
                     if (res.confirm) {
                       wx.redirectTo({
-                        url: '../mycard/mycard',
+                        url: '../page04/index',
                       })
                     } else if (res.cancel) {
                       wx.redirectTo({
@@ -617,7 +667,7 @@ Page({
         success: function(res) {
           if (res.confirm) {
             wx.navigateTo({
-              url: '../mycard/mycard',
+              url: '../page04/index',
             })
           }
         }
