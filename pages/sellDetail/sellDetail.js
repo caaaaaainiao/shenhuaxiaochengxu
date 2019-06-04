@@ -90,10 +90,11 @@ Page({
 
       return;
     }  
-
+  
+ 
+   
+   //创建订单的参数
     let xml = '<CreateGoodsOrder><cinemaCode>' + app.globalData.cinemacode +'</cinemaCode><payType>0</payType><goodsList>';
-
-    
     if (this.data.totalNum > 0){
       let cartobj = util.getcartObj(null);
       if (cartobj && cartobj.list){
@@ -102,7 +103,7 @@ Page({
           xml +='<goods>';
           xml += '<goodsCode>' + item.goodsCode+'</goodsCode>';
           xml += '<goodsCount>' + item.buyNum+ '</goodsCount>';
-          xml += '<standardPrice>' + item.settlePrice + '</standardPrice>';
+          xml += '<standardPrice>' + item.standardPrice + '</standardPrice>';
           if (item.channelFee){
             xml += '<goodsChannelFee>' + item.channelFee + '</goodsChannelFee>';
           }else{
@@ -143,9 +144,8 @@ Page({
           url: 'https://xc.80piao.com:8443/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
           method: "GET",
           success: function(res) {
-            // console.log(res)
+            console.log(res)
             var arr = res.data.data.goodsList 
-            // console.log(arr)
             var goodslist=[]
             var obj ={}
             for (var x = 0; x < arr.goods.length; x++){
@@ -156,7 +156,6 @@ Page({
                 goodslist: goodslist
               })
             } 
-            console.log(that.data.goodslist)
             app.globalData.goodslist = that.data.goodslist
             if (res.data.Status == "Success") {
               wx.showToast({
@@ -166,6 +165,31 @@ Page({
                 duration: 2000,
                 mask: true,
                 success: function (res) {
+                  that.setData({//关闭浮层
+                    showReady: false
+                  })
+                  //确认订单的参数
+                  let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
+                  let queryobj = util.getcartObj(null);
+                  if (queryobj && queryobj.list) {
+                    for (var i = 0; i < queryobj.list.length; i++) {
+                      let items = queryobj.list[i];
+                      queryXml += '<goods>';
+                      queryXml += '<goodsCode>' + items.goodsCode + '</goodsCode>';
+                      queryXml += '<goodsCount>' + items.buyNum + '</goodsCount>';
+                      queryXml += '<settlePrice>' + items.settlePrice + '</settlePrice>';
+                      queryXml += '<standardPrice>' + items.standardPrice + '</standardPrice>';
+                      if (items.channelFee) {
+                        queryXml += '<goodsChannelFee>' + items.channelFee + '</goodsChannelFee>';
+                      } else {
+                        queryXml += '<goodsChannelFee>0</goodsChannelFee>';
+                      }
+
+                      queryXml += '</goods>';
+                    }
+                  }
+                  queryXml += ' </goodsList></SubmitGoodsOrder>';
+                  app.globalData.queryXml = queryXml
                   //复制购物车列表到待支付物品列表
                   //let cattObj = util.getcartObj(null);
                   //wx.setStorageSync('toSubmitGoods', cattObj);

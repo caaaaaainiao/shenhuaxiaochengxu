@@ -422,6 +422,7 @@ Page({
     wx.getStorage({
       key: 'sjhm',
       success: function(res) {
+        // console.log(res.data)
         console.log(e.currentTarget.dataset)
         app.globalData.checkfilmcode = e.currentTarget.dataset.id
         wx.setStorage({

@@ -39,7 +39,7 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
- 
+    console.log(app.globalData.queryXml)
     let goodsList = wx.getStorageSync('toSubmitGoods');
     if (!goodsList)
         return;
@@ -101,7 +101,6 @@ Page({
             merOrder: merOrder,
            
           });
-console.log('merOrder-->');
           console.log(merOrder);
           that.updatetotalPrice();
         }
@@ -265,40 +264,40 @@ console.log('merOrder-->');
     wx.showLoading()
     var nowtime = new Date().getTime();
     var sign = app.createMD5('countMerchaniseOrderPrice', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/shOrder/countMerchaniseOrderPrice',
-      data: {
-        merchandiseInfo: json,
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode:app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        merTicketId: that.data.merTicketId,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        var merOrder = res.data.data;
-        if (merOrder.merTicketList){
-          for (var i = 0; i < merOrder.merTicketList.length; i++) {
-            merOrder.merTicketList[i].dxPlatTicket.endTime2 = merOrder.merTicketList[i].dxPlatTicket.endTime.substring(0, 10)
-          }
-        }
+    // wx.request({
+    //   url: app.globalData.url + '/api/shOrder/countMerchaniseOrderPrice',
+    //   data: {
+    //     merchandiseInfo: json,
+    //     appUserId: app.globalData.userInfo.id,
+    //     cinemaCode:app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     merTicketId: that.data.merTicketId,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
+    //     var merOrder = res.data.data;
+    //     if (merOrder.merTicketList){
+    //       for (var i = 0; i < merOrder.merTicketList.length; i++) {
+    //         merOrder.merTicketList[i].dxPlatTicket.endTime2 = merOrder.merTicketList[i].dxPlatTicket.endTime.substring(0, 10)
+    //       }
+    //     }
         
-        wx.hideLoading()
-        that.setData({
-          waitActivity: res.data.data.waitActivity,//未参与的活动
-          marActivity: res.data.data.marActivity,//已参与活动
-          disPrice: res.data.data.disPrice,
-          totalPrice: res.data.data.beforeActivityPrice,
-          merOrder: merOrder,
+    //     wx.hideLoading()
+    //     that.setData({
+    //       waitActivity: res.data.data.waitActivity,//未参与的活动
+    //       marActivity: res.data.data.marActivity,//已参与活动
+    //       disPrice: res.data.data.disPrice,
+    //       totalPrice: res.data.data.beforeActivityPrice,
+    //       merOrder: merOrder,
          
-        })
-      }
-    })
+    //     })
+    //   }
+    // })
   },
   choosePay:function(){
     this.setData({
@@ -411,6 +410,18 @@ console.log('merOrder-->');
           paySign: res.data.data.paySign,
           success(res) {
             console.log(res)
+            wx.request({
+              url: 'https://xc.80piao.com:8443/Api/Goods/SubmitGoodsOrder',
+              method: "POST",
+              data: {
+                userName: "MiniProgram",
+                password: "6BF477EBCC446F54E6512AFC0E976C41",
+                queryXml:app.globalData.queryXml
+              },
+              success: function (res) {
+                console.log(res)
+              }
+            })
             wx.redirectTo({
               url: '../foodSuccess/foodSuccess?orderNum='
             })
@@ -424,73 +435,6 @@ console.log('merOrder-->');
         })
       }
     })
-    //预支付
-    // wx.request({
-    //   url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
-    //   data: {
-    //     username: "MiniProgram",
-    //     password: "6BF477EBCC446F54E6512AFC0E976C41",
-    //     cinemaCode: "33097601",
-    //     orderCode: "867856796787055",
-    //     CouponsCode: "867856796787055",
-    //     ReductionPrice: "5.00",
-    //     GoodsList: '[{ "GoodsCode": "0000000000000496", "GoodsCount": "2" }, { "GoodsCode": "0000000000000497", "GoodsCount": "1" }]'
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     console.log(res)
-    //     // if (res.data.status == 0) {
-    //     //   wx.showModal({
-    //     //     title: '',
-    //     //     content: res.data.message,
-    //     //   })
-    //     //   return;
-    //     // }
-    //     var ordernum = res.data.data.orderNum;
-    //     // console.log(ordernum)
-    //     var nowtime = new Date().getTime();
-    //     var sign = app.createMD5('minipay', nowtime);
-    //     wx.request({
-    //       url: app.globalData.url + '/api/shOrder/minipay',
-    //       data: {
-    //         appUserId: app.globalData.userInfo.id,
-    //         orderNum:ordernum,
-    //         timeStamp: nowtime,
-    //         mac: sign
-    //       },
-    //       method: "POST",
-    //       header: {
-    //         "Content-Type": "application/x-www-form-urlencoded"
-    //       },
-    //       success: function (res) {
-    //         // console.log(res)
-    //         // return;
-    //         wx.requestPayment({
-    //           timeStamp: res.data.data.timeStamp,
-    //           nonceStr: res.data.data.nonceStr,
-    //           package: res.data.data.package,
-    //           signType: res.data.data.signType,
-    //           paySign: res.data.data.paySign,
-              // success:function(res){
-              //   // console.log(res)
-              //   wx.redirectTo({
-              //     url: '../foodSuccess/foodSuccess?orderNum=' + ordernum,
-              //   })
-              // },
-              // fail:function(res){
-              //   // console.log(res)
-              //   that.setData({
-              //     canClick: 1
-              //   })
-              // }
-    //         })
-    //       }
-    //     })
-    //   }
-    // })
   },
   cardPay: function () {
     var that = this;
