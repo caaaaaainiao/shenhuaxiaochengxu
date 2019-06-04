@@ -225,30 +225,8 @@ Page({
     wx.getStorage({
       key: 'sjhm',
       success: function(res) {
-      
-        // if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone == null || app.globalData.userInfo.mobilePhone == "")) {
-        //   wx.showToast({
-        //     title: '请先注册手机号',
-        //     icon: "loading",
-        //     mask: true,
-        //     duration: 2000,
-        //     success: function () {
-        //       setTimeout(function () {
-        //         wx.navigateTo({
-        //           url: '../login/login'
-        //         })
-        //       }, 2000)
-        //     }
-        //   })
-        //   return;
-        // }
-        // if (setType == 2) {
-        //   wx.hideTabBar()
-        //   that.setData({
-        //     startChoose: true
-        //   })
-        // } 
-    
+        // console.log(res)
+        app.globalData.phonenum = res.data
       },
       fail: function(res) {
         wx.navigateTo({

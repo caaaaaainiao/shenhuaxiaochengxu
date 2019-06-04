@@ -1,6 +1,7 @@
 // pages/movie/movie.js
 //获取应用实例
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -203,8 +204,9 @@ Page({
   },
   getNowTimeMovie : function (){
     var that = this
+    let apiuser = util.getAPIUserData(null);
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Room/QueryScreenRoom' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.CinemaCode,
+      url: 'https://xc.80piao.com:8443/Api/Room/QueryScreenRoom' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
