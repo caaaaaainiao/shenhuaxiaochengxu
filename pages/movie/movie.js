@@ -55,24 +55,26 @@ Page({
     // })
   },
   roomin:function(e){
+    var that =this
     var index = e.currentTarget.dataset.index;
-    if (app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "") {
+    if (!wx.getStorageSync('sjhm')){
       wx.showToast({
         title: '请先注册手机号',
         icon: "loading",
         mask: true,
-        duration: 2000,
+        duration: 500,
         success: function () {
           setTimeout(function () {
             wx.navigateTo({
               url: '../login/login'
             })
-          }, 2000)
+          }, 200)
         }
       })
       return;
     }
     app.globalData.roomNum = index;
+    // console.log(that.data.MovieList[index])
     wx.navigateTo({
       url: '../room/room',
     })
@@ -217,6 +219,7 @@ Page({
         that.setData({
           MovieList : res.data.data
         })
+        app.globalData.movieRoom = that.data.MovieList;
         // console.log(e)
         // var movieRoom = e.data.data;
         // for (var i = 0; i < movieRoom.length; i++) {
@@ -226,7 +229,7 @@ Page({
         // that.setData({
         //   movieRoom: movieRoom
         // })
-        // app.globalData.movieRoom = movieRoom;
+       
       }
     })
   }
