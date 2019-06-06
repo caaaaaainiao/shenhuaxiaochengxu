@@ -39,7 +39,7 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    console.log(app.globalData.queryXml)
+    // console.log(app.globalData.queryXml)
     let goodsList = wx.getStorageSync('toSubmitGoods');
     if (!goodsList)
         return;
@@ -73,18 +73,98 @@ Page({
         totalPrice: totalPrice,
         disPrice: totalPrice
         });
-    
+  
+
       //todo 优惠券
       util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID+"/All", function (res) {
-        
-        if (res && res.length > 0) {
+        // console.log(res)//适用于该影院的优惠券
+        var sellTicket = []
+        for(var x in res){
+          if (res[x].reductionType==2){
+               sellTicket.push(res[x])
+           }
+        }
+        // console.log(sellTicket)  //排除电影票优惠券
+        var notusedTicket=[]
+        for(var x in sellTicket ){
+          if (sellTicket[x].status==1){
+            notusedTicket.push(sellTicket[x])
+               }
+        }
+        // console.log(notusedTicket) //排除已使用 已过期优惠券
 
+        var timeTicket = []
+        var nowday= new Date().getDay()+1
+        // console.log(nowday)
+        for(var x in notusedTicket ){
+          if (notusedTicket[x].canUsePeriodType ==1){
+                timeTicket.push(notusedTicket[x])
+          } else if (notusedTicket[x].canUsePeriodType == 2){
+            if (notusedTicket[x].weekDays == ''){//每天都适用的添加进数组
+              timeTicket.push(notusedTicket[x])
+            }else { //有固定周几的
+              if (notusedTicket[x].weekDays.indexOf(nowday)!=-1){
+                if (notusedTicket[x].timePeriod==''){//没有固定几点到几点的添加进组
+                  timeTicket.push(notusedTicket[x]) 
+                }
+                else{ //固定时间的
+                  var arr = notusedTicket[x].timePeriod.split(',')
+                  // console.log(arr) //字符串转数组
+                  
+                  var hourtime = new Date().getHours()+''+ new Date().getMinutes()
+                  // console.log(hourtime) //获取本地的小时分钟
+                  for(var y in arr){
+                      // console.log(arr[y]) //获取数组中的每一个字符串
+                     var  arr1 = arr[y].split('-')
+                      // console.log(arr1) //将字符串转化为数组
+                      for (var z in arr1){
+                        var hourtime1 = arr1[0].replace(':', '')
+                        var hourtime2 = arr1[1].replace(':', '')
+                        
+                      }
+                    if (hourtime > hourtime1 && hourtime < hourtime2){
+                      timeTicket.push(notusedTicket[x]) 
+                    }
+                  }
+                } 
+                }
+            }    
+          }
+        }
+
+
+        // console.log(timeTicket)
+        // console.log(that.data.goodsList)
+        var goodTicket = []
+        for (var x in that.data.goodsList){
+          for (var y in timeTicket){
+            if (timeTicket[y].goodsCodes ==''){
+              goodTicket.push(timeTicket[y])
+              }
+              else{
+              // array.push(timeTicket[y].goodsCodes)
+              var array = timeTicket[y].goodsCodes.split(',')
+             
+              // console.log(array)
+              for(var z in array){
+                if (that.data.goodsList[x].goodsCode==array[z]){
+                  goodTicket.push(timeTicket[y])
+                    }
+              }
+              }
+   
+            }
+        }
+        // console.log(goodTicket)
+
+        
+        if (goodTicket && goodTicket.length > 0) {
           //formatTime
-          for(var i=0;i<res.length;i++){
-            if (res[i].validityDate){
-              res[i].validityDateStr = util.formatTimeGMT(res[i].validityDate);
+          for (var i = 0; i < goodTicket.length;i++){
+            if (goodTicket[i].validityDate){
+              goodTicket[i].validityDateStr = util.formatTimeGMT(goodTicket[i].validityDate);
             }else{
-              res[i].validityDateStr=""
+              goodTicket[i].validityDateStr=""
             }
            
           }
@@ -92,10 +172,11 @@ Page({
           let merOrder = {
          
             merTicket:{
-              conponId: res[0].conponId,
-              couponPrice: res[0].price?parseFloat(res[0].price):0,
+              conponId: goodTicket[0].conponId,
+              conponCode: goodTicket[0].conponCode,
+              couponPrice: goodTicket[0].price
             },
-            merTicketList: res
+            merTicketList: goodTicket
           };
           that.setData({
             merOrder: merOrder,
@@ -114,12 +195,8 @@ Page({
         that.setData({
           type: options.type,
           cinemaList: res,
-         
-         // phone: app.globalData.userInfo.mobile,
-       
+
           cinema: res[0],
-          //type2address: app.globalData.type2address,
-          //merOrder: app.globalData.merOrder
         });
 
        
@@ -263,41 +340,6 @@ Page({
     }
     wx.showLoading()
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('countMerchaniseOrderPrice', nowtime);
-    // wx.request({
-    //   url: app.globalData.url + '/api/shOrder/countMerchaniseOrderPrice',
-    //   data: {
-    //     merchandiseInfo: json,
-    //     appUserId: app.globalData.userInfo.id,
-    //     cinemaCode:app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     merTicketId: that.data.merTicketId,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     var merOrder = res.data.data;
-    //     if (merOrder.merTicketList){
-    //       for (var i = 0; i < merOrder.merTicketList.length; i++) {
-    //         merOrder.merTicketList[i].dxPlatTicket.endTime2 = merOrder.merTicketList[i].dxPlatTicket.endTime.substring(0, 10)
-    //       }
-    //     }
-        
-    //     wx.hideLoading()
-    //     that.setData({
-    //       waitActivity: res.data.data.waitActivity,//未参与的活动
-    //       marActivity: res.data.data.marActivity,//已参与活动
-    //       disPrice: res.data.data.disPrice,
-    //       totalPrice: res.data.data.beforeActivityPrice,
-    //       merOrder: merOrder,
-         
-    //     })
-    //   }
-    // })
   },
   choosePay:function(){
     this.setData({
@@ -395,8 +437,8 @@ Page({
         password: "6BF477EBCC446F54E6512AFC0E976C41",
         orderCode: app.globalData.ordercode,
         cinemaCode: app.globalData.cinemacode,
-        couponsCode: "155875242760147267",
-        reductionPrice: "5.0",
+        couponsCode: that.data.merOrder.merTicket.conponCode,
+        reductionPrice: that.data.merOrder.merTicket.couponPrice,
         goodsList: app.globalData.goodslist
 
       },
@@ -662,18 +704,24 @@ Page({
   setFoodCoupon:function(e){
     var that = this;
     var id = e.currentTarget.dataset.id;
+    var code = e.currentTarget.dataset.code;
+    var price = e.currentTarget.dataset.couponprice
     let merOrder = that.data.merOrder;
     if (merOrder){
+      merOrder.merTicket.conponCode = code;
       merOrder.merTicket.conponId = id;
+      merOrder.merTicket.couponPrice = price;
       that.setData({
         merTicketId: id,
         merOrder: merOrder
       })
+      console.log(that.data.merOrder)
     }
     
    // that.ask();
   },
   closeChoose: function () {
+    this.updatetotalPrice();
     this.setData({
       startChoose: false
     })

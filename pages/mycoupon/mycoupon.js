@@ -84,7 +84,7 @@ Page({
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
       CinemaCode: app.globalData.cinemacode,
-      OpenID: 'o9gGQ4nuoKAZq1Xjp_N3iu3bmpZs',
+      OpenID: app.globalData.openId,
       Status: 'All'
     };
     wx.request({

@@ -18,7 +18,7 @@
   <view class='option' wx:if="{{merOrder.merTicket.couponPrice}}" bindtap='chooseCoupon'>
     小食优惠券
     <image src='/images/gray_more.png'></image>
-    <text>-{{filters.toFix(merOrder.merTicket.couponPrice)}}元</text>
+    <text>-{{merOrder.merTicket.couponPrice}}元</text>
   </view>
   <view class='option' style="border:none;">
     小食总价
@@ -124,7 +124,7 @@
   <!-- 选择小食优惠券 -->
   <view class='chooseCoupon' wx:if="{{startChoose&&merOrder.merTicketList!=null}}">
     <block wx:for="{{merOrder.merTicketList}}" wx:for-item="foodCoupons" wx:key="foodCoupons">
-      <view class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.conponId}}'>
+      <view class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.conponId}}' data-code='{{foodCoupons.conponCode}}' data-couponPrice='{{foodCoupons.price}}'>
         <view class='couponMoney'>￥{{foodCoupons.price}}</view>
         <!-- <view class='couponLimit'>满{{foodCoupons.dxPlatTicket.achieveMoney}}元可用</view> -->
         <view class='couponTime'>有效期至{{foodCoupons.expireDate}}</view>
@@ -132,6 +132,10 @@
         <view class='couponStatus2' wx:else></view>
       </view>
     </block>
+       <view class='closecanuse'>
+      <view>1231231</view>
+      <view>123123</view>
+     </view>
     <view class='checkok' bindtap='closeChoose'>选好了</view>
   </view>
   <!-- <view class='black2' wx:if='{{showReady}}'>

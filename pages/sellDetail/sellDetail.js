@@ -115,8 +115,9 @@ Page({
       }
     }
     xml += '</goodsList></CreateGoodsOrder>';
-    console.log(xml);
+    // console.log(xml);
     var nowtime = new Date();
+    console.log(that.data.type)
     
     let endtime = new Date(nowtime.getTime() + 1000 * 60 );
     let endday = util.formatTime2(endtime);
