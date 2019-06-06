@@ -188,4 +188,22 @@
     <view class='checkok' bindtap='closeChoose'>选好了</view>
   </view>
 
+  <!-- 选择会员卡号 -->
+    <view class='black2' wx:if="{{isShow}}">
+    <view class='add2'>
+      <image class='close2' src='/images/close.png' bindtap='closeM'></image>
+            <view class="box-bottom">
+        <view class="title" style="text-align: center;">选择会员卡号</view>
+        <view class="choose">
+          <block wx:for="{{card}}" wx:for-item="card" wx:key="card">
+            <button bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{card.cardNo}}" hover-class="none">
+              {{card.cardNo}}
+            </button>
+          </block>
+        </view>
+        <view class="operate">
+        </view>
+      </view>
+    </view>
+  </view>
 </view>
