@@ -393,6 +393,14 @@ Page({
         json[i].reductionPrice = ""
       }
     }
+    let data = {
+      "userName": app.usermessage.Username,
+        "password": app.usermessage.Password,
+          "cinemaCode": app.globalData.cinemacode,
+            "orderCode": that.data.orderCode,
+              "seats": json
+    };
+    console.log(data)
     // 预支付
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Order/PrePayOrder',
