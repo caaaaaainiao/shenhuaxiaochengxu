@@ -33,7 +33,7 @@ Page({
    that.setData({
      movieList:movieList
    })
-  //  console.log(that.data.movieList)
+   console.log(that.data.movieList)
     wx.getStorage({
       key: 'accredit',
       success: function (res) {
@@ -254,11 +254,13 @@ Page({
     wx.showTabBar()
   },
   ask: function (e) { //查询场次
+  // console.log(e)
     var that = this;
     var movieid = e.currentTarget.dataset.id;
     var moviename = e.currentTarget.dataset.name;
     var nowtime = new Date().getTime();
     var index = e.currentTarget.dataset.index;
+    app.globalData.orderaddname = moviename
     // console.log(that.data.movieList)
     var beginmovieList = that.data.movieList[index].session
     // console.log(beginmovieList)
@@ -385,12 +387,14 @@ Page({
     })
   },
   setTime:function(e){//设置场次，获取影厅
+  // console.log(e)
     var that = this;
     var time = e.currentTarget.dataset.time;
     var index = e.currentTarget.dataset.index;
     var timeList = that.data.timeList;
     var hallList = [];
     var screenname = that.data.beginmovieList[index].screenName
+    app.globalData.selltimename = time
     that.setData({
       screenname:screenname
     })
@@ -422,9 +426,11 @@ Page({
     // console.log(timeList)
   },
   setHall:function(e){//选择影厅
+  // console.log(e)
     var that = this;
     var hall = e.currentTarget.dataset.hall;
     var index = e.currentTarget.dataset.index;
+    app.globalData.sellhallname = hall
     // var hallList = that.data.hallList;
     // var detailStr = that.data.detailStr.split(",");
     // detailStr = detailStr[0] + "," + detailStr[1]+",";

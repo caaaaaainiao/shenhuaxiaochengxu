@@ -60,14 +60,6 @@ Page({
       isReady: type,
     })
   },
-  gettypeaddr:function(){
-     
-    if (this.data.isReady==1){
-      return '到店后取餐';
-    }
-
-    return '我在店里，马上取餐';
-  },
   sureChoose: function () {
      let that=this;
     let loginInfo = wx.getStorageSync('loginInfo');
@@ -121,15 +113,20 @@ Page({
     
     let endtime = new Date(nowtime.getTime() + 1000 * 60 );
     let endday = util.formatTime2(endtime);
+    console.log(endday)
 
     let apiuser = util.getAPIUserData(null);
+    var deliveryAddress = app.globalData.selltimename + '' + app.globalData.orderaddname + '[' + app.globalData.sellhallname + ']'
+    if (app.globalData.orderaddname == undefined && app.globalData.selltimename == undefined && app.globalData.sellhallname == undefined){
+      deliveryAddress = '到店后取餐'
+    }
     //todo: 创建订单
     wx.request({
       url:that.data.UrlMap.createOrderUrl,
       method: "POST",
       data: {
         deliveryType:that.data.type,
-        deliveryAddress: that.gettypeaddr(),
+        deliveryAddress: deliveryAddress,
         deliveryTime: endday,
         queryXml: xml,
         userName: apiuser.UserName,
@@ -254,8 +251,9 @@ Page({
             })
           } else if (that.data.type == 2){
             that.setData({
-              showReady: true
+              showReady: false
             })
+            that.sureChoose()
           }
         
         

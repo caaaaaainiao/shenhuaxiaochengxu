@@ -70,17 +70,17 @@
         <view class='checktitle' wx:elif="{{step == 3}}">选择影厅:</view>
         <view class='checkoptions' wx:if="{{step == 1}}">
           <block wx:for="{{movieList}}" wx:for-item="movie" wx:key="movie">
-            <view class='option {{movie.foodcheck?"checkedoption":""}}' bindtap="ask" data-id="{{movie.id}}" data-name="{{movie.movieName}}" data-index="{{index}}">{{movie.name}}</view>
+            <view class='option {{movie.foodcheck?"checkedoption":""}}' bindtap="ask" data-id="{{movie.id}}" data-name="{{movie.name}}" data-index="{{index}}">{{movie.name}}</view>
           </block>
         </view>
          <view class='checkoptions' wx:if="{{step == 2}}">
           <block wx:for="{{beginmovieList}}" wx:for-item="time" wx:key="time">
-            <view class='option {{time.foodcheck?"checkedoption":""}}' bindtap='setTime' data-time="{{time.time}}" data-index='{{index}}'>{{time.beginTime}}</view>
+            <view class='option {{time.foodcheck?"checkedoption":""}}' bindtap='setTime' data-time="{{time.beginTime}}" data-index='{{index}}'>{{time.beginTime}}</view>
           </block>
         </view>
          <view class='checkoptions' wx:if="{{step == 3}}">
           <!-- <block wx:for="{{beginmovieList}}" wx:for-item="hall" wx:key="hall"> -->
-            <view class='option {{hall.foodcheck?"checkedoption":""}}' bindtap='setHall' data-hall="{{hall.name}}" data-index="{{index}}">{{screenname}}</view>
+            <view class='option {{hall.foodcheck?"checkedoption":""}}' bindtap='setHall' data-hall="{{screenname}}" data-index="{{index}}">{{screenname}}</view>
           <!-- </block> -->
         </view>
         <view class='checkstep'>
