@@ -75,6 +75,7 @@ App({
     roomNum:0,
     acivityUrl:"",
     cardList:null,
+    card:null, // 会员卡信息
     sellMovielist:null,
     seat: null,
   },
