@@ -9,7 +9,9 @@ Page({
   data: {
     orderNum:0,
     order:null,
-    banner:""
+    banner:"",
+    movieName: null,
+    count: null,
   },
 
   /**
@@ -17,7 +19,9 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      orderNum:options.orderNum
+      orderNum:options.orderNum,
+      movieName: options.movieName,
+      count: options.count,
     })
     this.getBanner();
   },
