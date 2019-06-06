@@ -58,7 +58,7 @@
           </view>
         </view>
         <view class='btns'>
-            <view class='buy' data-index="{{index}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="0" catchtap='buy'>购票</view>
+            <view class='buy' data-index="{{index}}" data-filmCode="{{session.filmCode}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="0" catchtap='buy'>购票</view>
           <text class='session_bottom'>￥{{session.standardPrice}}</text>
         </view>
         <view class='node'></view>

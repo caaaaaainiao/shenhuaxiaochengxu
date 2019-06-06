@@ -28,7 +28,7 @@
     电影票优惠券
     <image src='/images/gray_more.png'></image>
     <text wx:if="{{seatCoupon == null}}">去选择</text>
-    <text wx:else>-{{filters.toFix(seatOrder.order.beforeTicketPrice-seatOrder.order.ticketRealPrice)}}元</text>
+    <text wx:else>-{{ticketRealPrice}}元</text>
   </view>
   <view class='option'>
     影票总价
@@ -36,8 +36,8 @@
     <text class='money'>{{price}}</text>
   </view>
   <view class='gray_line'></view>
-  <block wx:if="{{comboList.length > 0}}">
-    <!-- 推荐食品 -->
+  <!-- <block wx:if="{{comboList.length > 0}}">
+    
     <view class='detailclass' id='detailclass1'>
       <image src='/images/dot.png'></image>
       <text>热卖套餐</text>
@@ -62,17 +62,17 @@
         </view>
       </view>
     </block>
-    <view class='option' wx:if="{{foodCoupon.merTicket!=null}}" bindtap='setType2'>
+    <view class='option' wx:if="{{isShow}}" bindtap='setType2'>
       小食优惠券
       <image src='/images/gray_more.png'></image>
-      <text>-{{filters.toFix(foodCoupon.merTicket.dxPlatTicket.amount)}}元</text>
+      <text>-{{foodRealPrice}}</text>
     </view>
     <view class='option'>
       小食总价
       <text>元</text>
       <text class='money'>{{refreshments}}</text>
     </view>
-  </block>
+  </block> -->
   <view class='gray_line'></view>
   <view class='phone'>
     <view class='phonetext'>手机号</view>
@@ -163,18 +163,13 @@
 
   <view class='chooseCoupon' wx:if="{{chooseType==1}}">
     <block wx:for="{{seatCouponList}}" wx:for-item="seatCoupons" wx:key="seatCoupons">
-      <view class='canUse' bindtap='setSeatCoupon' data-id='{{seatCoupons.id}}' data-type='{{seatCoupons.dxPlatTicket.platformType}}'>
-        <view class='couponMoney' wx:if="{{seatCoupons.dxPlatTicket.ticketType == 1}}">￥{{seatCoupons.dxPlatTicket.amount}}</view>
-         <view class='couponMoney' wx:elif="{{seatCoupons.dxPlatTicket.ticketType == 2}}">￥{{seatCoupons.dxPlatTicket.amount}}</view>
-        <image wx:elif="{{seatCoupons.dxPlatTicket.ticketType == 3}}" class='couponIcon' src='/images/couponicon2.png'></image>
-        <view class='couponLimit' wx:if="{{seatCoupons.dxPlatTicket.ticketType == 1}}">满{{seatCoupons.dxPlatTicket.achieveMoney}}元可用</view>
-        <view class='couponLimit' wx:elif="{{seatCoupons.dxPlatTicket.ticketType == 2}}">满{{seatCoupons.dxPlatTicket.achieveMoney}}元可用</view>
-        <view class='couponLimit' wx:elif="{{seatCoupons.dxPlatTicket.ticketType == 3}}">{{seatCoupons.dxPlatTicket.name}}</view>
-        <view class='couponTime'>有效期 {{seatCoupons.dxPlatTicket.endTime2}}</view>
-
-        <image src='/images/gou.png' class='couponStatus1' wx:if="{{seatCoupons.id==seatCoupon.id}}"></image>
-        <view class='couponStatus2' wx:else></view>
-      </view>
+    <view class='canUse' bindtap='setSeatCoupon' data-id='{{seatCoupons.conponId}}' data-index="{{index}}">
+      <view class='couponMoney'>￥{{seatCoupons.price}}</view>
+       <view class='couponLimit'>{{seatCoupons.title}}</view>
+       <view class='couponTime'>有效期 {{seatCoupons.expireDate}}</view>
+       <image src='/images/gou.png' class='couponStatus1' wx:if="{{seatCoupons.conponId==seatCoupon.conponId}}"></image>
+       <view class='couponStatus2' wx:else></view>
+    </view>
     </block> 
     <view class='checkok' bindtap='closeChoose'>选好了</view>
   </view>
@@ -186,7 +181,6 @@
         <view class='couponMoney'>￥{{foodCoupons.dxPlatTicket.amount}}</view>
         <view class='couponLimit'>满{{foodCoupons.dxPlatTicket.achieveMoney}}元可用</view>
         <view class='couponTime'>有效期 {{foodCoupons.dxPlatTicket.endTime2}}</view>
-
         <image src='/images/gou.png' class='couponStatus1' wx:if="{{foodCoupons.id==foodCoupon.merTicket.id}}"></image>
         <view class='couponStatus2' wx:else></view>
       </view>
