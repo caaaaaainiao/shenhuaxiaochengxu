@@ -416,8 +416,73 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              console.log(data)
               console.log(res)
+              if (res.data.Status == "Success") {
+                let order = res.data.data;
+                wx.requestPayment({
+                  timeStamp: timeStamp,
+                  nonceStr: nonceStr,
+                  package: packages,
+                  signType: signType,
+                  paySign: paySign,
+                  success(res) {
+                    if (res.errMsg == "requestPayment:ok") {
+                      let xml = '<SubmitOrder>' + 
+                                  '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
+                                  '<Order>' + 
+                                    '<PaySeqNo></PaySeqNo>' +
+                                    '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
+                                    '<SessionCode>' + order.sessionCode + '</SessionCode>' + 
+                                    '<Count>' + order.ticketCount + '</Count>' +
+                                    '<MobilePhone>' + that.data.phone + '</MobilePhone>';
+                      for (let i = 0; i < order.seats.length; i ++) {
+                        let seatCode = order.seats[i].seatCode;
+                        let realprice = order.seats[i].salePrice;
+                        let price = order.seats[i].price;
+                        let fee = order.seats[i].fee;
+                        xml += '<Seat>';
+                        xml += '<SeatCode>' + seatCode + '</SeatCode>';
+                        xml += '<Price>' + price + '</Price>';
+                        xml += '<RealPrice>' + realprice + '</RealPrice>';
+                        xml += '<Fee>' + fee + '</Fee>';
+                        xml += '</Seat>';
+                      };
+                      xml += '</Order>';
+                      xml += '</SubmitOrder>';      
+                      console.log(xml)        
+                      wx.request({
+                        url: 'https://xc.80piao.com:8443/Api/Order/SubmitOrder',
+                        data: {
+                          userName: data.UserName,
+                          password: data.Password,
+                          openID: order.openID,
+                          queryXml: xml,
+                        },
+                        method: "POST",
+                        header: {
+                          'content-type': 'application/json' // 默认值
+                        },
+                        success: function (res) {
+                          console.log(res)
+                        }
+                      })
+                    }
+                   },
+                  fail(res) {
+                    wx.showToast({
+                      title: res.err_desc,
+                      icon: 'none',
+                      duration: 3000
+                    });
+                   }
+                })
+              }
+              else {
+                wx.showModal({
+                  title: '查询订单失败',
+                  content: res.data.ErrorMessage,
+                })
+              }
             }
           })
         }
