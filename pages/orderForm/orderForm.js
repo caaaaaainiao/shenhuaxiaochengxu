@@ -57,7 +57,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    console.log(options)
+    // console.log(options)
     let time = util.formatTime(new Date());
     that.data.allPrice = Number(options.price) + Number(that.data.refreshments);
     that.setData({
@@ -96,33 +96,152 @@ Page({
     // 获取优惠券
     util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID + "/All", function (res) {
       if (res && res.length > 0) {
-        let movieCouponList = [];
+        let seatCouponList = [];
         let foodCouponList = [];
         for (let i = 0; i < res.length; i ++) {
           // 获取影票优惠券
           if (res[i].status == 1 && res[i].reductionType == 1) {
-            movieCouponList.push(res[i])
+            seatCouponList.push(res[i])
           }
           // 获取卖品优惠券
-          else if (res[i].status == 1 && res[i].reductionType == 2) {
-            foodCouponList.push(res[i])
-          }
+          // else if (res[i].status == 1 && res[i].reductionType == 2) {
+          //   foodCouponList.push(res[i])
+          // }
         }
+        //  筛选出符合条件的优惠券 根据折扣金额进行降序排序
+        console.log(seatCouponList)
+        let time = parseInt(new Date().getTime());
+        let week = new Date().getDay() + 1;
+        let h = new Date().getHours();
+        let m = new Date().getMinutes();
+        let hm = h * 60 + m;
+        // 判断数组中是否含有某个对象（只适用于数字以及字符）
+        Array.prototype.in_array = function (e) {
+          let r = new RegExp(',' + e + ',');
+          return (r.test(',' + this.join(this.S) + ','));
+        };
+        // 创建空数组用来存储符合条件的优惠券
+        let canUseTicket = [];
+        for (let i = 0; i < seatCouponList.length; i++) {
+          if (seatCouponList[i].couonsType == 1) { // 如果优惠券为代金券和折扣券
+            if (seatCouponList[i].isAllFilm == true) { // 如果优惠券为全部影片
+              if (seatCouponList[i].canUsePeriodType == 1) { // 如果可用时段为全部时段
+                canUseTicket.push(seatCouponList[i])
+              } else { // 如果可用时段为部分时段
+                let weekDays = seatCouponList[i].weekDays.split(',')
+                if (weekDays.in_array(week) == true) {  // 如果当天日期在优惠券限制的日期里
+                  if (seatCouponList[i].timePeriod == "") { // 如果优惠券没限制可用时段
+                    canUseTicket.push(seatCouponList[i])
+                  } else { //  如果优惠券限制使用时段
+                    // 将时间段转化为数组
+                    let timeArr = seatCouponList[i].timePeriod.split(",")
+                    for (let i = 0; i < timeArr.length; i++) {  // 循环时间段判断当前购票时间是否处于限制时间段内
+                      // 创建一个空数组用来存放限制的时间
+                      let imposeTime = [];
+                      imposeTime.push(timeArr[i])
+                      // 将限制时间转化为分钟
+                      let index = imposeTime[0].indexOf("-");
+                      let str1 = imposeTime[0].substring(0, index);
+                      let str2 = imposeTime[0].substring((index + 1), imposeTime[0].length);
+                      let indexSone = str1.indexOf(":");
+                      let indexStwo = str2.indexOf(":");
+                      let str1o1 = str1.substring(0, indexSone) * 60;
+                      let str1o2 = str1.substring((indexSone + 1), str1.length)
+                      let str1Start = str1o1 + Number(str1o2);
+                      let str2o1 = str2.substring(0, indexStwo) * 60;
+                      let str2o2 = str2.substring((indexStwo + 1), str2.length)
+                      let str2Start = str2o1 + Number(str2o2);
+                      // 创建一个新数组用来存放转化好的分钟
+                      let imposeM = [];
+                      imposeM.push(str1Start, str2Start);
+                      if (imposeM[0] < hm && hm < imposeM[1]) { // 判断当前时间是否符合限制时间
+                        canUseTicket.push(seatCouponList[i])
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            // 如果优惠券为部分影片
+            else {
+              let filmCodes = seatCouponList[i].filmCodes.split(",")
+              for (let i = 0; i < filmCodes.length; i++) {
+                if (app.globalData.movieId == filmCodes[i]) { // 判断影片编码
+                  if (seatCouponList[i].canUsePeriodType == 1) { // 如果可用时段为全部时段
+                    canUseTicket.push(seatCouponList[i])
+                  }
+                  // 如果可用时段为部分时段
+                  else {
+                    let weekDays = seatCouponList[i].weekDays.split(',')
+                    // 如果当天日期在优惠券限制的日期里
+                    if (weekDays.in_array(week) == true) {
+                      // 如果优惠券没限制可用时段
+                      if (seatCouponList[i].timePeriod == "") {
+                        canUseTicket.push(seatCouponList[i])
+                      }
+                      //  如果优惠券限制使用时段
+                      else {
+                        // 将时间段转化为数组
+                        let timeArr = seatCouponList[i].timePeriod.split(",")
+                        // 循环时间段判断当前购票时间是否处于限制时间段内
+                        for (let i = 0; i < timeArr.length; i++) {
+                          // 创建一个空数组用来存放限制的时间
+                          let imposeTime = [];
+                          imposeTime.push(timeArr[i])
+                          // 将限制时间转化为分钟
+                          let index = imposeTime[0].indexOf("-");
+                          let str1 = imposeTime[0].substring(0, index);
+                          let str2 = imposeTime[0].substring((index + 1), imposeTime[0].length);
+                          let indexSone = str1.indexOf(":");
+                          let indexStwo = str2.indexOf(":");
+                          let str1o1 = str1.substring(0, indexSone) * 60;
+                          let str1o2 = str1.substring((indexSone + 1), str1.length)
+                          let str1Start = str1o1 + Number(str1o2);
+                          let str2o1 = str2.substring(0, indexStwo) * 60;
+                          let str2o2 = str2.substring((indexStwo + 1), str2.length)
+                          let str2Start = str2o1 + Number(str2o2);
+                          // 创建一个新数组用来存放转化好的分钟
+                          let imposeM = [];
+                          imposeM.push(str1Start, str2Start);
+                          // 判断当前时间是否符合限制时间
+                          if (imposeM[0] < hm && hm < imposeM[1]) {
+                            canUseTicket.push(seatCouponList[i])
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          else if (seatCouponList[i].couonsType == 2) { // 如果优惠券为兑换券
+            console.log(seatCouponList[i])
+          }
+        };
+        // 筛选完发现有相同的优惠券 先进行去重
+        let arr = that.arrayUnique2(canUseTicket, "conponId");
         // 根据折扣金额进行降序排序
-        let movieArr = movieCouponList.sort(that.sortFun(`price`));
-        let foodArr = foodCouponList.sort(that.sortFun(`price`));
+        let newArr = arr.sort(that.sortFun(`price`));
+        console.log(newArr)
+        that.setData({
+          seatCouponList: newArr,
+        })
+        let movieArr = newArr.sort(that.sortFun(`price`));
+        console.log(movieArr)
+        // let foodArr = foodCouponList.sort(that.sortFun(`price`));
         that.data.priceArr.push(movieArr[0].price);
         that.data.codeArr.push(movieArr[0].conponCode)
         that.setData({
           ticketRealPrice: parseInt(movieArr[0].price),
-          foodRealPrice: parseInt(foodArr[0].price),
+          // foodRealPrice: parseInt(foodArr[0].price),
           couponsCode: movieArr[0].conponCode,
           reductionPrice: movieArr[0].price,
         })
         let ticketPrice = Number(options.price) - Number(that.data.ticketRealPrice)
         that.setData({
           seatCouponList: movieArr,
-          foodeCouponList: foodArr,
+          // foodeCouponList: foodArr,
           price: ticketPrice,
           allPrice: Number(ticketPrice) + Number(that.data.refreshments),
         })
@@ -133,7 +252,7 @@ Page({
       that.setData({
         card: res.data.data.memberCard,
       })
-      console.log(that.data.card)
+      // console.log(that.data.card)
     });
   },
   //传入数组以及要去重的对象
@@ -416,6 +535,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res);
         if (res.data.Status == "Success") {
           let timeStamp = res.data.data.timeStamp;
           let nonceStr = res.data.data.nonceStr;
@@ -884,121 +1004,6 @@ Page({
     this.setData({
       chooseType: 1
     });
-    let that = this;
-    let time = parseInt(new Date().getTime());
-    let week = new Date().getDay() + 1;
-    let h = new Date().getHours();
-    let m = new Date().getMinutes();
-    let hm = h * 60 + m;
-    // 判断数组中是否含有某个对象（只适用于数字以及字符）
-    Array.prototype.in_array = function (e) {
-      let r = new RegExp(',' + e + ',');
-      return (r.test(',' + this.join(this.S) + ','));
-    };
-    let seatCouponList = that.data.seatCouponList;
-    // console.log(seatCouponList)
-    // 创建空数组用来存储符合条件的优惠券
-    let canUseTicket = [];
-    for (let i = 0; i < seatCouponList.length; i++) {
-      if (seatCouponList[i].isAllFilm == true) { // 如果优惠券为全部影片
-        if (seatCouponList[i].canUsePeriodType == 1) { // 如果可用时段为全部时段
-          canUseTicket.push(seatCouponList[i])
-        } else { // 如果可用时段为部分时段
-          let weekDays = seatCouponList[i].weekDays.split(',')
-          if (weekDays.in_array(week) == true) {  // 如果当天日期在优惠券限制的日期里
-            if (seatCouponList[i].timePeriod == "") { // 如果优惠券没限制可用时段
-              canUseTicket.push(seatCouponList[i])
-            } else { //  如果优惠券限制使用时段
-              // 将时间段转化为数组
-              let timeArr = seatCouponList[i].timePeriod.split(",")
-              for (let i = 0; i < timeArr.length; i++) {  // 循环时间段判断当前购票时间是否处于限制时间段内
-                // 创建一个空数组用来存放限制的时间
-                let imposeTime = [];
-                imposeTime.push(timeArr[i])
-                // 将限制时间转化为分钟
-                let index = imposeTime[0].indexOf("-");
-                let str1 = imposeTime[0].substring(0, index);
-                let str2 = imposeTime[0].substring((index + 1), imposeTime[0].length);
-                let indexSone = str1.indexOf(":");
-                let indexStwo = str2.indexOf(":");
-                let str1o1 = str1.substring(0, indexSone) * 60;
-                let str1o2 = str1.substring((indexSone + 1), str1.length)
-                let str1Start = str1o1 + Number(str1o2);
-                let str2o1 = str2.substring(0, indexStwo) * 60;
-                let str2o2 = str2.substring((indexStwo + 1), str2.length)
-                let str2Start = str2o1 + Number(str2o2);
-                // 创建一个新数组用来存放转化好的分钟
-                let imposeM = [];
-                imposeM.push(str1Start, str2Start);
-                if (imposeM[0] < hm && hm < imposeM[1]) { // 判断当前时间是否符合限制时间
-                  canUseTicket.push(seatCouponList[i])
-                }
-              }
-            }
-          }
-        }
-      }
-      // 如果优惠券为部分影片
-      else {
-        let filmCodes = seatCouponList[i].filmCodes.split(",")
-        for (let i = 0; i < filmCodes.length; i++) { 
-          if (app.globalData.movieId == filmCodes[i]) { // 判断影片编码
-            if (seatCouponList[i].canUsePeriodType == 1) { // 如果可用时段为全部时段
-              canUseTicket.push(seatCouponList[i])
-            }
-            // 如果可用时段为部分时段
-            else {
-              let weekDays = seatCouponList[i].weekDays.split(',')
-              // 如果当天日期在优惠券限制的日期里
-              if (weekDays.in_array(week) == true) {
-                // 如果优惠券没限制可用时段
-                if (seatCouponList[i].timePeriod == "") {
-                  canUseTicket.push(seatCouponList[i])
-                }
-                //  如果优惠券限制使用时段
-                else {
-                  // 将时间段转化为数组
-                  let timeArr = seatCouponList[i].timePeriod.split(",")
-                  // 循环时间段判断当前购票时间是否处于限制时间段内
-                  for (let i = 0; i < timeArr.length; i++) {
-                    // 创建一个空数组用来存放限制的时间
-                    let imposeTime = [];
-                    imposeTime.push(timeArr[i])
-                    // 将限制时间转化为分钟
-                    let index = imposeTime[0].indexOf("-");
-                    let str1 = imposeTime[0].substring(0, index);
-                    let str2 = imposeTime[0].substring((index + 1), imposeTime[0].length);
-                    let indexSone = str1.indexOf(":");
-                    let indexStwo = str2.indexOf(":");
-                    let str1o1 = str1.substring(0, indexSone) * 60;
-                    let str1o2 = str1.substring((indexSone + 1), str1.length)
-                    let str1Start = str1o1 + Number(str1o2);
-                    let str2o1 = str2.substring(0, indexStwo) * 60;
-                    let str2o2 = str2.substring((indexStwo + 1), str2.length)
-                    let str2Start = str2o1 + Number(str2o2);
-                    // 创建一个新数组用来存放转化好的分钟
-                    let imposeM = [];
-                    imposeM.push(str1Start, str2Start);
-                    // 判断当前时间是否符合限制时间
-                    if (imposeM[0] < hm && hm < imposeM[1]) {
-                      canUseTicket.push(seatCouponList[i])
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    };
-    // 筛选完发现有相同的优惠券 先进行去重
-    let arr = that.arrayUnique2(canUseTicket, "conponId");
-    // 根据折扣金额进行降序排序
-    let newArr = arr.sort(that.sortFun(`price`));
-    // console.log(newArr)
-    that.setData({
-      seatCouponList: newArr,
-    })
   },
   setType2: function() {
     this.setData({
