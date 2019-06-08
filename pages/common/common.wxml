@@ -5,7 +5,7 @@
   <view class='line'></view>
   <view class='option'>
     <text>头像</text>
-    <image src='{{userInfo.header}}' class='pic' bindtap='imgChange'></image>
+    <image src='{{userInfo.headlmgUrl}}' class='pic' bindtap='imgChange'></image>
     <image src='/images/gray_more.png' class='right'></image>
   </view>
   <view class='option2'>
@@ -15,9 +15,14 @@
     <image src='/images/gray_more.png' class='right'></image>
   </view>
   <view class='option2'>
+    <text>手机号</text>
+    <input class='name' value='{{phone}}' bindblur='phoneChange'></input>
+    <image src='/images/gray_more.png' class='right'></image>
+  </view>
+  <view class='option2'>
     <text>性别</text>
-    <picker bindchange="bindSexChange" value="{{userInfo.gender}}" range="{{sexArr}}">
-      <text class='text'>{{userInfo.gender == 1?"男":"女"}}</text>
+    <picker bindchange="bindSexChange" value="{{userInfo.sex}}" range="{{sexArr}}">
+      <text class='text'>{{userInfo.sex == 1?"男":"女"}}</text>
     </picker>
     <image src='/images/gray_more.png' class='right'></image>
   </view>

@@ -60,14 +60,6 @@ Page({
       isReady: type,
     })
   },
-  gettypeaddr:function(){
-     
-    if (this.data.isReady==1){
-      return '到店后取餐';
-    }
-
-    return '我在店里，马上取餐';
-  },
   sureChoose: function () {
      let that=this;
     let loginInfo = wx.getStorageSync('loginInfo');
@@ -90,10 +82,11 @@ Page({
 
       return;
     }  
-
+  
+ 
+   
+   //创建订单的参数
     let xml = '<CreateGoodsOrder><cinemaCode>' + app.globalData.cinemacode +'</cinemaCode><payType>0</payType><goodsList>';
-
-    
     if (this.data.totalNum > 0){
       let cartobj = util.getcartObj(null);
       if (cartobj && cartobj.list){
@@ -102,7 +95,7 @@ Page({
           xml +='<goods>';
           xml += '<goodsCode>' + item.goodsCode+'</goodsCode>';
           xml += '<goodsCount>' + item.buyNum+ '</goodsCount>';
-          xml += '<standardPrice>' + item.settlePrice + '</standardPrice>';
+          xml += '<standardPrice>' + item.standardPrice + '</standardPrice>';
           if (item.channelFee){
             xml += '<goodsChannelFee>' + item.channelFee + '</goodsChannelFee>';
           }else{
@@ -114,20 +107,26 @@ Page({
       }
     }
     xml += '</goodsList></CreateGoodsOrder>';
-    console.log(xml);
+    // console.log(xml);
     var nowtime = new Date();
+    console.log(that.data.type)
     
     let endtime = new Date(nowtime.getTime() + 1000 * 60 );
     let endday = util.formatTime2(endtime);
+    console.log(endday)
 
     let apiuser = util.getAPIUserData(null);
+    var deliveryAddress = app.globalData.selltimename + '' + app.globalData.orderaddname + '[' + app.globalData.sellhallname + ']'
+    if (app.globalData.orderaddname == undefined && app.globalData.selltimename == undefined && app.globalData.sellhallname == undefined){
+      deliveryAddress = '到店后取餐'
+    }
     //todo: 创建订单
     wx.request({
       url:that.data.UrlMap.createOrderUrl,
       method: "POST",
       data: {
         deliveryType:that.data.type,
-        deliveryAddress: that.gettypeaddr(),
+        deliveryAddress: deliveryAddress,
         deliveryTime: endday,
         queryXml: xml,
         userName: apiuser.UserName,
@@ -136,54 +135,102 @@ Page({
       },
       success: function (res) {
         console.log(res)
-        wx.hideLoading()
-        if (res.data.Status == "Success") {
-          wx.showToast({
-            title: '订单创建成功',
-            icon: 'loading',
-            image: '',
-            duration: 2000,
-            mask: true,
-            success: function (res) {
-              //复制购物车列表到待支付物品列表
-              //let cattObj = util.getcartObj(null);
-              //wx.setStorageSync('toSubmitGoods', cattObj);
-              let key = 'goodList';
-              if (wx.getStorageSync(key) != "") {
-                wx.getStorage({
-                  key: key,
-                  success: function (res) {
-                    wx.setStorageSync('toSubmitGoods', res);
-                    //重置购物阶段数据
-                    that.emptyCart();
+        var ordercode = res.data.order.orderCode
+        app.globalData.ordercode = ordercode
+        //查询订单
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
+          method: "GET",
+          success: function(res) {
+            console.log(res)
+            var arr = res.data.data.goodsList 
+            var goodslist=[]
+            var obj ={}
+            for (var x = 0; x < arr.goods.length; x++){
+              obj.goodsCode = arr.goods[x].goodsCode
+              obj.goodsCount = arr.goods[x].goodsCount
+              goodslist.push(obj)
+              that.setData({
+                goodslist: goodslist
+              })
+            } 
+            app.globalData.goodslist = that.data.goodslist
+            if (res.data.Status == "Success") {
+              wx.showToast({
+                title: '订单创建成功',
+                icon: 'loading',
+                image: '',
+                duration: 2000,
+                mask: true,
+                success: function (res) {
+                  that.setData({//关闭浮层
+                    showReady: false
+                  })
+                  //确认订单的参数
+                  let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
+                  let queryobj = util.getcartObj(null);
+                  if (queryobj && queryobj.list) {
+                    for (var i = 0; i < queryobj.list.length; i++) {
+                      let items = queryobj.list[i];
+                      queryXml += '<goods>';
+                      queryXml += '<goodsCode>' + items.goodsCode + '</goodsCode>';
+                      queryXml += '<goodsCount>' + items.buyNum + '</goodsCount>';
+                      queryXml += '<settlePrice>' + items.settlePrice + '</settlePrice>';
+                      queryXml += '<standardPrice>' + items.standardPrice + '</standardPrice>';
+                      if (items.channelFee) {
+                        queryXml += '<goodsChannelFee>' + items.channelFee + '</goodsChannelFee>';
+                      } else {
+                        queryXml += '<goodsChannelFee>0</goodsChannelFee>';
+                      }
 
-                    //新增待支付购物列表
-                    wx.navigateTo({
-                      url: '../foodOrder/foodOrder?type=' + that.data.type,
+                      queryXml += '</goods>';
+                    }
+                  }
+                  queryXml += ' </goodsList></SubmitGoodsOrder>';
+                  app.globalData.queryXml = queryXml
+                  //复制购物车列表到待支付物品列表
+                  //let cattObj = util.getcartObj(null);
+                  //wx.setStorageSync('toSubmitGoods', cattObj);
+                  let key = 'goodList';
+                  if (wx.getStorageSync(key) != "") {
+                    wx.getStorage({
+                      key: key,
+                      success: function (res) {
+                        wx.setStorageSync('toSubmitGoods', res);
+                        //重置购物阶段数据
+                        that.emptyCart();
+
+                        //新增待支付购物列表
+                        wx.navigateTo({
+                          url: '../foodOrder/foodOrder?type=' + that.data.type,
+                        })
+                      },
                     })
-                  },
-                })
- 
-              }
+
+                  }
 
 
-            },
-            fail: function (res) { },
-            complete: function (res) { },
-          })
-      
-        } else {
-          wx.showToast({
-            title: '订单创建失败,请重试',
-            icon: 'loading',
-            image: '',
-            duration: 2000,
-            mask: true,
-            success: function (res) { },
-            fail: function (res) { },
-            complete: function (res) { },
-          })
-        }
+                },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+
+            } else {
+              wx.showToast({
+                title: '订单创建失败,请重试',
+                icon: 'loading',
+                image: '',
+                duration: 2000,
+                mask: true,
+                success: function (res) { },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+            }
+          },
+        })
+        wx.hideLoading()
+    
 
       }
     })
@@ -202,7 +249,12 @@ Page({
             that.setData({
               showReady: true
             })
-          } 
+          } else if (that.data.type == 2){
+            that.setData({
+              showReady: false
+            })
+            that.sureChoose()
+          }
         
         
         } else if (res.cancel) {
@@ -234,7 +286,7 @@ Page({
       success: function (res) {
         var movieList = that.data.movieList
         var movieList = res.data
-        console.log(movieList)
+        // console.log(movieList)
         that.setData({
           movieList: movieList
         })
@@ -253,6 +305,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    if (app.globalData.lookcinemaname == undefined) {
+      app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
+    }
+    if (app.globalData.lookcinemaadd == undefined) {
+      app.globalData.lookcinemaadd = app.globalData.areaList[0].address
+    }
+    var lookcinemaname = app.globalData.lookcinemaname
+    var lookcinemaadd = app.globalData.lookcinemaadd
+    this.setData({
+      lookcinemaname: lookcinemaname,
+      lookcinemaadd: lookcinemaadd
+    })
    
     this.setData({
       fullCar:true
@@ -419,7 +483,7 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.data.typeCount>0){
           //类型筛选商品                         
           that.setData({
@@ -661,7 +725,7 @@ goodsList: goodsList
         "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         that.setData({
           merOrder:res.data.data,
           totalPrice: res.data.data.totalPrice,

@@ -79,13 +79,12 @@ Page({
   ask: function () {
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('userTickets', nowtime);
     var pageNo = that.data.pageNo;
     var data = {
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
-      CinemaCode: '33097601',
-      OpenID: 'o9gGQ4nuoKAZq1Xjp_N3iu3bmpZs',
+      CinemaCode: app.globalData.cinemacode,
+      OpenID: app.globalData.openId,
       Status: 'All'
     };
     wx.request({
@@ -95,12 +94,14 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         var result = that.addJson(that.data.result, res.data.data);
         console.log(result)
         that.setData({
           result: result.conpons,
           couponCount: result.conponCount
         })
+        app.globalData.resultList = that.data.result
       }
     })
   },
@@ -168,6 +169,9 @@ Page({
   },
   toDetail:function(e){
     var id = e.currentTarget.dataset.id;
+    var index = e.currentTarget.dataset.index;
+    app.globalData.thisresult = this.data.result[index]
+
     wx.navigateTo({
       url: '../couponDetail/couponDetail?id='+id,
     })

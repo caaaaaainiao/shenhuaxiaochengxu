@@ -18,7 +18,8 @@ Page({
     showTask:false,
     showTip:0,
     moviearea:null,
-    isLoading:true
+    isLoading:true,
+    moviesListDate: null,
   },
 
   /**
@@ -32,9 +33,9 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    var that = this;
-    
+    var that = this;   
     this.setData({
+      checkfilmcode: app.globalData.checkfilmcode,
       swiperIndex: app.globalData.movieIndex
     })
     this.swiperIndex = this.data.swiperIndex
@@ -57,11 +58,10 @@ Page({
     wx.getStorage({
       key: 'movieList',
       success: function (res) {
-       
+  
         that.setData({
           moviesList: res.data
           })
-        console.log(that.data.moviesList) 
       },
       fail: function (res) { },
       complete: function (res) { },
@@ -89,7 +89,7 @@ Page({
 
   },
 
-  /**
+  /**b
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function() {
@@ -116,7 +116,7 @@ Page({
     const that = this;
     that.setData({
       swiperIndex: e.detail.current,
-      movieId: that.data.moviesList[e.detail.current].id,
+      checkfilmcode: that.data.moviesList[e.detail.current].code,
       select: 0
     })
     setTimeout(function() {
@@ -194,23 +194,40 @@ Page({
       screenPlanList: screenPlanList
     })
     app.globalData.screenPlanList = that.data.screenPlanList;
-    // console.log(screenPlanList)
   },
   ask: function() { //请求数据
     var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('screening', nowtime);
-    if (app.globalData.cinemacode) {
-      console.log(app.globalData.cinemacode)
-      var that = this;
-      util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
+    var nowtime = new Date();
+    let nowday = util.formatTimeDay(nowtime);
+    let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30);//add 30 day
+    let endday = util.formatTimeDay(endtime);
+    let apiuser = util.getAPIUserData(null);
+    let cinemacode = app.globalData.cinemacode
+
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + this.data.checkfilmcode,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
         // console.log(res)
         that.setData({
-          moviesList: res
+          moviesListDate: res.data.data
         })
-        console.log(that.data.moviesList)
-      });
-    }
+      }
+    })
+    // if (app.globalData.cinemacode) {
+    //   console.log(app.globalData.cinemacode)
+    //   var that = this;
+    //   util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
+    //     // console.log(res)
+    //     that.setData({
+    //       moviesList: res
+    //     })
+    //     console.log(that.data.moviesList)
+    //   });
+    // }
     that.setData({
       isLoading:true
     })
@@ -229,49 +246,61 @@ Page({
   },
   buy: function(e) {
     var that = this;
+    var i = that.data.select;
+    var index = e.currentTarget.dataset.index
+    var sessionDate = that.data.moviesListDate.sessionDate[i].sessionDate
     var screenCode = e.currentTarget.dataset.screencode;
-    var featureAppNo = e.currentTarget.dataset.num;
-    var code = e.currentTarget.dataset.code;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('checkorder', nowtime);
-    if (code == 0) {//会员购票
-      wx.request({
-        url: app.globalData.url + '/api/shOrder/checkorder',//查询订单
-        data: {
-          appUserId:app.globalData.userInfo.id,
-          timeStamp: nowtime,
-          mac: sign
-        },
-        method: "POST",
-        header: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        success: function (res) {
-          // console.log(res)
-          if(res.data.data.order == 0){//没订单
-            wx.navigateTo({
-                  url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&featureAppNo=' + featureAppNo,
-            })
-          } else if (res.data.data.order == 1){
-            // 有订单提示
-            // console.log("有订单提示")
-            that.setData({
-              orderNum: res.data.data.orderNum,
-              showTask: true
-            })
-          }
+    var time = that.data.moviesListDate.sessionDate[i].session[index].beginTime;
+    var endtime = that.data.moviesListDate.sessionDate[i].session[index].endTime;
+    var screenName = that.data.moviesListDate.sessionDate[i].session[index].screenName;
+    var sessionCode = that.data.moviesListDate.sessionDate[i].session[index].sessionCode;
+    var filmType = that.data.moviesListDate.filmType;
+    var standardPrice = that.data.moviesListDate.sessionDate[i].session[index].standardPrice
+    wx.navigateTo({
+      url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&standardPrice=' + standardPrice + '&&endtime=' + endtime,
+    })
+    // var featureAppNo = e.currentTarget.dataset.num;
+    // var code = e.currentTarget.dataset.code;
+    // var nowtime = new Date().getTime();
+    // var sign = app.createMD5('checkorder', nowtime);
+    // if (code == 0) {//会员购票
+    //   wx.request({
+    //     url: app.globalData.url + '/api/shOrder/checkorder',//查询订单
+    //     data: {
+    //       appUserId:app.globalData.userInfo.id,
+    //       timeStamp: nowtime,
+    //       mac: sign
+    //     },
+    //     method: "POST",
+    //     header: {
+    //       "Content-Type": "application/x-www-form-urlencoded"
+    //     },
+    //     success: function (res) {
+    //       // console.log(res)
+    //       if(res.data.data.order == 0){//没订单
+    //         wx.navigateTo({
+    //               url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&featureAppNo=' + featureAppNo,
+    //         })
+    //       } else if (res.data.data.order == 1){
+    //         // 有订单提示
+    //         // console.log("有订单提示")
+    //         that.setData({
+    //           orderNum: res.data.data.orderNum,
+    //           showTask: true
+    //         })
+    //       }
           
-        }
-      })
-    } else if (code == 36) {//0:神画;36:猫眼；49:淘票票;
-      that.setData({
-        showTip:2
-      })
-    } else if (code == 49) {
-      that.setData({
-        showTip: 3
-      })
-    }
+    //     }
+    //   })
+    // } else if (code == 36) {//0:神画;36:猫眼；49:淘票票;
+    //   that.setData({
+    //     showTip:2
+    //   })
+    // } else if (code == 49) {
+    //   that.setData({
+    //     showTip: 3
+    //   })
+    // }
   },
   hideTip:function(){
     this.setData({
@@ -366,6 +395,13 @@ Page({
     })
   },
   toDetail:function(e){
+    var that = this
+    var nowtime = new Date();
+    let nowday = util.formatTimeDay(nowtime);
+    let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30);//add 30 day
+    let endday = util.formatTimeDay(endtime);
+    let apiuser = util.getAPIUserData(null);
+    let cinemacode = app.globalData.cinemacode
     if (this.data.swiperIndex == e.currentTarget.dataset.index){
       app.globalData.movieIndex = this.data.swiperIndex;
 
@@ -376,6 +412,24 @@ Page({
       this.setData({
         swiperIndex: e.currentTarget.dataset.index
       })
+
+
+      wx.request({
+        url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode ,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          that.setData({
+            moviesListDate: res.data.data
+          })
+          console.log(that.data.moviesListDate)
+        }
+      })
+
+      // moviesListDate
+      // console.log(this.data.swiperIndex)
     }
   }
 })

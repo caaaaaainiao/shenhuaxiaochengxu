@@ -59,9 +59,9 @@
 .seats{
   top: 216rpx;
 }
-.seats text{
+/* .seats text{
   margin-left: 20rpx;
-}
+} */
 .last{
   height: 20rpx;
   position: absolute;

@@ -13,7 +13,7 @@
         <input placeholder="输入您的会员卡号/手机号" class="input" value="{{inputNum}}" bindinput="getNum" bindblur="btnBlurInput" placeholder-class="phColor" />
       </view>
       <view class="item">
-        <input placeholder="输入您的会员卡密码" class="input" value="{{inputPass}}" bindinput="getPass" bindblur="btnBlurInput" placeholder-class="phColor" />
+        <input placeholder="输入您的会员卡密码" class="input" value="{{inputPass}}" bindinput="" bindblur="getPass" placeholder-class="phColor" />
       </view>
       <!-- <view class="item">
 				<picker bindchange="bindPickerChange999" value="{{index999}}" range="{{array999}}"><view class="picker gray">{{array999[index999]}}</view></picker>
@@ -30,10 +30,9 @@
       <view class="box-bottom">
         <view class="title" style="text-align: center;">选择会员卡号</view>
         <view class="choose">
-          <block wx:for="{{memberPhones}}" wx:key="item" wx:for-item="item">
-            <button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{item.cardNo}}" data-cardPassword="{{item.cardPassword}}" hover-class="none">
-              {{item.cardNo}}
-              <!-- <view class="tips">{{item.levelName}}</view> -->
+          <block wx:for="{{memberPhones}}">
+            <button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{item}}" hover-class="none">
+              {{item}}
             </button>
           </block>
         </view>
@@ -47,17 +46,14 @@
     <view class="list2">
       <view class="item" wx:for="{{memberCardLevel}}" wx:for-item="level" wx:key="level" >
         <view class="tt">{{level.ruleName}}
-          <!-- <text class="red">充200送30</text> -->
         </view>
-        <view class="con"  bindtap='manage' data-Id='{{level.levelCode}}' data-text='{{level.ruleDescription}}' data-time='{{level.effectiveDays}}' data-name='{{level.levelName}}' data-price='{{level.credit}}'>
+        <view class="con"  bindtap='manage' data-Id='{{level.levelCode}}' data-text='{{level.ruleDescription}}' data-time='{{level.effectiveDays}}' data-name='{{level.levelName}}' data-price='{{level.credit}}' data-rule='{{level.ruleCode}}'>
           <view class="l">
             <view class="txt5">
               <text class="tag">{{level.levelName}}</text>
             </view>
             <view class="txt2">
               <text class='p'>{{level.ruleDescription}}</text>
-              <!-- <view class="p">享受会员折扣</view>
-              <view class="p">开卡即送超值大礼包</view> -->
             </view>
             <view class="txt3">有效期:{{level.effectiveDays}}</view>
           </view>
@@ -67,54 +63,6 @@
           </view>
         </view>
       </view>
-      <!-- <view class="item style2">
-        <view class="tt">悦影卡
-          <text class="red">限时特惠</text>
-        </view>
-        <navigator class="con" url="">
-          <view class="l">
-            <view class="txt1">xx悦影卡</view>
-            <view class="txt5">
-              <text class="tag">折扣卡</text>
-            </view>
-            <view class="txt2">
-              <view class="p">专享权益特惠价格</view>
-              <view class="p">开卡即享专属礼遇</view>
-            </view>
-            <view class="txt3">有效期:X个月</view>
-          </view>
-          <view class="r">
-            <view class="big">折</view>
-            <view class="txt4">售价：¥
-              <text class="txt6">19.9</text>
-            </view>
-          </view>
-        </navigator>
-      </view>
-      <view class="item style3">
-        <view class="tt">畅影卡
-          <text class="red">限时特惠</text>
-        </view>
-        <navigator class="con" url="">
-          <view class="l">
-            <view class="txt1">xx畅影卡</view>
-            <view class="txt5">
-              <text class="tag">月 卡</text>
-            </view>
-            <view class="txt2">
-              <view class="p">包月看电影更嗨</view>
-              <view class="p">开卡即享专属礼遇</view>
-            </view>
-            <view class="txt3">有效期:1个月</view>
-          </view>
-          <view class="r">
-            <view class="big">月</view>
-            <view class="txt4">售价：¥
-              <text class="txt6">89</text>
-            </view>
-          </view>
-        </navigator>
-      </view> -->
 
     </view>
   </block>

@@ -113,29 +113,20 @@ Page({
         password: apiuser.Password,
       },
       success: function(res) {
-        // console.log(res)
         wx.hideLoading()
         if (res.data.Status == "Success") {
-          if (res.data.data.alertPhoto){
             wx.setStorage({
-              key: 'zchb',
-              data: res.data.data.alertPhoto,
+              key: 'sjhm',
+              data: res.data.data.mobilePhone,
               success:function(){
                 wx.switchTab({
-                  url: '../index/index?url=' + res.data.data.alertPhoto,
+                  url: '../index/index',
                 })
               }
-            })
-           
-          }else{
-            wx.switchTab({
-              url: '../index/index',
-            })
-          }
-         
+            }) 
         } else {
           wx.showToast({
-            title: res.data.message,
+            title: res.data.ErrorMessage,
             icon: 'loading',
             image: '',
             duration: 2000,
@@ -148,7 +139,6 @@ Page({
 
       }
     })
-    // console.log(phone+yzm)
 
   },
   phoneCut: function(e) { //手机号长度校验
@@ -186,11 +176,7 @@ Page({
         yzmText:"正在发送"
       })
       //发送请求获取验证码
-      // console.log(phone)
       let apiuser = util.getAPIUserData(null);
-       
- 
-     
       wx.request({
         url: app.globalData.url + '/Api/User/SendVerifyCode',
          method:"POST",

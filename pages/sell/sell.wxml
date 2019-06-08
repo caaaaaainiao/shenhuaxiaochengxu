@@ -5,23 +5,23 @@
   <image class='bannerbg' src='/images/bannerbg.jpg'></image>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{userInfo.header}}' mode='aspectFill'></image>
+      <image src='{{userInfo.avatarUrl}}' mode='aspectFill'></image>
     </view>
     <view class='bottom'>
       <view class='messages'>
         <view class="leftBlock">
           <text class='title'>积分</text>
-          <text class='number'>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.integralBalance:"- - -"}}</text>
+          <text class='number'>{{memberCardScore}}</text>
         </view>
         <view class="middleBlock">
           <text>{{userInfo.nickName}}</text>
         </view>
         <view class="rightBlock">
           <text class='title'>余额</text>
-          <text class='number'>{{userInfo.dxInsiderInfo.balance!=null?userInfo.dxInsiderInfo.balance:"- - -"}}</text>
+          <text class='number'>{{memberCardBalance}}</text>
         </view>
       </view>
-      <view class='location'>{{location}}</view>
+      <view class='location'>{{lookcinemaname}}</view>
       <view class='resetLocation' bindtap='getPlace'>
         <text>如果不是，点此重新定位</text>
         <image src='/images/reset.png'></image>
@@ -70,18 +70,18 @@
         <view class='checktitle' wx:elif="{{step == 3}}">选择影厅:</view>
         <view class='checkoptions' wx:if="{{step == 1}}">
           <block wx:for="{{movieList}}" wx:for-item="movie" wx:key="movie">
-            <view class='option {{movie.foodcheck?"checkedoption":""}}' bindtap="ask" data-id="{{movie.id}}" data-name="{{movie.movieName}}" data-index="{{index}}">{{movie.movieName}}</view>
+            <view class='option {{movie.foodcheck?"checkedoption":""}}' bindtap="ask" data-id="{{movie.id}}" data-name="{{movie.name}}" data-index="{{index}}">{{movie.name}}</view>
           </block>
         </view>
          <view class='checkoptions' wx:if="{{step == 2}}">
-          <block wx:for="{{timeList}}" wx:for-item="time" wx:key="time">
-            <view class='option {{time.foodcheck?"checkedoption":""}}' bindtap='setTime' data-time="{{time.time}}" data-index='{{index}}'>{{time.time}}</view>
+          <block wx:for="{{beginmovieList}}" wx:for-item="time" wx:key="time">
+            <view class='option {{time.foodcheck?"checkedoption":""}}' bindtap='setTime' data-time="{{time.beginTime}}" data-index='{{index}}'>{{time.beginTime}}</view>
           </block>
         </view>
          <view class='checkoptions' wx:if="{{step == 3}}">
-          <block wx:for="{{hallList}}" wx:for-item="hall" wx:key="hall">
-            <view class='option {{hall.foodcheck?"checkedoption":""}}' bindtap='setHall' data-hall="{{hall.name}}" data-index="{{index}}">{{hall.name}}</view>
-          </block>
+          <!-- <block wx:for="{{beginmovieList}}" wx:for-item="hall" wx:key="hall"> -->
+            <view class='option {{hall.foodcheck?"checkedoption":""}}' bindtap='setHall' data-hall="{{screenname}}" data-index="{{index}}">{{screenname}}</view>
+          <!-- </block> -->
         </view>
         <view class='checkstep'>
           <view class='step {{step>0?"onstep":""}}'>1</view>

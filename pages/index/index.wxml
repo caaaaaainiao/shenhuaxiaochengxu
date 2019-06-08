@@ -6,6 +6,9 @@
   授权登录
 </button>
 <view wx:else>请升级微信版本</view> -->
+<!-- <view>
+<image src='http://xc.80piao.com:8443/upload/filmImage\201905\1559269731376.jpg'></image>
+</view> -->
 <view class="container">
   <view class='first' bindtap='removeBlack' wx:if="{{isFirst&&moviearea}}">
     <image src='/images/firstTip.png' class='firstTip'></image>
@@ -19,7 +22,7 @@
   </view>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{userInfo.headlmgUrl}}' mode='aspectFill'></image>
+      <image src='{{wxInfo.avatarUrl}}' mode='aspectFill'></image>
       <!-- <view wx:if="{{onLoad}}" bindtouchstart='tologin' class='noUser'> <image src='/images/imgurl.png' class='moren' wx:if="{{userInfo.mobilePhone==null||userInfo.mobilePhone==''}}">
       </image>
       </view> -->
@@ -28,14 +31,14 @@
       <view class='messages'>
         <view class="leftBlock" bindtap='toCard'>
           <text class='title'>积分</text>
-          <text class='number'>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.integralBalance:"- - -"}}</text>
+          <text class='number'>{{memberCardScore}}</text>
         </view>
         <view class="middleBlock">
           <text>{{wxInfo.nickName}}</text>
         </view>
         <view class="rightBlock" bindtap='toCard'>
           <text class='title'>余额</text>
-          <text class='number'>{{userInfo.dxInsiderInfo.balance!=null?userInfo.dxInsiderInfo.balance:"- - -"}}</text>
+          <text class='number'>{{memberCardBalance}}</text>
           <text class='discounts'>{{moviearea.rechargeDisconutDesc == null?"":moviearea.rechargeDisconutDesc}}</text>
         </view>
       </view>

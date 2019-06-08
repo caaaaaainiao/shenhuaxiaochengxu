@@ -1,6 +1,7 @@
 // pages/movie/movie.js
 //获取应用实例
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -54,24 +55,26 @@ Page({
     // })
   },
   roomin:function(e){
+    var that =this
     var index = e.currentTarget.dataset.index;
-    if (app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "") {
+    if (!wx.getStorageSync('sjhm')){
       wx.showToast({
         title: '请先注册手机号',
         icon: "loading",
         mask: true,
-        duration: 2000,
+        duration: 500,
         success: function () {
           setTimeout(function () {
             wx.navigateTo({
               url: '../login/login'
             })
-          }, 2000)
+          }, 200)
         }
       })
       return;
     }
     app.globalData.roomNum = index;
+    // console.log(that.data.MovieList[index])
     wx.navigateTo({
       url: '../room/room',
     })
@@ -91,6 +94,13 @@ Page({
     // this.setData({
     //   userInfo: app.globalData.userInfo
     // })
+    if (app.globalData.lookcinemaname == undefined) {
+      app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
+    }
+    var lookcinemaname = app.globalData.lookcinemaname
+    this.setData({
+      lookcinemaname: lookcinemaname
+    })
     var that = this;
     this.setData({
       location: app.usermessage.moviearea,
@@ -196,8 +206,9 @@ Page({
   },
   getNowTimeMovie : function (){
     var that = this
+    let apiuser = util.getAPIUserData(null);
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Room/QueryScreenRoom' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.CinemaCode,
+      url: 'https://xc.80piao.com:8443/Api/Room/QueryScreenRoom' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -208,6 +219,7 @@ Page({
         that.setData({
           MovieList : res.data.data
         })
+        app.globalData.movieRoom = that.data.MovieList;
         // console.log(e)
         // var movieRoom = e.data.data;
         // for (var i = 0; i < movieRoom.length; i++) {
@@ -217,7 +229,7 @@ Page({
         // that.setData({
         //   movieRoom: movieRoom
         // })
-        // app.globalData.movieRoom = movieRoom;
+       
       }
     })
   }

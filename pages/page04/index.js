@@ -6,13 +6,14 @@ Page({
   data: {
     isShow: false,
     tabContent: [1, 0, 0, 0, 0],
-    array999: ['选择卡类别', '选择卡类别2', '选择卡类别3', '选择卡类别4', '选择卡类别5'],
+    // array999: ['选择卡类别', '选择卡类别2', '选择卡类别3', '选择卡类别4', '选择卡类别5'],
     index999: 0,
     inputNum: '',
-    inputPass: ''
+    inputPass: '',
+    Username: '',
+    Password: '',
   },
   bindPickerChange999: function (e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       index999: e.detail.value
     })
@@ -31,34 +32,81 @@ Page({
   btnShowExchange2: (e) => {
     _this.setData({ isShow: !_this.data.isShow })
   },
-  btnChoose: (e) => {
-    _this.setData({
+  btnChoose: function (e) {
+    var that = this;
+    that.setData({
       inputNum: e.target.dataset.cardno,
-      inputPass: e.target.dataset.cardpassword,
-      isShow: !_this.data.isShow
+      isShow: !that.data.isShow
+    })
+    var cinemaType = app.globalData.cinemaList.cinemaType;
+    var cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var openID = app.globalData.openId;
+    var userName = that.data.Username;
+    var passWord = that.data.Password;
+    var data = {
+      Username: userName,
+      Password: passWord,
+      CinemaCode: cinemaCode,
+      OpenID: openID,
+      CardNo: that.data.inputNum,
+      CardPassword: that.data.inputPass,
+      MobilePhone: that.data.inputNum
+    };
+    wx.request({
+      // 点击会员卡号输入密码直接绑定
+      url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        if (res.data.Status == "Success") {
+          var cinemaCode = res.data.cinemaCode;
+          var cardNo = res.data.card.cardNo;
+          var cardPassword = res.data.card.cardPassword;
+          var phone = res.data.card.mobilePhone;
+          var userName = data.Username;
+          var passWord = data.Password;
+          var openID = data.OpenID
+          wx.navigateTo({
+            url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord + '&Phone=' + phone + '&OpenID=' + openID
+          })
+        }
+        else if (res.data.Status == 'Failure') {
+          wx.showToast({
+            title: res.data.ErrorMessage,
+            icon: 'none',
+            duration: 3000
+          })
+        }
+      }
     })
   },
+  // 选择会员卡类别进行开卡
   manage: function (e) {
     var id = e.currentTarget.dataset.id;
     var name = e.currentTarget.dataset.name;
     var text = e.currentTarget.dataset.text;
     var time = e.currentTarget.dataset.time;
     var credit = e.currentTarget.dataset.price;
+    var rule = e.currentTarget.dataset.rule;
     wx.navigateTo({
-      url: '../page06/index?id=' + id + '&openId=' + app.globalData.openId + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit,
+      url: '../page06/index?id=' + id + '&openId=' + app.globalData.openId + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit + '&ruleCode=' + rule,
     })
   },
-  // 选择会员卡类型注册
+  // 跳转到会员卡类别
   btnTabSwitch: function(e){
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     let idx = e.currentTarget.dataset.id;
     let temp = _this.data.tabContent;
+    var userName = _this.data.Username;
+    var passWord = _this.data.Password;
     temp.forEach((item, index) => {
       if (index == idx) {
         var data = {
-          Username: 'MiniProgram',
-          Password: '6BF477EBCC446F54E6512AFC0E976C41',
+          Username: userName,
+          Password: passWord,
           CinemaCode: cinemaCode
         };
         temp[index] = 1;
@@ -69,6 +117,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
+            console.log(res)
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;
             for (var i = 0; i < memberCardLevel.length; i ++) {
@@ -78,16 +127,30 @@ Page({
               var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
+              var ruleCode = "memberCardLevel[" + i + "].ruleCode";
               var str = memberCardLevel[i].ruleDescription
-              var newDescription = str.replace(/，/g, "，\n")
-              that.setData({
-                [levelName]: memberCardLevel[i].levelName,
-                [levelCode]: memberCardLevel[i].levelCode,
-                [ruleName]: memberCardLevel[i].ruleName,
-                [ruleDescription]: newDescription,
-                [effectiveDays]: memberCardLevel[i].effectiveDays,
-                [credit]: memberCardLevel[i].credit
-              })
+              if (str != null) {
+                var newDescription = str.replace(/，/g, "，\n")
+                that.setData({
+                  [levelName]: memberCardLevel[i].levelName,
+                  [levelCode]: memberCardLevel[i].levelCode,
+                  [ruleName]: memberCardLevel[i].ruleName,
+                  [ruleDescription]: newDescription,
+                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  [credit]: memberCardLevel[i].credit,
+                  [ruleCode]: memberCardLevel[i].ruleCode
+                })
+              } else {
+                that.setData({
+                  [levelName]: memberCardLevel[i].levelName,
+                  [levelCode]: memberCardLevel[i].levelCode,
+                  [ruleName]: memberCardLevel[i].ruleName,
+                  [ruleDescription]: memberCardLevel[i].ruleDescription,
+                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  [credit]: memberCardLevel[i].credit,
+                  [ruleCode]: memberCardLevel[i].ruleCode
+                })
+              }
             }
           }
         })
@@ -105,6 +168,19 @@ Page({
     wx.setNavigationBarTitle({
       title: '会员卡'
     });
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        _this.setData({
+          inputNum: res.data
+        })
+      },
+    })
+    _this.setData({
+      Username: app.usermessage.Username,
+      Password: app.usermessage.Password
+    })
+    // console.log(app.globalData)
   },
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
@@ -114,18 +190,21 @@ Page({
     var cinemaType = app.globalData.cinemaList.cinemaType;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var openID = app.globalData.openId;
+    var userName = _this.data.Username;
+    var passWord = _this.data.Password;
     var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
     var that = this;
     var data = {
-      Username: "MiniProgram",
-      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      Username: userName,
+      Password: passWord,
       CinemaCode: cinemaCode,
       OpenID: openID,
       CardNo: that.data.inputNum,
       CardPassword: that.data.inputPass,
       MobilePhone: that.data.inputNum
     };
-    if (cinemaType == "辰星" && "满天星") {
+    if (cinemaType == "辰星" || cinemaType == "满天星") {
+      console.log(cinemaType)
       wx.request({
         // 会员卡号
         url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
@@ -134,6 +213,7 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
+          console.log(res)
           if (res.data.Status == "Success") {
             var cinemaCode = res.data.cinemaCode;
             var cardNo = res.data.card.cardNo;
@@ -147,6 +227,7 @@ Page({
             })
           }
           else if (res.data.Status == 'Failure') {
+            console.log(res)
             wx.showToast({
               title: res.data.ErrorMessage,
               icon: 'none',
@@ -155,33 +236,31 @@ Page({
           }
         }
       })
-    } else if (cinemaType == "电影1905" && "粤科") {
+    } else if (cinemaType == "电影1905" || cinemaType == "粤科") {
+      console.log(cinemaType)
       if (Num.test(that.data.inputNum)) {
         // 手机号返回会员卡号进行选择绑定
         wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByPhone' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
+          url: 'https://xc.80piao.com:8443/Api/Member/GetMemberCardByMobile' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
           method: 'GET',
           header: {
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res)
             var memberPhones = [];
-            for (var i = 0; i < res.data.data.memberPhones.length; i++) {
-              memberPhones.push(res.data.data.memberPhones[i]);
-              var levelName = "memberPhones[" + i + "].levelName";
-              var cardNo = "memberPhones[" + i + "].cardNo";
-              var cardPassword = "memberPhones[" + i + "].cardPassword";
+            // console.log(res.data.data)
+            for (var i = 0; i < res.data.data.cards.cardNo.length; i++) {
+              memberPhones.push(res.data.data.cards.cardNo[i]);
+              var cardNo = "memberPhones[" + i + "]";
               that.setData({
-                [levelName]: res.data.data.memberPhones[i].levelName,
-                [cardNo]: res.data.data.memberPhones[i].cardNo,
-                [cardPassword]: res.data.data.memberPhones[i].cardPassword,
+                [cardNo]: res.data.data.cards.cardNo[i],
                 isShow: true
               })
             };
           },
         })
-      } else {
+      } 
+      else {
         wx.request({
           // 会员卡号输入密码直接绑定
           url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
@@ -190,7 +269,6 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res.data)
             if (res.data.Status == "Success") {
               var cinemaCode = res.data.cinemaCode;
               var cardNo = res.data.card.cardNo;
@@ -215,17 +293,19 @@ Page({
       }
     }
   },
-  // 选择会员卡类型注册
+  // 跳转到会员卡类别
   zhuce: function (e) {
     var that = this;
     let idx = e.currentTarget.dataset.id;
     let temp = _this.data.tabContent;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var userName = _this.data.Username;
+    var passWord = _this.data.Password;
     temp.forEach((item, index) => {
       if (index == idx) {
         var data = {
-          Username: 'MiniProgram',
-          Password: '6BF477EBCC446F54E6512AFC0E976C41',
+          Username: userName,
+          Password: passWord,
           CinemaCode: cinemaCode
         };
         temp[index] = 1;
@@ -236,8 +316,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res)
-            // console.log(res.data.data)
+            // console.log(res)
             var memberCardLevel = [];
             memberCardLevel = res.data.data.level;
             for (var i = 0; i < memberCardLevel.length; i++) {
@@ -247,16 +326,30 @@ Page({
               var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
+              var ruleCode = "memberCardLevel[" + i + "].ruleCode";
               var str = memberCardLevel[i].ruleDescription
-              var newDescription = str.replace(/，/g, "，\n")
-              that.setData({
-                [levelName]: memberCardLevel[i].levelName,
-                [levelCode]: memberCardLevel[i].levelCode,
-                [ruleName]: memberCardLevel[i].ruleName,
-                [ruleDescription]: newDescription,
-                [effectiveDays]: memberCardLevel[i].effectiveDays,
-                [credit]: memberCardLevel[i].credit
-              })
+              if (str != null) {
+                var newDescription = str.replace(/，/g, "，\n")
+                that.setData({
+                  [levelName]: memberCardLevel[i].levelName,
+                  [levelCode]: memberCardLevel[i].levelCode,
+                  [ruleName]: memberCardLevel[i].ruleName,
+                  [ruleDescription]: newDescription,
+                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  [credit]: memberCardLevel[i].credit,
+                  [ruleCode]: memberCardLevel[i].ruleCode
+                })
+              } else {
+                that.setData({
+                  [levelName]: memberCardLevel[i].levelName,
+                  [levelCode]: memberCardLevel[i].levelCode,
+                  [ruleName]: memberCardLevel[i].ruleName,
+                  [ruleDescription]: memberCardLevel[i].ruleDescription,
+                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  [credit]: memberCardLevel[i].credit,
+                  [ruleCode]: memberCardLevel[i].ruleCode
+                })
+              }
             }
           }
         })

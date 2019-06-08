@@ -24,7 +24,7 @@ Page({
     var that = this;
     var orderNum = this.data.orderNum;
     wx.redirectTo({
-      url: '../orderDetail/orderDetail?orderNum='+that.data.orderNum,
+      url: '../orderDetail/orderDetail?orderNum='
     })
   },
   /**

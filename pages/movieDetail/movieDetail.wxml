@@ -66,16 +66,16 @@
             <view class='role'>导演</view>
           </view>
         <!-- </block> -->
-        <!-- <block wx:for="{{movie.dxActors}}" wx:for-item="actor" wx:key="actor"> -->
+        <block wx:for="{{nameList}}" wx:for-item="actor" wx:key="actor">
           <view class='inactor'>
             <image src='{{actor.picture}}'></image>
-            <view class='name'>{{movie.cast}}</view>
+            <view class='name'>{{actor}}</view>
             <view class='role'>演员</view>
           </view>
-        <!-- </block> -->
+        </block>
       </view>
     </scroll-view>
-    <view class='control'>全部{{movie.dxActors.length+movie.dxDirectors.length}}位演职人员</view>
+    <view class='control'>全部{{nameList.length+1}}位演职人员</view>
   </view>
   
   <view class='videos'>

@@ -182,6 +182,7 @@ const getgoodList = (goodsUrl,callback) => {
           "Content-Type": 'application/json'
         },
         success: function (res) {
+          // console.log(res)
           var goodsList = res.data.data.goods;
           if (!goodsList) {
             return;
@@ -399,7 +400,7 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
     EndDate: endday,
   }
   wx.request({
-    url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessions' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.StartDate + '/' + data.EndDate,
+    url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessions' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode ,
     method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
     header: {
       'content-type': 'application/json' // 默认值
@@ -515,6 +516,26 @@ const getMemberCardByPhone = (cinemaNo, mobilePhone, callback) => {
   })
 
 }
+// 获取选中影院余额最多的会员卡信息
+const getCardInfo = function (username, password, openid, cinemacode, callback) {
+  var data = {
+    Username: username,
+    PassWord: password,
+    OpenID: openid,
+    CinemaCode: cinemacode
+  }
+  wx.request({
+    url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
+    method: 'GET',
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success: function (res) {
+      callback && callback(res);
+      return res
+    }
+  })
+}
 module.exports = {
   formatTime: formatTime,
   formatTime2: formatTime2,
@@ -536,4 +557,5 @@ module.exports = {
   getQueryFilmSession: getQueryFilmSession, //获取首页影院排期列表
   getCity: getCity,//获取影院信息列表 通用
   getMemberCardByPhone: getMemberCardByPhone,//根据手机号获取会员卡列表
+  getCardInfo: getCardInfo, //获取选中影院余额最多的会员卡信息
 }

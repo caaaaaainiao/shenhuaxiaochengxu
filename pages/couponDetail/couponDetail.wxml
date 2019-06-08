@@ -4,16 +4,20 @@
   <view class='header'>
     <image src='/images/couponicon2.png' class='icon' wx:if="{{coupon.dxPlatTicket.ticketType==3}}"></image>
     <image src='/images/couponicon.png' class='icon' wx:else></image>
-    <view class='name'>{{coupon.dxPlatTicket.name}}</view>
-    <view class='scope'>全店通用</view>
-    <view class='time'>有效期至：{{coupon.endTime2}}</view>
+    <view class='name'>{{result.title}}</view>
+    <view class='scope' wx:if='{{result.cinemaName != null}}'>适用于{{result.cinemaName}}</view>
+    <view class='scope' wx:elif='{{result.cinemaName == null}}'>全店通用</view>
+    <view class='time'>有效期至：{{result.expireDate}}</view>
     <view class='money' wx:if="{{coupon.dxPlatTicket.platformType==2}}"><text>1</text>张</view>
     <view class='money' wx:elif="{{coupon.dxPlatTicket.ticketType==3}}"><text>1</text>张</view>
-    <view class='money' wx:else><text>{{coupon.dxPlatTicket.amount}}</text>元</view>
+    <view class='money' wx:else><text>{{result.price}}</text>元</view>
   </view>
-  <view class='range'>
-  适用影院 <text>神画影院所有门店</text>
+  <view class='range'wx:if='{{result.cinemaName == null}}'>
+  适用影院 <text>影院所有门店</text>
+  </view>
+   <view class='range'wx:elif='{{result.cinemaName != null}}'>
+  适用影院 <text>{{result.cinemaName}}</text>
   </view>
   <view class='title'>使用规则</view>
-  <view class='rule'><text>{{coupon.dxPlatTicket.ticketDesc}}</text></view>
+  <view class='rule'><text>{{result.remark}}</text></view>
 </view>

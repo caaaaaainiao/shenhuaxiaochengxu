@@ -26,36 +26,20 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    console.log(app.globalData.movieList)
+    // console.log(app.globalData.movieList)
     var that = this;
     var movie = app.globalData.movieList[app.globalData.movieIndex];
-    console.log(movie)
+    // console.log(movie)
     var event = movie;
-    console.log(event)
+    // console.log(event)
+    var nameList = event.cast.split(',')
+    // console.log(nameList)
+    that.setData({
+      nameList:nameList
+    })
     that.manage(event);
     // console.log(app.globalData)
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('myComment', nowtime);
-    // wx.request({
-    //   url: app.globalData.url+'/api/Comment/myComment',
-    //   data:{
-    //     movieId: that.data.movie.id,
-    //     appUserId:app.globalData.userInfo.id,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: { "Content-Type": "application/x-www-form-urlencoded" },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     that.setData({
-    //       isWant: res.data.data.wantSee,
-    //       isLooked: res.data.data.commentRecord,
-    //       watchRecord: res.data.data.watchRecord
-    //     })
-    //     that.getComment();
-    //   }
-    // })
   },
 
   /**
@@ -217,10 +201,21 @@ Page({
     })
   },
   toCompare:function(){
-    app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
-    wx.navigateTo({
-      url: '../compare/compare',
-    })
+    // 读取缓存判断是否已使用用手机号码登录
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
+        wx.navigateTo({
+          url: '../compare/compare',
+        })
+      },
+      fail: function (res) {
+        wx.navigateTo({
+          url: '../login/login',
+        })
+      }
+    }) 
   },
   toComments:function(){
     var id = app.globalData.movieList[app.globalData.movieIndex].id;

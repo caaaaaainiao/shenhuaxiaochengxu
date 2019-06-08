@@ -22,12 +22,28 @@ Page({
     sellfeatureAppNo:""
   },
    
+   
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
     var that = this;
-    // 读取缓存  设置影院信息
+     // 读取缓存  设置影院信息
+    var movieList = app.globalData.sellMovielist
+   that.setData({
+     movieList:movieList
+   })
+   console.log(that.data.movieList)
+    wx.getStorage({
+      key: 'accredit',
+      success: function (res) {
+        // console.log(res)
+        that.setData({
+          userInfo: res.data.userInfo
+        })
+        // console.log(that.data.userInfo)
+      },
+    })
     util.getcinemaList(function(res){
   
 
@@ -66,25 +82,99 @@ Page({
     // wx.hideTabBar({
 
     // })
+    // 调用全局函数设置余额以及积分
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      var memberCard = [];
+      var status = [];
+      if (res.data.Status == "Failure") {
+        that.setData({
+          memberCardScore: '---',
+          memberCardBalance: '---'
+        })
+      } else if (res.data.data.memberCard == null) {
+        that.setData({
+          memberCardScore: '---',
+          memberCardBalance: '---'
+        })
+      } else {
+        var memberCard = res.data.data.memberCard;
+        for (var i = 0; i < memberCard.length; i++) {
+          if (memberCard[i].status == 1) {
+            status.push(memberCard[i]);
+          }
+        }
+        // 计算余额最多的会员卡
+        var first = memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+        if (first.score == null) {
+          first.score = 0
+        }
+        that.setData({
+          memberCardBalance: first.balance,
+          memberCardScore: first.score
+        })
+      }
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-
+   
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  // onShow: function() {
-  //   this.setData({
-  //     userInfo: app.globalData.userInfo,
-  //     location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName,
-  //     movieList: app.globalData.movieList
-  //   })
-  // },
+  onShow: function() {
+    // console.log(app.globalData.areaList)
+    // console.log(app.globalData.lookcinemaname)
+    if (app.globalData.lookcinemaname == undefined){
+      app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
+    }
+    var lookcinemaname = app.globalData.lookcinemaname
+    this.setData({
+      lookcinemaname: lookcinemaname
+    })
+    // this.setData({
+    //   userInfo: app.globalData.userInfo,
+    //   location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName,
+    //   movieList: app.globalData.movieList
+    // })
+    var that = this;
+    // 调用全局函数设置余额以及积分
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      var memberCard = [];
+      var status = [];
+      if (res.data.Status == "Failure") {
+        that.setData({
+          memberCardScore: '---',
+          memberCardBalance: '---'
+        })
+      } else if (res.data.data.memberCard == null) {
+        that.setData({
+          memberCardScore: '---',
+          memberCardBalance: '---'
+        })
+      } else {
+        var memberCard = res.data.data.memberCard;
+        for (var i = 0; i < memberCard.length; i++) {
+          if (memberCard[i].status == 1) {
+            status.push(memberCard[i]);
+          }
+        }
+        // 计算余额最多的会员卡
+        var first = memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+        if (first.score == null) {
+          first.score = 0
+        }
+        that.setData({
+          memberCardBalance: first.balance,
+          memberCardScore: first.score
+        })
+      }
+    });
+  },
 
   /**
    * 生命周期函数--监听页面隐藏
@@ -124,36 +214,26 @@ Page({
   //   }
   // },
   chooseType: function(e) {
+    // 读取缓存 判断是否已使用手机号码登录
     var setType = e.currentTarget.dataset.type;
     var that = this;
-    console.log(setType)
-    if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone == null || app.globalData.userInfo.mobilePhone == "")) {
-      wx.showToast({
-        title: '请先注册手机号',
-        icon: "loading",
-        mask: true,
-        duration: 2000,
-        success: function () {
-          setTimeout(function () {
-            wx.navigateTo({
-              url: '../login/login'
-            })
-          }, 2000)
-        }
-      })
-      return;
-    }
-    app.globalData.sendtype=setType;
+    app.globalData.sendtype = setType;
     that.setData({
       sendtype: setType
     })
-    // if (setType == 2) {
-    //   wx.hideTabBar()
-    //   that.setData({
-    //     startChoose: true
-    //   })
-    // } 
     wx.showTabBar()
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        // console.log(res)
+        app.globalData.phonenum = res.data
+      },
+      fail: function(res) {
+        wx.navigateTo({
+          url: '../login/login',
+        })
+      }
+    })
   },
   close:function(){
     var that = this;
@@ -174,48 +254,57 @@ Page({
     wx.showTabBar()
   },
   ask: function (e) { //查询场次
+  // console.log(e)
     var that = this;
     var movieid = e.currentTarget.dataset.id;
     var moviename = e.currentTarget.dataset.name;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('screening', nowtime);
     var index = e.currentTarget.dataset.index;
-    wx.showLoading({
-      title: '加载中',
+    app.globalData.orderaddname = moviename
+    // console.log(that.data.movieList)
+    var beginmovieList = that.data.movieList[index].session
+    // console.log(beginmovieList)
+    that.setData({
+      step: 2,
+      beginmovieList:beginmovieList
     })
-    wx.request({
-      url: app.globalData.url + '/api/shMovie/screening',
-      data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        movieId: movieid,
-        buyGoods:1,
-        appUserId:app.globalData.userInfo.id,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
+    
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    // wx.request({
+    //   url: app.globalData.url + '/api/shMovie/screening',
+    //   data: {
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     movieId: movieid,
+    //     buyGoods:1,
+    //     appUserId:app.globalData.userInfo.id,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
 
-        that.manage(res.data.data.screenPlanList);
-        for(var i = 0;i < that.data.movieList.length;i++){
-          that.data.movieList[i].foodcheck = false;
-        }
-        that.data.movieList[index].foodcheck = true;
-        that.setData({
-          step:2,
-          detailStr: moviename+",",
-          movieList: that.data.movieList
-        })
+    //     that.manage(res.data.data.screenPlanList);
+    //     for(var i = 0;i < that.data.movieList.length;i++){
+    //       that.data.movieList[i].foodcheck = false;
+    //     }
+    //     that.data.movieList[index].foodcheck = true;
+    //     that.setData({
+    //       step:2,
+    //       detailStr: moviename+",",
+    //       movieList: that.data.movieList
+    //     })
         
-        // console.log(that.data.movieList)
-        // console.log(app.globalData)
-        wx.hideLoading()
-      }
-    })
+    //     // console.log(that.data.movieList)
+    //     // console.log(app.globalData)
+    //     wx.hideLoading()
+    //   }
+    // })
   },
   manage: function (data) { //影片排片数据处理
     var that = this;
@@ -298,54 +387,62 @@ Page({
     })
   },
   setTime:function(e){//设置场次，获取影厅
+  // console.log(e)
     var that = this;
     var time = e.currentTarget.dataset.time;
     var index = e.currentTarget.dataset.index;
     var timeList = that.data.timeList;
     var hallList = [];
-    var screenPlanList = that.data.screenPlanList;
-    for (var i = 0; i < screenPlanList.length; i++) {
-      if (screenPlanList[i].date.indexOf("今天") > 0) {
-        for (var j = 0; j < screenPlanList[i].list.length; j++) {
-          if (screenPlanList[i].list[j].startTime2 == time){
-            var row = {};
-            row.name = screenPlanList[i].list[j].hallName;
-            row.featureAppNo = screenPlanList[i].list[j].featureAppNo;
-            hallList.push(row)
-          }
-        }
-      }
-    }
-    
-    for(var i = 0;i < timeList.length;i++){
-      timeList[i].foodcheck = false;
-    }
-    timeList[index].foodcheck = true;
+    var screenname = that.data.beginmovieList[index].screenName
+    app.globalData.selltimename = time
     that.setData({
-      hallList: hallList,
+      screenname:screenname
+    })
+
+    // for (var i = 0; i < screenPlanList.length; i++) {
+    //   if (screenPlanList[i].date.indexOf("今天") > 0) {
+    //     for (var j = 0; j < screenPlanList[i].list.length; j++) {
+    //       if (screenPlanList[i].list[j].startTime2 == time){
+    //         var row = {};
+    //         row.name = screenPlanList[i].list[j].hallName;
+    //         row.featureAppNo = screenPlanList[i].list[j].featureAppNo;
+    //         hallList.push(row)
+    //       }
+    //     }
+    //   }
+    // }
+    
+    // for(var i = 0;i < timeList.length;i++){
+    //   timeList[i].foodcheck = false;
+    // }
+    // timeList[index].foodcheck = true;
+    that.setData({
+      // hallList: hallList,
       step:3,
-      detailStr:that.data.detailStr+time+",",
-      timeList:timeList
+      // detailStr:that.data.detailStr+time+",",
+      // timeList:timeList
     })
     // console.log(hallList)
     // console.log(timeList)
   },
   setHall:function(e){//选择影厅
+  // console.log(e)
     var that = this;
     var hall = e.currentTarget.dataset.hall;
     var index = e.currentTarget.dataset.index;
-    var hallList = that.data.hallList;
-    var detailStr = that.data.detailStr.split(",");
-    detailStr = detailStr[0] + "," + detailStr[1]+",";
-    for (var i = 0; i < hallList.length; i++) {
-      hallList[i].foodcheck = false;
-    }
-    hallList[index].foodcheck = true;
+    app.globalData.sellhallname = hall
+    // var hallList = that.data.hallList;
+    // var detailStr = that.data.detailStr.split(",");
+    // detailStr = detailStr[0] + "," + detailStr[1]+",";
+    // for (var i = 0; i < hallList.length; i++) {
+    //   hallList[i].foodcheck = false;
+    // }
+    // hallList[index].foodcheck = true;
     that.setData({
-      detailStr:detailStr+hall,
+      // detailStr:detailStr+hall,
       isOk:true,
-      hallList:hallList,
-      sellfeatureAppNo: hallList[index].featureAppNo
+      // hallList:hallList,
+      // sellfeatureAppNo: hallList[index].featureAppNo
     })
   },
   back:function(){

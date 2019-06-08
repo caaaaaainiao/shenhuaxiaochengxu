@@ -262,6 +262,7 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  text-align: center
 }
 .bottom_right image{
   width: 40rpx;

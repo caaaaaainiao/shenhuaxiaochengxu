@@ -9,7 +9,7 @@
   <swiper display-multiple-items="0.85" previous-margin="285rpx" next-margin="285rpx" current="{{swiperIndex}}" class='swiper-block' bindchange="swiperChange">
     <block wx:for="{{moviesList}}" wx:index="{{index}}" wx:key="movie" wx:for-item="movie">
       <swiper-item class="swiper-item">
-        <image src='{{movie.image}}' class="slide-image {{swiperIndex == index ? 'active' : ''}}" bindtap='toDetail' data-index='{{index}}'></image>
+        <image src='{{movie.image}}' class="slide-image {{swiperIndex == index ? 'active' : ''}}" bindtap='toDetail' data-movieCode='{{movie.code}}' data-index='{{index}}'></image>
       </swiper-item>
     </block>
   </swiper>
@@ -20,41 +20,36 @@
     </view>
   </view>
   <scroll-view scroll-x class='dates'>
-    <block wx:for="{{moviesList[swiperIndex].session}}" wx:for-item="date" wx:key="date">
+    <block wx:for="{{moviesListDate.sessionDate}}" wx:for-item="date" wx:key="date">
     <!-- <view data-index='{{index}}' class='date'>{{date.startDate}} {{index}}</view> -->
       <!-- <view class='date select'>10-28 今天</view>
       <view class='date'>10-29 明天</view>
       <view class='date'>10-30 后天</view> -->
-      <view class='date {{index == select?"select":""}}' data-index="{{index}}" bindtap='dayChange'>{{date.startDate}}{{date.isToday == "true" ? '今天':''}}</view>
+      <!-- <view>{{date.sessionDate}}</view> -->
+      <view class='date {{select == index?"select":""}}' data-index="{{index}}" data-text="{{date.sessionDate}}" bindtap='dayChange'>{{date.sessionDate}}</view>
     </block>
   </scroll-view>
-  <view  wx:if="{{screenPlanList[select].list.length>0}}">
-    <block wx:for="{{screenPlanList[select].list}}" wx:for-item="session" wx:key="session">
+  <view  wx:if="{{moviesListDate.sessionDate.length>0}}">
+    <block wx:for="{{moviesListDate.sessionDate[select].session}}" wx:for-item="session" wx:key="session">
       <view class='session' data-index="{{index}}" catchtap='checkSession'>
         <view class='time'>
           <view class='session_top'>
-            <text class='start_time'>{{session.startTime2}}</text>
+            <text class='start_time'>{{session.beginTime}}</text>
           </view>
-          <text class='session_bottom'>{{session.endTime2}}散场</text>
+          <text class='session_bottom'>{{session.endTime}}散场</text>
         </view>
         <view class='address'>
           <view class='session_top'>
-            <text class='movie_type'>{{session.movieDimensional}}</text>
+            <text class='movie_type'>{{session.screenName}}</text>
           </view>
-          <text class='session_bottom'>{{session.hallName}}</text>
+          <text class='session_bottom'>{{session.screenName}}</text>
         </view>
         <view class='price'>
           <view class='session_top'>
             <image src='/images/applogo.png'></image>
-            <!-- <image src='/images/applogo.png' wx:if="{{session.qmmComparePrices[0].dataType==0}}"></image>
-            <image src='/images/mylogo.png' wx:elif="{{session.qmmComparePrices[0].dataType==36}}"></image>
-            <image src='/images/tpplogo.png' wx:elif="{{session.qmmComparePrices[0].dataType==49}}"></image> -->
             <view class='minPrice'>
               <text>￥</text>
-              <text class='num' wx:if="{{session.qmmComparePrices[0].dataType==0}}">{{session.qmmComparePrices[0].settlePrice}}</text>
-              <text class='num' wx:if="{{session.qmmComparePrices[1].dataType==0}}">{{session.qmmComparePrices[1].settlePrice}}</text>
-              <text class='num' wx:if="{{session.qmmComparePrices[2].dataType==0}}">{{session.qmmComparePrices[2].settlePrice}}</text>
-              <text class='num' wx:if="{{session.qmmComparePrices[3].dataType==0}}">{{session.qmmComparePrices[3].settlePrice}}</text>
+              <text class='num'>{{session.standardPrice}}</text>
             </view>
           </view>
           <view class='session_bottom'>
@@ -63,20 +58,21 @@
           </view>
         </view>
         <view class='btns'>
-          <!-- <view class='buy' data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="{{session.qmmComparePrices[0].dataType}}" catchtap='buy'>购票</view> -->
-            <view class='buy' data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="0" catchtap='buy'>购票</view>
-          <text class='session_bottom'>￥{{session.price}}</text>
+            <view class='buy' data-index="{{index}}" data-filmCode="{{session.filmCode}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="0" catchtap='buy'>购票</view>
+          <text class='session_bottom'>￥{{session.standardPrice}}</text>
         </view>
         <view class='node'></view>
-        <block wx:for="{{session.qmmComparePrices}}" wx:for-item="comparePrices" wx:key="comparePrices">
-          <view class='others' wx:if="{{session.startCompare&&comparePrices.dataType!=46}}">
+        <block wx:for="{{moviesListDate.sessionDate[0].session[0].sessionPrice}}" wx:for-item="comparePrices" wx:key="comparePrices">
+          <view class='others'>
             <view class='store'>
-              <image src='/images/applogo.png' wx:if="{{comparePrices.dataType==0}}"></image>
-              <image src='/images/mylogo.png' wx:elif="{{comparePrices.dataType==36}}"></image>
-              <image src='/images/tpplogo.png' wx:elif="{{comparePrices.dataType==49}}"></image>
-              <text wx:if="{{comparePrices.dataType==0}}">影城会员</text>
-              <text wx:elif="{{comparePrices.dataType==36}}">猫眼</text>
-              <text wx:elif="{{comparePrices.dataType==49}}">淘票票</text>
+              <image src='/images/applogo.png' wx:if="{{comparePrices.typeCode==0}}"></image>
+              <image src='/images/rmlogo.png' wx:if="{{comparePrices.typeCode==46}}"></image>
+              <image src='/images/mylogo.png' wx:elif="{{comparePrices.typeCode==36}}"></image>
+              <image src='/images/tpplogo.png' wx:elif="{{comparePrices.typeCode==49}}"></image>
+              <text wx:if="{{comparePrices.typeCode==0}}">影城会员</text>
+                <text wx:if="{{comparePrices.typeCode==46}}">百度糯米</text>
+              <text wx:elif="{{comparePrices.typeCode==36}}">猫眼</text>
+              <text wx:elif="{{comparePrices.typeCode==49}}">淘票票</text>
               <view class='nowPrice'>
                 <text>￥</text>
                 <text class='num'>{{comparePrices.settlePrice}}</text>

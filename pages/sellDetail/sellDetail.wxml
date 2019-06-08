@@ -11,7 +11,7 @@
   </swiper>
   <view class='location'>
     <image src='/images/location.png'></image>
-    <text>{{location}}</text>
+    <text>{{lookcinemaname}}</text>
   </view>
   <view class='content {{isScroll?"contentscroll":""}}'>
     <scroll-view class='foodclass' scroll-y>
@@ -64,7 +64,7 @@
       <view class='totalnum' wx:if="{{totalNum>0}}">{{totalNum}}</view>
     </view>
     <view class='bottom_right' wx:if="{{fullCar}}" bindtap='showcart'>
-      <text>查看购物车</text>
+      <text>点击查看</text>
       <image src='/images/next.png'></image>
     </view>
     <view class='bottom_right' hidden="{{fullCar}}" bindtap='createGoodsOrder'>
@@ -77,8 +77,8 @@
     <view class='ready'>
       <image src='/images/styleicon.png' class='styleicon'></image>
       <image src='/images/close5.png' class='close5' bindtap='chooseClose'></image>
-      <view class='name'>{{cinema.cinemaName}}</view>
-      <view class='address'>{{cinema.address}}</view>
+      <view class='name'>{{lookcinemaname}}</view>
+      <view class='address'>{{lookcinemaadd}}</view>
       <view class='style {{isReady == 0?"onchoose":""}}' bindtap='chooseReadyType' data-type='0'>
         <image src='/images/choose5.png' class='choose5' wx:if="{{isReady == 0}}"></image>
         <image src='/images/unchoose5.png' class='choose5' wx:else></image>

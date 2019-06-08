@@ -1,4 +1,4 @@
-//获取应用实例
+  //获取应用实例
 const app = getApp()
 let _this;
 Page({
@@ -26,8 +26,11 @@ Page({
     effectiveDays: '',
     credit: '',
     ruleCode: '',
-    disabled: false
+    disabled: false,
+    userName: '',
+    passWord: ''
   },
+  //  获取页面用户输入信息
   getPhone: function (e) {
     this.setData({ phone: e.detail.value })
   },
@@ -62,15 +65,18 @@ Page({
   btnShowExchange2:function(){
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var cinemaType = app.globalData.cinemaList.cinemaType;
     var data = {
-        Username: "MiniProgram",
-        Password: "6BF477EBCC446F54E6512AFC0E976C41",
+        Username: that.data.userName,
+        Password: that.data.passWord,
         CinemaCode: cinemaCode,
         OpenID: that.data.openId,
         // 会员卡密码
         CardPassword: that.data.password,
         // 等级编号
         LevelCode: that.data.id,
+        // 规则编码
+        RuleCode: that.data.ruleCode,
         // 初始金额
         InitialAmount: that.data.credit,
         // 用户名
@@ -78,7 +84,7 @@ Page({
         // 手机号
         MobilePhone: that.data.phone,
         // 身份证号
-        IDNumber: '362528199608210013',
+        IDNumber: '120101200005299837',
         // 性别
         Sex: that.data.index002
       };
@@ -95,8 +101,38 @@ Page({
           icon: 'none',
           duration: 3000
         })
+    } else if (cinemaType == "辰星" || cinemaType == "粤科") {
+      // 判断售票系统进行数据请求
+      wx.request({
+        url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          if (res.data.Status == 'Success') {
+            if (res.data.Status == "Success") {
+              wx.showToast({
+                title: '开卡成功！',
+                icon: 'none',
+                duration: 2000
+              });
+              wx.redirectTo({
+                url: '../page05/index',
+              })
+            }
+          } else if (res.data.Status == 'Failure') {
+            wx.showToast({
+              title: res.data.ErrorMessage,
+              icon: 'none',
+              duration: 3000
+            })
+          }
+        }
+      })
       }
-      else {
+    else if (cinemaType == "电影1905" || cinemaType == "满天星"){
+      // 此售票系统需进行充值  调取多个接口
         that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
         wx.request({
           url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
@@ -111,10 +147,12 @@ Page({
               for (var i = 0; i < rule.length; i++) {
                 var credit = "rule[" + i + "].credit";
                 var ruleCode = "rule[" + i + "].ruleCode";
+                var givenAmount = "rule[" + i + "].givenAmount"
                 that.setData({
                   levelName: levelRule.levelName,
                   [credit]: rule[i].credit,
-                  [ruleCode]: rule[i].ruleCode
+                  [ruleCode]: rule[i].ruleCode,
+                  [givenAmount]: rule[i].givenAmount
                 })
               }
             } else if (res.data.Status == 'Failure') {
@@ -127,21 +165,6 @@ Page({
           },
         })
       }
-      // else {
-      //   wx.request({
-      //     url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
-      //     method: 'GET',
-      //     header: {
-      //       'content-type': 'application/json' // 默认值
-      //     },
-      //     success: function (res) {
-      //       console.log(res)
-      //       wx.navigateTo({
-      //         url: '../page05/index?Username=' + data.Username + '&PassWord=' + data.Password + '&CinemaCode=' + data.CinemaCode + '&OpenID=' + data.OpenID + '&Credit=' + data.InitialAmount
-      //       })
-      //     }
-      //   })
-      // }
   },
   closeShow: function () {
     this.setData({ showAlertExchange2: !this.data.showAlertExchange2 })
@@ -180,15 +203,28 @@ Page({
     let openId = that.data.openId;
     let cinemaCode = app.globalData.cinemaList.cinemaCode;
     let ruleCode = that.data.ruleCode;
+    let username = that.data.userName;
+    let password = that.data.passWord;
+    let cardPassword = that.data.password;
+    let cardUserName = that.data.name;
+    let mobilePhone = that.data.phone;
+    let idNumber = '120101200005299837';
+    let levelCode = that.data.id;
+    let sex = that.data.index002;
     var data = {
-      Username: "MiniProgram",
-      Password: "6BF477EBCC446F54E6512AFC0E976C41",
+      Username: username,
+      Password: password,
       CinemaCode: cinemaCode,
-      OpenID: that.data.openId,
+      OpenID: openId,
+      CardPassword: cardPassword,
+      LevelCode: levelCode,
       InitialAmount: price,
-      RuleCode: ruleCode
+      RuleCode: ruleCode,
+      CardUserName: cardUserName,
+      MobilePhone: mobilePhone,
+      IDNumber: idNumber,
+      Sex: sex
     };
-    console.log(that.data.openId)
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.RuleCode + '/'  + data.InitialAmount,
       method: 'GET',
@@ -196,7 +232,47 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
+        // 微信支付接口
+        wx.requestPayment({
+          timeStamp: res.data.data.timeStamp,
+          nonceStr: res.data.data.nonceStr,
+          package: res.data.data.packages,
+          signType: res.data.data.signType,
+          paySign: res.data.data.paySign,
+          success(res) {
+            // 成功之后调取开卡接口
+            if (res.errMsg == "requestPayment:ok") {
+              wx.request({
+                url: 'https://xc.80piao.com:8443/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
+                method: 'GET',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  if (res.data.Status == "Success") {
+                    wx.showToast({
+                      title: '开卡成功！',
+                      icon: 'none',
+                      duration: 2000
+                    });
+                    that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
+                    wx.redirectTo({
+                      url: '../page05/index',
+                    })
+                  }
+                }
+              })
+            }
+          },
+          fail(res) {
+            wx.showToast({
+              title: res.err_desc,
+              icon: 'none',
+              duration: 3000
+            });
+            console.log(res)
+          }
+        })
       }
     })
   },
@@ -217,6 +293,8 @@ Page({
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var movieName = app.globalData.moviearea;
+    var userName = app.usermessage.Username;
+    var passWord = app.usermessage.Password;
     that.setData({
       id: options.id,
       openId: options.openId,
@@ -224,9 +302,19 @@ Page({
       levelName: options.name,
       ruleDescription: options.text,
       effectiveDays: options.time,
-      credit: options.credit
+      credit: options.credit,
+      userName: userName,
+      passWord: passWord,
+      ruleCode: options.ruleCode
     })
-    console.log(that.data.openId)
+    wx.getStorage({
+      key: 'sjhm',
+      success: function(res) {
+        that.setData({
+          phone: res.data
+        })
+      },
+    })
     wx.setNavigationBarTitle({ title: '会员卡' });
   },
   // 生命周期函数--监听页面初次渲染完成
