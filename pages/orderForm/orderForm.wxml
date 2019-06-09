@@ -24,7 +24,7 @@
     活动优惠
     <text>-{{filters.toFix(seatOrder.order.ticketOriginPrice-seatOrder.order.beforeTicketPrice)}}元</text>
   </view>
-  <view class='option' wx:if="{{seatCouponList}}" bindtap='setType1'>
+  <view class='option' wx:if="{{movieArr}}" bindtap='setType1'>
     电影票优惠券
     <image src='/images/gray_more.png'></image>
     <text wx:if="{{seatCoupon == null}}">去选择</text>
@@ -36,7 +36,7 @@
     <text class='money'>{{price}}</text>
   </view>
   <view class='gray_line'></view>
-  <!-- <block wx:if="{{comboList.length > 0}}">
+  <block wx:if="{{comboList.length > 0}}">
     
     <view class='detailclass' id='detailclass1'>
       <image src='/images/dot.png'></image>
@@ -72,7 +72,7 @@
       <text>元</text>
       <text class='money'>{{refreshments}}</text>
     </view>
-  </block> -->
+  </block>
   <view class='gray_line'></view>
   <view class='phone'>
     <view class='phonetext'>手机号</view>

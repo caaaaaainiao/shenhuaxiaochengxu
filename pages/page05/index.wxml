@@ -1,5 +1,5 @@
 <view class="wrap page05">
-	<view class="panel">
+	<view class="panel" style="background-color:RGB(224,79,46)">
 		<image src="{{face}}" class="icon" mode="widthFix"></image>
 		<view class="r">
 			<view class="txt1">{{username}}</view>
