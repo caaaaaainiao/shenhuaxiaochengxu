@@ -137,7 +137,6 @@ Page({
       success: function (res) {
         var seat = res.data.sessionSeat.seat;
         var seats = that.data.seats;
-        console.log(seats)
         for (let i = 0; i < seats.length; i++) {
           for (let j = 0; j < seats[i].seats.length; j++) {
             if (seats[i].seats[j] != null) {
@@ -478,9 +477,9 @@ Page({
     for (let i = 0; i < that.data.seatNum; i ++) {
       let newNum = that.data.seatNumber[i].toString();
       xml += '<Seat>' ;
-      xml += '<AddFee>' + '0.0' + '</AddFee>';
-      xml += '<CinemaAllowance>' + '0.0' + '</CinemaAllowance>';
-      xml += '<Fee>' + '0.0' + '</Fee>';
+      xml += '<AddFee>' + app.globalData.moviesListDate.addFee + '</AddFee>';
+      xml += '<CinemaAllowance>' + app.globalData.moviesListDate.cinemaAllowance + '</CinemaAllowance>';
+      xml += '<Fee>' + app.globalData.moviesListDate.ticketFee + '</Fee>';
       xml += '<Price>' + that.data.standardPrice + '</Price>';
       xml += '<SeatCode>' + newNum + '</SeatCode>';
       xml += '</Seat>';
@@ -494,7 +493,7 @@ Page({
         userName: app.usermessage.Username,
         password: app.usermessage.Password,
         openID: app.globalData.openId,
-        queryXml: xml                   
+        queryXml: xml,               
       },
       method: "POST",
       header: {
@@ -536,6 +535,7 @@ Page({
           console.log(res)
           wx.showToast({
             title: '选座失败',
+            content: res.data.ErrorMessage,
             icon: 'none',
             duration: 3000
           });

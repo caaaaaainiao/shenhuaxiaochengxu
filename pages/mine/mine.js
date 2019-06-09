@@ -1,6 +1,7 @@
 // pages/mine/mine.js
 //获取应用实例
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -149,9 +150,12 @@ Page({
     })
   },
   toMycard: function() {
-      wx.navigateTo({
-        url: '../page05/index',
-      })
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      console.log(res)
+    })
+      // wx.navigateTo({
+      //   url: '../page05/index',
+      // })
     
   },
   ask: function() {

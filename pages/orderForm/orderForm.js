@@ -96,7 +96,7 @@ Page({
     })
     // 获取优惠券
     util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID + "/All", function (res) {
-      console.log(res)
+      // console.log(res)
       if (res && res.length > 0) {
         let seatCouponList = [];
         let foodCouponList = [];
@@ -363,7 +363,7 @@ Page({
       xml += '<Seat>';
       xml += '<SeatCode>' + seatCode + '</SeatCode>';
       xml += '<Price>' + price + '</Price>';
-      xml += '<Fee>' + '0.0' + '</Fee>';
+      xml += '<Fee>' + app.globalData.moviesListDate.ticketFee + '</Fee>';
       xml += '</Seat>'
     }
     xml += '</Order>';
@@ -751,6 +751,7 @@ Page({
       })
       return;
     }
+    console.log(app.globalData)
     let data = {
       Username: app.usermessage.Username, //账号
       Password: app.usermessage.Password, // 密码
@@ -765,10 +766,10 @@ Page({
       FilmCode: app.globalData.movieId, //影片编码
       TicketNum: that.data.count, //票数
       LevelCode: that.data.levelCode, //会员卡等级编码
-      SessionTime: '', //排期时间
-      ScreenType: '', //影厅类型
-      ListingPrice: '', //挂牌价
-      LowestPrice: '', //最低价
+      SessionTime: app.globalData.moviesListDate.sessionTime, //排期时间
+      ScreenType: app.globalData.moviesListDate.screenType, //影厅类型
+      ListingPrice: app.globalData.moviesListDate.listingPrice, //挂牌价
+      LowestPrice: app.globalData.moviesListDate.lowestPrice, //最低价
     };
     console.log(data)
     // 查询本地订单

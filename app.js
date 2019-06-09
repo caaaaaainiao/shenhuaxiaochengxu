@@ -78,6 +78,7 @@ App({
     card:null, // 会员卡信息
     sellMovielist:null,
     seat: null,
+    moviesListDate: null,
   },
   createMD5: function (apiname, nowtime) {
     var sign = utilMd5.hexMD5("HLBW2018SHAPPLET" + apiname + "SH076WZ80D98X5G2" + nowtime);

@@ -17,7 +17,7 @@ Page({
    */
   onLoad: function (options) {
     this.setData({
-      orderNum:options.orderNum
+      orderNum:options.orderNum,
     })
   },
   
