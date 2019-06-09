@@ -14,7 +14,6 @@
     <!-- 轮播图 -->
     <!-- 显示地址 -->
     <view class='location'>
-      <image src='/images/location.png'></image>
       <text>{{lookcinemaname}}</text>
     </view>
     <!-- 显示地址 -->   
