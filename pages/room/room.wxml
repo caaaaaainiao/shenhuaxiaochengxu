@@ -2,12 +2,12 @@
 <!-- <text>pages/room/room.wxml</text> -->
 <view class='container'>
   <view class='header'>
-    <view class='bg' style='background:url({{movie.moviePhoto}}) no-repeat;'></view>
-    <image src='{{movie.moviePhoto}}' class='moviepic'></image>
-    <view class='moviename'>{{movie.movieName}}</view>
-    <view class='movieroom'>{{movie.hallName}}</view>
-    <view class='movietime'>{{movie.startTime2}}-{{movie.endTime2}}</view>
-    <view class='moviearea'>{{cinema.cinemaName}}</view>
+    <view class='bg' style='background:url({{movie.image}}) no-repeat;'></view>
+    <image src='{{movie.image}}' class='moviepic'></image>
+    <view class='moviename'>{{movie.filmName}}</view>
+    <view class='movieroom'>{{movie.screenName}}</view>
+    <view class='movietime'>{{movie.startTime}}-{{movie.endTime}}</view>
+    <view class='moviearea'>{{movie.cinemaName}}</view>
     <image src='{{movie.chatRoomImage}}' class='banner' mode='aspectFill'></image>
     <view class='time'>
       <image src='/images/time2.png'></image>
