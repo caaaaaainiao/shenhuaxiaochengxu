@@ -23,8 +23,6 @@
       </view>
       <view class='location'>{{lookcinemaname}}</view>
       <view class='resetLocation' bindtap='getPlace'>
-        <text>如果不是，点此重新定位</text>
-        <image src='/images/reset.png'></image>
       </view>
       <view class='foodtype'>取餐方式</view>
       <view class='types'>

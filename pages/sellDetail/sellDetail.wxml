@@ -10,7 +10,6 @@
     </block>
   </swiper>
   <view class='location'>
-    <image src='/images/location.png'></image>
     <text>{{lookcinemaname}}</text>
   </view>
   <view class='content {{isScroll?"contentscroll":""}}'>
