@@ -95,6 +95,7 @@ Page({
     })
     // 获取优惠券
     util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID + "/All", function (res) {
+      console.log(res)
       if (res && res.length > 0) {
         let seatCouponList = [];
         let foodCouponList = [];
@@ -104,12 +105,12 @@ Page({
             seatCouponList.push(res[i])
           }
           // 获取卖品优惠券
-          // else if (res[i].status == 1 && res[i].reductionType == 2) {
-          //   foodCouponList.push(res[i])
-          // }
+          else if (res[i].status == 1 && res[i].reductionType == 2) {
+            foodCouponList.push(res[i])
+          }
         }
         //  筛选出符合条件的优惠券 根据折扣金额进行降序排序
-        console.log(seatCouponList)
+        // console.log(seatCouponList)
         let time = parseInt(new Date().getTime());
         let week = new Date().getDay() + 1;
         let h = new Date().getHours();
@@ -223,28 +224,30 @@ Page({
         let arr = that.arrayUnique2(canUseTicket, "conponId");
         // 根据折扣金额进行降序排序
         let newArr = arr.sort(that.sortFun(`price`));
-        console.log(newArr)
+        // console.log(newArr)
         that.setData({
           seatCouponList: newArr,
         })
         let movieArr = newArr.sort(that.sortFun(`price`));
         console.log(movieArr)
-        // let foodArr = foodCouponList.sort(that.sortFun(`price`));
-        that.data.priceArr.push(movieArr[0].price);
-        that.data.codeArr.push(movieArr[0].conponCode)
-        that.setData({
-          ticketRealPrice: parseInt(movieArr[0].price),
-          // foodRealPrice: parseInt(foodArr[0].price),
-          couponsCode: movieArr[0].conponCode,
-          reductionPrice: movieArr[0].price,
-        })
-        let ticketPrice = Number(options.price) - Number(that.data.ticketRealPrice)
-        that.setData({
-          seatCouponList: movieArr,
-          // foodeCouponList: foodArr,
-          price: ticketPrice,
-          allPrice: Number(ticketPrice) + Number(that.data.refreshments),
-        })
+        if (movieArr.length > 0) {
+          // let foodArr = foodCouponList.sort(that.sortFun(`price`));
+          that.data.priceArr.push(movieArr[0].price);
+          that.data.codeArr.push(movieArr[0].conponCode)
+          that.setData({
+            ticketRealPrice: parseInt(movieArr[0].price),
+            // foodRealPrice: parseInt(foodArr[0].price),
+            couponsCode: movieArr[0].conponCode,
+            reductionPrice: movieArr[0].price,
+          })
+          let ticketPrice = Number(options.price) - Number(that.data.ticketRealPrice)
+          that.setData({
+            seatCouponList: movieArr,
+            // foodeCouponList: foodArr,
+            price: ticketPrice,
+            allPrice: Number(ticketPrice) + Number(that.data.refreshments),
+          })
+        }
       }
     });
     // 获取会员卡信息
@@ -252,7 +255,7 @@ Page({
       that.setData({
         card: res.data.data.memberCard,
       })
-      // console.log(that.data.card)
+      console.log(that.data.card)
     });
   },
   //传入数组以及要去重的对象
@@ -340,7 +343,42 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
-
+    let that = this;
+    let price = (that.data.allPrice) / (that.data.count);
+    let xml = '<ReleaseSeat>' + 
+                '<CinemaCode>' + app.globalData.cinemacode + '</CinemaCode>' + 
+                '<Order>' + 
+                  '<PayType>' + '0' + '</PayType>' + 
+                  '<OrderCode>' + that.data.orderCode + '</OrderCode>' + 
+                  '<SessionCode>' + that.data.sessionCode + '</SessionCode>' +
+                  '<Count>' + that.data.count + '</Count>';
+    for (let i = 0; i < app.globalData.seat.length; i ++) {
+      let seatCode = app.globalData.seat[i].seatCode;
+      xml += '<Seat>';
+      xml += '<SeatCode>' + seatCode + '</SeatCode>';
+      xml += '<Price>' + price + '</Price>';
+      xml += '<Fee>' + '0.0' + '</Fee>';
+      xml += '</Seat>'
+    }
+    xml += '</Order>';
+    xml += '</ReleaseSeat>'
+    // 解锁座位
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Order/ReleaseSeat',
+      data: {
+        "userName": app.usermessage.Username,
+        "password": app.usermessage.Password,
+        "openID": app.globalData.userInfo.openID,
+        "queryXml": xml,
+      },
+      method: 'POST',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+      }
+    })
   },
 
   /**
@@ -380,6 +418,7 @@ Page({
     })
     that.leftTime();
   },
+  // 增加数量
   add: function(e) {
     var that = this;
     var comboList = that.data.comboList;
@@ -403,6 +442,7 @@ Page({
     that.calculate();
     // console.log(that.data.comboList)
   },
+  // 减少数量
   minus: function(e) {
     var that = this;
     var comboList = that.data.comboList;
@@ -485,16 +525,16 @@ Page({
     that.setData({
       canClick: 0
     }) //防止多次点击
-    if (that.data.phone.length != 11) {
-      wx.showToast({
-        title: '手机格式不正确',
-        icon: 'loading',
-        image: '',
-        duration: 1000,
-        mask: true,
-      })
-      return;
-    }
+    // if (that.data.phone.length != 11) {
+    //   wx.showToast({
+    //     title: '手机格式不正确',
+    //     icon: 'loading',
+    //     image: '',
+    //     duration: 1000,
+    //     mask: true,
+    //   })
+    //   return;
+    // }
     var json = [];
     // console.log(that.data)
     let list = app.globalData.seat;
@@ -512,14 +552,6 @@ Page({
         json[i].reductionPrice = ""
       }
     }
-    let data = {
-      "userName": app.usermessage.Username,
-        "password": app.usermessage.Password,
-          "cinemaCode": app.globalData.cinemacode,
-            "orderCode": that.data.orderCode,
-              "seats": json
-    };
-    console.log(data)
     // 预支付
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Order/PrePayOrder',
@@ -620,6 +652,13 @@ Page({
                               })
                             }, 1000)
                           }
+                          else {
+                            wx.showToast({
+                              title: res.data.ErrorMessage,
+                              icon: 'none',
+                              duration: 3000
+                            });
+                          }
                         }
                       })
                     }
@@ -641,6 +680,13 @@ Page({
               }
             }
           })
+        }
+        else {
+          wx.showToast({
+            title: res.data.ErrorMessage,
+            icon: 'none',
+            duration: 3000
+          });
         }
       }
     })
@@ -698,24 +744,23 @@ Page({
       return;
     }
     let data = {
-      UserName: app.usermessage.Username,
-      Password: app.usermessage.Password,
-      CinemaCode: app.globalData.cinemacode,
-      LockOrderCode: that.data.orderCode,
-      LocalOrderCode: "LocalOrderCode",
-      CardNo: that.data.cardNo,
-      CardPassword: that.data.password,
-      PayAmount: that.data.allPrice,
-      GoodsPayAmount: 0,
-      SessionCode: that.data.sessionCode,
-      FilmCode: app.globalData.movieId,
-      TicketNum: that.data.count,
-      OrderCode: that.data.orderCode,
+      Username: app.usermessage.Username, //账号
+      Password: app.usermessage.Password, // 密码
+      CinemaCode: app.globalData.cinemacode, //影院编码
+      LockOrderCode: that.data.orderCode, //锁座订单号(编码)
+      LocalOrderCode: "LocalOrderCode", //卖品本地订单号
+      CardNo: that.data.cardNo, //会员卡号
+      CardPassword: that.data.password, //会员卡密码
+      PayAmount: that.data.allPrice, //影票支付金额
+      GoodsPayAmount: 0, //卖品支付金额
+      SessionCode: that.data.sessionCode, //放映计划编码
+      FilmCode: app.globalData.movieId, //影片编码
+      TicketNum: that.data.count, //票数
     };
     console.log(data)
     // 查询本地订单
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/QueryLocalOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+      url: 'https://xc.80piao.com:8443/Api/Order/QueryLocalOrder' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode,
             method: 'GET',
             header: {
               'content-type': 'application/json' // 默认值
@@ -724,9 +769,9 @@ Page({
               console.log(res)
               let order = res.data.data;
               if (res.data.Status == "Success") {
-                // 会员卡支付
+                // 会员卡折扣
                 wx.request({
-                  url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum,
+                  url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + null + '/' + data.CardNo + '/' + data.CardPassword + '/' + null + '/' + data.SessionCode + '/' + null + '/' + null + '/' + null + '/' + null + '/' + null,
                   method: 'GET',
                   header: {
                     'content-type': 'application/json' // 默认值
@@ -734,63 +779,189 @@ Page({
                   success: function (res) {
                     console.log(res)
                     if (res.data.Status == "Success") {
-                      let xml = '<SubmitOrder>' +
-                        '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
-                        '<Order>' +
-                        '<PaySeqNo></PaySeqNo>' +
-                        '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
-                        '<SessionCode>' + order.sessionCode + '</SessionCode>' +
-                        '<Count>' + order.ticketCount + '</Count>' +
-                        '<MobilePhone>' + that.data.phone + '</MobilePhone>';
-                      for (let i = 0; i < order.seats.length; i++) {
-                        let seatCode = order.seats[i].seatCode;
-                        let realprice = order.seats[i].salePrice;
-                        let price = order.seats[i].price;
-                        let fee = order.seats[i].fee;
-                        xml += '<Seat>';
-                        xml += '<SeatCode>' + seatCode + '</SeatCode>';
-                        xml += '<Price>' + price + '</Price>';
-                        xml += '<RealPrice>' + realprice + '</RealPrice>';
-                        xml += '<Fee>' + fee + '</Fee>';
-                        xml += '</Seat>';
-                      };
-                      xml += '</Order>';
-                      xml += '</SubmitOrder>'; 
-                      // 提交订单   
-                      wx.request({
-                        url: 'https://xc.80piao.com:8443/Api/Order/SubmitOrder',
-                        data: {
-                          userName: data.UserName,
-                          password: data.Password,
-                          openID: order.openID,
-                          queryXml: xml,
-                        },
-                        method: "POST",
-                        header: {
-                          'content-type': 'application/json' // 默认值
-                        },
-                        success: function (res) {
-                          console.log(res)
-                          if (res.data.Status == "Success") {
-                            wx.showToast({
-                              title: '支付成功',
-                              mask: true,
-                              duration: 2000
-                            });
-                            that.setData({
-                              orderNum: res.data.order.orderCode
-                            })
-                            setTimeout(function () {
-                              wx.redirectTo({
-                                url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count,
+                      let price = res.data.card.price;
+                     // 会员卡支付
+                      if (app.globalData.cinemaList.cinemaType == "电影1905") { //判断售票系统 影票支付
+                        wx.request({
+                          url: 'https://xc.80piao.com:8443/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.CardNo + '/' + data.CardPassword,
+                          method: 'GET',
+                          header: {
+                            'content-type': 'application/json' // 默认值
+                          },
+                          success: function (res) {
+                            console.log(res)
+                            if (res.data.Status == "Success") {
+                              let xml = '<SubmitOrder>' +
+                                '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
+                                '<Order>' +
+                                '<PaySeqNo></PaySeqNo>' +
+                                '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
+                                '<SessionCode>' + order.sessionCode + '</SessionCode>' +
+                                '<Count>' + order.ticketCount + '</Count>' +
+                                '<MobilePhone>' + that.data.phone + '</MobilePhone>';
+                              for (let i = 0; i < order.seats.length; i++) {
+                                let seatCode = order.seats[i].seatCode;
+                                let realprice = order.seats[i].salePrice;
+                                let price = order.seats[i].price;
+                                let fee = order.seats[i].fee;
+                                xml += '<Seat>';
+                                xml += '<SeatCode>' + seatCode + '</SeatCode>';
+                                xml += '<Price>' + price + '</Price>';
+                                xml += '<RealPrice>' + realprice + '</RealPrice>';
+                                xml += '<Fee>' + fee + '</Fee>';
+                                xml += '</Seat>';
+                              };
+                              xml += '</Order>';
+                              xml += '</SubmitOrder>';
+                              // 提交订单   
+                              wx.request({
+                                url: 'https://xc.80piao.com:8443/Api/Order/SubmitOrder',
+                                data: {
+                                  userName: data.Username,
+                                  password: data.Password,
+                                  openID: order.openID,
+                                  queryXml: xml,
+                                },
+                                method: "POST",
+                                header: {
+                                  'content-type': 'application/json' // 默认值
+                                },
+                                success: function (res) {
+                                  console.log(res)
+                                  if (res.data.Status == "Success") {
+                                    wx.showToast({
+                                      title: '支付成功',
+                                      mask: true,
+                                      duration: 2000
+                                    });
+                                    that.setData({
+                                      orderNum: res.data.order.orderCode
+                                    })
+                                    setTimeout(function () {
+                                      wx.redirectTo({
+                                        url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count,
+                                      })
+                                    }, 1000)
+                                  }
+                                  else {
+                                    wx.showToast({
+                                      title: "订单确认失败",
+                                      icon: 'none',
+                                      duration: 3000
+                                    });
+                                  }
+                                }
                               })
-                            }, 1000)
+                            }
+                            else {
+                              wx.showToast({
+                                title: res.data.ErrorMessage,
+                                icon: 'none',
+                                duration: 3000
+                              });
+                            }
                           }
+                        })
+                      }
+                      else { // 非1905系统
+                        wx.request({
+                          url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum,
+                      method: 'GET',
+                      header: {
+                        'content-type': 'application/json' // 默认值
+                      },
+                      success: function (res) {
+                        console.log(res)
+                        if (res.data.Status == "Success") {
+                          let xml = '<SubmitOrder>' +
+                            '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
+                            '<Order>' +
+                            '<PaySeqNo></PaySeqNo>' +
+                            '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
+                            '<SessionCode>' + order.sessionCode + '</SessionCode>' +
+                            '<Count>' + order.ticketCount + '</Count>' +
+                            '<MobilePhone>' + that.data.phone + '</MobilePhone>';
+                          for (let i = 0; i < order.seats.length; i++) {
+                            let seatCode = order.seats[i].seatCode;
+                            let realprice = order.seats[i].salePrice;
+                            let price = order.seats[i].price;
+                            let fee = order.seats[i].fee;
+                            xml += '<Seat>';
+                            xml += '<SeatCode>' + seatCode + '</SeatCode>';
+                            xml += '<Price>' + price + '</Price>';
+                            xml += '<RealPrice>' + realprice + '</RealPrice>';
+                            xml += '<Fee>' + fee + '</Fee>';
+                            xml += '</Seat>';
+                          };
+                          xml += '</Order>';
+                          xml += '</SubmitOrder>';
+                          // 提交订单   
+                          wx.request({
+                            url: 'https://xc.80piao.com:8443/Api/Order/SubmitOrder',
+                            data: {
+                              userName: data.Username,
+                              password: data.Password,
+                              openID: order.openID,
+                              queryXml: xml,
+                            },
+                            method: "POST",
+                            header: {
+                              'content-type': 'application/json' // 默认值
+                            },
+                            success: function (res) {
+                              console.log(res)
+                              if (res.data.Status == "Success") {
+                                wx.showToast({
+                                  title: '支付成功',
+                                  mask: true,
+                                  duration: 2000
+                                });
+                                that.setData({
+                                  orderNum: res.data.order.orderCode
+                                })
+                                setTimeout(function () {
+                                  wx.redirectTo({
+                                    url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count,
+                                  })
+                                }, 1000)
+                              }
+                              else {
+                                wx.showToast({
+                                  title: res.data.ErrorMessage,
+                                  icon: 'none',
+                                  duration: 3000
+                                });
+                              }
+                            }
+                          })
                         }
-                      })
+                        else {
+                          wx.showToast({
+                            title: res.data.ErrorMessage,
+                            icon: 'none',
+                            duration: 3000
+                          });
+                        }
+                      }
+                    })
+                      }
+                    }
+                    else {
+                      wx.showToast({
+                        title: res.data.ErrorMessage,
+                        icon: 'none',
+                        duration: 3000
+                      });
                     }
                   }
                 })
+              }
+              else {
+                wx.showToast({
+                  title: res.data.ErrorMessage,
+                  icon: 'none',
+                  duration: 3000
+                });
               }
             }
     })
@@ -978,7 +1149,7 @@ Page({
       else if (card.length == 1) {
         that.setData({
           showM: true,
-          cardNo: card.cardNo,
+          cardNo: card[0].cardNo,
         })
       }
     }

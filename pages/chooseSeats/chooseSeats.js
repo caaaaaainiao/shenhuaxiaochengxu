@@ -533,11 +533,12 @@ Page({
             complete: function (res) { },
           })
         } else {
-          wx.showModal({
+          console.log(res)
+          wx.showToast({
             title: '选座失败',
-            content:'位置被人选啦',
-            showCancel: true
-          })
+            icon: 'none',
+            duration: 3000
+          });
         }
         that.setData({
           isClick: false

@@ -1,6 +1,6 @@
 //获取应用实例
 const app = getApp();
-// 获取远程余额回调函数
+// 获取远程余额回调函数 查询会员卡
 const getCallBack = function (username, password, cinemacode, cardno, cardpassword, callback) {
   var card = [];
   var data = {
