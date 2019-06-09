@@ -442,7 +442,16 @@ Page({
         fullCar: false,
         cattObj: cattObj
       });
+      return;
     }
+
+    wx.showToast({
+      title: '还没有选择商品哦',
+      icon: "loading",
+      mask: true,
+      duration: 2000
+    });
+
   },
   hidecart: function () {
     this.setData({
@@ -577,8 +586,9 @@ goodsList: goodsList
       cattObj: null,
       totalNum:0,
       totalPrice: 0,
-      fullCar:true
+      fullCar:true,
     });
+    this.chooseClose();
     this.getGoodTypes();
   },
   add: function(e) {
