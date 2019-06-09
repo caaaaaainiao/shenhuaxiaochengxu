@@ -43,6 +43,7 @@ Page({
     this.setData({
       type: options.type
     })
+    app.globalData.optionstype = options.type
     util.clearCart(null);
     util.removegoodList(null);
     util.clearcartObj(null);
@@ -59,10 +60,12 @@ Page({
     that.setData({
       isReady: type,
     })
+    app.globalData.isReady = that.data.isReady
   },
   sureChoose: function () {
      let that=this;
     let loginInfo = wx.getStorageSync('loginInfo');
+    app.globalData.loginInfo = loginInfo
     if (!loginInfo) {
       wx.showToast({
         title: '您还没有登录，请重新登录',
@@ -108,132 +111,29 @@ Page({
     }
     xml += '</goodsList></CreateGoodsOrder>';
     // console.log(xml);
-    var nowtime = new Date();
-    console.log(that.data.type)
-    
-    let endtime = new Date(nowtime.getTime() + 1000 * 60 );
-    let endday = util.formatTime2(endtime);
-    console.log(endday)
+    app.globalData.xml = xml
+   
 
     let apiuser = util.getAPIUserData(null);
-    var deliveryAddress = app.globalData.selltimename + '' + app.globalData.orderaddname + '[' + app.globalData.sellhallname + ']'
-    if (app.globalData.orderaddname == undefined && app.globalData.selltimename == undefined && app.globalData.sellhallname == undefined){
-      deliveryAddress = '到店后取餐'
+    let key = 'goodList';
+    if (wx.getStorageSync(key) != "") {
+      wx.getStorage({
+        key: key,
+        success: function (res) {
+          wx.setStorageSync('toSubmitGoods', res);
+          //重置购物阶段数据
+          that.emptyCart();
+
+          //新增待支付购物列表
+          wx.navigateTo({
+            url: '../foodOrder/foodOrder?type=' + that.data.type,
+          })
+        },
+      })
+
     }
-    //todo: 创建订单
-    wx.request({
-      url:that.data.UrlMap.createOrderUrl,
-      method: "POST",
-      data: {
-        deliveryType:that.data.type,
-        deliveryAddress: deliveryAddress,
-        deliveryTime: endday,
-        queryXml: xml,
-        userName: apiuser.UserName,
-        password: apiuser.Password,
-        openID: loginInfo.userInfo.openID,
-      },
-      success: function (res) {
-        console.log(res)
-        var ordercode = res.data.order.orderCode
-        app.globalData.ordercode = ordercode
-        //查询订单
-        wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
-          method: "GET",
-          success: function(res) {
-            console.log(res)
-            var arr = res.data.data.goodsList 
-            var goodslist=[]
-            var obj ={}
-            for (var x = 0; x < arr.goods.length; x++){
-              obj.goodsCode = arr.goods[x].goodsCode
-              obj.goodsCount = arr.goods[x].goodsCount
-              goodslist.push(obj)
-              that.setData({
-                goodslist: goodslist
-              })
-            } 
-            app.globalData.goodslist = that.data.goodslist
-            if (res.data.Status == "Success") {
-              wx.showToast({
-                title: '订单创建成功',
-                icon: 'loading',
-                image: '',
-                duration: 2000,
-                mask: true,
-                success: function (res) {
-                  that.setData({//关闭浮层
-                    showReady: false
-                  })
-                  //确认订单的参数
-                  let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
-                  let queryobj = util.getcartObj(null);
-                  if (queryobj && queryobj.list) {
-                    for (var i = 0; i < queryobj.list.length; i++) {
-                      let items = queryobj.list[i];
-                      queryXml += '<goods>';
-                      queryXml += '<goodsCode>' + items.goodsCode + '</goodsCode>';
-                      queryXml += '<goodsCount>' + items.buyNum + '</goodsCount>';
-                      queryXml += '<settlePrice>' + items.settlePrice + '</settlePrice>';
-                      queryXml += '<standardPrice>' + items.standardPrice + '</standardPrice>';
-                      if (items.channelFee) {
-                        queryXml += '<goodsChannelFee>' + items.channelFee + '</goodsChannelFee>';
-                      } else {
-                        queryXml += '<goodsChannelFee>0</goodsChannelFee>';
-                      }
-
-                      queryXml += '</goods>';
-                    }
-                  }
-                  queryXml += ' </goodsList></SubmitGoodsOrder>';
-                  app.globalData.queryXml = queryXml
-                  //复制购物车列表到待支付物品列表
-                  //let cattObj = util.getcartObj(null);
-                  //wx.setStorageSync('toSubmitGoods', cattObj);
-                  let key = 'goodList';
-                  if (wx.getStorageSync(key) != "") {
-                    wx.getStorage({
-                      key: key,
-                      success: function (res) {
-                        wx.setStorageSync('toSubmitGoods', res);
-                        //重置购物阶段数据
-                        that.emptyCart();
-
-                        //新增待支付购物列表
-                        wx.navigateTo({
-                          url: '../foodOrder/foodOrder?type=' + that.data.type,
-                        })
-                      },
-                    })
-
-                  }
-
-
-                },
-                fail: function (res) { },
-                complete: function (res) { },
-              })
-
-            } else {
-              wx.showToast({
-                title: '订单创建失败,请重试',
-                icon: 'loading',
-                image: '',
-                duration: 2000,
-                mask: true,
-                success: function (res) { },
-                fail: function (res) { },
-                complete: function (res) { },
-              })
-            }
-          },
-        })
-        wx.hideLoading()
-    
-
-      }
-    })
+  
+ 
 
   },
   createGoodsOrder:function(){

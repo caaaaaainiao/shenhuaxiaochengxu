@@ -67,7 +67,6 @@ Page({
           newList[i].repetition = true;
         }
       }
-
       that.setData({
         goodsList: newList,
         totalPrice: totalPrice,
@@ -85,10 +84,18 @@ Page({
            }
         }
         // console.log(sellTicket)  //排除电影票优惠券
+        var priceTicker = []
+        for (var x in sellTicket ){
+          if (sellTicket[x].initialAmount < that.data.totalPrice || sellTicket[x].initialAmount == that.data.totalPrice){
+            priceTicker.push(sellTicket[x])
+             }
+        }
+        // console.log(priceTicker)//排除不符合满减得优惠券
+
         var notusedTicket=[]
-        for(var x in sellTicket ){
-          if (sellTicket[x].status==1){
-            notusedTicket.push(sellTicket[x])
+        for (var x in priceTicker ){
+          if (priceTicker[x].status==1){
+            notusedTicket.push(priceTicker[x])
                }
         }
         // console.log(notusedTicket) //排除已使用 已过期优惠券
@@ -342,19 +349,105 @@ Page({
     var nowtime = new Date().getTime();
   },
   choosePay:function(){
+
+   var that = this
+
+    var nowtime = new Date();
+    let apiuser = util.getAPIUserData(null);
+    let endtime = new Date(nowtime.getTime() + 1000 * 60);
+    let endday = util.formatTime2(endtime);
+    var deliveryAddress = app.globalData.selltimename + '' + app.globalData.orderaddname + '[' + app.globalData.sellhallname + ']'
+  //todo: 创建订单
+    wx.request({
+      url: app.globalData.url + '/Api/Goods/CreateGoodsOrder',
+      method: "POST",
+      data: {
+        deliveryType: app.globalData.optionstype,
+        deliveryAddress: deliveryAddress,
+        deliveryMark: userMessage,
+        deliveryTime: endday,
+        queryXml: app.globalData.xml,
+        userName: apiuser.UserName,
+        password: apiuser.Password,
+        openID: app.globalData.loginInfo.userInfo.openID,
+        isReady: app.globalData.isReady
+      },
+      success: function (res) {
+        console.log(res)
+        var ordercode = res.data.order.orderCode
+        app.globalData.ordercode = ordercode
+        //查询订单
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
+          method: "GET",
+          success: function (res) {
+            console.log(res)
+            var arr = res.data.data.goodsList
+            var goodslist = []
+            var obj = {}
+            for (var x = 0; x < arr.goods.length; x++) {
+              obj.goodsCode = arr.goods[x].goodsCode
+              obj.goodsCount = arr.goods[x].goodsCount
+              goodslist.push(obj)
+              that.setData({
+                goodslist: goodslist
+              })
+            }
+            app.globalData.goodslist = that.data.goodslist
+            if (res.data.Status == "Success") {
+                  that.setData({//关闭浮层
+                    showReady: false
+                  })
+                  //确认订单的参数
+                  let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
+                  let queryobj = util.getcartObj(null);
+                  if (queryobj && queryobj.list) {
+                    for (var i = 0; i < queryobj.list.length; i++) {
+                      let items = queryobj.list[i];
+                      queryXml += '<goods>';
+                      queryXml += '<goodsCode>' + items.goodsCode + '</goodsCode>';
+                      queryXml += '<goodsCount>' + items.buyNum + '</goodsCount>';
+                      queryXml += '<settlePrice>' + items.settlePrice + '</settlePrice>';
+                      queryXml += '<standardPrice>' + items.standardPrice + '</standardPrice>';
+                      if (items.channelFee) {
+                        queryXml += '<goodsChannelFee>' + items.channelFee + '</goodsChannelFee>';
+                      } else {
+                        queryXml += '<goodsChannelFee>0</goodsChannelFee>';
+                      }
+
+                      queryXml += '</goods>';
+                    }
+                  }
+                  queryXml += ' </goodsList></SubmitGoodsOrder>';
+                  app.globalData.queryXml = queryXml
+                  //复制购物车列表到待支付物品列表
+                  //let cattObj = util.getcartObj(null);
+                  //wx.setStorageSync('toSubmitGoods', cattObj);
+
+            } else {
+              wx.showToast({
+                title: '订单创建失败,请重试',
+                icon: 'loading',
+                image: '',
+                duration: 2000,
+                mask: true,
+                success: function (res) { },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+            }
+          },
+        })
+        wx.hideLoading()
+
+
+      }
+    })
+
     this.setData({
       showBlack: true
     })
-    // if(that.data.type == 1){
-    //   this.setData({
-    //     showReady: true
-    //   })
-    // }else{
-    //   this.setData({
-    //     showBlack: true
-    //   })
-    // }
-    
+
   },
   chooseClose:function(){
     this.setData({
