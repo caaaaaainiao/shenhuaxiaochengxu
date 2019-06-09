@@ -8,22 +8,22 @@
   <view wx:if="{{result.length>0}}">
     <block wx:for="{{result}}" wx:for-item="coupon" wx:key="coupon">
       <view class='coupon {{coupon.status==2?"":"past" }}{{coupon.status==3?"":"past" }}' catchtap='toDetail' data-id='{{coupon.id}}' data-index='{{index}}'>
-        <image src='/images/couponicon.png' class='icon' wx:if="{{coupon.typeCode == 1}}"></image>
-        <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.typeCode == 2}}"></image>
-        <image src='/images/couponicon2.png' class='icon' wx:elif="{{coupon.typeCode == 3}}"></image>
+        <image src='/images/couponicon.png' class='icon' wx:if="{{coupon.couonsType == 1}}"></image>
+        <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.couonsType == 2}}"></image>
+        <image src='/images/couponicon2.png' class='icon' wx:elif="{{coupon.couonsType == 3}}"></image>
         <view class='name'>{{coupon.title}}</view>
         <view class='scope' wx:if='{{coupon.cinemaName != null}}'>适用于{{coupon.cinemaName}}</view>
          <view class='scope' wx:elif='{{coupon.cinemaName == null}}'>全店通用</view>
         <view class='time'>有效期至：{{coupon.expireDate}}</view>
         <view class='right'>
-          <view class='money' wx:if="{{coupon.typeCode==2}}">
+          <view class='money' wx:if="{{coupon.couonsType==2}}">
             <text>1</text>张</view>
           <!--平台券-->
-          <view class='money' wx:elif="{{coupon.typeCode == 1}}">
+          <view class='money' wx:elif="{{coupon.couonsType == 1}}">
             <text>{{coupon.price}}</text>元</view>
-          <view class='money' wx:elif="{{coupon.typeCode == 2}}">
+          <view class='money' wx:elif="{{coupon.couonsType == 2}}">
             <text>{{couponprice}}</text>元</view>
-          <view class='money' wx:elif="{{coupon.typeCode == 3}}">
+          <view class='money' wx:elif="{{coupon.couonsType == 3}}">
             <text>1</text>张</view>
           <!--观影券-->
 

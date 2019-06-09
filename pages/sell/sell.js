@@ -33,7 +33,7 @@ Page({
    that.setData({
      movieList:movieList
    })
-   console.log(that.data.movieList)
+  //  console.log(that.data.movieList)
     wx.getStorage({
       key: 'accredit',
       success: function (res) {
