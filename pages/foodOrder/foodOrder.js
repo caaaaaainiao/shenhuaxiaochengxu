@@ -364,7 +364,7 @@ Page({
       data: {
         deliveryType: app.globalData.optionstype,
         deliveryAddress: deliveryAddress,
-        deliveryMark: userMessage,
+        deliveryMark: that.data.userMessage,
         deliveryTime: endday,
         queryXml: app.globalData.xml,
         userName: apiuser.UserName,

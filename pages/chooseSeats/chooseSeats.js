@@ -693,127 +693,113 @@ Page({
     }
   },
   // // 缩放，平移
-  // touchstart: function(e) { 
-  //   // console.log(e)
-      
-     
-    
-  //     var that = this
-  //   onePoint.x = e.touches[0].pageX * 1.5
-  //   onePoint.y = e.touches[0].pageY * 1.5
-  //   if (e.touches.length < 2 && num ==0) {
-  //     that.setData({
-  //       scale: 1,   
-  //     })
-  //     num++;
-  //     canOnePointMove = true;
-  //   }
-  //    else if (e.touches.length < 2 &&num>=1) {
-  //       that.setData({
-  //         scale: 1,
-  //       })
-  //       canOnePointMove = true;
-  //       key = false;
-  //       //这里如果一个手指点击 直接放大1.5倍
-       
-  //   } else if (e.touches.length >= 2) {
-  //       twoPoint.x1 = e.touches[0].pageX * 2
+  touchstart: function (e) {
 
-  //       twoPoint.y1 = e.touches[0].pageY * 2
+    var that = this
 
-  //       twoPoint.x2 = e.touches[1].pageX * 2
+    if (e.touches.length < 2) {
 
-  //       twoPoint.y2 = e.touches[1].pageY * 2
-  //       //这里是两个手指移动
-  //       // console.log(twoPoint.x1)   //270
-  //       // console.log(twoPoint.y1)     420
-  //       // console.log(twoPoint.x2)     264
-  //       // console.log(twoPoint.y2)     716
+      canOnePointMove = true
 
-  //     }
-    
-  // },
-  // touchmove: function(e) { 
-  //   var that = this
-  //   if (e.touches.length < 2 && canOnePointMove) {
+      onePoint.x = e.touches[0].pageX * 2
 
-  //     var onePointDiffX = (e.touches[0].pageX * 2 - onePoint.x) / 2
+      onePoint.y = e.touches[0].pageY * 2
 
-  //     var onePointDiffY = (e.touches[0].pageY * 2 - onePoint.y) / 2
-  //     // console.log(onePointDiffX)   0，1数值
-  //     // console.log(onePointDiffY)
-  //     // console.log(that.data.translateX) xy数值
-  //     // console.log(that.data.translateY)
+    } else {
 
-  //     that.setData({
+      twoPoint.x1 = e.touches[0].pageX * 2
 
-  //       translateX: onePointDiffX + that.data.translateX,
+      twoPoint.y1 = e.touches[0].pageY * 2
 
-  //       translateY: onePointDiffY + that.data.translateY,
+      twoPoint.x2 = e.touches[1].pageX * 2
 
-  //     })
+      twoPoint.y2 = e.touches[1].pageY * 2
 
-  //     onePoint.x = e.touches[0].pageX * 2
+    }
 
-  //     onePoint.y = e.touches[0].pageY * 2
+  },
+  touchmove: function (e) {
 
-  //   } else if (e.touches.length > 1) {//这里是两个手指移动
-  //     var count = 0
+    var that = this
 
-  //     var preTwoPoint = JSON.parse(JSON.stringify(twoPoint))
+    if (e.touches.length < 2 && canOnePointMove) {
 
-  //     twoPoint.x1 = e.touches[0].pageX * 2
+      var onePointDiffX = (e.touches[0].pageX * 2 - onePoint.x) / 2
 
-  //     twoPoint.y1 = e.touches[0].pageY * 2
+      var onePointDiffY = (e.touches[0].pageY * 2 - onePoint.y) / 2
 
-  //     twoPoint.x2 = e.touches[1].pageX * 2
+      that.setData({
 
-  //     twoPoint.y2 = e.touches[1].pageY * 2
-  //     // console.log(twoPoint.x1)  
-  //     // console.log(twoPoint.y1)
-  //     // console.log(twoPoint.x2)
-  //     // console.log(twoPoint.y2)
+        translateX: onePointDiffX + that.data.translateX,
 
-  //     var preDistance = Math.sqrt(Math.pow((preTwoPoint.x1 - preTwoPoint.x2), 2) + Math.pow((preTwoPoint.y1 - preTwoPoint.y2), 2))
+        translateY: onePointDiffY + that.data.translateY
 
-  //     var curDistance = Math.sqrt(Math.pow((twoPoint.x1 - twoPoint.x2), 2) + Math.pow((twoPoint.y1 - twoPoint.y2), 2))//两个手指之间的距离
-  //     var scaleNum = that.data.scale + (curDistance - preDistance) * 0.005;
-  //     arr.push(curDistance)
-  //     console.log(arr)
-  //     for (var x = 0; x < arr.length; x++) {
-  //       if (arr[x] > arr[x - 1]) {
-  //            scaleNum = 1.5
-  //       }else if(arr[x]<arr[x-1]){
-  //             scaleNum = 0.6
-  //       }
+      })
 
-  //     } 
-      
-  //     if (scaleNum < 0.6) {
-  //       scaleNum = 0.6
-  //     }
-  //     if (scaleNum > 1.5) {
-  //       scaleNum = 1.5
-  //     }
-  //     that.setData({
+      onePoint.x = e.touches[0].pageX * 2
 
-  //       // msg: '缩放',
+      onePoint.y = e.touches[0].pageY * 2
 
-  //       scale: scaleNum
 
-  //     })
 
-  //     // }
+    } else if (e.touches.length > 1) {
 
-  //   }
-  //   // that.checkLeft();
-  // },
+      var preTwoPoint = JSON.parse(JSON.stringify(twoPoint))
 
-  // touchend: function(e) {
+      twoPoint.x1 = e.touches[0].pageX * 2
 
-  //   var that = this
+      twoPoint.y1 = e.touches[0].pageY * 2
 
-  //   canOnePointMove = false
+      twoPoint.x2 = e.touches[1].pageX * 2
 
-  // },
+      twoPoint.y2 = e.touches[1].pageY * 2
+
+      // 计算角度，旋转(优先)
+
+      // var perAngle = Math.atan((preTwoPoint.y1 - preTwoPoint.y2) / (preTwoPoint.x1 - preTwoPoint.x2)) * 180 / Math.PI
+
+      // var curAngle = Math.atan((twoPoint.y1 - twoPoint.y2) / (twoPoint.x1 - twoPoint.x2)) * 180 / Math.PI
+
+      // if (Math.abs(perAngle - curAngle) > 1) {
+
+      //   // that.setData({
+
+      //   //   msg: '旋转',
+
+      //   //   rotate: that.data.rotate + (curAngle - perAngle)
+
+      //   // })
+
+      // } else {
+
+      // 计算距离，缩放
+
+      var preDistance = Math.sqrt(Math.pow((preTwoPoint.x1 - preTwoPoint.x2), 2) + Math.pow((preTwoPoint.y1 - preTwoPoint.y2), 2))
+
+      var curDistance = Math.sqrt(Math.pow((twoPoint.x1 - twoPoint.x2), 2) + Math.pow((twoPoint.y1 - twoPoint.y2), 2))
+      var scaleNum = that.data.scale + (curDistance - preDistance) * 0.005;
+      if (scaleNum < 0.3) {
+        scaleNum = 0.3
+      }
+      that.setData({
+
+        // msg: '缩放',
+
+        scale: scaleNum
+
+      })
+
+      // }
+
+    }
+    // that.checkLeft();
+  },
+
+  touchend: function (e) {
+
+    var that = this
+
+    canOnePointMove = false
+
+  },
 })
