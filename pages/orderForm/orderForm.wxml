@@ -24,7 +24,7 @@
     活动优惠
     <text>-{{filters.toFix(seatOrder.order.ticketOriginPrice-seatOrder.order.beforeTicketPrice)}}元</text>
   </view>
-  <view class='option' wx:if="{{movieArr}}" bindtap='setType1'>
+  <view class='option' wx:if="{{seatCouponList}}" bindtap='setType1'>
     电影票优惠券
     <image src='/images/gray_more.png'></image>
     <text wx:if="{{seatCoupon == null}}">去选择</text>
@@ -36,7 +36,7 @@
     <text class='money'>{{price}}</text>
   </view>
   <view class='gray_line'></view>
-  <block wx:if="{{comboList.length > 0}}">
+  <!-- <block wx:if="{{comboList.length > 0}}">
     
     <view class='detailclass' id='detailclass1'>
       <image src='/images/dot.png'></image>
@@ -62,7 +62,7 @@
         </view>
       </view>
     </block>
-    <view class='option' wx:if="{{isShow}}" bindtap='setType2'>
+    <view class='option' wx:if="{{foodArr}}" bindtap='setType2'>
       小食优惠券
       <image src='/images/gray_more.png'></image>
       <text>-{{foodRealPrice}}</text>
@@ -72,7 +72,7 @@
       <text>元</text>
       <text class='money'>{{refreshments}}</text>
     </view>
-  </block>
+  </block> -->
   <view class='gray_line'></view>
   <view class='phone'>
     <view class='phonetext'>手机号</view>
@@ -175,7 +175,7 @@
   </view>
 
   <!-- 选择小食优惠券 -->
-  <view class='chooseCoupon' wx:if="{{foodCouponList!=null&&chooseType==2}}">
+  <view class='chooseCoupon' wx:if="{{chooseType==2}}">
     <block wx:for="{{foodCouponList.merTicketList}}" wx:for-item="foodCoupons" wx:key="foodCoupons">
       <view class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.id}}'>
         <view class='couponMoney'>￥{{foodCoupons.dxPlatTicket.amount}}</view>
@@ -196,7 +196,7 @@
         <view class="title" style="text-align: center;">选择会员卡号</view>
         <view class="choose">
           <block wx:for="{{card}}" wx:for-item="card" wx:key="card">
-            <button bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{card.cardNo}}" hover-class="none">
+            <button bindtap="btnChoose" data-id="{{index}}" data-cardNo="{{card.cardNo}}" data-levelCode="{{card.levelCode}}" hover-class="none">
               {{card.cardNo}}
             </button>
           </block>
