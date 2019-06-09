@@ -41,10 +41,12 @@ Page({
     // console.log(app.globalData)
     this.setData({
       height: contentHeight,
-      movie: app.globalData.movieRoom[app.globalData.roomNum],
+      movie: app.globalData.movieRoom,
       cinema: app.globalData.cinemaList[app.globalData.cinemaNo],
       userInfo: app.globalData.userInfo
     })
+    console.log(that.data.movie)
+    // that.movie = that.data.movie
     // wx.connectSocket({ //建立连接
     //   url: 'wss://app.legendpicture.com/ws/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
     //   // url: 'ws://192.168.1.16:8080/ws/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
@@ -224,7 +226,7 @@ Page({
 
     // })
     that.getGifts();
-    that.getTime();
+    // that.getTime();
   },
 
   /**
@@ -347,24 +349,24 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('canSend', nowtime);
     var pageNo = that.data.pageNo;
-    wx.request({
-      url: app.globalData.url + '/api/chatRoom/canSend',
-      data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function(res) {
-        console.log(res)
-        that.setData({
-          gifts: res.data.data
-        })
-      }
-    })
+    // wx.request({
+    //   url: app.globalData.url + '/api/chatRoom/canSend',
+    //   data: {
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function(res) {
+    //     console.log(res)
+    //     that.setData({
+    //       gifts: res.data.data
+    //     })
+    //   }
+    // })
   },
   sendgift: function() {
     this.setData({

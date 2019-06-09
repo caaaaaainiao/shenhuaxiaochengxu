@@ -73,8 +73,8 @@ Page({
       })
       return;
     }
-    app.globalData.roomNum = index;
-    // console.log(that.data.MovieList[index])
+    app.globalData.movieRoom = that.data.MovieList[index];
+    console.log(that.data.MovieList[index])
     wx.navigateTo({
       url: '../room/room',
     })
