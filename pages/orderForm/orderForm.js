@@ -17,7 +17,7 @@ Page({
     foodCouponList: null,
     foodPrice: 0,
     phone: '',
-    canClick: 1,
+    // canClick: 1,
     marActivity: null, //参与活动id
     seatsJson: null,
     endTime: "",
@@ -41,11 +41,13 @@ Page({
     beginTicket: 0,
     codeArr: [],
     priceArr:[],
-    orderNum: null,
+    orderNum: null, // 订单号
     card: null,
     cardNo: null,
     levelCode: null,
     sessionCode: '',
+    printNo: null, // 出票号
+    verifyCode: null, // 验证码
     // waitActivity: null,//可參與活動
     UrlMap: {
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
@@ -221,7 +223,6 @@ Page({
             // console.log(seatCouponList[i])
           }
         };
-        // 筛选完发现有相同的优惠券 先进行去重
         let arr = that.arrayUnique2(canUseTicket, "conponId");
         // let arr2 = that.arrayUnique2(canUseFoodTicket, "conponId");
         // 根据折扣金额进行降序排序
@@ -525,12 +526,12 @@ Page({
   },
   wxPay: function() {
     var that = this;
-    if (that.data.canClick != 1) {
-      return;
-    }
-    that.setData({
-      canClick: 0
-    }) //防止多次点击
+    // if (that.data.canClick != 1) {
+    //   return;
+    // }
+    // that.setData({
+    //   canClick: 0
+    // }) //防止多次点击
     if (that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
@@ -558,6 +559,11 @@ Page({
         json[i].reductionPrice = ""
       }
     }
+    // console.log(json);
+    // console.log(app.usermessage.Username);
+    // console.log(app.usermessage.Password);
+    // console.log(app.globalData.cinemacode);
+    // console.log(that.data.orderCode);
     // 预支付
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Order/PrePayOrder',
@@ -655,7 +661,7 @@ Page({
                             })
                             setTimeout(function () {
                               wx.redirectTo({
-                                url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count,
+                                url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                               })
                             }, 1000)
                           }
@@ -725,12 +731,12 @@ Page({
   },
   pay2: function() {
     var that = this;
-    if (that.data.canClick != 1) {
-      return;
-    }
-    that.setData({
-      canClick: 0
-    })//防止多次点击
+    // if (that.data.canClick != 1) {
+    //   return;
+    // }
+    // that.setData({
+    //   canClick: 0
+    // })//防止多次点击
     if (that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
@@ -751,7 +757,7 @@ Page({
       })
       return;
     }
-    console.log(app.globalData)
+    // console.log(app.globalData)
     let data = {
       Username: app.usermessage.Username, //账号
       Password: app.usermessage.Password, // 密码
@@ -771,7 +777,7 @@ Page({
       ListingPrice: app.globalData.moviesListDate.listingPrice, //挂牌价
       LowestPrice: app.globalData.moviesListDate.lowestPrice, //最低价
     };
-    console.log(data)
+    // console.log(data)
     // 查询本地订单
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Order/QueryLocalOrder' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode,
@@ -780,7 +786,6 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              console.log(res)
               let order = res.data.data;
               if (res.data.Status == "Success") {
                 // 会员卡折扣 判断售票系统
@@ -812,11 +817,13 @@ Page({
                                   duration: 2000
                                 });
                                 that.setData({
-                                  orderNum: res.data.order.orderNo
+                                  orderNum: res.data.orderNo, // 订单号
+                                  printNo: res.data.printNo, // 出票号
+                                  verifyCode: res.data.verifyCode, // 验证码
                                 })
                                 setTimeout(function () {
                                   wx.redirectTo({
-                                    url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count,
+                                    url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                                   })
                                 }, 1000)
                               }
@@ -848,7 +855,7 @@ Page({
                       'content-type': 'application/json' // 默认值
                     },
                     success: function (res) {
-                      console.log(res)
+                      // console.log(res)
                       if (res.data.Status == "Success") {
                         let price = res.data.card.price;
                         // 会员卡支付
@@ -905,11 +912,13 @@ Page({
                                       duration: 2000
                                     });
                                     that.setData({
-                                      orderNum: res.data.order.orderCode
+                                      orderNum: res.data.order.orderCode, // 订单号
+                                      printNo: res.data.order.printNo, // 出票号
+                                      verifyCode: res.data.order.verifyCode, // 验证码(退票使用)
                                     })
                                     setTimeout(function () {
                                       wx.redirectTo({
-                                        url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count,
+                                        url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                                       })
                                     }, 1000)
                                   }
@@ -1129,7 +1138,7 @@ Page({
     }
     else {
       let card = that.data.card;
-      console.log(card)
+      // console.log(card)
       if (card.length > 1) {
         that.setData({
           isShow: true,
@@ -1292,9 +1301,9 @@ Page({
   },
   zero: function() {
     var that = this;
-    if (that.data.canClick != 1) {
-      return;
-    }
+    // if (that.data.canClick != 1) {
+    //   return;
+    // }
     // that.setData({
     //   canClick: 0
     // })//防止多次点击

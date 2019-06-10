@@ -516,7 +516,7 @@ const getMemberCardByPhone = (cinemaNo, mobilePhone, callback) => {
   })
 
 }
-// 获取选中影院余额最多的会员卡信息
+// 获取选中影院已绑定的会员卡信息
 const getCardInfo = function (username, password, openid, cinemacode, callback) {
   var data = {
     Username: username,
@@ -557,5 +557,5 @@ module.exports = {
   getQueryFilmSession: getQueryFilmSession, //获取首页影院排期列表
   getCity: getCity,//获取影院信息列表 通用
   getMemberCardByPhone: getMemberCardByPhone,//根据手机号获取会员卡列表
-  getCardInfo: getCardInfo, //获取选中影院余额最多的会员卡信息
+  getCardInfo: getCardInfo, //获取选中影院已绑定的会员卡信息
 }

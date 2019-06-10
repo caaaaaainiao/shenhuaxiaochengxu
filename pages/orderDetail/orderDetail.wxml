@@ -8,7 +8,7 @@
       <view class='movie'>
         <view class='movieName'>{{order.order.dxMovie.movieName}}</view>
         <view class='movieTime'>{{order.order.playName}} {{order.order.dxMovie.movieDimensional}}</view>
-        <view class='movieArea'>{{order.order.cinemaName}} {{order.order.hallName}}</view>
+        <view class='movieArea'>{{order.cinemaName}} {{order.screenName}}</view>
         <view class='seats'>
           <block wx:for="{{order.order.seats}}" wx:for-item="seat" wx:key="seat">
             <text>{{seat.name}}</text>

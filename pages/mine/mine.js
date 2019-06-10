@@ -151,11 +151,18 @@ Page({
   },
   toMycard: function() {
     util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
-      console.log(res)
+      if (res.data.data.memberPhoneCount == 0) {
+        wx.navigateTo({
+        url: '../page04/index',
+      })
+      }
+      else {
+        wx.navigateTo({
+          url: '../page05/index',
+        })
+      }
     })
-      // wx.navigateTo({
-      //   url: '../page05/index',
-      // })
+      
     
   },
   ask: function() {

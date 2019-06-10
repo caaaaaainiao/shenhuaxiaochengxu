@@ -12,6 +12,11 @@ Page({
     banner:"",
     movieName: null,
     count: null,
+    date: null,
+    seat: null,
+    printNo: null,
+    nowTime: null,
+    verifyCode: null,
   },
 
   /**
@@ -22,8 +27,13 @@ Page({
       orderNum:options.orderNum,
       movieName: options.movieName,
       count: options.count,
+      printNo: options.printNo,
+      date: options.date,
+      seat: options.seat,
+      nowTime: options.nowTime,
+      verifyCode: options.verifyCode,
     })
-    this.getBanner();
+    // this.getBanner();
   },
 
   /**
@@ -33,37 +43,11 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('orderDetail', nowtime);
-    wx.showLoading({
-      title: '加载中',
-    })
-    wx.request({
-      url: app.globalData.url + '/api/shOrder/orderDetail',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        orderNum: that.data.orderNum,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        wx.hideLoading()
-        var order = res.data.data;
-        order.order.seats = order.order.seats.split(",")
-        that.setData({
-          order: order
-        })
-      }
-    })
   },
   look:function(e){
-    var that = this;
-    var orderNum = this.data.orderNum;
+    let that = this;
     wx.redirectTo({
-      url: '../orderDetail/orderDetail?orderNum=' + that.data.orderNum,
+      url: '../orderDetail/orderDetail?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
     })
   },
 
@@ -115,27 +99,21 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('banners', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/banner/banners',
-      data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        category: "8",//4 支付成功
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        if (res.data.data.length > 0) {
-          that.setData({
-            banner: res.data.data
-          })
-        }
-      }
-    })
+    // wx.request({
+    //   url: "https://xc.80piao.com:8443/Api/Activity/QueryActivitys",
+    //   method: "GET",
+    //   header: {
+    //     'content-type': 'application/json' // 默认值
+    //   },
+    //   success: function (res) {
+    //     console.log(res)
+    //     if (res.data.data.length > 0) {
+    //       that.setData({
+    //         banner: res.data.data
+    //       })
+    //     }
+    //   }
+    // })
   },
   bannerTap: function (e) {
     var index = e.currentTarget.dataset.index;

@@ -9,15 +9,39 @@ Page({
   data: {
     orderNum:0,
     order: null,
-    retreat:false
+    retreat:false,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(options);
+    let that = this;
     this.setData({
       orderNum:options.orderNum,
+    });
+    let data = {
+      UserName: app.usermessage.Username,
+      Password: app.usermessage.Password,
+      CinemaCode: app.globalData.cinemaList.cinemaCode,
+      OrderCode: that.data.orderNum,
+    };
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Order/QueryOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        if (res.data.Status == 'Success') {
+          let order = res.data.order;
+          that.setData({
+            order: order,
+          })
+        }
+      }
     })
   },
   
@@ -28,44 +52,6 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('orderDetail', nowtime);
-    wx.showLoading({
-      title: '加载中',
-    })
-    wx.request({
-      url: app.globalData.url + '/api/shOrder/orderDetail',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        orderNum:that.data.orderNum,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        if(res.data.data.order != null){
-          var order = res.data.data;
-          var seats = order.order.seats.split(",");
-          var seatsJson = [];
-          for(var i = 0;i < seats.length;i++){
-            var row = {};
-            row.name = seats[i];
-            seatsJson.push(row)
-          }
-          order.order.seats = seatsJson;
-          that.setData({
-            order: order
-          })
-        }else{
-          that.setData({
-            order: res.data.data
-          })
-        }
-        wx.hideLoading()
-      }
-    })
   },
   phone:function(e){
     var phone = e.currentTarget.dataset.phone;
@@ -125,42 +111,42 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    wx.request({
-      url: app.globalData.url + '/api/shOrder/refund',
-      data: {
-        id:that.data.order.id,
-        orderNum: that.data.orderNum,
-        appUserId: app.globalData.userInfo.id,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        that.setData({
-          retreat:false
-        })
-        if(res.data.status == 1){
-          that.setData({
-            order: res.data.data
-          })
-          wx.showToast({
-            title: '退票成功',
-          })
-          that.syn();
+    // wx.request({
+    //   url: app.globalData.url + '/api/shOrder/refund',
+    //   data: {
+    //     id:that.data.order.id,
+    //     orderNum: that.data.orderNum,
+    //     appUserId: app.globalData.userInfo.id,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
+    //     that.setData({
+    //       retreat:false
+    //     })
+    //     if(res.data.status == 1){
+    //       that.setData({
+    //         order: res.data.data
+    //       })
+    //       wx.showToast({
+    //         title: '退票成功',
+    //       })
+    //       that.syn();
          
-        }else{
-          wx.showModal({
-            title: '退款失败',
-            content: res.data.message,
-          })
-        }
-        wx.hideLoading();
-      }
-    })
+    //     }else{
+    //       wx.showModal({
+    //         title: '退款失败',
+    //         content: res.data.message,
+    //       })
+    //     }
+    //     wx.hideLoading();
+    //   }
+    // })
   },
   cancel:function(){
     this.setData({
