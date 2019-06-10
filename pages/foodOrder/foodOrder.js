@@ -28,6 +28,7 @@ Page({
     userMessage: "",
     showReady: false,
     cinema: null,
+    isShow: false,
     UrlMap: {
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
       conponsUrl: app.globalData.url + '/Api/Conpon/QueryUserConpons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
@@ -39,6 +40,12 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function (res) {
+      that.setData({
+        card: res.data.data.memberCard,
+      })
+      console.log(that.data.card)
+    })
     // console.log(app.globalData.queryXml)
     let goodsList = wx.getStorageSync('toSubmitGoods');
     if (!goodsList)
@@ -521,7 +528,6 @@ Page({
               success: function(res) {
                 console.log(res)
                 if (res.data.Status == 'Failure') {
-                  console.log(1)
                   wx.request({
                     url: 'https://xc.80piao.com:8443/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
                     method: "GET",
@@ -633,6 +639,9 @@ Page({
         },
         success: function (res) {
           console.log(res)
+          that.setData({
+            tradeNo: res.data.tradeNo
+          })
           //确认订单的参数(会员卡)
           let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.Password + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
           let mpobj = app.globalData.queryobj
@@ -666,17 +675,39 @@ Page({
             },
             success: function (res) {
               console.log(res)
-              wx.redirectTo({
-                url: '../foodSuccess/foodSuccess?orderNum='
-              })
+              if (res.data.Status == "Failure") {
+                wx.showModal({
+                  title: '支付失败',
+                  content: res.data.ErrorMessage,
+                })
+                wx.request({
+                  url: 'https://xc.80piao.com:8443/Api/Member/CardPayBack' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.totalPrice,
+                  method: 'GET',
+                  header: {
+                    'content-type': 'application/json' // 默认值
+                  },
+                  success: function (res) {
+                    console.log(res)
+                  }
+                })
+                wx.redirectTo({
+                  url: '../foodOrder/foodOrder'
+                })
+              }
+              else if (res.data.Status == "Success") {
+                wx.redirectTo({
+                  url: '../foodSuccess/foodSuccess?orderNum='
+                })
+              }
             }
           })
         }
       })
     }
     else if(that.data.cinemaType=='电影1905'){
+      console.log(that.data.cardNo)
       //确认订单的参数(会员卡)
-      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.Password + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
+      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
       let mpobj = app.globalData.queryobj
 
       if (mpobj && mpobj.list) {
@@ -713,6 +744,7 @@ Page({
                  title: '支付失败',
                  content: res.data.ErrorMessage,
                })
+               
             wx.redirectTo({
               url: '../foodOrder/foodOrder'
             })
@@ -806,14 +838,9 @@ Page({
   },
   showM: function() {
     var that = this
+    console.log(that.data.card)
     that.setData({
       cinemaType: app.globalData.cinemaList.cinemaType
-    })
-    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
-      that.setData({
-        card: res.data.data.memberCard,
-      })
-      console.log(that.data.card)
     })
     if (that.data.card == null) {
       wx.showModal({
@@ -840,6 +867,7 @@ Page({
           cardNo: card[0].cardNo,
         })
       }
+      console.log(that.data.cardNo)
     }
     that.setData({
       showM: true
@@ -847,8 +875,24 @@ Page({
   },
   closeM: function() {
     this.setData({
-      showM: false
+      showM: false,
+      isShow: false,
     })
+  },
+  btnShowExchange2: function () {
+    this.setData({ isShow: !this.data.isShow })
+  },
+  btnChoose: function (e) {
+    let that = this;
+    console.log(e)
+    let cardNo = e.currentTarget.dataset.cardno;
+    let levelCode = e.currentTarget.dataset.levelcode;
+    that.setData({
+      cardNo: cardNo,
+      levelCode: levelCode,
+      showM: true,
+      isShow: false,
+    });
   },
   chooseCoupon: function() {
     this.setData({
