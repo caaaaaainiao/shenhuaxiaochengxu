@@ -536,6 +536,29 @@ const getCardInfo = function (username, password, openid, cinemacode, callback) 
     }
   })
 }
+
+//  查询会员卡最新余额
+const getCallBack = function (username, password, cinemacode, cardno, cardpassword, callback) {
+  var card = [];
+  var data = {
+    Username: username,
+    PassWord: password,
+    CinemaCode: cinemacode,
+    CardNo: cardno,
+    CardPassword: cardpassword,
+  };
+  wx.request({
+    url: 'https://xc.80piao.com:8443/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
+    method: 'GET',
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success: function (res) {
+      callback && callback(res.data.card);
+      return res.data.card;
+    }
+  })
+}
 module.exports = {
   formatTime: formatTime,
   formatTime2: formatTime2,
@@ -558,4 +581,5 @@ module.exports = {
   getCity: getCity,//获取影院信息列表 通用
   getMemberCardByPhone: getMemberCardByPhone,//根据手机号获取会员卡列表
   getCardInfo: getCardInfo, //获取选中影院已绑定的会员卡信息
+  getCallBack: getCallBack, //  查询会员卡最新余额
 }

@@ -657,7 +657,9 @@ Page({
                               duration: 2000
                             });
                             that.setData({
-                              orderNum: res.data.order.orderCode
+                              orderNum: res.data.order.orderCode, // 订单号
+                              printNo: res.data.order.printNo, // 出票号
+                              verifyCode: res.data.order.verifyCode, // 验证码
                             })
                             setTimeout(function () {
                               wx.redirectTo({

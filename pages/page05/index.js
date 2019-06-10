@@ -1,6 +1,6 @@
 //获取应用实例
 const app = getApp();
-// 获取远程余额回调函数 查询会员卡
+// 获取远程余额回调函数 查询会员卡 
 const getCallBack = function (username, password, cinemacode, cardno, cardpassword, callback) {
   var card = [];
   var data = {
@@ -9,10 +9,6 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
     CinemaCode: cinemacode,
     CardNo: cardno,
     CardPassword: cardpassword,
-    indicatorDots: false,
-    autoplay: false,
-    interval: 5000,
-    duration: 1000,
   };
   wx.request({
     url: 'https://xc.80piao.com:8443/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,

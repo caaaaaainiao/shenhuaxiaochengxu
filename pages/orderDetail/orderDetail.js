@@ -1,6 +1,7 @@
 // pages/orderDetail/orderDetail.js
 //获取应用实例
 const app = getApp();
+const QRCode = require('../../utils/weapp-qrcode.js');
 Page({
 
   /**
@@ -10,6 +11,7 @@ Page({
     orderNum:0,
     order: null,
     retreat:false,
+    movieName: '',
   },
 
   /**
@@ -18,8 +20,26 @@ Page({
   onLoad: function (options) {
     console.log(options);
     let that = this;
-    this.setData({
+    let seat = options.seat.split(",");
+    that.setData({
       orderNum:options.orderNum,
+      movieName: options.movieName,
+      date: options.date,
+      count: options.count,
+      address: app.globalData.cinemaList.address,
+      nowTime: options.nowTime,
+      seat: seat,
+      phone: app.globalData.userInfo.mobilePhone,
+      printNo: options.printNo,
+    });
+    // 生成二维码
+    var qrcode = new QRCode('canvas', {
+      text: that.data.printNo,
+      width: 150,
+      height: 150,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: QRCode.CorrectLevel.H,
     });
     let data = {
       UserName: app.usermessage.Username,

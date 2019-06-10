@@ -836,6 +836,14 @@ Page({
     util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
       var memberCard = [];
       var status = [];
+      if (res.data.data && res.data.data.memberCard) {
+        let card = res.data.data.memberCard;
+        for (let i = 0; i < card.length; i++) {
+          util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, card[i].cardNo, card[i].cardPassword, function (res) {
+            memberCard.push(res)
+          })
+        }
+      }
       if (res.data.Status == "Failure") {
         that.setData({
           memberCardScore: '---',

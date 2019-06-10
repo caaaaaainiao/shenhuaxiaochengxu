@@ -24,7 +24,7 @@
     活动优惠
     <text>-{{filters.toFix(seatOrder.order.ticketOriginPrice-seatOrder.order.beforeTicketPrice)}}元</text>
   </view>
-  <view class='option' wx:if="{{seatCouponList}}" bindtap='setType1'>
+  <view class='option' wx:if="{{seatCouponList.length > 0}}" bindtap='setType1'>
     电影票优惠券
     <image src='/images/gray_more.png'></image>
     <text wx:if="{{seatCoupon == null}}">去选择</text>
