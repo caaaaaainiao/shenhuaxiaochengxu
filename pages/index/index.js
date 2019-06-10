@@ -845,14 +845,7 @@ Page({
     util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
       var memberCard = [];
       var status = [];
-      if (res.data.data && res.data.data.memberCard) {
-        let card = res.data.data.memberCard;
-        for (let i = 0; i < card.length; i++) {
-          util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, card[i].cardNo, card[i].cardPassword, function (res) {
-            memberCard.push(res)
-          })
-        }
-      }
+      let userCardList = [];
       if (res.data.Status == "Failure") {
         that.setData({
           memberCardScore: '---',
@@ -870,15 +863,27 @@ Page({
             status.push(memberCard[i]);
           }
         }
-        // 计算余额最多的会员卡
-        var first = memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
-        if (first.score == null) {
-          first.score = 0
+        // console.log(status)
+        for (let i = 0; i < status.length; i++) {
+          util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, status[i].cardNo, status[i].cardPassword, function (res) {
+            userCardList.push(res);
+            that.setData({
+              userCardList: userCardList
+            })
+          })
         }
-        that.setData({
-          memberCardBalance: first.balance,
-          memberCardScore: first.score
-        })
+        // 计算余额最多的会员卡
+        setTimeout(function() {
+          // console.log(userCardList)
+          var first = userCardList.sort(function (a, b) { return a.balance < b.balance })[0];
+          if (first.score == null) {
+            first.score = 0
+          }
+          that.setData({
+            memberCardBalance: parseInt(first.balance),
+            memberCardScore: first.score
+          })
+        },500)
       }
     });
     return;
