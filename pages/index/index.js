@@ -874,7 +874,7 @@ Page({
         }
         // 计算余额最多的会员卡
         setTimeout(function() {
-          // console.log(userCardList)
+          console.log(userCardList)
           var first = userCardList.sort(function (a, b) { return a.balance < b.balance })[0];
           if (first.score == null) {
             first.score = 0
@@ -883,7 +883,7 @@ Page({
             memberCardBalance: parseInt(first.balance),
             memberCardScore: first.score
           })
-        },500)
+        },1000)
       }
     });
     return;
