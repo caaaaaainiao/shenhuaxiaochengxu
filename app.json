@@ -11,6 +11,7 @@
     "pages/movieDetail/movieDetail",
     "pages/orderForm/orderForm",
     "pages/success/success",
+    "pages/goodsOrderDetail/goodsOrderDetail",
     "pages/orderDetail/orderDetail",
     "pages/myticket/myticket",
     "pages/myfood/myfood",

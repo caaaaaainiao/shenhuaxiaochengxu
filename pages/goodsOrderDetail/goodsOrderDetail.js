@@ -1,6 +1,7 @@
 // pages/orderDetail/orderDetail.js
 //获取应用实例
 const app = getApp();
+const QRCode = require('../../utils/weapp-qrcode.js');
 Page({
 
   /**
@@ -16,33 +17,57 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options);
     let that = this;
-    this.setData({
+    that.setData({
       orderNum:options.orderNum,
     });
-    let data = {
-      UserName: app.usermessage.Username,
-      Password: app.usermessage.Password,
-      CinemaCode: app.globalData.cinemaList.cinemaCode,
-      OrderCode: that.data.orderNum,
-    };
+      //订单详情
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/QueryOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+      url: 'https://xc.80piao.com:8443/Api/Goods/QueryGoodsOrder' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + that.data.orderNum,
       method: "GET",
       header: {
-        'content-type': 'application/json' // 默认值
+        "Content-Type": "application/json"
       },
       success: function (res) {
         console.log(res)
-        if (res.data.Status == 'Success') {
-          let order = res.data.order;
-          that.setData({
-            order: order,
-          })
-        }
+        // console.log(app.globalData)
+        that.setData({
+          order : res.data.data,
+          cinemaList: app.globalData.cinemaList
+        })
+        var qrcode = new QRCode('canvas', {
+          text: that.data.order.pickUpCode,
+          width: 150,
+          height: 150,
+          colorDark: "#000000",
+          colorLight: "#ffffff",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
       }
     })
+   
+    // let data = {
+    //   UserName: app.usermessage.Username,
+    //   Password: app.usermessage.Password,
+    //   CinemaCode: app.globalData.cinemaList.cinemaCode,
+    //   OrderCode: that.data.orderNum,
+    // };
+    // wx.request({
+    //   url: 'https://xc.80piao.com:8443/Api/Order/QueryOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+    //   method: "GET",
+    //   header: {
+    //     'content-type': 'application/json' // 默认值
+    //   },
+    //   success: function (res) {
+    //     console.log(res)
+    //     if (res.data.Status == 'Success') {
+    //       let order = res.data.order;
+    //       that.setData({
+    //         order: order,
+    //       })
+    //     }
+    //   }
+    // })
   },
   
   /**

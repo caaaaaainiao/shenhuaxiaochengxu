@@ -24,7 +24,7 @@ Page({
     var that = this;
     var orderNum = this.data.orderNum;
     wx.redirectTo({
-      url: '../orderDetail/orderDetail?orderNum='
+      url: '../goodsOrderDetail/goodsOrderDetail?orderNum=' + orderNum
     })
   },
   /**
@@ -82,27 +82,27 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('banners', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/banner/banners',
-      data: {
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        category: "8",//4 支付成功
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        if (res.data.data.length > 0) {
-          that.setData({
-            banner: res.data.data
-          })
-        }
-      }
-    })
+    // wx.request({
+    //   url: app.globalData.url + '/api/banner/banners',
+    //   data: {
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     category: "8",//4 支付成功
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
+    //     if (res.data.data.length > 0) {
+    //       that.setData({
+    //         banner: res.data.data
+    //       })
+    //     }
+    //   }
+    // })
   },
   bannerTap: function (e) {
     var index = e.currentTarget.dataset.index;

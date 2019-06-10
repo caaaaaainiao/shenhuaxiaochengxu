@@ -1,0 +1,71 @@
+<!--pages/orderDetail/orderDetail.wxml-->
+<!-- <text>pages/orderDetail/orderDetail.wxml</text> -->
+<!-- 影票订单详情 -->
+<view class='container'>
+  <image src='/images/bannerbg.jpg' class='bg'></image>
+  <view class='content'>
+    <view class='foodewm top'>
+      <view class='title'>取小食</view>
+        <canvas class='canvas' canvas-id='canvas' style='margin:0 auto; width: 300rpx; height: 300rpx;'></canvas>
+      <image src='{{order.ticketCollectionUrl}}' class='ewm'></image>
+      <block wx:for="{{order.goodsList.goods}}" wx:for-item="detail" wx:key="detail">
+        <view class='food'>{{detail.goodsName}}
+          <text>x {{detail.goodsCount}}</text>
+        </view>
+        <!-- <view class='food' wx:if="{{detail.merchandise !=null}}">{{detail.merchandise.merName}}
+          <text>x {{detail.number}}</text>
+        </view> -->
+      </block>
+      <view class='number'>领取码
+        <!-- <text wx:if="{{order.payStatus == 3}}">xxxxxx</text> -->
+        <text>{{order.pickUpCode}}</text>
+      </view>
+       <!-- <view class='ticketGot' wx:if="{{order.deliveryStatus == 2}}">
+          <image src='/images/got.png'></image>
+        </view> -->
+         <!-- <view class='ticketGot' wx:if="{{order.payStatus == 3}}">
+          <image src='/images/refunded.png'></image>
+        </view> -->
+    </view>
+    <image src='/images/ddbj.png' class='line'></image>
+    <!-- <view class='memo' wx:if="{{order.memo}}">
+      <view class='memobox'>
+        <view class='memotitle'>备注</view>
+        <view class='memotext'>{{order.memo}}</view>
+      </view>
+    </view> -->
+    <view class='other'>
+      <view class='address'>
+        <view class='storename'>{{cinemaList.cinemaName}}</view>
+        <view class='storeaddress'>{{cinemaList.address}}</view>
+        <image src='/images/phone.png' class='phone' bindtap='phone' data-phone='{{order.cinema.contact}}'></image>
+      </view>
+      <view class='address'>
+        <view class='storename'>实付金额</view>
+        <view class='money'>{{order.totalSettlePrice}}元</view>
+        <view class='descripe'>订单号：{{order.orderCode}}</view>
+        <view class='descripe'>购买时间：{{order.orderPayTime}}</view>
+        <view class='descripe'>手机号：{{order.mobilePhone}}</view>
+      </view>
+      <view class='address' style=' border: none;'>
+        <view class='storename'>观影须知</view>
+        <view class='descripe'>1.请提前到达影院现场，找到自助取票机，打印纸质电影票，完成取票。</view>
+        <view class='descripe'>2.如现场自助取票机无法打印电影票，请联系影院工作人员处理。</view>
+        <view class='descripe'>3.凭打印好的纸质电影票，检票入场观影。</view>
+      </view>
+      <view class='refunded' wx:if="{{order.payStatus == 3}}">
+        <image src='/images/refunded.png'></image>
+      </view>
+      <view class='refund' wx:elif="{{order.payStatus == 1&&order.printStatus==1&&order.order!=null}}" bindtap='refundbtn'>退票</view>
+    </view>
+  </view>  
+  <!-- 确认退票 -->
+  <view class='black' wx:if="{{retreat}}">
+    <view class='black_content'>
+        <view class='text' wx:if="{{order.order.payType == 3}}">是否确认继续退票</view>
+        <view class='text' wx:else>退票将收取{{order.order.refundHandFee}}元服务费</view>
+        <view class='cancel' bindtap='cancel'>不退了</view>
+        <view class='sure' bindtap='refund'>继续退票</view>
+    </view>
+  </view>
+</view>

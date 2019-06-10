@@ -46,16 +46,6 @@ Page({
   //授权信息
   onLoad: function(options) {
     var that = this
-    wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Goods/QueryGoodsOrder' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
-      method: "GET",
-      header: {
-        "Content-Type": "application/json"
-      },
-      success: function (res) {
-        console.log(res)
-      }
-    })
     var timestamp = new Date().getTime()
     that.setData({
       timestamp: new Date().getTime()

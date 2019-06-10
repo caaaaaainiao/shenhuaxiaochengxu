@@ -44,7 +44,6 @@ Page({
       that.setData({
         card: res.data.data.memberCard,
       })
-      console.log(that.data.card)
     })
     // console.log(app.globalData.queryXml)
     let goodsList = wx.getStorageSync('toSubmitGoods');
@@ -695,8 +694,9 @@ Page({
                 })
               }
               else if (res.data.Status == "Success") {
+                var ordernum = res.data.order.orderCode
                 wx.redirectTo({
-                  url: '../foodSuccess/foodSuccess?orderNum='
+                  url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
                 })
               }
             }
@@ -750,8 +750,9 @@ Page({
             })
           }
           else if (res.data.Status == "Success"){
+            var ordernum = res.data.order.orderCode
             wx.redirectTo({
-              url: '../foodSuccess/foodSuccess?orderNum='
+              url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
             })
           }
         }
@@ -760,75 +761,75 @@ Page({
  
     var nowtime = new Date().getTime();
     // var sign = app.createMD5('submitMerchaniseOrder', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/shOrder/submitMerchaniseOrder',
-      data: {
-        phone: that.data.phone,
-        address: that.data.type2address,
-        deliveryType: that.data.type - 1, //取货方式 0 自取,1送达;
-        featureAppNo: app.globalData.sellfeatureAppNo, //场次唯一编码
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        appUserId: app.globalData.userInfo.id,
-        merchandiseInfo: json,
-        activityId: marActivityId, //参与的活动的id
-        isReady: that.data.isReady,
-        memo: that.data.userMessage,
-        merTicketId: merTicketId,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function(res) {
-        console.log(res)
-        if (res.data.status == 0) {
-          wx.showModal({
-            title: '',
-            content: res.data.message,
-          })
-          wx.hideLoading()
-          return;
-        }
-        var ordernum = res.data.data.orderNum;
-        // console.log(ordernum)
-        var nowtime = new Date().getTime();
-      }
-    })
+    // wx.request({
+    //   url: app.globalData.url + '/api/shOrder/submitMerchaniseOrder',
+    //   data: {
+    //     phone: that.data.phone,
+    //     address: that.data.type2address,
+    //     deliveryType: that.data.type - 1, //取货方式 0 自取,1送达;
+    //     featureAppNo: app.globalData.sellfeatureAppNo, //场次唯一编码
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     appUserId: app.globalData.userInfo.id,
+    //     merchandiseInfo: json,
+    //     activityId: marActivityId, //参与的活动的id
+    //     isReady: that.data.isReady,
+    //     memo: that.data.userMessage,
+    //     merTicketId: merTicketId,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function(res) {
+    //     console.log(res)
+    //     if (res.data.status == 0) {
+    //       wx.showModal({
+    //         title: '',
+    //         content: res.data.message,
+    //       })
+    //       wx.hideLoading()
+    //       return;
+    //     }
+    //     var ordernum = res.data.data.orderNum;
+    //     // console.log(ordernum)
+    //     var nowtime = new Date().getTime();
+    //   }
+    // })
   },
   syn: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userCard', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/shAppuser/userCard',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function(res) {
-        // console.log(res)
-        if (res.data.status == 1) {
-          var userInfo = res.data.data;
-          that.setData({
-            userInfo: userInfo
-          })
-          app.globalData.userInfo = userInfo;
-        } else {
-          wx.showModal({
-            title: '',
-            content: res.data.message
-          })
-        }
-      }
-    })
+    // wx.request({
+    //   url: app.globalData.url + '/api/shAppuser/userCard',
+    //   data: {
+    //     appUserId: app.globalData.userInfo.id,
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function(res) {
+    //     // console.log(res)
+    //     if (res.data.status == 1) {
+    //       var userInfo = res.data.data;
+    //       that.setData({
+    //         userInfo: userInfo
+    //       })
+    //       app.globalData.userInfo = userInfo;
+    //     } else {
+    //       wx.showModal({
+    //         title: '',
+    //         content: res.data.message
+    //       })
+    //     }
+    //   }
+    // })
   },
   setM: function(e) {
     var password = e.detail.value;
@@ -838,7 +839,6 @@ Page({
   },
   showM: function() {
     var that = this
-    console.log(that.data.card)
     that.setData({
       cinemaType: app.globalData.cinemaList.cinemaType
     })
@@ -867,7 +867,6 @@ Page({
           cardNo: card[0].cardNo,
         })
       }
-      console.log(that.data.cardNo)
     }
     that.setData({
       showM: true
