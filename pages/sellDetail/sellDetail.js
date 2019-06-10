@@ -477,6 +477,8 @@ goodsList: goodsList
     })
   },
   emptyCart:function(){
+    let queryobj = util.getcartObj(null);
+    app.globalData.queryobj = queryobj
     util.clearCart(null);
     util.removegoodList(null);
     util.clearcartObj(null);
