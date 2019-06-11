@@ -13,6 +13,7 @@ Page({
     retreat: false,
     printNo: null,
     realAmount: 0,
+    height: 0,
   },
 
   /**
@@ -22,6 +23,13 @@ Page({
     // console.log(options);
     let that = this;
     // let seat = options.seat.split(",");
+    wx.getSystemInfo({
+      success: function (res) {
+        that.setData({
+          height: res.windowHeight
+        })
+      }
+    })
     that.setData({
       orderNum:options.orderNum,
       // seat: seat,

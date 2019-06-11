@@ -222,18 +222,8 @@ Page({
       sendtype: setType
     })
     wx.showTabBar()
-    wx.getStorage({
-      key: 'sjhm',
-      success: function(res) {
         // console.log(res)
         app.globalData.phonenum = res.data
-      },
-      fail: function(res) {
-        wx.navigateTo({
-          url: '../login/login',
-        })
-      }
-    })
   },
   close:function(){
     var that = this;

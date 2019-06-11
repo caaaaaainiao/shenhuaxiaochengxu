@@ -124,7 +124,7 @@ Page({
           })
           app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
           that.getMovie(app.globalData.cinemacode)
-        },100)
+        },10)
       }
       // 声明一个新数组 将市区添加到新数组内
       var arr = [];
@@ -162,37 +162,39 @@ Page({
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
       // 调用全局函数设置余额以及积分
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
-        var memberCard = [];
-        var status = [];
-        if (res.data.Status == "Failure") {
-          that.setData({
-            memberCardScore: '---',
-            memberCardBalance: '---'
-          })
-        } else if (res.data.data.memberCard == null) {
-          that.setData({
-            memberCardScore: '---',
-            memberCardBalance: '---'
-          })
-        } else {
-          var memberCard = res.data.data.memberCard;
-          for (var i = 0; i < memberCard.length; i++) {
-            if (memberCard[i].status == 1) {
-              status.push(memberCard[i]);
+      setTimeout(function(){
+        util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+          var memberCard = [];
+          var status = [];
+          if (res.data.Status == "Failure") {
+            that.setData({
+              memberCardScore: '---',
+              memberCardBalance: '---'
+            })
+          } else if (res.data.data.memberCard == null) {
+            that.setData({
+              memberCardScore: '---',
+              memberCardBalance: '---'
+            })
+          } else {
+            var memberCard = res.data.data.memberCard;
+            for (var i = 0; i < memberCard.length; i++) {
+              if (memberCard[i].status == 1) {
+                status.push(memberCard[i]);
+              }
             }
+            // 计算余额最多的会员卡
+            var first = memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+            if (first.score == null) {
+              first.score = 0
+            }
+            that.setData({
+              memberCardBalance: first.balance,
+              memberCardScore: first.score
+            })
           }
-          // 计算余额最多的会员卡
-          var first = memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
-          if (first.score == null) {
-            first.score = 0
-          }
-          that.setData({
-            memberCardBalance: first.balance,
-            memberCardScore: first.score
-          })
-        }
-      });
+        });
+      },500)
     })
     if (that.data.memberCardBalance == "---") {
       app.globalData.cardList = 1;
@@ -420,10 +422,6 @@ Page({
   // 比价购票
   buy: function(e) {
     console.log(e)
-    // 读取缓存 判断是否已使用手机号码登录
-    wx.getStorage({
-      key: 'sjhm',
-      success: function(res) {
         // console.log(res.data)
         console.log(e.currentTarget.dataset)
         app.globalData.checkfilmcode = e.currentTarget.dataset.id
@@ -453,13 +451,6 @@ Page({
         wx.navigateTo({
           url: '../compare/compare',
         })
-      },
-      fail: function(res) {
-        wx.navigateTo({
-          url: '../login/login',
-        })
-      }
-    })
   },
   getMovies: function() {
     var that = this;
@@ -793,7 +784,6 @@ Page({
         }
         // 计算余额最多的会员卡
         setTimeout(function() {
-          console.log(userCardList)
           var first = userCardList.sort(function (a, b) { return a.balance < b.balance })[0];
           if (first.score == null) {
             first.score = 0
@@ -847,9 +837,6 @@ Page({
   
   toCard: function() {
     var that = this;
-    wx.getStorage({
-      key: 'sjhm',
-      success: function(res) {
         if (that.data.memberCardBalance == "---") {
           wx.navigateTo({
             url: '../page04/index',
@@ -860,13 +847,6 @@ Page({
             url: '../page05/index',
           })
         }
-      },
-      fail: function(res) {
-        wx.navigateTo({
-          url: '../login/login',
-        })
-      }
-    })
   },
   hidehb: function() {
     this.setData({
