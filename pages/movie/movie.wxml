@@ -5,9 +5,9 @@
   <view class='header'>
     <!-- 轮播图 -->
     <swiper class='bg' autoplay>
-      <block wx:for="{{banner}}" wx:for-item="pic" wx:key="pic">
+      <block wx:for="{{picture}}" wx:for-item="pic" wx:key="pic">
         <swiper-item>
-        <image src='{{pic.imageUrl}}' bindtap='bannerTap' data-index='{{index}}'></image>
+        <image src='{{pic.image}}' bindtap='bannerTap' data-index='{{index}}'></image>
         </swiper-item>
       </block>
     </swiper>

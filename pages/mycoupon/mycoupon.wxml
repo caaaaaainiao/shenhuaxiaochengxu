@@ -8,9 +8,9 @@
   <view wx:if="{{result.length>0}}">
     <block wx:for="{{result}}" wx:for-item="coupon" wx:key="coupon">
       <view class='coupon {{coupon.status==2?"":"past" }}{{coupon.status==3?"":"past" }}' catchtap='toDetail' data-id='{{coupon.id}}' data-index='{{index}}'>
-        <image src='/images/couponicon.png' class='icon' wx:if="{{coupon.couonsType == 1}}"></image>
-        <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.couonsType == 2}}"></image>
-        <image src='/images/couponicon2.png' class='icon' wx:elif="{{coupon.couonsType == 3}}"></image>
+        <image src='/images/couponicon2.png' class='icon' wx:if="{{coupon.reductionType == 1}}"></image>
+        <image src='/images/couponicon3.png' class='icon' wx:elif="{{coupon.reductionType == 2}}"></image>
+        <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.reductionType == 3}}"></image>
         <view class='name'>{{coupon.title}}</view>
         <view class='scope' wx:if='{{coupon.cinemaName != null}}'>适用于{{coupon.cinemaName}}</view>
          <view class='scope' wx:elif='{{coupon.cinemaName == null}}'>全店通用</view>

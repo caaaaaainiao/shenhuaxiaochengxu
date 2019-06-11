@@ -101,6 +101,7 @@ Page({
           result: result.conpons,
           couponCount: result.conponCount
         })
+        console.log(that.data.result)
         app.globalData.resultList = that.data.result
       }
     })

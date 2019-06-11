@@ -2,7 +2,7 @@
 <!-- <text>pages/mine/mine.wxml</text> -->
 <view class='contianer'>
   <view class='header'>
-    <image src='{{banner}}' class='bg'></image>
+    <image src='{{picture}}' class='bg'></image>
     <view class='userimagebox'><image src='{{userInfo.avatarUrl}}' mode='aspectFill'></image></view>
     <view class='username'>{{userInfo.nickName}}</view>
     <!-- <view class='progress_text' wx:if="{{progress}}">还差 <text>3</text> 张票根即可兑换电影票</view>

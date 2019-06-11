@@ -6,7 +6,7 @@
   <block wx:for="{{result}}" wx:for-item="order" wx:key="order">
    <view class='type' bindtap='toDetail' data-num="{{order.orderCode}}" data-status="{{order.payStatus}}">
     <view class='seat {{order.payStatus==3&&order.printStatus==1?"past":""}}'>
-      <image src='/images/past.png' class='pastbg' wx:if="{{order.payStatus == 3}}"></image>
+      <image src='/images/past.png' class='pastbg' wx:if="{{order.Status == 9}}"></image>
       <view class='left'>
         <view class='zuo'>座</view>
       </view>

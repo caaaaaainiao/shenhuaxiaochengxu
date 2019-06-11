@@ -28,6 +28,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    app.globalData.phonenum = app.globalData.userInfo.mobilePhone
      // 读取缓存  设置影院信息
     var movieList = app.globalData.sellMovielist
    that.setData({
@@ -37,7 +38,7 @@ Page({
     wx.getStorage({
       key: 'accredit',
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         that.setData({
           userInfom: res.data.userInfo
         })
@@ -223,7 +224,7 @@ Page({
     })
     wx.showTabBar()
         // console.log(res)
-        app.globalData.phonenum = res.data
+        app.globalData.phonenum 
   },
   close:function(){
     var that = this;
@@ -256,7 +257,8 @@ Page({
     // console.log(beginmovieList)
     that.setData({
       step: 2,
-      beginmovieList:beginmovieList
+      beginmovieList:beginmovieList,
+      moviename:moviename
     })
     
     // wx.showLoading({

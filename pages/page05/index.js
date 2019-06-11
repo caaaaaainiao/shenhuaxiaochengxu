@@ -17,6 +17,7 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
       'content-type': 'application/json' // 默认值
     },
     success: function (res) {
+      console.log(res)
       callback && callback(res.data.card);
       return res.data.card;
     }
