@@ -14,6 +14,7 @@ Page({
     printNo: null,
     realAmount: 0,
     height: 0,
+    seat: null,
   },
 
   /**
@@ -32,7 +33,6 @@ Page({
     })
     that.setData({
       orderNum:options.orderNum,
-      // seat: seat,
     });
     let data = {
       UserName: app.usermessage.Username,
@@ -51,9 +51,11 @@ Page({
         if (res.data.Status == 'Success') {
           let order = res.data.data;
           let realAmount = Math.floor(res.data.data.realAmount * 100) / 100;
+          let seat = res.data.data.seat;
           that.setData({
             order: order,
             realAmount: realAmount,
+            seat: seat,
           })
           if (app.globalData.cinemaList.cinemaType == "辰星") {
             let printNo = that.data.order.printNo.slice(8);

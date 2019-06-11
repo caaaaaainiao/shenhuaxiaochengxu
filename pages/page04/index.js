@@ -128,6 +128,7 @@ Page({
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var ruleCode = "memberCardLevel[" + i + "].ruleCode";
+              let memberCardImage = "memberCardLevel[" + i + "].memberCardImage";
               var str = memberCardLevel[i].ruleDescription
               if (str != null) {
                 var newDescription = str.replace(/，/g, "，\n")
@@ -138,7 +139,8 @@ Page({
                   [ruleDescription]: newDescription,
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
-                  [ruleCode]: memberCardLevel[i].ruleCode
+                  [ruleCode]: memberCardLevel[i].ruleCode,
+                  [memberCardImage]: memberCardLevel[i].memberCardImage,
                 })
               } else {
                 that.setData({
@@ -148,7 +150,8 @@ Page({
                   [ruleDescription]: memberCardLevel[i].ruleDescription,
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
-                  [ruleCode]: memberCardLevel[i].ruleCode
+                  [ruleCode]: memberCardLevel[i].ruleCode,
+                  [memberCardImage]: memberCardLevel[i].memberCardImage,
                 })
               }
             }
@@ -327,7 +330,8 @@ Page({
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var ruleCode = "memberCardLevel[" + i + "].ruleCode";
-              var str = memberCardLevel[i].ruleDescription
+              var memberCardImage = "memberCardLevel[" + i + "].memberCardImage";
+              var str = memberCardLevel[i].ruleDescription;
               if (str != null) {
                 var newDescription = str.replace(/，/g, "，\n")
                 that.setData({
@@ -337,7 +341,8 @@ Page({
                   [ruleDescription]: newDescription,
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
-                  [ruleCode]: memberCardLevel[i].ruleCode
+                  [ruleCode]: memberCardLevel[i].ruleCode,
+                  [memberCardImage]: memberCardLevel[i].memberCardImage,
                 })
               } else {
                 that.setData({
@@ -347,7 +352,8 @@ Page({
                   [ruleDescription]: memberCardLevel[i].ruleDescription,
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
-                  [ruleCode]: memberCardLevel[i].ruleCode
+                  [ruleCode]: memberCardLevel[i].ruleCode,
+                  [memberCardImage]: memberCardLevel[i].memberCardImage,
                 })
               }
             }

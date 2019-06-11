@@ -323,7 +323,7 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before { content: ""; -we
 
 .page04 .list2 .tt text { font-size: 28rpx; margin-left: 60rpx; }
 
-.page04 .list2 .con { padding: 0 20rpx; border-radius: 20rpx; overflow: hidden; background: url("http://wx.80piao.com:83/cdnimg/card41.png") 0 0 no-repeat; background-size: 100% 100%; height: 250rpx; color: #fff; }
+.page04 .list2 .con { padding: 0 20rpx; border-radius: 20rpx; overflow: hidden;  background-size: 100% 100%; height: 250rpx; color: #fff; }
 
 .page04 .list2 .l { height: 210rpx; -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1; }
 
@@ -387,7 +387,13 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before { content: ""; -we
 
 .page05 .list .item { position: relative; margin-bottom: 30rpx; }
 
-.page05 .list .item .card { display: block; border-radius: 30rpx; -webkit-box-shadow: 0 5rpx 10rpx 0 #ccc; box-shadow: 0 5rpx 10rpx 0 #ccc; }
+.page05 .list .item .cardImg { display: block; border-radius: 30rpx; -webkit-box-shadow: 0 5rpx 10rpx 0 #ccc; box-shadow: 0 5rpx 10rpx 0 #ccc; }
+
+.card {
+  position:relative;
+  top:30rpx;
+  margin-bottom: 30rpx;
+}
 
 .page05 .list .number { position: absolute; right: 30rpx; top: 40rpx; font-size: 26rpx; }
 
