@@ -46,6 +46,8 @@ Page({
     cardNo: null,
     levelCode: null,
     sessionCode: '',
+    tradeNo: null, // 交易号
+    deductAmount: 0, //支付金额
     printNo: null, // 出票号
     verifyCode: null, // 验证码
     // waitActivity: null,//可參與活動
@@ -559,11 +561,6 @@ Page({
         json[i].reductionPrice = ""
       }
     }
-    // console.log(json);
-    // console.log(app.usermessage.Username);
-    // console.log(app.usermessage.Password);
-    // console.log(app.globalData.cinemacode);
-    // console.log(that.data.orderCode);
     // 预支付
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/Order/PrePayOrder',
@@ -667,12 +664,25 @@ Page({
                               })
                             }, 1000)
                           }
-                          else {
+                          else { // 确认订单失败
                             wx.showToast({
-                              title: res.data.ErrorMessage,
+                              title: '交易失败,已自动退款',
                               icon: 'none',
-                              duration: 3000
-                            });
+                              duration: 2000,
+                              success: function (res) {
+                                // 自动退款
+                                  wx.request({
+                                    url: 'https://xc.80piao.com:8443/Api/Order/RefundPayment' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+                                    method: "GET",
+                                    header: {
+                                      'content-type': 'application/json' // 默认值
+                                    },
+                                    success: function (res) {
+                                      console.log(res)
+                                    }
+                                  })
+                              }
+                            })
                           }
                         }
                       })
@@ -680,11 +690,6 @@ Page({
                    },
                   fail(res) {
                     console.log(res);
-                    wx.showToast({
-                      title: res.err_desc,
-                      icon: 'none',
-                      duration: 3000
-                    });
                    }
                 })
               }
@@ -870,6 +875,10 @@ Page({
                           success: function (res) {
                             console.log(res)
                             if (res.data.Status == "Success") {
+                              that.setData({
+                                tradeNo: res.data.tradeNo,
+                                deductAmount: res.data.deductAmount,
+                              })
                               let xml = '<SubmitOrder>' +
                                 '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
                                 '<Order>' +
@@ -925,11 +934,31 @@ Page({
                                     }, 1000)
                                   }
                                   else { //订单确认失败
-                                    wx.showToast({
-                                      title: res.data.ErrorMessage,
-                                      icon: 'none',
-                                      duration: 3000
-                                    });
+                                        // 自动退款
+                                        wx.request({
+                                          url: 'https://xc.80piao.com:8443/Api/Member/CardPayBack' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.deductAmount,
+                                          method: "GET",
+                                          header: {
+                                            'content-type': 'application/json' // 默认值
+                                          },
+                                          success: function (res) {
+                                            console.log(res)
+                                            if (res.data.Status == "Success") {
+                                              wx.showToast({
+                                                  title: '交易失败,已自动退款',
+                                                  icon: 'none',
+                                                  duration: 3000,
+                                              })
+                                            } 
+                                            else {
+                                              wx.showToast({
+                                                title: '交易失败，联系工作人员退款',
+                                                icon: 'none',
+                                                duration: 3000,
+                                              })
+                                            }
+                                          }
+                                        })
                                   }
                                 }
                               })

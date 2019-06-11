@@ -6,21 +6,21 @@
   <view class='content'>
     <view>
       <view class='movie'>
-        <view class='movieName'>{{movieName}}</view>
-        <view class='movieTime'>{{date}}</view>
+        <view class='movieName'>{{order.filmName}}</view>
+        <view class='movieTime'>{{order.showTime}}{{order.filmType}}</view>
         <view class='movieArea'>{{order.cinemaName}} {{order.screenName}}</view>
         <view class='seats'>
           <block wx:for="{{seat}}">
             <text>{{item}}</text>
           </block>
         </view>
-        <image src='{{order.order.dxMovie.picture}}' class='poster'></image>
+        <image src='{{order.filmImage}}' class='poster'></image>
       </view>
       <image src='/images/ddbj.png' class='line'></image>
       <view class='movieewm'>
         <view class='title'>取电影票</view>
-        <canvas class='canvas' canvas-id='canvas' style='margin:0 auto; width: 300rpx; height: 300rpx;'></canvas>
-        <view class='ticketnum'>{{count}}张票</view>
+        <canvas class='canvas' canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas>
+        <view class='ticketnum'>{{order.count}}张票</view>
         <view class='number'>取票码
           <!-- <text wx:if="{{order.payStatus == 3}}">xxxxxx</text> -->
           <text>{{printNo}}</text>
@@ -66,15 +66,15 @@
     <view class='other'>
       <view class='address'>
         <view class='storename'>{{order.cinemaName}}</view>
-        <view class='storeaddress'>{{address}}</view>
+        <view class='storeaddress'>{{order.cinemaAddress}}</view>
         <image src='/images/phone.png' class='phone' bindtap='phone' data-phone='{{order.cinema.contact}}'></image>
       </view>
       <view class='address'>
         <view class='storename'>实付金额</view>
-        <view class='money'>{{order.disPrice}}元</view>
-        <view class='descripe'>订单号：{{orderNum}}</view>
-        <view class='descripe'>购买时间：{{nowTime}}</view>
-        <view class='descripe'>手机号：{{phone}}</view>
+        <view class='money'>{{realAmount}}元</view>
+        <view class='descripe'>订单号：{{order.orderCode}}</view>
+        <view class='descripe'>购买时间：{{order.payTime}}</view>
+        <view class='descripe'>手机号：{{order.mobilePhone}}</view>
       </view>
       <view class='address' style=' border: none;'>
         <view class='storename'>观影须知</view>

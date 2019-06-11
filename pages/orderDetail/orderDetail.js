@@ -8,38 +8,23 @@ Page({
    * 页面的初始数据
    */
   data: {
-    orderNum:0,
+    orderNum: 0,
     order: null,
-    retreat:false,
-    movieName: '',
+    retreat: false,
+    printNo: null,
+    realAmount: 0,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(options);
+    // console.log(options);
     let that = this;
-    let seat = options.seat.split(",");
+    // let seat = options.seat.split(",");
     that.setData({
       orderNum:options.orderNum,
-      movieName: options.movieName,
-      date: options.date,
-      count: options.count,
-      address: app.globalData.cinemaList.address,
-      nowTime: options.nowTime,
-      seat: seat,
-      phone: app.globalData.userInfo.mobilePhone,
-      printNo: options.printNo,
-    });
-    // 生成二维码
-    var qrcode = new QRCode('canvas', {
-      text: that.data.printNo,
-      width: 150,
-      height: 150,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H,
+      // seat: seat,
     });
     let data = {
       UserName: app.usermessage.Username,
@@ -48,7 +33,7 @@ Page({
       OrderCode: that.data.orderNum,
     };
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/QueryOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+      url: 'https://xc.80piao.com:8443/Api/Order/QueryTicketOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -56,10 +41,32 @@ Page({
       success: function (res) {
         console.log(res)
         if (res.data.Status == 'Success') {
-          let order = res.data.order;
+          let order = res.data.data;
+          let realAmount = Math.floor(res.data.data.realAmount * 100) / 100;
           that.setData({
             order: order,
+            realAmount: realAmount,
           })
+          if (app.globalData.cinemaList.cinemaType == "辰星") {
+            let printNo = that.data.order.printNo.slice(8);
+            that.setData({
+              printNo: printNo,
+            })
+          }
+          else {
+            that.setData({
+              printNo: that.data.order.printNo,
+            })
+          }
+          // 生成二维码
+          var qrcode = new QRCode('canvas', {
+            text: that.data.printNo,
+            width: 150,
+            height: 150,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H,
+          });
         }
       }
     })

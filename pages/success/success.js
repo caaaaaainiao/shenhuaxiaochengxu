@@ -47,7 +47,7 @@ Page({
   look:function(e){
     let that = this;
     wx.redirectTo({
-      url: '../orderDetail/orderDetail?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
+      url: '../orderDetail/orderDetail?orderNum=' + that.data.orderNum,
     })
   },
 
