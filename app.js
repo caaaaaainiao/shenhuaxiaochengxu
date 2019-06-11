@@ -51,6 +51,7 @@ App({
   usermessage: {
     Username: "MiniProgram",
     Password: "6BF477EBCC446F54E6512AFC0E976C41",
+    AppId: 'wx8079e2f2a9958d05',
     OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
   },
   globalData: {
