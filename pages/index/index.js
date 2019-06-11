@@ -118,8 +118,16 @@ Page({
           var distance = that.distance(userLat, userLng, lat, lng);
           cinemas[i].distance = distance
         }
+        setTimeout(function(){
+          that.setData({
+            soncinemas: cinemas
+          })
+          console.log(that.data.soncinemas)
+          app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
+          console.log(app.globalData.cinemacode)
+          that.getMovie(app.globalData.cinemacode)
+        },100)
       }
-
       // 声明一个新数组 将市区添加到新数组内
       var arr = [];
       for (let i = 0; i < cinemas.length; i++) {
@@ -149,14 +157,6 @@ Page({
       }
       app.globalData.areaList = cinemas
       console.log(cinemas)
-      var firstcinemas = []
-      for (var x in cinemas){
-        firstcinemas.push(cinemas[x])
-      }
-      console.log(firstcinemas)
-      app.globalData.cinemacode = cinemas[0].cinemaCode
-      console.log(app.globalData.cinemacode)
-      that.getMovie(app.globalData.cinemacode)
       var recent = cinemas.sort(util.sortDistance("distance"))[0].cinemaName;
       var cinemaList = cinemas.sort(util.sortDistance("distance"))[0];
       that.setData({
