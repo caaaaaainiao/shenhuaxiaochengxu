@@ -3,7 +3,7 @@
 <!-- 影票订单详情 -->
 <view class='container'>
   <image src='/images/bannerbg.jpg' class='bg'></image>
-  <view class='content'>
+  <view class='content' style='height:{{height}}'>
     <view>
       <view class='movie'>
         <view class='movieName'>{{order.filmName}}</view>
@@ -19,7 +19,7 @@
       <image src='/images/ddbj.png' class='line'></image>
       <view class='movieewm'>
         <view class='title'>取电影票</view>
-        <canvas class='canvas' canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas>
+        <canvas class='canvas' disable-scroll="true" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas>
         <view class='ticketnum'>{{order.count}}张票</view>
         <view class='number'>取票码
           <!-- <text wx:if="{{order.payStatus == 3}}">xxxxxx</text> -->
