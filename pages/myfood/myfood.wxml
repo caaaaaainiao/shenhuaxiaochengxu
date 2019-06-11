@@ -3,23 +3,18 @@
 <scroll-view class='container' scroll-y="true" bindscrolltolower="ask" wx:if="{{result.length>0}}">
   <view class='line'></view>
   <block wx:for="{{result}}" wx:for-item="order" wx:key="order" >
-    <view class='type {{order.deliveryStatus==2?"past":""}}' data-num="{{order.orderNum}}" data-type="{{order.deliveryStatus}}" bindtap='toDetail'>
-      <image src='/images/got.png' class='get' wx:if="{{order.deliveryStatus==2}}"></image>
+    <view class='type {{order.deliveryStatus==2?"past":""}}' data-num="{{order.orderCode}}" data-type="{{order.deliveryStatus}}" bindtap='toDetail'>
+      <image src='/images/got.png' class='get'></image>
       <view class='food'>
         <view class='left'>
           <view class='shi'>食</view>
         </view>
         <view class='right'>
-          <block wx:for="{{order.merOrder.details}}" wx:for-item="food" wx:key="food">
-            <view class='foodname' wx:if="{{food.itemCombo!=null}}">{{food.itemCombo.name}}
-              <text>{{food.number}}份</text>
+            <view class='foodname'>{{order.goodsName}}
+              <text>{{order.goodsCount}}份</text>
             </view>
-             <view class='foodname' wx:elif="{{food.merchandise!=null}}">{{food.merchandise.merName}}
-              <text>{{food.number}}份</text>
-            </view>
-          </block>
         </view>
-        <image src='/images/gray_more.png' class='more' wx:if="{{order.payStatus != 3}}"></image>
+        <image src='/images/gray_more.png' class='more'></image>
         <view class='top'></view>
         <view class='bottom'></view>
         <view class='clear'></view>

@@ -36,7 +36,7 @@ Page({
           cinemaList: app.globalData.cinemaList
         })
         var qrcode = new QRCode('canvas', {
-          text: that.data.order.pickUpCode,
+          text: that.data.order.orderCode,
           width: 150,
           height: 150,
           colorDark: "#000000",
@@ -45,29 +45,6 @@ Page({
         });
       }
     })
-   
-    // let data = {
-    //   UserName: app.usermessage.Username,
-    //   Password: app.usermessage.Password,
-    //   CinemaCode: app.globalData.cinemaList.cinemaCode,
-    //   OrderCode: that.data.orderNum,
-    // };
-    // wx.request({
-    //   url: 'https://xc.80piao.com:8443/Api/Order/QueryOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
-    //   method: "GET",
-    //   header: {
-    //     'content-type': 'application/json' // 默认值
-    //   },
-    //   success: function (res) {
-    //     console.log(res)
-    //     if (res.data.Status == 'Success') {
-    //       let order = res.data.order;
-    //       that.setData({
-    //         order: order,
-    //       })
-    //     }
-    //   }
-    // })
   },
   
   /**
@@ -136,42 +113,6 @@ Page({
     wx.showLoading({
       title: '加载中',
     })
-    // wx.request({
-    //   url: app.globalData.url + '/api/shOrder/refund',
-    //   data: {
-    //     id:that.data.order.id,
-    //     orderNum: that.data.orderNum,
-    //     appUserId: app.globalData.userInfo.id,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     that.setData({
-    //       retreat:false
-    //     })
-    //     if(res.data.status == 1){
-    //       that.setData({
-    //         order: res.data.data
-    //       })
-    //       wx.showToast({
-    //         title: '退票成功',
-    //       })
-    //       that.syn();
-         
-    //     }else{
-    //       wx.showModal({
-    //         title: '退款失败',
-    //         content: res.data.message,
-    //       })
-    //     }
-    //     wx.hideLoading();
-    //   }
-    // })
   },
   cancel:function(){
     this.setData({

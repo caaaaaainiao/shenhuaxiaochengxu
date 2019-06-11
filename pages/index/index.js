@@ -46,6 +46,8 @@ Page({
   //授权信息
   onLoad: function(options) {
     var that = this
+    // console.log(app.globalData)
+    // wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
     var timestamp = new Date().getTime()
     that.setData({
       timestamp: new Date().getTime()

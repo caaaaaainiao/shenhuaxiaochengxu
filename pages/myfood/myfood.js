@@ -75,31 +75,52 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userOrderList', nowtime);
     var pageNo = that.data.pageNo;
+    console.log(app.globalData.openId)
     wx.request({
-      url: app.globalData.url + '/api/shOrder/userOrderList',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        orderType: "1",//小食
-        pageNo: pageNo,
-        pageSize: that.data.pageSize,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
+      url: 'https://xc.80piao.com:8443/Api/User/QueryCinemaGoods/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      method:'GET',
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/json"
       },
-      success: function (res) {
-        // console.log(res)
-        var result = that.addJson(that.data.result, res.data.data.result);
-        pageNo++;
-        that.setData({
-          result: result,
-          pageNo: pageNo
-        })
+      success:function(res){
+        var result = []
+        for(var x in res.data.data.good){
+          if (res.data.data.good[x].orderCode!=null){ 
+            result.push(res.data.data.good[x])
+            that.setData({
+              result: result
+            })
+            }
+        }
+        console.log(that.data.result)
       }
+
     })
+    // wx.request({
+    //   url: app.globalData.url + '/api/shOrder/userOrderList',
+    //   data: {
+    //     appUserId: app.globalData.userInfo.id,
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     orderType: "1",//小食
+    //     pageNo: pageNo,
+    //     pageSize: that.data.pageSize,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
+    //     var result = that.addJson(that.data.result, res.data.data.result);
+    //     pageNo++;
+    //     that.setData({
+    //       result: result,
+    //       pageNo: pageNo
+    //     })
+    //   }
+    // })
   },
   addJson:function(json1,json2){
     if(json1 == null){
@@ -117,7 +138,7 @@ Page({
       return;
     }
     wx.navigateTo({
-      url: '../orderDetail/orderDetail?orderNum='+num,
+      url: '../goodsOrderDetail/goodsOrderDetail?orderNum='+num,
     })
   }
 
