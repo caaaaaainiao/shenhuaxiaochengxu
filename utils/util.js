@@ -465,6 +465,7 @@ const getCity=(callback)=>{
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
+          console.log(res)
 
           callback && callback(res.data.data.cinemas, userLat, userLng);
           return res.data;

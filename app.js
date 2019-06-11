@@ -55,6 +55,7 @@ App({
     OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
   },
   globalData: {
+    firstcode:null,
     cinemacode:null,
     moviearea : '',
     userInfo: null,

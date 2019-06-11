@@ -100,7 +100,7 @@ Page({
     wx.getStorage({
       key: 'zchb',
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         that.setData({
           zchb: res.data //key所对应的内容
         })
@@ -118,13 +118,22 @@ Page({
           var distance = that.distance(userLat, userLng, lat, lng);
           cinemas[i].distance = distance
         }
+        setTimeout(function(){
+          that.setData({
+            soncinemas: cinemas
+          })
+          console.log(that.data.soncinemas)
+          app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
+          console.log(app.globalData.cinemacode)
+          that.getMovie(app.globalData.cinemacode)
+        },100)
       }
-
       // 声明一个新数组 将市区添加到新数组内
       var arr = [];
       for (let i = 0; i < cinemas.length; i++) {
         arr.push(cinemas[i].city);
       };
+      // console.log(arr)
       // 去除重复省市显示返回新数组newArr
       var newArr = arr.filter(function(element, index, self) {
         return self.indexOf(element) === index;
@@ -146,12 +155,8 @@ Page({
           return value1 - value2;
         }
       }
-      // console.log(cinemas)
       app.globalData.areaList = cinemas
-      // console.log(cinemas)
-      app.globalData.cinemacode = cinemas[0].cinemaCode
-      // console.log(app.globalData.cinemacode)
-      that.getMovie(app.globalData.cinemacode)
+      console.log(cinemas)
       var recent = cinemas.sort(util.sortDistance("distance"))[0].cinemaName;
       var cinemaList = cinemas.sort(util.sortDistance("distance"))[0];
       that.setData({
@@ -201,13 +206,12 @@ Page({
   getMovie: function (cinemaNo) {
     if (cinemaNo){
       var timestamp1 = new Date().getTime()
-      // console.log(timestamp1)
       var that = this;
       util.getQueryFilmSession(cinemaNo, function(res) {
         // that.setData({
         //   movieList: res
         // })
-        // console.log(that.data.movieList)
+        // console.log(res)
         for (var x in res) { // 影片的预售和购票排序
           res[x].jian = res[x].time - timestamp1
         }
@@ -260,7 +264,7 @@ Page({
               })
               // console.log(that.data.cinemaList)
               app.globalData.cinemaList = list; //设置全局电影列表
-              //that.getMovies();
+              // that.getMovies();
               return;
             }
           },
@@ -462,84 +466,10 @@ Page({
   },
   getMovies: function() {
     var that = this;
-    var nowtime = new Date().getTime();
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
     this.setData({
       isChoose: false
     })
-    // wx.navigateBack({
-    //   delta : 1
-    // })
   },
-  //   wx.getLocation({
-  //     type: 'wgs84',
-  //     success: function(res) {
-  //       // console.log(res)
-  //       var la = res.latitude;
-  //       var lg = res.longitude;
-
-  //       var nowtime = new Date().getTime();
-  //       var sign = app.createMD5('cinemas', nowtime);
-  //       wx.request({
-  //         url: app.globalData.url + '/api/cinema/cinemas',
-  //         data: {
-  //           latitude: la,
-  //           longitude: lg,
-  //           city: city,
-  //           timeStamp: nowtime,
-  //           mac: sign
-  //         },
-  //         method: "POST",
-  //         header: {
-  //           "Content-Type": "application/x-www-form-urlencoded"
-  //         },
-  //         success: function(data) {
-  //           // console.log(data)
-  //           if (data.data.status == 0) { //数据返回错误
-  //             // console.log(data.data.message)
-  //             wx.showToast({
-  //               title: data.data.message,
-  //               duration: 2000,
-  //               icon: "loading"
-  //             })
-  //           } else { //返回影院列表
-  //             if (data.data.data.length == 0) { //当前地区没有该影院
-  //               wx.showToast({
-  //                 title: "当前地区无影院",
-  //                 duration: 2000,
-  //                 icon: "loading"
-  //               })
-  //             } else {
-  //               var list = data.data.data;
-  //               for (var i = 0; i < list.length; i++) {
-  //                 list[i].distance = (list[i].distance / 1000).toFixed(1) + "km";
-  //               }
-  //               that.setData({
-  //                 moviearea: list[0],
-  //                 cinemaList: list
-  //               })
-  //               // console.log(that.data.cinemaList)
-  //               app.globalData.cinemaList = list;
-  //               app.globalData.cinemaNo = 0;
-  //               wx.setStorage({
-  //                 key: "location",
-  //                 data: list
-  //               })
-  //               wx.setStorage({
-  //                 key: "areaNo",
-  //                 data: 0
-  //               })
-  //               that.getMovies();
-  //             }
-  //           }
-
-  //         }
-  //       })
-  //     },
-  //   })
-  // },
   chooseCity: function(e) {
     var that = this;
     var crCity = e.currentTarget.dataset.name;
@@ -825,6 +755,7 @@ Page({
    */
   onShow: function() {
     var that = this;
+    console.log(app.globalData.cinemacode)
     that.getMovie(app.globalData.cinemacode);
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
