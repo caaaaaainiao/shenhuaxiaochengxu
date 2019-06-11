@@ -122,9 +122,7 @@ Page({
           that.setData({
             soncinemas: cinemas
           })
-          console.log(that.data.soncinemas)
           app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
-          console.log(app.globalData.cinemacode)
           that.getMovie(app.globalData.cinemacode)
         },100)
       }
@@ -156,7 +154,6 @@ Page({
         }
       }
       app.globalData.areaList = cinemas
-      console.log(cinemas)
       var recent = cinemas.sort(util.sortDistance("distance"))[0].cinemaName;
       var cinemaList = cinemas.sort(util.sortDistance("distance"))[0];
       that.setData({
@@ -755,7 +752,6 @@ Page({
    */
   onShow: function() {
     var that = this;
-    console.log(app.globalData.cinemacode)
     that.getMovie(app.globalData.cinemacode);
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
