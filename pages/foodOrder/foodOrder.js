@@ -526,6 +526,7 @@ Page({
               },
               success: function(res) {
                 console.log(res)
+                var orderNum = res.data.order.orderCode
                 if (res.data.Status == 'Failure') {
                   wx.request({
                     url: 'https://xc.80piao.com:8443/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
@@ -539,7 +540,7 @@ Page({
                   })
                 }
                 wx.redirectTo({
-                  url: '../foodSuccess/foodSuccess?orderNum='
+                  url: '../foodSuccess/foodSuccess?orderNum=' + orderNum
                 })
               }
 

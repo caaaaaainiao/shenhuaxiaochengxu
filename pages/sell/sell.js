@@ -37,9 +37,9 @@ Page({
     wx.getStorage({
       key: 'accredit',
       success: function (res) {
-        // console.log(res)
+        console.log(res)
         that.setData({
-          userInfo: res.data.userInfo
+          userInfom: res.data.userInfo
         })
         // console.log(that.data.userInfo)
       },

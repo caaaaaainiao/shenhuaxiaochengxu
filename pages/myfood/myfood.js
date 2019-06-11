@@ -83,6 +83,7 @@ Page({
         "Content-Type": "application/json"
       },
       success:function(res){
+        console.log(res)
         var result = []
         for(var x in res.data.data.good){
           if (res.data.data.good[x].orderCode!=null){ 
