@@ -534,7 +534,7 @@ Page({
     // that.setData({
     //   canClick: 0
     // }) //防止多次点击
-    if (that.data.phone.length != 11) {
+    if (!that.data.phone || that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
         icon: 'loading',
@@ -718,13 +718,13 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('cardPay', nowtime);
     var pageNo = that.data.pageNo;
-    if (that.data.canClick != 1) {
-      return;
-    }
-    that.setData({
-      canClick: 0
-    }) //防止多次点击
-    if (that.data.phone.length != 11) {
+    // if (that.data.canClick != 1) {
+    //   return;
+    // }
+    // that.setData({
+    //   canClick: 0
+    // }) //防止多次点击
+    if (!that.data.phone || that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
         icon: 'loading',
@@ -744,7 +744,7 @@ Page({
     // that.setData({
     //   canClick: 0
     // })//防止多次点击
-    if (that.data.phone.length != 11) {
+    if (!that.data.phone || that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
         icon: 'loading',

@@ -7,7 +7,7 @@
     <view>
       <view class='movie'>
         <view class='movieName'>{{order.filmName}}</view>
-        <view class='movieTime'>{{order.showTime}}{{order.filmType}}</view>
+        <view class='movieTime'>{{order.showTime}} {{order.filmType}}</view>
         <view class='movieArea'>{{order.cinemaName}} {{order.screenName}}</view>
         <view class='seats'>
           <block wx:for="{{seat}}">
