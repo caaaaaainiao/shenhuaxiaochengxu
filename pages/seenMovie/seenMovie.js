@@ -28,29 +28,29 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('getSeeMovieNum', nowtime);
     var pageNo = that.data.pageNo;
-    wx.showLoading({
-      title: '加载中',
-    })
-    wx.request({
-      url: app.globalData.url + '/shDxMovie/getSeeMovieNum',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        wx.hideLoading()
-        that.setData({
-          total: res.data.data.seeNum
-        })
-      }
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    // wx.request({
+    //   url: app.globalData.url + '/shDxMovie/getSeeMovieNum',
+    //   data: {
+    //     appUserId: app.globalData.userInfo.id,
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
+    //     wx.hideLoading()
+    //     that.setData({
+    //       total: res.data.data.seeNum
+    //     })
+    //   }
+    // })
   },
 
   /**
@@ -102,37 +102,52 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('getSeeMovie', nowtime);
     var pageNo = that.data.pageNo;
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     wx.request({
-      url: app.globalData.url + '/shDxMovie/getSeeMovie',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        pageNo: pageNo,
-        pageSize: that.data.pageSize,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
+      url: 'https://xc.80piao.com:8443/Api/User/QueryMovieSeen/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      method: 'GET',
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        "Content-Type": "application/json"
       },
       success: function (res) {
-        // console.log(res)
-        wx.hideLoading()
-        var result = that.addJson(that.data.result, res.data.data);
-        pageNo++;
-        for (var i = 0; i < result.length; i++) {
-          result[i].watchTime2 = result[i].watchTime.substring(0, 10)
-        }
-        that.setData({
-          result: result,
-          pageNo: pageNo
-        })
+       console.log(res.data.data.seen.length)
+            that.setData({
+              result: res.data.data.seen,
+              total: res.data.data.seen.length
+            })
       }
+
     })
+    // wx.request({
+    //   url: app.globalData.url + '/shDxMovie/getSeeMovie',
+    //   data: {
+    //     appUserId: app.globalData.userInfo.id,
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     pageNo: pageNo,
+    //     pageSize: that.data.pageSize,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
+    //     wx.hideLoading()
+    //     var result = that.addJson(that.data.result, res.data.data);
+    //     pageNo++;
+    //     for (var i = 0; i < result.length; i++) {
+    //       result[i].watchTime2 = result[i].watchTime.substring(0, 10)
+    //     }
+    //     that.setData({
+    //       result: result,
+    //       pageNo: pageNo
+    //     })
+    //   }
+    // })
   },
   addJson: function (json1, json2) {
     if (json1 == null) {
