@@ -668,6 +668,22 @@ Page({
             that.setData({
               onLoad: true
             })
+            if (e.data.Status == 'Success') {
+              wx.request({
+                url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + e.data.data.cinemaCode + '/' + e.data.data.openID,
+                method: "GET",
+                header: {
+                  "Content-Type": "application/json"
+                },
+                success: function (res) {
+                  if (res.data.data.mobilePhone == null || res.data.data.mobilePhone == '') {
+                    wx.redirectTo({
+                      url: '../login/login',
+                    })
+                  }
+                }
+              })
+            }
             if (e.data.Status != 'Success') {
               // wx.showModal({
               //   title: '登录失败',

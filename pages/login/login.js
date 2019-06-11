@@ -115,19 +115,14 @@ Page({
       success: function(res) {
         wx.hideLoading()
         if (res.data.Status == "Success") {
-          console.log(res)
-          wx.showModal({
-            title: '注册成功',
-            content: '已赠送若干优惠券',
-            showCancel: true,
-            cancelText: "取消",
-            cancelColor: "#999999",
-            confirmText: "确定",
-            confirmColor: "#d20909",
-            success: function () {
-              wx.switchTab({
-                url: '../index/index',
-              })
+          wx.request({
+            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + app.globalData.cinemacode,
+            method: "GET",
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              console.log(res)
             }
           })
         } else {
@@ -142,7 +137,6 @@ Page({
             complete: function(res) {},
           })
         }
-
       }
     })
 

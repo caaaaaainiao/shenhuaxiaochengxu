@@ -214,7 +214,6 @@ Page({
   //   }
   // },
   chooseType: function(e) {
-    // 读取缓存 判断是否已使用手机号码登录
     var setType = e.currentTarget.dataset.type;
     var that = this;
     app.globalData.sendtype = setType;
@@ -223,7 +222,6 @@ Page({
     })
     wx.showTabBar()
         // console.log(res)
-        app.globalData.phonenum = res.data
   },
   close:function(){
     var that = this;

@@ -25,6 +25,7 @@ var twoPoint = {
 }
 //获取应用实例
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -153,6 +154,21 @@ Page({
         })
       }
     })
+    let month = new Date().getMonth() + 1;
+    let day = new Date().getDate();
+    let reg = /[\u4e00-\u9fa5]/g;
+    let today = options.sessionDate.replace(reg, "").split('-');
+    if (today[0] == month && today[1] == day) {
+      wx.showModal({
+        title: '您当前所处' + app.globalData.moviearea,
+        content: '',
+      })
+    } else {
+      wx.showModal({
+        title: '您现在选的是' + today[0] + '月' + today[1] + '日的票',
+        content: '请仔细核对',
+      })
+    }
   },
 
   /**

@@ -8,9 +8,9 @@
 		<!-- <navigator class="btn-record" url="">充值记录</navigator> -->
 	</view>
 
-	<view class="list">
-    <view wx:for="{{status}}" wx:for-item="card" wx:key="card" style='position:relative' wx:if="{{show==0}}">
-      <image src="http://wx.80piao.com:83/cdnimg/card5.png" class="card" mode="widthFix"></image>
+	<view class="list" id="list">
+    <view class='card' wx:for="{{status}}" wx:for-item="card" wx:key="card" wx:if="{{show==0}}">
+      <image src="http://wx.80piao.com:83/cdnimg/card5.png" class="cardImg" mode="widthFix"></image>
       <view class="number">NO：{{card.num}}</view>
       <view class="center">
 				<view class="txt1">{{card.levelName}}</view>
