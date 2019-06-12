@@ -158,10 +158,11 @@ Page({
     let day = new Date().getDate();
     let reg = /[\u4e00-\u9fa5]/g;
     let today = options.sessionDate.replace(reg, "").split('-');
+    // console.log(app.globalData)
     if (today[0] == month && today[1] == day) {
       wx.showModal({
         title: '您当前所处' + app.globalData.moviearea,
-        content: '',
+        content: app.globalData.cinemaList.ticketHint,
       })
     } else {
       wx.showModal({

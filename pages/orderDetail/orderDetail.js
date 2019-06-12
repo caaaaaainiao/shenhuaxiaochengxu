@@ -35,7 +35,7 @@ Page({
     })
     that.setData({
       orderNum:options.orderNum,
-      verifyCode: options.verifyCode,
+      // verifyCode: options.verifyCode,
     });
     let data = {
       UserName: app.usermessage.Username,
@@ -56,13 +56,13 @@ Page({
           let realAmount = Math.floor(res.data.data.realAmount * 100) / 100;
           let seat = res.data.data.seat;
           let cinemaCode = res.data.data.cinemaCode;
-          // let verifyCode = res.data.data.verifyCode;
+          let verifyCode = res.data.data.verifyCode;
           that.setData({
             order: order,
             realAmount: realAmount,
             seat: seat,
             cinemaCode: cinemaCode,
-            // verifyCode: verifyCode,
+            verifyCode: verifyCode,
           })
           if (app.globalData.cinemaList.cinemaType == "辰星") {
             let printNo = that.data.order.printNo.slice(8);
@@ -158,14 +158,14 @@ Page({
     let data = {
       UserName: app.usermessage.Username,
       Password: app.usermessage.Password,
-      CinemaCode: app.globalData.cinemaCode,
+      CinemaCode: that.data.cinemaCode,
       PrintNo: that.data.printNo,
       VerifyCode: that.data.verifyCode,
     };
     if (app.globalData.cinemaList.cinemaType == "辰星") {
        data.PrintNo = that.data.oldPrintNo;
     }
-    console.log(data);
+    // console.log(data);
     // wx.showLoading({
     //   title: '加载中',
     // })
@@ -177,6 +177,20 @@ Page({
       },
       success: function (res) {
         console.log(res)
+        that.setData({
+          retreat:false,
+        })
+        if (res.data.Status == "Success") {
+          wx.showToast({
+            title: '退票成功',
+          })
+        }
+        else {
+          wx.showToast({
+            title: '退票失败,' + res.data.ErrorMessage,
+            icon: 'none',
+          })
+        }
       }
     })
     // wx.request({
