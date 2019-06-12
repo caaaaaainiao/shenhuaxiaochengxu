@@ -23,7 +23,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys/' + 'MiniProgram/' +'6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode,
+      url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys/' + 'MiniProgram/' +'6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode +'/04',
       method:'GET',
       success: function (res) {
         console.log(res.data.data)

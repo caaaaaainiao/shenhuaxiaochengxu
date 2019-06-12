@@ -78,7 +78,7 @@ Page({
       totalPrice: totalPrice,
       disPrice: totalPrice
     });
-
+ 
 
     //todo 优惠券
     util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID + "/All", function(res) {

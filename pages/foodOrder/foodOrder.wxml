@@ -15,15 +15,15 @@
       </view>
     </view>
   </block>
-  <view class='option' wx:if="{{merOrder.merTicket.couponPrice}}" bindtap='chooseCoupon'>
-    小食优惠券
-    <image src='/images/gray_more.png'></image>
-    <text>-{{merOrder.merTicket.couponPrice}}元</text>
-  </view>
   <view class='option' style="border:none;">
     小食总价
     <text>元</text>
     <text class='money'>{{disPrice}}</text>
+  </view>
+  <view class='option' wx:if="{{merOrder.merTicket.couponPrice}}" bindtap='chooseCoupon'>
+    小食优惠券
+    <image src='/images/gray_more.png'></image>
+    <text>-{{merOrder.merTicket.couponPrice}}元</text>
   </view>
   <view class='gray_line'></view>
   <view class='phone' wx:if="{{type == 1}}">
