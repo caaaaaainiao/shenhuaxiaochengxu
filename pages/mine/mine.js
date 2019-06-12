@@ -55,11 +55,14 @@ Page({
       },
       success: function (res) {
         console.log(res)
-        // if (res.data.Status == "Success") {
-        //   that.setData({
-
-        //   })
-        // }
+        if (res.data.Status == "Success") {
+          that.setData({
+            couponsCount: res.data.data.couponsCount,
+            giftCount: res.data.data.giftCount,
+            goodsCount: res.data.data.goodsCount,
+            ticketCount: res.data.data.ticketCount,
+          })
+        }
       }
     })
     wx.getStorage({

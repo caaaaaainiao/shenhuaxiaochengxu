@@ -18,22 +18,22 @@
     <view class='classify'>
       <view class='option' bindtap='myTicket'>
         <image class='option_pic' src='/images/mine_dyp.png'></image>
-        <view class='option_num' wx:if="{{count.orderCount > 0}}">{{count.orderCount}}</view>
+        <view class='option_num' wx:if="{{ticketCount > 0}}">{{ticketCount}}</view>
         <view class='option_title'>电影票</view>
       </view>
       <view class='option' bindtap='myFood'>
         <image class='option_pic' src='/images/mine_xs.png'></image>
-        <view class='option_num' wx:if="{{count.merCount > 0}}">{{count.merCount}}</view>
+        <view class='option_num' wx:if="{{goodsCount > 0}}">{{goodsCount}}</view>
         <view class='option_title'>小食</view>
       </view>
       <view class='option' bindtap='myCoupon'>
         <image class='option_pic' src='/images/mine_yhq.png'></image>
-        <view class='option_num' wx:if="{{count.couponCount > 0}}">{{count.couponCount}}</view>
+        <view class='option_num' wx:if="{{couponsCount > 0}}">{{couponsCount}}</view>
         <view class='option_title'>优惠券</view>
       </view>
       <view class='option' bindtap='myPrize'>
         <image class='option_pic' src='/images/mine_jp.png'></image>
-        <view class='option_num' wx:if="{{count.prizeCount > 0}}">{{count.prizeCount}}</view>
+        <view class='option_num' wx:if="{{giftCount > 0}}">{{giftCount}}</view>
         <view class='option_title'>奖品</view>
       </view>
     </view>
