@@ -67,7 +67,7 @@
       <view class='address'>
         <view class='storename'>{{order.cinemaName}}</view>
         <view class='storeaddress'>{{order.cinemaAddress}}</view>
-        <image src='/images/phone.png' class='phone' bindtap='phone' data-phone='{{order.cinema.contact}}'></image>
+        <image src='/images/phone.png' class='phone' bindtap='phone' data-phone='{{order.cinemaPhone}}'></image>
       </view>
       <view class='address'>
         <view class='storename'>实付金额</view>
@@ -85,14 +85,13 @@
       <view class='refunded' wx:if="{{order.payStatus == 3}}">
         <image src='/images/refunded.png'></image>
       </view>
-      <view class='refund' wx:elif="{{order.payStatus == 1&&order.printStatus==1&&order.order!=null}}" bindtap='refundbtn'>退票</view>
+      <view class='refund' bindtap='refundbtn'>退票</view>
     </view>
   </view>  
   <!-- 确认退票 -->
   <view class='black' wx:if="{{retreat}}">
     <view class='black_content'>
-        <view class='text' wx:if="{{order.order.payType == 3}}">是否确认继续退票</view>
-        <view class='text' wx:else>退票将收取{{order.order.refundHandFee}}元服务费</view>
+        <view class='text'>退票将收取{{order.order.refundHandFee}}元服务费</view>
         <view class='cancel' bindtap='cancel'>不退了</view>
         <view class='sure' bindtap='refund'>继续退票</view>
     </view>
