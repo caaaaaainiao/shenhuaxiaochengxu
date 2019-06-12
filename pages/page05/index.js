@@ -17,7 +17,7 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
       'content-type': 'application/json' // 默认值
     },
     success: function (res) {
-      console.log(res)
+      // console.log(res)
       callback && callback(res.data.card);
       return res.data.card;
     }
@@ -43,7 +43,8 @@ Page({
     ruleCode: '',
     show: '',
     face: '',
-    userCardList: ''
+    userCardList: '',
+    memberCardImage: [],
   },
   btnShowExchange: function(e) {
     let that = this;
@@ -278,11 +279,7 @@ Page({
       // }
     });
   },
-  // 清除缓存 方便真机调试
-  // clear: function () {
-  //   wx.clearStorage()
-  //   console.log(1)
-  // },
+
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
     var that = this;
@@ -308,90 +305,114 @@ Page({
       OpenID: that.data.openId,
       CinemaCode: that.data.cinemaCode
     }
-    // 读取已绑定的会员卡
-    wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        if (res.data.data.memberCard == null) {
-          wx.navigateTo({
-            url: '../page04/index',
-          })
-        } else {
-          var memberCard = [];
-          var status = [];
-          var userCardList = [];
-          var n = 0;
-          var username = '';
-          var score = '';
-          var memberCard = res.data.data.memberCard;
-          // 循环出已绑定的会员卡
-          for (var i = 0; i < memberCard.length; i++) {
-            if (memberCard[i].status == 1) {
-              status.push(memberCard[i]);
-            }
-          }
-          // 循环绑定会员卡调用方法请求到最新的余额以及积分
-          for (let i = 0; i < status.length; i++) {
-            getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res) {
-              userCardList.push(res);
-              that.setData({
-                userCardList: userCardList
+    wx.getStorage({
+      key: 'memberCardImage',
+      success: function(res) {
+        that.setData({
+          memberCardImage: res.data,
+        })
+        let memberCardImage = that.data.memberCardImage;
+        // 读取已绑定的会员卡
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
+          method: 'GET',
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            if (res.data.data.memberCard == null) {
+              wx.navigateTo({
+                url: '../page04/index',
               })
-            })
-          }
-          // 设置计时器解决request异步问题
-          setTimeout(function () {
-            var card = that.data.userCardList;
-            for (let i = 0; i < card.length; i++) {
-              var num = "status[" + i + "].num";
-              var levelName = "status[" + i + "].levelName";
-              var balance = "status[" + i + "].balance";
-              var levelCode = "status[" + i + "].levelCode";
-              var pass = "status[" + i + "].pass";
-              if (card[i].balance == null) {
+            } else {
+              var memberCard = [];
+              var status = [];
+              var userCardList = [];
+              var n = 0;
+              var username = '';
+              var score = '';
+              var memberCard = res.data.data.memberCard;
+              // 循环出已绑定的会员卡
+              for (var i = 0; i < memberCard.length; i++) {
+                // 循环会员卡卡背 添加到相应的会员卡内
+                for (let j = 0; j < memberCardImage.length; j++) {
+                  if (memberCardImage[j].levelCode == memberCard[i].levelCode) {
+                    memberCard[i].memberCardImage = memberCardImage[j].memberCardImage
+                  }
+                }
+                if (memberCard[i].status == 1) {
+                  status.push(memberCard[i]);
+                }
+              }
+              // 循环绑定会员卡调用方法请求到最新的余额以及积分
+              for (let i = 0; i < status.length; i++) {
+                getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res) {
+                  userCardList.push(res);
+                  that.setData({
+                    userCardList: userCardList
+                  })
+                })
+              }
+              // 设置计时器解决request异步问题
+              setTimeout(function () {
+                var card = that.data.userCardList;
+                for (let i = 0; i < card.length; i++) {
+                  // 循环会员卡卡背 添加到相应的会员卡内
+                  for (let j = 0; j < memberCardImage.length; j++) {
+                    if (memberCardImage[j].levelCode == card[i].levelCode) {
+                      card[i].memberCardImage = memberCardImage[j].memberCardImage
+                    }
+                  }
+                  // console.log(card)
+                  var num = "status[" + i + "].num";
+                  var levelName = "status[" + i + "].levelName";
+                  var balance = "status[" + i + "].balance";
+                  var levelCode = "status[" + i + "].levelCode";
+                  var pass = "status[" + i + "].pass";
+                  var image = "status[" + i + "].memberCardImage";
+                  if (card[i].balance == null) {
+                    that.setData({
+                      [balance]: 0,
+                      [num]: card[i].cardNo,
+                      [pass]: card[i].cardPassword,
+                      [levelName]: card[i].levelName,
+                      [levelCode]: card[i].levelCode,
+                      [image]: card[i].memberCardImage,
+                    })
+                  } else {
+                    that.setData({
+                      [num]: card[i].cardNo,
+                      [pass]: card[i].cardPassword,
+                      [levelName]: card[i].levelName,
+                      [balance]: card[i].balance,
+                      [levelCode]: card[i].levelCode,
+                      [image]: card[i].memberCardImage,
+                    })
+                  }
+                }
+                app.globalData.card = card;
+              }, 1000);
+              // 计算余额最多的会员卡
+              var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
+              first.cinemaCode = that.data.cinemaCode;
+              var cardList = []
+              if (first.score == null) {
+                first.score = 0
+              }
+              // 判断积分  显示余额最多的积分
+              if (first.score == null) {
                 that.setData({
-                  [balance]: 0,
-                  [num]: card[i].cardNo,
-                  [pass]: card[i].cardPassword,
-                  [levelName]: card[i].levelName,
-                  [levelCode]: card[i].levelCode
+                  score: 0
                 })
               } else {
                 that.setData({
-                  [num]: card[i].cardNo,
-                  [pass]: card[i].cardPassword,
-                  [levelName]: card[i].levelName,
-                  [balance]: card[i].balance,
-                  [levelCode]: card[i].levelCode,
+                  score: first.score
                 })
               }
             }
-            app.globalData.card = card;
-          }, 1000);
-          // 计算余额最多的会员卡
-          var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
-          first.cinemaCode = that.data.cinemaCode;
-          var cardList = []
-          if (first.score == null) {
-            first.score = 0
           }
-          // 判断积分  显示余额最多的积分
-          if (first.score == null) {
-            that.setData({
-              score: 0
-            })
-          } else {
-            that.setData({
-              score: first.score
-            })
-          }
-        }
-        
-      }
+        })
+      },
     })
     wx.setNavigationBarTitle({ title: '会员卡' });
   },

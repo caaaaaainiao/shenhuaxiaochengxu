@@ -11,7 +11,9 @@ Page({
     inputPhone: "",
     inputYzm: "",
     yzmText: "获取验证码",
-    yzmTime: "60"
+    yzmTime: "60",
+    image: null,
+    modalHidden: true,
   },
 
   /**
@@ -75,6 +77,37 @@ Page({
       path: '/pages/index/index'
     }
   },
+  /**
+ * 显示弹窗
+ */
+  buttonTap: function () {
+    this.setData({
+      modalHidden: false
+    })
+  },
+
+  /**
+   * 点击取消
+   */
+  modalCandel: function () {
+    // do something
+    this.setData({
+      modalHidden: true
+    })
+  },
+
+  /**
+   *  点击确认
+   */
+  modalConfirm: function () {
+    // do something
+    this.setData({
+      modalHidden: true
+    })
+    wx.navigateTo({
+      url: '../mycoupon/mycoupon',
+    })
+  },
   login: function() {
     // console.log("login")
     var phone = this.data.phone;
@@ -115,14 +148,24 @@ Page({
       success: function(res) {
         wx.hideLoading()
         if (res.data.Status == "Success") {
+          // 获取轮播图信息
           wx.request({
-            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + app.globalData.cinemacode,
+            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
             method: "GET",
             header: {
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              console.log(res)
+              for (let i = 0; i < res.data.data.images.length; i ++) {
+                if (res.data.data.images[i].gradeCode == '07') {
+                  let image = res.data.data.images[i].image;
+                  that.setData({
+                    image: image,
+                    modalHidden: false,
+                  });
+
+                }
+              }
             }
           })
         } else {

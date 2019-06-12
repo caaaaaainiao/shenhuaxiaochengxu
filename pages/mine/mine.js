@@ -12,7 +12,7 @@ Page({
     progress: false,
     count: null,
     banner: "/images/comparebg.jpg",
-    banner2: ""
+    banner2: "",
   },
 
   /**
@@ -280,5 +280,5 @@ Page({
         }
       }
     }
-  }
+  },
 })

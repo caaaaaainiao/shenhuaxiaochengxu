@@ -223,10 +223,6 @@ Page({
     })
     wx.showTabBar()
         // console.log(res)
-<<<<<<< HEAD
-        app.globalData.phonenum 
-=======
->>>>>>> 649ca2f4b0846022382b717a6bc85b8a7889f2a0
   },
   close:function(){
     var that = this;
