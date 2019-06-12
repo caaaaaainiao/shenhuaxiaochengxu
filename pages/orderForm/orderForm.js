@@ -249,7 +249,7 @@ Page({
           let ticketPrice = Number(options.price) - Number(that.data.ticketRealPrice)
           that.setData({
             seatCouponList: movieArr,
-            price: ticketPrice,
+            // price: ticketPrice,
             allPrice: Number(ticketPrice) + Number(that.data.refreshments),
           })
         }
@@ -264,7 +264,7 @@ Page({
       that.setData({
         card: res.data.data.memberCard,
       })
-      console.log(that.data.card)
+      // console.log(that.data.card)
     });
   },
   //传入数组以及要去重的对象
@@ -771,6 +771,7 @@ Page({
       CinemaCode: app.globalData.cinemacode, //影院编码
       LockOrderCode: that.data.orderCode, //锁座订单号(编码)
       LocalOrderCode: "LocalOrderCode", //卖品本地订单号
+      CouponsCode: that.data.couponsCode, // 优惠券编码
       CardNo: that.data.cardNo, //会员卡号
       CardPassword: that.data.password, //会员卡密码
       PayAmount: that.data.allPrice, //影票支付金额

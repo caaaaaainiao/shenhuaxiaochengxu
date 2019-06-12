@@ -144,28 +144,24 @@ Page({
         cinemaCode: app.globalData.cinemacode,
         userName: apiuser.UserName,
         password: apiuser.Password,
+        gradeCode: '07',
       },
       success: function(res) {
         wx.hideLoading()
         if (res.data.Status == "Success") {
           // 获取轮播图信息
           wx.request({
-            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
+            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + data.gradeCode,
             method: "GET",
             header: {
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              for (let i = 0; i < res.data.data.images.length; i ++) {
-                if (res.data.data.images[i].gradeCode == '07') {
-                  let image = res.data.data.images[i].image;
-                  that.setData({
-                    image: image,
-                    modalHidden: false,
-                  });
-
-                }
-              }
+              let image = res.data.images[0].image;
+              that.setData({
+                image: image,
+                modalHidden: false,
+              });
             }
           })
         } else {

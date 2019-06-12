@@ -328,6 +328,7 @@ Page({
           success: function (res) {
             // console.log(res)
             var memberCardLevel = [];
+            let memberCardImage = [];
             memberCardLevel = res.data.data.level;
             for (var i = 0; i < memberCardLevel.length; i++) {
               var levelName = "memberCardLevel[" + i + "].levelName";
@@ -337,6 +338,7 @@ Page({
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var ruleCode = "memberCardLevel[" + i + "].ruleCode";
+              memberCardImage.push({ 'levelCode': memberCardLevel[i].levelCode, 'memberCardImage': memberCardLevel[i].memberCardImage })
               // var memberCardImage = "memberCardLevel[" + i + "].memberCardImage";
               var str = memberCardLevel[i].ruleDescription;
               if (str != null) {
@@ -364,6 +366,11 @@ Page({
                 })
               }
             }
+            // 将卡背图片存入缓存
+            wx.setStorage({
+              key: 'memberCardImage',
+              data: memberCardImage,
+            })
           }
         })
       } else {
