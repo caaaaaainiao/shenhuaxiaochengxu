@@ -25,7 +25,6 @@ Page({
     that.setData({
       userInfo: dataInfo.userInfo
     })
-
   },
 
   /**
@@ -104,10 +103,11 @@ Page({
     this.setData({
       modalHidden: true
     })
-    wx.navigateTo({
+    wx.redirectTo({
       url: '../mycoupon/mycoupon',
     })
   },
+
   login: function() {
     // console.log("login")
     var phone = this.data.phone;
