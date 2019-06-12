@@ -78,7 +78,7 @@
         </view>
          <view class='checkoptions' wx:if="{{step == 3}}">
           <!-- <block wx:for="{{beginmovieList}}" wx:for-item="hall" wx:key="hall"> -->
-            <view class='option {{hall.foodcheck?"checkedoption":""}}' bindtap='setHall' data-hall="{{screenname}}" data-index="{{index}}">{{screenname}}</view>
+            <view class='option {{isOk?"checkedoption":""}}' bindtap='setHall' data-hall="{{screenname}}" data-index="{{index}}">{{screenname}}</view>
           <!-- </block> -->
         </view>
         <view class='checkstep'>
