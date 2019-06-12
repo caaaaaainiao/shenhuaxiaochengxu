@@ -1,4 +1,11 @@
 /* pages/compare/compare.wxss */
+.show{
+  display: block
+}
+
+.hide{
+  display: none
+}
 
 .container {
   width: 100%;

@@ -20,6 +20,8 @@ Page({
     moviearea:null,
     isLoading:true,
     moviesListDate: null,
+    isShow:false,
+    index: 0,
   },
 
   /**
@@ -39,10 +41,10 @@ Page({
       swiperIndex: app.globalData.movieIndex
     })
     this.swiperIndex = this.data.swiperIndex
-    console.log(this.swiperIndex)
+    // console.log(this.swiperIndex)
     // console.log(app.globalData)
     this.moviesList = app.globalData.moviearea
-    console.log(app.globalData.moviearea)
+    // console.log(app.globalData.moviearea)
     that.setData({
       movieId: app.globalData.movieId,
       moviearea: app.globalData.moviearea,
@@ -211,9 +213,15 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        var comparePrices = res.data.data.sessionDate[0].session
+        
+        
         that.setData({
-          moviesListDate: res.data.data
+          moviesListDate: res.data.data,
+          comparePrices: comparePrices
         })
+        console.log(that.data.moviesListDate)
+
       }
     })
     // if (app.globalData.cinemacode) {
@@ -332,16 +340,23 @@ Page({
     }
   },
   checkSession:function(e){//选择比价
+  //点击事件在这里
+    // console.log(e.currentTarget.dataset.index)
     var that = this;
-    var index = e.currentTarget.dataset.index;
-    var list = that.data.screenPlanList[that.data.select].list;
-    for(var i = 0;i < list.length;i++){
-      list[i].startCompare = false;
-    }
-    list[index].startCompare = true;
-    this.setData({
-      screenPlanList: that.data.screenPlanList
+    // console.log(that.data.comparePrices)
+    that.setData({
+      isShow:true,
+      selectedIndex: e.currentTarget.dataset.index
     })
+    // var index = e.currentTarget.dataset.index;
+    // var list = that.data.screenPlanList[that.data.select].list;
+    // for(var i = 0;i < list.length;i++){
+    //   list[i].startCompare = false;
+    // }
+    // list[index].startCompare = true;
+    // this.setData({
+    //   screenPlanList: that.data.screenPlanList
+    // })
   },
   cancel:function(){
     var that = this;
