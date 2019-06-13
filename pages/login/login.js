@@ -151,8 +151,6 @@ Page({
       },
       success: function (res) {
         // console.log(res.data.data.mobilePhone)//用户注册的手机号码
-        app.globalData.userInfo.mobilePhone = res.data.data.mobilePhone//设置手机号码
-        console.log(app.globalData.userInfo)
         wx.hideLoading()
         if (res.data.Status == "Success") {
           // 获取优惠券弹窗信息
@@ -163,15 +161,30 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              // console.log(res)
-              wx.setStorage({
-                key: 'sjhm',
-                data: that.data.phone,
-                success: function (res) { },
-                fail: function (res) { },
-                complete: function (res) { },
+              wx.getStorage({
+                key: 'loginInfo',
+                success: function(e) {
+                  var userInfo = e.data.userInfo;
+                  userInfo.mobilePhone = that.data.phone
+                  wx.setStorage({
+                    key: 'loginInfo',
+                    data: userInfo,
+                  })
+                  console.log(userInfo)
+                },
+                fail:function(res){
+                  console.log(res)
+                }
               })
-              app.globalData.phone = that.data.phone
+              // console.log(res)
+              // wx.setStorage({
+              //   key: 'sjhm',
+              //   data: that.data.phone,
+              //   success: function (res) { },
+              //   fail: function (res) { },
+              //   complete: function (res) { },
+              // })
+              // app.globalData.phone = that.data.phone
               if (!res.data.data.images) {
                 wx.redirectTo({
                   url: '../index/index',

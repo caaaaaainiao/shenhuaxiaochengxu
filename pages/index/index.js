@@ -673,6 +673,30 @@ Page({
             that.setData({
               onLoad: true
             })
+            if (e.data.data) {
+              wx.setStorage({
+                key: 'loginInfo',
+                data: {
+                  "userInfo": e.data.data
+                },
+                success: function () {
+                  // console.log(e)
+                  app.globalData.openId = e.data.data.openID;
+                  app.globalData.userInfo = e.data.data;
+                  that.setData({
+                    userInfo: e.data.data
+                  })
+                  //that.getPlace();
+
+                }
+              })
+            } else {
+              // wx.showToast({
+              //   title: '登录失败',
+              //   icon: 'loading',
+              //   duration: 2000
+              // })
+            }
             if (e.data.Status == 'Success') {
               wx.request({
                 url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + e.data.data.cinemaCode + '/' + e.data.data.openID,
@@ -696,30 +720,7 @@ Page({
               // })
               return;
             }
-            if (e.data.data) {
-              wx.setStorage({
-                key: 'loginInfo',
-                data: {
-                  "userInfo": e.data.data
-                },
-                success: function() {
-                  // console.log(e)
-                  app.globalData.openId = e.data.data.openID;
-                  app.globalData.userInfo = e.data.data;
-                  that.setData({
-                    userInfo: e.data.data
-                  })
-                  //that.getPlace();
-
-                }
-              })
-            } else {
-              // wx.showToast({
-              //   title: '登录失败',
-              //   icon: 'loading',
-              //   duration: 2000
-              // })
-            }
+            
 
             //是否第一次进入 引导
             wx.getStorage({
