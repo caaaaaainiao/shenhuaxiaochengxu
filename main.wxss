@@ -361,7 +361,7 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before { content: ""; -we
 
 .page04 .operate .btns { height: 66rpx; line-height: 62rpx; border-radius: 66rpx; overflow: hidden; text-align: center; }
 
-.page04 .operate .btns1 { background-image: -webkit-gradient(linear, right top, left top, color-stop(42%, #f80404), color-stop(79%, #eb6307), to(#ddc209)); background-image: -webkit-linear-gradient(right, #f80404 42%, #eb6307 79%, #ddc209 100%); background-image: -o-linear-gradient(right, #f80404 42%, #eb6307 79%, #ddc209 100%); background-image: linear-gradient(270deg, #f80404 42%, #eb6307 79%, #ddc209 100%); color: #fff; font-size: 26rpx; letter-spacing: 6rpx; margin-bottom: 20rpx; }
+.page04 .operate .btns1 { background-image: -webkit-gradient(linear, right top, left top, color-stop(42%, #f80404), color-stop(79%, #eb6307), to(#ddc209)); background-image: -webkit-linear-gradient(right, #f80404 42%, #eb6307 79%, #ddc209 100%); background-image: -o-linear-gradient(right, #f80404 42%, #eb6307 79%, #ddc209 100%); background-image: linear-gradient(270deg, #f80404 42%, #eb6307 79%, #ddc209 100%); color: #fff; font-size: 26rpx; letter-spacing: 6rpx; margin-bottom: 50rpx; }
 
 .page04 .operate .btns2 { font-size: 20rpx; color: #fc0303; border: #fc0303 1px solid; }
 

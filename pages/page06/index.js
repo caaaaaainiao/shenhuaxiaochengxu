@@ -260,6 +260,13 @@ Page({
                       url: '../page05/index',
                     })
                   }
+                  else {
+                    wx.showToast({
+                      title: res.data.ErrorMessage,
+                      icon: 'none',
+                      duration: 2000
+                    });
+                  }
                 }
               })
             }
@@ -290,6 +297,7 @@ Page({
   },
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
+    console.log(options)
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var movieName = app.globalData.moviearea;

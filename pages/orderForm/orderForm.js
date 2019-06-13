@@ -11,6 +11,7 @@ Page({
     showPay: false,
     seatOrder: null,
     date: null,
+    ticketName: '电影票优惠券',
     seatCoupon: 0, //电影票优惠券
     foodCoupon: 0, //小食优惠券
     seatCouponList: null,
@@ -32,7 +33,7 @@ Page({
     count: '',
     autoUnlockDatetime: '',
     comboList: null,
-    refreshments: 0,
+    refreshments: 0, // 小食价格
     allPrice: 0,
     orderCode: '', // 锁座订单号
     isShow: false,
@@ -61,8 +62,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
-    console.log(app.globalData)
     var that = this;
     // 查询手机号
     wx.request({
@@ -115,7 +114,7 @@ Page({
     })
     // 获取优惠券
     util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function (res) {
-      console.log(res)
+      // console.log(res)
       if (res && res.length > 0) {
         let seatCouponList = [];
         let foodCouponList = [];
@@ -237,7 +236,96 @@ Page({
             }
           }
           else if (seatCouponList[i].couonsType == 2) { // 如果优惠券为兑换券
-            // console.log(seatCouponList[i])
+            if (seatCouponList[i].isAllFilm == true) { // 如果优惠券为全部影片
+              if (seatCouponList[i].canUsePeriodType == 1) { // 如果可用时段为全部时段
+                canUseTicket.push(seatCouponList[i])
+              } else { // 如果可用时段为部分时段
+                let weekDays = seatCouponList[i].weekDays.split(',')
+                if (weekDays.in_array(week) == true) {  // 如果当天日期在优惠券限制的日期里
+                  if (seatCouponList[i].timePeriod == "") { // 如果优惠券没限制可用时段
+                    canUseTicket.push(seatCouponList[i])
+                  } else { //  如果优惠券限制使用时段
+                    // 将时间段转化为数组
+                    let timeArr = seatCouponList[i].timePeriod.split(",")
+                    for (let i = 0; i < timeArr.length; i++) {  // 循环时间段判断当前购票时间是否处于限制时间段内
+                      // 创建一个空数组用来存放限制的时间
+                      let imposeTime = [];
+                      imposeTime.push(timeArr[i])
+                      // 将限制时间转化为分钟
+                      let index = imposeTime[0].indexOf("-");
+                      let str1 = imposeTime[0].substring(0, index);
+                      let str2 = imposeTime[0].substring((index + 1), imposeTime[0].length);
+                      let indexSone = str1.indexOf(":");
+                      let indexStwo = str2.indexOf(":");
+                      let str1o1 = str1.substring(0, indexSone) * 60;
+                      let str1o2 = str1.substring((indexSone + 1), str1.length)
+                      let str1Start = str1o1 + Number(str1o2);
+                      let str2o1 = str2.substring(0, indexStwo) * 60;
+                      let str2o2 = str2.substring((indexStwo + 1), str2.length)
+                      let str2Start = str2o1 + Number(str2o2);
+                      // 创建一个新数组用来存放转化好的分钟
+                      let imposeM = [];
+                      imposeM.push(str1Start, str2Start);
+                      if (imposeM[0] < hm && hm < imposeM[1]) { // 判断当前时间是否符合限制时间
+                        canUseTicket.push(seatCouponList[i])
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            // 如果优惠券为部分影片
+            else {
+              let filmCodes = seatCouponList[i].filmCodes.split(",")
+              for (let i = 0; i < filmCodes.length; i++) {
+                if (app.globalData.movieId == filmCodes[i]) { // 判断影片编码
+                  if (seatCouponList[i].canUsePeriodType == 1) { // 如果可用时段为全部时段
+                    canUseTicket.push(seatCouponList[i])
+                  }
+                  // 如果可用时段为部分时段
+                  else {
+                    let weekDays = seatCouponList[i].weekDays.split(',')
+                    // 如果当天日期在优惠券限制的日期里
+                    if (weekDays.in_array(week) == true) {
+                      // 如果优惠券没限制可用时段
+                      if (seatCouponList[i].timePeriod == "") {
+                        canUseTicket.push(seatCouponList[i])
+                      }
+                      //  如果优惠券限制使用时段
+                      else {
+                        // 将时间段转化为数组
+                        let timeArr = seatCouponList[i].timePeriod.split(",")
+                        // 循环时间段判断当前购票时间是否处于限制时间段内
+                        for (let i = 0; i < timeArr.length; i++) {
+                          // 创建一个空数组用来存放限制的时间
+                          let imposeTime = [];
+                          imposeTime.push(timeArr[i])
+                          // 将限制时间转化为分钟
+                          let index = imposeTime[0].indexOf("-");
+                          let str1 = imposeTime[0].substring(0, index);
+                          let str2 = imposeTime[0].substring((index + 1), imposeTime[0].length);
+                          let indexSone = str1.indexOf(":");
+                          let indexStwo = str2.indexOf(":");
+                          let str1o1 = str1.substring(0, indexSone) * 60;
+                          let str1o2 = str1.substring((indexSone + 1), str1.length)
+                          let str1Start = str1o1 + Number(str1o2);
+                          let str2o1 = str2.substring(0, indexStwo) * 60;
+                          let str2o2 = str2.substring((indexStwo + 1), str2.length)
+                          let str2Start = str2o1 + Number(str2o2);
+                          // 创建一个新数组用来存放转化好的分钟
+                          let imposeM = [];
+                          imposeM.push(str1Start, str2Start);
+                          // 判断当前时间是否符合限制时间
+                          if (imposeM[0] < hm && hm < imposeM[1]) {
+                            canUseTicket.push(seatCouponList[i])
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
           }
         };
         let arr = that.arrayUnique2(canUseTicket, "conponId");
@@ -785,7 +873,7 @@ Page({
       Password: app.usermessage.Password, // 密码
       CinemaCode: app.globalData.cinemacode, //影院编码
       LockOrderCode: that.data.orderCode, //锁座订单号(编码)
-      LocalOrderCode: "LocalOrderCode", //卖品本地订单号
+      LocalOrderCode: null, //卖品本地订单号
       CouponsCode: that.data.couponsCode, // 优惠券编码
       CardNo: that.data.cardNo, //会员卡号
       CardPassword: that.data.password, //会员卡密码
@@ -1249,74 +1337,40 @@ Page({
               })
             }
      }
-    priceArr.push(that.data.seatCoupon.price);
-    codeArr.push(that.data.seatCoupon.conponCode);
-    let price = (that.data.beginTicket) - (that.data.seatCoupon.price);
-    that.setData({
-      conponCode: that.data.seatCoupon.conponCode,
-      reductionPrice: that.data.seatCoupon.price,
-      ticketRealPrice: that.data.seatCoupon.price,
-      price: price,
-      allPrice: price + that.data.refreshments,
-      priceArr: priceArr,
-      codeArr: codeArr,
-    })
-    // let id = e.currentTarget.dataset.id;
-    // console.log(e.currentTarget.dataset.index)
-    // console.log(id)
-    // console.log(seatCoupons.conponId)
-    // var id = e.currentTarget.dataset.id;
-    // var type = e.currentTarget.dataset.type;
-    // if (type == 2) {
-    //   var nowtime = new Date().getTime();
-    //   var sign = app.createMD5('verficationCxTicket', nowtime);
-    //   wx.showLoading({
-    //     mask: true
-    //   })
-    //   wx.request({
-    //     url: app.globalData.url + '/api/shOrder/verficationCxTicket',
-    //     data: {
-    //       appUserId: app.globalData.userInfo.id,
-    //       orderNum: that.data.seatOrder.orderNum,
-    //       seatTicketId: id,
-    //       timeStamp: nowtime,
-    //       mac: sign
-    //     },
-    //     method: "POST",
-    //     header: {
-    //       "Content-Type": "application/x-www-form-urlencoded"
-    //     },
-    //     success: function(res) {
-    //       wx.hideLoading();
-    //       if(res.data.status == 1){
-    //         for (var i = 0; i < that.data.seatCouponList.length; i++) {
-    //           if (that.data.seatCouponList[i].id == id) {
-    //             that.setData({
-    //               seatCoupon: that.data.seatCouponList[i]
-    //             })
-    //           }
-    //         }
-    //         that.calculate();
-    //       }else{
-    //         wx.showModal({
-    //           title: '用券失败',
-    //           content: res.data.message,
-    //         })
-    //       }
-    //     }
-    //   })
-    // } else {
-    //   // seatCoupon
-    //   for (var i = 0; i < that.data.seatCouponList.length; i++) {
-    //     if (that.data.seatCouponList[i].id == id) {
-    //       that.setData({
-    //         seatCoupon: that.data.seatCouponList[i]
-    //       })
-    //     }
-    //   }
-    //   that.calculate();
-    // }
-
+    let price = that.data.price; // 影票总价
+    let refreshments = that.data.refreshments; // 卖品总价
+    let seatCouponPrice = that.data.seatCoupon.price; // 优惠券金额
+    if (that.data.seatCoupon.couonsType == '2') { // 兑换券
+    console.log(price);
+      seatCouponPrice = price;
+      priceArr.push(seatCouponPrice);
+      codeArr.push(that.data.seatCoupon.conponCode);
+      price = (that.data.beginTicket) - (seatCouponPrice);
+      that.setData({
+        conponCode: that.data.seatCoupon.conponCode,
+        reductionPrice: that.data.seatCoupon.price,
+        ticketRealPrice: seatCouponPrice, // 减免金额
+        allPrice: price + refreshments,
+        priceArr: priceArr,
+        codeArr: codeArr,
+      })
+      that.setData({
+        ticketName: '电影票兑换券'
+      })
+    } else { // 代金券
+      priceArr.push(seatCouponPrice);
+      codeArr.push(that.data.seatCoupon.conponCode);
+      price = (that.data.beginTicket) - (seatCouponPrice);
+      that.setData({
+        conponCode: that.data.seatCoupon.conponCode,
+        reductionPrice: that.data.seatCoupon.price,
+        ticketRealPrice: that.data.seatCoupon.price, // 减免金额
+        // price: price,
+        allPrice: price + refreshments,
+        priceArr: priceArr,
+        codeArr: codeArr,
+      })
+    };
   },
   setFoodCoupon: function(e) {
     var that = this;
