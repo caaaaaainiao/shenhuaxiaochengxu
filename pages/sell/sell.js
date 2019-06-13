@@ -30,10 +30,11 @@ Page({
     var that = this;
     app.globalData.phonenum = app.globalData.userInfo.mobilePhone
      // 读取缓存  设置影院信息
-    var movieList = app.globalData.sellMovielist
-   that.setData({
-     movieList:movieList
-   })
+    that.countMovie()
+  //   var movieList = app.globalData.sellMovielist
+  //  that.setData({
+  //    movieList:movieList
+  //  })
   //  console.log(that.data.movieList)
     wx.getStorage({
       key: 'accredit',
@@ -451,5 +452,37 @@ Page({
           wx.hideTabBar()
         }
     }
+  },
+  countMovie: function () {
+    var movieList = app.globalData.sellMovielist;
+    var now = new Date();
+    var year = now.getFullYear();
+    var month = now.getMonth() + 1;
+    var day = now.getDate();
+    var that = this;
+    if (month < 10) {
+      month = "0" + month;
+    }
+    if (day < 10) {
+      day = "0" + day;
+    }
+    var today = year + "-" + month + "-" + day;
+    for (var i = 0; i < movieList.length; i++) {
+      for (var j = 0; j < movieList[i].session.length; j++) {
+        if (movieList[i].session[j].startTime.substring(0, 10) != today) {
+          movieList[i].session.splice(0, 1);
+          j--;
+        }
+      }
+    }
+    for (var g = 0; g < movieList.length; g++) {
+      if (movieList[g].session.length == 0) {
+        movieList.splice(g, 1);
+        g--;
+      }
+    }
+    that.setData({
+      movieList: movieList
+    })
   }
 })
