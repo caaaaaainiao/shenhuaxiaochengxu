@@ -149,7 +149,7 @@ Page({
         console.log(res)
         wx.hideLoading()
         if (res.data.Status == "Success") {
-          // 获取轮播图信息
+          // 获取优惠券弹窗信息
           wx.request({
             url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + '07',
             method: "GET",
@@ -157,7 +157,6 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              console.log(res)
               let image = res.data.data.images[0].image;
               that.setData({
                 image: image,
