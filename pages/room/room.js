@@ -27,7 +27,8 @@ Page({
     endTime:"00:00",
     leftTime:"0",
     content:"",
-    unload:false
+    unload:false,
+    timer : ''
   },
 
   /**
@@ -35,6 +36,7 @@ Page({
    */
   onLoad: function(options) {
     // console.log(options.pa)
+   
     var that = this;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     var contentHeight = windowHeight - 279;
@@ -42,10 +44,11 @@ Page({
     this.setData({
       height: contentHeight,
       movie: app.globalData.movieRoom,
-      cinema: app.globalData.cinemaList[app.globalData.cinemaNo],
+      // cinema: app.globalData.cinemaList[app.globalData.cinemaNo],
       userInfo: app.globalData.userInfo
     })
-    console.log(that.data.movie)
+    this.leftTime()
+    // console.log(that.data.movie)
     // that.movie = that.data.movie
     // wx.connectSocket({ //建立连接
     //   url: 'wss://app.legendpicture.com/ws/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
@@ -256,6 +259,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
+    clearInterval(this.data.timer)
     this.setData({
       unload: true
     })
@@ -461,72 +465,103 @@ Page({
   //     showGift: false
   //   })
   // },
-  // getPrize:function(){
-  //   var that = this;
-  //   var nowtime = new Date().getTime();
-  //   var sign = app.createMD5('myGift', nowtime);
-  //   var pageNo = that.data.pageNo;
-  //   wx.request({
-  //     url: app.globalData.url + '/api/userGift/myGift',
-  //     data: {
-  //       roomName: that.data.movie.roomName,
-  //       phone: that.data.userInfo.mobile,
-  //       timeStamp: nowtime,
-  //       mac: sign
-  //     },
-  //     method: "POST",
-  //     header: {
-  //       "Content-Type": "application/x-www-form-urlencoded"
-  //     },
-  //     success: function (res) {
-  //       // console.log(res)
-  //       if(res.data.status == 1){
-  //         that.setData({
-  //           prizeList:res.data.data,
-  //           showPrize:true
-  //         })
-  //       }else{
-  //         wx.showModal({
-  //           title: '',
-  //           content: res.data.message,
-  //         })
-  //       }
-  //     }
-  //   })
-  // },
+  getPrize:function(){
+    var that = this;
+    var nowtime = new Date().getTime();
+    var sign = app.createMD5('myGift', nowtime);
+    var pageNo = that.data.pageNo;
+    wx.request({
+      url: app.globalData.url + '/api/userGift/myGift',
+      data: {
+        roomName: that.data.movie.roomName,
+        phone: that.data.userInfo.mobile,
+        timeStamp: nowtime,
+        mac: sign
+      },
+      method: "POST",
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      success: function (res) {
+        // console.log(res)
+        if(res.data.status == 1){
+          that.setData({
+            prizeList:res.data.data,
+            showPrize:true
+          })
+        }else{
+          wx.showModal({
+            title: '',
+            content: res.data.message,
+          })
+        }
+      }
+    })
+  },
   // closePrzie:function(){
   //   this.setData({
   //     showPrize: false
   //   })
-  // },
-  // leftTime: function () {
-  //   var that = this;
-  //   var timer = setInterval(function () {
-  //     var nowTime = parseInt(new Date().getTime() / 1000);
-  //     var leftTime = parseInt(that.data.leftTime/1000) - nowTime;
-  //     var str = "";
-  //     var minute = parseInt(leftTime / 60);
-  //     var second = parseInt(leftTime % 60);
-  //     if (minute == 0 && second < 0) {
-  //       clearInterval(timer)
-  //       wx.switchTab({
-  //         url: '../movie/movie',
-  //       })
-  //       return;
-  //     }
-  //     if (minute < 10) {
-  //       minute = "0" + minute;
-  //     }
-  //     if (second < 10) {
-  //       second = "0" + second;
-  //     }
-  //     str = minute + ":" + second;
+  // },　
+  leftTime: function () {//计时器
+    var that = this;
+    // console.log()
+    this.setData({
+      timer : setInterval(function () {
+        var nowTimeData = new Date()
+        var nowTime = '0001-01-01' + ' ' + nowTimeData.getHours() + ':' + nowTimeData.getMinutes() + ':' + nowTimeData.getSeconds()
+        var newTime = new Date('0001-01-01' + ' ' + that.data.movie.startTime).getTime() - new Date(nowTime).getTime() + 40 * 1000 * 60
+        // var timerData = parseInt(newTime / 1000 / 60) + ':' + parseInt(newTime / 1000 % 60)
+        // console.log(timerData)
+        // var nowTime = parseInt(new Date().getTime() / 1000);
+        // var leftTime = parseInt(that.data.leftTime/1000) - nowTime;
+        var str = "";
+        var minute = parseInt(newTime / 1000 / 60)
+        var second = parseInt(newTime / 1000 % 60)
+        if (minute > 41){
+          clearInterval(that.data.timer)
+          wx.showToast({
+            title: '房间未开启',
+            icon: "loading",
+            duration: 300,
+          })
+          setTimeout(function () {
+            wx.switchTab({
+              url: '../movie/movie',
+            })
+          }, 400)
+          return;
+        }
+        if (minute < 0) {
+          clearInterval(that.data.timer)
+          wx.showToast({
+            title: '房间已关闭',
+            icon: "loading",
+            duration: 300,
+          })
+          setTimeout(function () {
+            wx.switchTab({
+              url: '../movie/movie',
+            })
+          }, 400)
+          return;
+        }
+        if (minute < 10) {
+          minute = "0" + minute;
+        }
+        if (second < 10) {
+          second = "0" + second;
+        }
+        str = minute + ":" + second;
 
-  //     that.setData({
-  //       endTime: str
-  //     })
-  //   }, 1000)
-  // },
+        that.setData({
+          endTime: str
+        })
+        // console.log(str)
+      }, 1000)
+    })
+    
+  },
   // getTime:function(){
   //   var that = this;
   //   var nowtime = new Date().getTime();

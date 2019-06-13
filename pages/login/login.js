@@ -116,7 +116,7 @@ Page({
         wx.hideLoading()
         if (res.data.Status == "Success") {
           wx.request({
-            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + app.globalData.cinemacode,
+            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' +app.globalData.cinemacode,
             method: "GET",
             header: {
               'content-type': 'application/json' // 默认值
