@@ -119,13 +119,13 @@
   overflow: hidden;
   position: relative;
 }
-.seats{
+/* .seats{
   transition: 0.5s
 }
 
 .rownum{
   transition: 0.5s
-}
+} */
 
 /* .seats {
   width: 670rpx;

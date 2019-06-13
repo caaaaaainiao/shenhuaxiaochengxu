@@ -22,6 +22,7 @@ Page({
     moviesListDate: null,
     isShow:false,
     index: 0,
+    selectedIndex:0
   },
 
   /**
@@ -337,7 +338,7 @@ Page({
 
         }
       })
-    }
+    } 
   },
   checkSession:function(e){//选择比价
   //点击事件在这里
@@ -345,7 +346,7 @@ Page({
     var that = this;
     // console.log(that.data.comparePrices)
     that.setData({
-      isShow:true,
+      // isShow:true,
       selectedIndex: e.currentTarget.dataset.index
     })
     // var index = e.currentTarget.dataset.index;
