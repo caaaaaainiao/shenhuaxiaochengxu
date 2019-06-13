@@ -39,7 +39,7 @@
       <view class='address'>
         <view class='storename'>{{cinemaList.cinemaName}}</view>
         <view class='storeaddress'>{{cinemaList.address}}</view>
-        <image src='/images/phone.png' class='phone' bindtap='phone' data-phone='{{order.cinema.contact}}'></image>
+        <image src='/images/phone.png' class='phone' bindtap='phone' data-phone='{{cinemaList.cinemaPhone}}'></image>
       </view>
       <view class='address'>
         <view class='storename'>实付金额</view>
