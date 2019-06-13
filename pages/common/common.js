@@ -17,19 +17,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    wx.getStorage({
-      key: 'sjhm',
-      success: function(res) {
-        that.setData({
-          userInfo: app.globalData.userInfo,
-          phone: res.data
-        })
-      },
-      fail: function(res) {
-        wx.navigateTo({
-          url: '../login/login',
-        })
-      }
+    that.setData({
+      userInfo: app.globalData.userInfo,
+      phone: app.globalData.userInfo.mobilePhone,
     })
     // console.log(app.globalData.userInfo)
   },

@@ -704,7 +704,7 @@ Page({
         }
         else {
           wx.showToast({
-            title: res.data.ErrorMessage,
+            title: "遇到点小问题",
             icon: 'none',
             duration: 3000
           });

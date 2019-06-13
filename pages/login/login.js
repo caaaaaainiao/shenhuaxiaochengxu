@@ -132,8 +132,6 @@ Page({
       title: '请稍等',
     })
     let apiuser = util.getAPIUserData(null);
-
-    
     wx.request({
       url: app.globalData.url + '/Api/User/MobilePhoneRegister',
       method: "POST",
