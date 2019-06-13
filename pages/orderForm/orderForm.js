@@ -811,7 +811,7 @@ Page({
               let order = res.data.data;
               if (res.data.Status == "Success") {
                 // 会员卡折扣 判断售票系统
-                if (app.globalData.cinemaList.cinemaType == "电影1905") { // 1905系统不传参
+                if (app.globalData.cinemaList.cinemaType == "电影1905") { // 1905
                   wx.request({
                     url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
                     method: 'GET',
@@ -869,7 +869,7 @@ Page({
                     }
                   })
                 } 
-                else { //辰星系统参数全要传
+                else { //辰星
                   wx.request({
                     url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
                     method: 'GET',
@@ -877,9 +877,15 @@ Page({
                       'content-type': 'application/json' // 默认值
                     },
                     success: function (res) {
-                      // console.log(res)
+                      console.log(res)
+                      let price;
+                      if (res.data.card.price == '0') {
+                        price = that.data.price;
+                      }
+                      else {
+                        price = res.data.card.price;
+                      }
                       if (res.data.Status == "Success") {
-                        let price = res.data.card.price;
                         // 会员卡支付
                         wx.request({
                           url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode,

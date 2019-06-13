@@ -45,8 +45,10 @@ Page({
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
   onLoad: function(options) {
-    var that = this
-    // wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    var that = this;
+    setTimeout(function () {
+      wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    },1000);
     var timestamp = new Date().getTime()
     that.setData({
       timestamp: new Date().getTime()
@@ -489,7 +491,7 @@ Page({
         [distance]: show[j].distance + "km",
         [cinemaCode]: show[j].cinemaCode
       })
-    }
+    };
   },
   showCity: function() { //展示城市
     // var that = this;
@@ -583,6 +585,9 @@ Page({
         })
       }
     });
+    setTimeout(function () {
+      wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    }, 500);
   },
   startChoose: function() {
     this.setData({
@@ -841,7 +846,10 @@ Page({
       app.globalData.cardList = 1;
     } else {
       app.globalData.cardList = 0;
-    }
+    };
+    setTimeout(function () {
+      wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    }, 1000);
   },
   onShareAppMessage: function() {
     return {

@@ -48,6 +48,7 @@ Page({
     util.removegoodList(null);
     util.clearcartObj(null);
   // this.ask();
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
   chooseClose: function () {
     this.setData({
@@ -221,6 +222,7 @@ Page({
     this.setData({
       fullCar:true
     });
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**

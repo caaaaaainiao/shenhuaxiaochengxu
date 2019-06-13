@@ -95,6 +95,7 @@ Page({
         })
       }
     });
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**
@@ -150,6 +151,7 @@ Page({
         })
       }
     });
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**

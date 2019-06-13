@@ -20,12 +20,12 @@
 </view>
 <!-- 优惠券弹窗 -->
 <view class='img'>
-  <view>
+  <!-- <view>
       <image class="image" src="{{image}}" mode='aspectFill'></image>
-    </view>
-  <!-- <modal hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    </view> -->
+  <modal hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
     <view>
       <image class="image" src="{{image}}" mode='aspectFill' style='position: relative;left: -40rpx;'></image>
     </view>
-  </modal> -->
+  </modal>
 </view>
