@@ -213,6 +213,7 @@ Page({
 
       }
     });
+    console.log(app.globalData)
     if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone != null || app.globalData.userInfo.mobilePhone != "")) {
       util.getMemberCardByPhone(app.globalData.cinemacode, app.globalData.userInfo.mobilePhone, function(res) {
 

@@ -1,11 +1,11 @@
 <!--pages/seenMovie/seenMovie.wxml-->
 <!-- <text>pages/seenMovie/seenMovie.wxml</text> -->
 <!-- 看过的电影 -->
-<scroll-view scroll-y class='container' bindscrolltolower="ask" wx:if="{{result.length > 0}}">
-  <view class='banner'>共{{total}}部影片</view>
-  <block wx:for="{{result}}" wx:for-item="movie" wx:key="movie">
+<scroll-view scroll-y class='container' bindscrolltolower="ask" wx:if="{{result.film.length > 0}}">
+  <view class='banner'>共{{result.count}}部影片</view>
+  <block wx:for="{{result.film}}" wx:for-item="movie" wx:key="movie">
     <view class='movie'>
-      <image src='{{movie.image}}' class='moviepic'></image>
+      <image src='{{movie.filmImage}}' class='moviepic'></image>
       <view class='name'>{{movie.filmName}}</view>
       <view class='time'>{{movie.publishDate}}</view>
       <view class='comment' wx:if="{{movie.commentFlag == 1}}">{{movie.commentContent}}</view>

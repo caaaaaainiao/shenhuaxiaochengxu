@@ -611,6 +611,7 @@ Page({
         userInfoDetail: e.detail
       })
       app.globalData.userInfo = e.detail.userInfo;
+      console.log(app.globalData.userInfo)
       wx.setStorage({
         key: 'accredit',
         data: {
