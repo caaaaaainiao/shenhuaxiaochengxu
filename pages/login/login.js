@@ -157,11 +157,19 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              let image = res.data.data.images[0].image;
-              that.setData({
-                image: image,
-                modalHidden: false,
-              });
+              console.log(res)
+              if (res.data.data.images == null) {
+                wx.redirectTo({
+                  url: '../index/index',
+                })
+              }
+              else {
+                let image = res.data.data.images[0].image;
+                that.setData({
+                  image: image,
+                  modalHidden: false,
+                });
+              }
             }
           })
         } else {
