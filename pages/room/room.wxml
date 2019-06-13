@@ -47,22 +47,22 @@
   <view class='giftBox' wx:if="{{showGifts}}">
     <view class='giftList'>
       <image class='close' src='/images/close.png' bindtap='close'></image>
-      <block wx:for="{{gifts.gift}}" wx:for-item="gift" wx:key="gift">
+      <block wx:for="{{gifts}}" wx:for-item="gift" wx:key="gift">
         <view class='gift2'>
-          <image src='{{gift.photo}}' class='pic2'></image>
-          <view class='name'>{{gift.name}}</view>
-          <view class='num'>{{gift.number}}</view>
-          <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{gift.id}}' data-type='{{gift.giftType}}'></image>
+          <image src='{{gift.image}}' class='pic2'></image>
+          <view class='name'>{{gift.giftName}}</view>
+          <view class='num'>{{gift.sendNumber}}</view>
+          <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{gift.giftCode}}' data-type='{{gift.giftType}}'></image>
         </view>
       </block>
-      <block wx:for="{{gifts.ticket}}" wx:for-item="ticket" wx:key="ticket">
+      <!-- <block wx:for="{{gifts.ticket}}" wx:for-item="ticket" wx:key="ticket">
         <view class='gift2'>
           <image src='/images/ticket.png' class='pic3'></image>
           <view class='name'>{{ticket.name}}</view>
           <view class='num'>{{ticket.number}}</view>
           <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{ticket.id}}' data-type='{{ticket.giftType}}'></image>
         </view>
-      </block>
+      </block> -->
     </view>
   </view>
   <view class='showGift' wx:if="{{showGift}}">

@@ -4,6 +4,7 @@
 const app = getApp();
 var relineTime = 1;
 var index = 0;
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -353,24 +354,20 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('canSend', nowtime);
     var pageNo = that.data.pageNo;
-    // wx.request({
-    //   url: app.globalData.url + '/api/chatRoom/canSend',
-    //   data: {
-    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function(res) {
-    //     console.log(res)
-    //     that.setData({
-    //       gifts: res.data.data
-    //     })
-    //   }
-    // })
+    let apiuser = util.getAPIUserData(null);
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Room/QueryRoomGift' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data.data);
+        that.setData({
+          gifts: res.data.data
+        })
+      }
+    })
   },
   sendgift: function() {
     this.setData({

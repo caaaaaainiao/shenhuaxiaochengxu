@@ -158,6 +158,16 @@ Page({
             },
             success: function (res) {
               // console.log(res)
+              wx.setStorage({
+                key: 'sjhm',
+                data: that.data.phone,
+                success: function (res) { 
+                  console.log(res)
+                },
+                fail: function (res) { },
+                complete: function (res) { },
+              })
+              app.globalData.phone = that.data.phone
               if (!res.data.data.images) {
                 wx.redirectTo({
                   url: '../index/index',

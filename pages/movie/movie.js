@@ -68,22 +68,22 @@ Page({
   roomin:function(e){
     var that =this
     var index = e.currentTarget.dataset.index;
-    // if (!wx.getStorageSync('sjhm')){  //验证登录状态
-    //   wx.showToast({
-    //     title: '请先注册手机号',
-    //     icon: "loading",
-    //     mask: true,
-    //     duration: 500,
-    //     success: function () {
-    //       setTimeout(function () {
-    //         wx.navigateTo({
-    //           url: '../login/login'
-    //         })
-    //       }, 200)
-    //     }
-    //   })
-    //   return;
-    // }
+    if (!wx.getStorageSync('sjhm')){  //验证登录状态
+      wx.showToast({
+        title: '请先注册手机号',
+        icon: "loading",
+        mask: true,
+        duration: 500,
+        success: function () {
+          setTimeout(function () {
+            wx.navigateTo({
+              url: '../login/login'
+            })
+          }, 200)
+        }
+      })
+      return;
+    }
     app.globalData.movieRoom = that.data.MovieList[index];
     console.log(that.data.MovieList[index])
     wx.navigateTo({
