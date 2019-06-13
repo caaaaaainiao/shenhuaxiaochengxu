@@ -1,6 +1,7 @@
 // pages/seenMovie/seenMovie.js
 //获取应用实例
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -24,10 +25,10 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('getSeeMovieNum', nowtime);
-    var pageNo = that.data.pageNo;
+    // var that = this;
+    // var nowtime = new Date().getTime();
+    // var sign = app.createMD5('getSeeMovieNum', nowtime);
+    // var pageNo = that.data.pageNo;
     // wx.showLoading({
     //   title: '加载中',
     // })
@@ -99,69 +100,55 @@ Page({
   },
   ask: function () {
     var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('getSeeMovie', nowtime);
-    var pageNo = that.data.pageNo;
+    let apiuser = util.getAPIUserData(null);
+    // var nowtime = new Date().getTime();
+    // var sign = app.createMD5('getWantSeeMovie', nowtime);
+    // var pageNo = that.data.pageNo;
+    let useropenID = null
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        useropenID = res.data.userInfo.openID
+        wx.request({
+          url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + useropenID + '/' + 2,
+          method: "GET",
+          header: {
+            'content-type': 'application/json' // 默认值
+          },
+          success: function (res) {
+            console.log(res.data.data)
+            // wx.hideLoading()
+            // var result = that.addJson(that.data.result, res.data.data);
+            // pageNo++;
+            // for(var i = 0;i < result.length;i++){
+            //   result[i].startPlay2 = result[i].startPlay.substring(0,10)
+            // }
+            that.setData({
+              result: res.data.data,
+              // pageNo: pageNo
+            })
+          }
+        })
+      },
+    })
+
     // wx.showLoading({
     //   title: '加载中',
     // })
-    wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryMovieSeen/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
-      method: 'GET',
-      header: {
-        "Content-Type": "application/json"
-      },
-      success: function (res) {
-       console.log(res.data.data.seen.length)
-            that.setData({
-              result: res.data.data.seen,
-              total: res.data.data.seen.length
-            })
-      }
-
-    })
-    // wx.request({
-    //   url: app.globalData.url + '/shDxMovie/getSeeMovie',
-    //   data: {
-    //     appUserId: app.globalData.userInfo.id,
-    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     pageNo: pageNo,
-    //     pageSize: that.data.pageSize,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     wx.hideLoading()
-    //     var result = that.addJson(that.data.result, res.data.data);
-    //     pageNo++;
-    //     for (var i = 0; i < result.length; i++) {
-    //       result[i].watchTime2 = result[i].watchTime.substring(0, 10)
-    //     }
-    //     that.setData({
-    //       result: result,
-    //       pageNo: pageNo
-    //     })
-    //   }
-    // })
   },
-  addJson: function (json1, json2) {
-    if (json1 == null) {
-      return json2
-    }
-    for (var i = 0; i < json2.length; i++) {
-      json1.push(json2[i])
-    }
-    return json1
-  },
-  comment:function(e){
-    var id = e.currentTarget.dataset.id;
-    wx.navigateTo({
-      url: '../commentmovie/commentmovie?id='+id,
-    })
-  }
+  // addJson: function (json1, json2) {
+  //   if (json1 == null) {
+  //     return json2
+  //   }
+  //   for (var i = 0; i < json2.length; i++) {
+  //     json1.push(json2[i])
+  //   }
+  //   return json1
+  // },
+  // comment:function(e){
+  //   var id = e.currentTarget.dataset.id;
+  //   wx.navigateTo({
+  //     url: '../commentmovie/commentmovie?id='+id,
+  //   })
+  // }
 })
