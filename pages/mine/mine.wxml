@@ -54,10 +54,10 @@
       <view class='detail_num' wx:if="{{count.watchCount > 0}}">{{count.watchCount}}</view>
       <image src='/images/gray_more.png'></image>
     </view>
-    <view class='entrance middlechild' bindtap='toActivity'>
+    <!-- <view class='entrance middlechild' bindtap='toActivity'>
       <text>周边活动</text>
       <image src='/images/gray_more.png'></image>
-    </view>
+    </view> -->
     <view class='entrance' bindtap='toCommon'>
       <text>通用设置</text>
       <image src='/images/gray_more.png'></image>

@@ -161,6 +161,8 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
+<<<<<<< HEAD
+=======
               wx.getStorage({
                 key: 'loginInfo',
                 success: function(e) {
@@ -176,6 +178,7 @@ Page({
                   console.log(res)
                 }
               })
+>>>>>>> 7db2f6ca1ceb463acc782f746c17e62b0c34e14b
               // console.log(res)
               // wx.setStorage({
               //   key: 'sjhm',
@@ -184,7 +187,11 @@ Page({
               //   fail: function (res) { },
               //   complete: function (res) { },
               // })
+<<<<<<< HEAD
+              app.globalData.phone = that.data.phone
+=======
               // app.globalData.phone = that.data.phone
+>>>>>>> 7db2f6ca1ceb463acc782f746c17e62b0c34e14b
               if (!res.data.data.images) {
                 wx.redirectTo({
                   url: '../index/index',
