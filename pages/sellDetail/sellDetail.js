@@ -457,7 +457,7 @@ goodsList: goodsList
     var that = this;
     
     wx.request({
-      url: that.data.UrlMap.bannerUrl + app.globalData.cinemacode,
+      url: that.data.UrlMap.bannerUrl + app.globalData.cinemacode +'/03',
       method: "GET",
       header: {
         "Content-Type": "application/json"

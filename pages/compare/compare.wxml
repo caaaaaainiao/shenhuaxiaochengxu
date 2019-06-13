@@ -63,7 +63,9 @@
         </view>
         <view class='node'></view>
         <block wx:for="{{moviesListDate.sessionDate[0].session[0].sessionPrice}}" wx:for-item="comparePrices" wx:key="comparePrices">
+         <view  wx:if='{{isShow}}'>
           <view class='others'>
+          <!-- 就在这里 -->
             <view class='store'>
               <image src='/images/applogo.png' wx:if="{{comparePrices.typeCode==0}}"></image>
               <image src='/images/rmlogo.png' wx:if="{{comparePrices.typeCode==46}}"></image>
@@ -79,6 +81,7 @@
               </view>
               <view class='buy' data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="{{session.qmmComparePrices[index].dataType}}" catchtap='buy'>购票</view>
             </view>
+          </view>
           </view>
         </block>
 

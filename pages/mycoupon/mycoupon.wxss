@@ -17,7 +17,7 @@
   position: relative;
   margin-bottom: 30rpx;
 }
-.header text{
+.addCoupon{
   position: absolute;
   right: 40rpx;
   top: 0;

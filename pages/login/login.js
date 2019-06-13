@@ -11,7 +11,9 @@ Page({
     inputPhone: "",
     inputYzm: "",
     yzmText: "获取验证码",
-    yzmTime: "60"
+    yzmTime: "60",
+    image: null,
+    modalHidden: true,
   },
 
   /**
@@ -23,7 +25,6 @@ Page({
     that.setData({
       userInfo: dataInfo.userInfo
     })
-
   },
 
   /**
@@ -75,6 +76,38 @@ Page({
       path: '/pages/index/index'
     }
   },
+  /**
+ * 显示弹窗
+ */
+  buttonTap: function () {
+    this.setData({
+      modalHidden: false
+    })
+  },
+
+  /**
+   * 点击取消
+   */
+  modalCandel: function () {
+    // do something
+    this.setData({
+      modalHidden: true
+    })
+  },
+
+  /**
+   *  点击确认
+   */
+  modalConfirm: function () {
+    // do something
+    this.setData({
+      modalHidden: true
+    })
+    wx.redirectTo({
+      url: '../mycoupon/mycoupon',
+    })
+  },
+
   login: function() {
     // console.log("login")
     var phone = this.data.phone;
@@ -111,18 +144,28 @@ Page({
         cinemaCode: app.globalData.cinemacode,
         userName: apiuser.UserName,
         password: apiuser.Password,
+        gradeCode: '07',
       },
       success: function(res) {
         wx.hideLoading()
         if (res.data.Status == "Success") {
+          // 获取轮播图信息
           wx.request({
+<<<<<<< HEAD
             url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' +app.globalData.cinemacode,
+=======
+            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + data.gradeCode,
+>>>>>>> ab4f8e6cbbdc82d126a83f57a5dafe33ea764d61
             method: "GET",
             header: {
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              console.log(res)
+              let image = res.data.images[0].image;
+              that.setData({
+                image: image,
+                modalHidden: false,
+              });
             }
           })
         } else {

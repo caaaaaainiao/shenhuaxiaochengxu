@@ -15,6 +15,9 @@ Page({
     realAmount: 0,
     height: 0,
     seat: null,
+    verifyCode: null,
+    cinemaCode: null,
+    oldPrintNo: null,
   },
 
   /**
@@ -23,7 +26,6 @@ Page({
   onLoad: function (options) {
     // console.log(options);
     let that = this;
-    // let seat = options.seat.split(",");
     wx.getSystemInfo({
       success: function (res) {
         that.setData({
@@ -33,6 +35,7 @@ Page({
     })
     that.setData({
       orderNum:options.orderNum,
+      // verifyCode: options.verifyCode,
     });
     let data = {
       UserName: app.usermessage.Username,
@@ -52,15 +55,20 @@ Page({
           let order = res.data.data;
           let realAmount = Math.floor(res.data.data.realAmount * 100) / 100;
           let seat = res.data.data.seat;
+          let cinemaCode = res.data.data.cinemaCode;
+          let verifyCode = res.data.data.verifyCode;
           that.setData({
             order: order,
             realAmount: realAmount,
             seat: seat,
+            cinemaCode: cinemaCode,
+            verifyCode: verifyCode,
           })
           if (app.globalData.cinemaList.cinemaType == "辰星") {
             let printNo = that.data.order.printNo.slice(8);
             that.setData({
-              printNo: printNo,
+              oldPrintNo: that.data.order.printNo, //退票码
+              printNo: printNo, // 取票码
             })
           }
           else {
@@ -141,12 +149,49 @@ Page({
       path: '/pages/index/index'
     }
   },
+
+  // 退票
   refund:function(){
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('refund', nowtime);
-    wx.showLoading({
-      title: '加载中',
+    let data = {
+      UserName: app.usermessage.Username,
+      Password: app.usermessage.Password,
+      CinemaCode: that.data.cinemaCode,
+      PrintNo: that.data.printNo,
+      VerifyCode: that.data.verifyCode,
+    };
+    if (app.globalData.cinemaList.cinemaType == "辰星") {
+       data.PrintNo = that.data.oldPrintNo;
+    }
+    // console.log(data);
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.PrintNo + '/' + data.VerifyCode,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          retreat:false,
+        })
+        if (res.data.Status == "Success") {
+          wx.showToast({
+            title: '退票成功',
+          })
+        }
+        else {
+          wx.showToast({
+            title: '退票失败,' + res.data.ErrorMessage,
+            icon: 'none',
+          })
+        }
+      }
     })
     // wx.request({
     //   url: app.globalData.url + '/api/shOrder/refund',

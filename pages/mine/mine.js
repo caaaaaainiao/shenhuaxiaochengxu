@@ -12,7 +12,11 @@ Page({
     progress: false,
     count: null,
     banner: "/images/comparebg.jpg",
-    banner2: ""
+    banner2: "",
+    couponsCount: 0, // 优惠券
+    giftCount: 0, // 奖品
+    goodsCount: 0, // 小食
+    ticketCount: 0, // 影票
   },
 
   /**
@@ -20,14 +24,45 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    let data = {
+      UserName: app.usermessage.Username,
+      Password: app.usermessage.Password,
+      CinemaCode: app.globalData.cinemacode,
+      GradeCode: "06",
+      OpenID: app.globalData.openId,
+    };
+    // 读取页面背景图片
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys/' + 'MiniProgram/' + '6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode,
+      url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.GradeCode,
       method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
       success: function (res) {
-        console.log(res.data.data)
-        that.setData({
-          picture: res.data.data.images[2].image
-        })
+        if (res.data.Status == "Success") {
+          that.setData({
+            picture: res.data.data.images[0].image,
+          })
+        }
+      }
+    });
+    // 读取资源数量
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUserResourceNumber' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        if (res.data.Status == "Success") {
+          that.setData({
+            couponsCount: res.data.data.couponsCount,
+            giftCount: res.data.data.giftCount,
+            goodsCount: res.data.data.goodsCount,
+            ticketCount: res.data.data.ticketCount,
+          })
+        }
       }
     })
     wx.getStorage({
@@ -280,5 +315,5 @@ Page({
         }
       }
     }
-  }
+  },
 })

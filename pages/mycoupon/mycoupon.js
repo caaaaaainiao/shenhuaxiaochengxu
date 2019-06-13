@@ -12,7 +12,9 @@ Page({
     // pageNo: 1,
     // pageSize: 10,
     couponCount:0,
-    couponNum:""
+    couponNum:"",
+    pages: null,
+    isShow: false,
   },
 
   /**
@@ -22,7 +24,17 @@ Page({
     // this.setData({
     //   couponCount:options.number
     // })
-    this.ask();
+    let that = this;
+    that.ask();
+    var pages = getCurrentPages().length - 1;
+    that.setData({
+      pages: pages,
+    });
+    if (pages == 0) {
+      that.setData({
+        isShow: true,
+      })
+    }
   },
 
   /**
@@ -168,6 +180,14 @@ Page({
     
     
   },
+  
+  // 返回首页
+  back: function () {
+    wx.switchTab({
+      url: '../index/index'
+    })
+  },
+
   toDetail:function(e){
     var id = e.currentTarget.dataset.id;
     var index = e.currentTarget.dataset.index;

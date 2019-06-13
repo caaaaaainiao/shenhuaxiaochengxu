@@ -47,7 +47,7 @@
       <view class="item" wx:for="{{memberCardLevel}}" wx:for-item="level" wx:key="level" >
         <view class="tt">{{level.ruleName}}
         </view>
-        <view class="con" style="background: url({{level.memberCardImage}}) 0 0 no-repeat" bindtap='manage' data-Id='{{level.levelCode}}' data-text='{{level.ruleDescription}}' data-time='{{level.effectiveDays}}' data-name='{{level.levelName}}' data-price='{{level.credit}}' data-rule='{{level.ruleCode}}'>
+        <view class="con" bindtap='manage' data-Id='{{level.levelCode}}' data-text='{{level.ruleDescription}}' data-time='{{level.effectiveDays}}' data-name='{{level.levelName}}' data-price='{{level.credit}}' data-rule='{{level.ruleCode}}'>
           <view class="l">
             <view class="txt5">
               <text class="tag">{{level.levelName}}</text>

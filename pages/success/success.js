@@ -47,7 +47,7 @@ Page({
   look:function(e){
     let that = this;
     wx.redirectTo({
-      url: '../orderDetail/orderDetail?orderNum=' + that.data.orderNum,
+      url: '../orderDetail/orderDetail?orderNum=' + that.data.orderNum + '&&verifyCode=' + that.data.verifyCode,
     })
   },
 

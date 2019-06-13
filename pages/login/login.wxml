@@ -18,3 +18,11 @@
       <text>注 册</text>
     </view>
 </view>
+<!-- 优惠券弹窗 -->
+<view class='container'>
+  <modal hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+    <view>
+      <image class="image" src="{{image}}" mode='aspectFill' style='position: relative;left: -40rpx;'></image>
+    </view>
+  </modal>
+</view>

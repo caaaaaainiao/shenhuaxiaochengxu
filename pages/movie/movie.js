@@ -23,7 +23,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys/' + 'MiniProgram/' +'6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode,
+      url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys/' + 'MiniProgram/' +'6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode +'/04',
       method:'GET',
       success: function (res) {
         console.log(res.data.data)
@@ -68,7 +68,11 @@ Page({
   roomin:function(e){
     var that =this
     var index = e.currentTarget.dataset.index;
+<<<<<<< HEAD
     // if (!wx.getStorageSync('sjhm')){  //验证登录状态
+=======
+    // if (!wx.getStorageSync('sjhm')){
+>>>>>>> ab4f8e6cbbdc82d126a83f57a5dafe33ea764d61
     //   wx.showToast({
     //     title: '请先注册手机号',
     //     icon: "loading",
