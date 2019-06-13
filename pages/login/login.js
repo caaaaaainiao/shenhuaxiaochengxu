@@ -149,7 +149,11 @@ Page({
         if (res.data.Status == "Success") {
           // 获取轮播图信息
           wx.request({
+<<<<<<< HEAD
+            url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' +app.globalData.cinemacode,
+=======
             url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + data.gradeCode,
+>>>>>>> ab4f8e6cbbdc82d126a83f57a5dafe33ea764d61
             method: "GET",
             header: {
               'content-type': 'application/json' // 默认值
