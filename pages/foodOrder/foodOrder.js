@@ -81,7 +81,8 @@ Page({
  
 
     //todo 优惠券
-    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID + "/All", function(res) {
+    console.log(app.globalData.openId)
+    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function(res) {
       // console.log(res)//适用于该影院的优惠券
       var sellTicket = []
       for (var x in res) {

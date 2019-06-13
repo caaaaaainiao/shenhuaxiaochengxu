@@ -140,11 +140,8 @@ Page({
   createGoodsOrder:function(){
     let that=this;
     
-    wx.showModal({
-      title: '确认购买吗？',
-      content: '确认之后不可修改',
-      success: function (res) {
-        if (res.confirm) {
+  
+    
           //创建订单
           if (that.data.type == 1) {
             that.setData({
@@ -156,13 +153,7 @@ Page({
             })
             that.sureChoose()
           }
-        
-        
-        } else if (res.cancel) {
-         
-        }
-      }
-    })
+      
 
   },
   /**

@@ -349,6 +349,7 @@ const getconponsList = (conponsUrl,callback)=>{
       "Content-Type": 'application/json'
     },
     success: function (res) {
+      console.log(res)
       var conponsList = res.data.data.conpons;
       if (!conponsList) {
         return;
