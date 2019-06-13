@@ -199,7 +199,7 @@ Page({
       app.globalData.cardList = 1;
     } else {
       app.globalData.cardList = 0;
-    }
+    };
   },
   getMovie: function (cinemaNo) {
     if (cinemaNo){
@@ -882,5 +882,5 @@ Page({
       })
     }
 
-  }
+  },
 })

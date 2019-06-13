@@ -17,9 +17,21 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    // 查询手机号
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      method: "GET",
+      header: {
+        "Content-Type": "application/json"
+      },
+      success: function (res) {
+        that.setData({
+          phone: res.data.data.mobilePhone,
+        })
+      }
+    })
     that.setData({
       userInfo: app.globalData.userInfo,
-      phone: app.globalData.userInfo.mobilePhone,
     })
     // console.log(app.globalData.userInfo)
   },

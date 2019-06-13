@@ -62,7 +62,20 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    // console.log(options)
+    // 查询手机号
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      method: "GET",
+      header: {
+        "Content-Type": "application/json"
+      },
+      success: function (res) {
+        console.log(res)
+        that.setData({
+          phone: res.data.data.mobilePhone,
+        })
+      }
+    })
     let time = util.formatTime(new Date());
     that.data.allPrice = Number(options.price) + Number(that.data.refreshments);
     that.setData({
@@ -76,7 +89,7 @@ Page({
       hallName: options.screenName,
       seat: options.seat,
       autoUnlockDatetime: options.autoUnlockDatetime,
-      phone: app.globalData.userInfo.mobilePhone,
+      phone: that.data.phone,
       allPrice: that.data.allPrice,
       nowTime: time,
       sessionCode: options.sessionCode,
@@ -810,7 +823,7 @@ Page({
                         let price = res.data.card.price;
                         // 1905系统会员卡支付
                           wx.request({
-                            url: 'https://xc.80piao.com:8443/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.CardNo + '/' + data.CardPassword,
+                            url: 'https://xc.80piao.com:8443/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
                             method: 'GET',
                             header: {
                               'content-type': 'application/json' // 默认值
@@ -868,7 +881,7 @@ Page({
                         let price = res.data.card.price;
                         // 会员卡支付
                         wx.request({
-                          url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum,
+                          url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode,
                           method: 'GET',
                           header: {
                             'content-type': 'application/json' // 默认值
