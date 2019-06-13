@@ -342,7 +342,7 @@ Page({
         queryXml: app.globalData.xml,
         userName: apiuser.UserName,
         password: apiuser.Password,
-        openID: app.globalData.loginInfo.userInfo.openID,
+        openID: app.globalData.loginInfo.openID,
         isReady: app.globalData.isReady
       },
       success: function(res) {

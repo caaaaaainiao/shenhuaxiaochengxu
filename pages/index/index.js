@@ -46,9 +46,9 @@ Page({
   //授权信息
   onLoad: function(options) {
     var that = this;
-    setTimeout(function () {
-      wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
-    },1000);
+    // setTimeout(function () {
+      
+    // },1000);
     var timestamp = new Date().getTime()
     that.setData({
       timestamp: new Date().getTime()
@@ -163,6 +163,7 @@ Page({
       })
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
+      wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
       // 调用全局函数设置余额以及积分
       setTimeout(function(){
         util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
@@ -636,9 +637,9 @@ Page({
     var that = this;
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
-      app.globalData.userInfo = loginInfo.userInfo;
+      app.globalData.userInfo = loginInfo;
       that.setData({
-        userInfo: loginInfo.userInfo
+        userInfo: loginInfo
       });
       return;
     }
@@ -769,9 +770,9 @@ Page({
     that.getMovie(app.globalData.cinemacode);
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
-      app.globalData.userInfo = loginInfo.userInfo;
+      app.globalData.userInfo = loginInfo;
       that.setData({
-        userInfo: loginInfo.userInfo
+        userInfo: loginInfo
       });
     }
     // 调用全局函数设置余额以及积分
