@@ -81,6 +81,7 @@ Page({
     // }
     // this.getBanner();
     // this.getBanner2();
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**
@@ -107,6 +108,7 @@ Page({
     //   userInfo: app.globalData.userInfo
     // })
     // this.ask();
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**

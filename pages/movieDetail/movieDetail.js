@@ -19,7 +19,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**
@@ -46,7 +46,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**
@@ -201,21 +201,10 @@ Page({
     })
   },
   toCompare:function(){
-    // 读取缓存判断是否已使用用手机号码登录
-    wx.getStorage({
-      key: 'sjhm',
-      success: function(res) {
-        app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
-        wx.navigateTo({
-          url: '../compare/compare',
-        })
-      },
-      fail: function (res) {
-        wx.navigateTo({
-          url: '../login/login',
-        })
-      }
-    }) 
+    app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
+    wx.navigateTo({
+      url: '../compare/compare',
+    })
   },
   toComments:function(){
     var id = app.globalData.movieList[app.globalData.movieIndex].id;

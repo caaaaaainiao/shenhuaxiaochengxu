@@ -64,6 +64,7 @@ Page({
     //     app.globalData.movieRoom = movieRoom;
     //   }
     // })
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
   roomin:function(e){
     var that =this
@@ -124,6 +125,7 @@ Page({
     // var sign = app.createMD5('getRoom', nowtime);
     // var urlString = 
     that.getNowTimeMovie()
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**

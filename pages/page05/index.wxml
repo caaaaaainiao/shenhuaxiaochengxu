@@ -10,7 +10,7 @@
 
 	<view class="list" id="list">
     <view class='card' wx:for="{{status}}" wx:for-item="card" wx:key="card" wx:if="{{show==0}}">
-      <image src="{{card.memberCardImage}}" class="cardImg" mode="widthFix"></image>
+      <image src="{{card.cardPictureUrl}}" class="cardImg" mode="widthFix"></image>
       <view class="number">NO：{{card.num}}</view>
       <view class="center">
 				<view class="txt1">{{card.levelName}}</view>

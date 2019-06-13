@@ -25,6 +25,7 @@ Page({
     that.setData({
       userInfo: dataInfo.userInfo
     })
+    wx.setNavigationBarTitle({ title: '用户注册' });
   },
 
   /**
@@ -92,6 +93,9 @@ Page({
     // do something
     this.setData({
       modalHidden: true
+    })
+    wx.redirectTo({
+      url: '../mycoupon/mycoupon',
     })
   },
 
@@ -163,9 +167,7 @@ Page({
               wx.setStorage({
                 key: 'sjhm',
                 data: that.data.phone,
-                success: function (res) { 
-                  console.log(res)
-                },
+                success: function (res) { },
                 fail: function (res) { },
                 complete: function (res) { },
               })

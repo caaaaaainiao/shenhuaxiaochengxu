@@ -44,7 +44,6 @@ Page({
     show: '',
     face: '',
     userCardList: '',
-    memberCardImage: [],
   },
   btnShowExchange: function(e) {
     let that = this;
@@ -305,13 +304,6 @@ Page({
       OpenID: that.data.openId,
       CinemaCode: that.data.cinemaCode
     }
-    wx.getStorage({
-      key: 'memberCardImage',
-      success: function(res) {
-        that.setData({
-          memberCardImage: res.data,
-        })
-        let memberCardImage = that.data.memberCardImage;
         // 读取已绑定的会员卡
         wx.request({
           url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
@@ -334,12 +326,6 @@ Page({
               var memberCard = res.data.data.memberCard;
               // 循环出已绑定的会员卡
               for (var i = 0; i < memberCard.length; i++) {
-                // 循环会员卡卡背 添加到相应的会员卡内
-                for (let j = 0; j < memberCardImage.length; j++) {
-                  if (memberCardImage[j].levelCode == memberCard[i].levelCode) {
-                    memberCard[i].memberCardImage = memberCardImage[j].memberCardImage
-                  }
-                }
                 if (memberCard[i].status == 1) {
                   status.push(memberCard[i]);
                 }
@@ -347,6 +333,7 @@ Page({
               // 循环绑定会员卡调用方法请求到最新的余额以及积分
               for (let i = 0; i < status.length; i++) {
                 getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res) {
+                  console.log(res)
                   userCardList.push(res);
                   that.setData({
                     userCardList: userCardList
@@ -356,41 +343,40 @@ Page({
               // 设置计时器解决request异步问题
               setTimeout(function () {
                 var card = that.data.userCardList;
-                for (let i = 0; i < card.length; i++) {
-                  // 循环会员卡卡背 添加到相应的会员卡内
-                  for (let j = 0; j < memberCardImage.length; j++) {
-                    if (memberCardImage[j].levelCode == card[i].levelCode) {
-                      card[i].memberCardImage = memberCardImage[j].memberCardImage
+                console.log(card)
+                if (card) {
+                  for (let i = 0; i < card.length; i++) {
+                    for (let j = 0; j < status.length; j ++) {
+                      card[i].cardPictureUrl = status[j].cardPictureUrl
+                    }
+                    var num = "status[" + i + "].num";
+                    var levelName = "status[" + i + "].levelName";
+                    var balance = "status[" + i + "].balance";
+                    var levelCode = "status[" + i + "].levelCode";
+                    var pass = "status[" + i + "].pass";
+                    var image = "status[" + i + "].cardPictureUrl";
+                    if (card[i].balance == null) {
+                      that.setData({
+                        [balance]: 0,
+                        [num]: card[i].cardNo,
+                        [pass]: card[i].cardPassword,
+                        [levelName]: card[i].levelName,
+                        [levelCode]: card[i].levelCode,
+                        [image]: card[i].cardPictureUrl,
+                      })
+                    } else {
+                      that.setData({
+                        [num]: card[i].cardNo,
+                        [pass]: card[i].cardPassword,
+                        [levelName]: card[i].levelName,
+                        [balance]: card[i].balance,
+                        [levelCode]: card[i].levelCode,
+                        [image]: card[i].cardPictureUrl,
+                      })
                     }
                   }
-                  // console.log(card)
-                  var num = "status[" + i + "].num";
-                  var levelName = "status[" + i + "].levelName";
-                  var balance = "status[" + i + "].balance";
-                  var levelCode = "status[" + i + "].levelCode";
-                  var pass = "status[" + i + "].pass";
-                  var image = "status[" + i + "].memberCardImage";
-                  if (card[i].balance == null) {
-                    that.setData({
-                      [balance]: 0,
-                      [num]: card[i].cardNo,
-                      [pass]: card[i].cardPassword,
-                      [levelName]: card[i].levelName,
-                      [levelCode]: card[i].levelCode,
-                      [image]: card[i].memberCardImage,
-                    })
-                  } else {
-                    that.setData({
-                      [num]: card[i].cardNo,
-                      [pass]: card[i].cardPassword,
-                      [levelName]: card[i].levelName,
-                      [balance]: card[i].balance,
-                      [levelCode]: card[i].levelCode,
-                      [image]: card[i].memberCardImage,
-                    })
-                  }
+                  app.globalData.card = card;
                 }
-                app.globalData.card = card;
               }, 1000);
               // 计算余额最多的会员卡
               var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
@@ -412,8 +398,6 @@ Page({
             }
           }
         })
-      },
-    })
     wx.setNavigationBarTitle({ title: '会员卡' });
   },
   // 生命周期函数--监听页面初次渲染完成

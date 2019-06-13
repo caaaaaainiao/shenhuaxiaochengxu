@@ -221,6 +221,7 @@ Page({
 
       });
     }
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
   //(减去优惠的)
   updatetotalPrice() {
@@ -252,6 +253,7 @@ Page({
     this.setData({
       userInfo: app.globalData.userInfo
     })
+    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
   /**

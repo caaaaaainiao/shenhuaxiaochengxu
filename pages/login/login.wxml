@@ -19,7 +19,10 @@
     </view>
 </view>
 <!-- 优惠券弹窗 -->
-<view class='container'>
+<view class='img'>
+  <!-- <view>
+      <image class="image" src="{{image}}" mode='aspectFill'></image>
+    </view> -->
   <modal hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
     <view>
       <image class="image" src="{{image}}" mode='aspectFill' style='position: relative;left: -40rpx;'></image>
