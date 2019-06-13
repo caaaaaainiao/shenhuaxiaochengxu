@@ -24,6 +24,7 @@ Page({
     // this.setData({
     //   couponCount:options.number
     // })
+    console.log(app.globalData)
     let that = this;
     that.ask();
     var pages = getCurrentPages().length - 1;

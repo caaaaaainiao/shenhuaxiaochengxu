@@ -60,9 +60,10 @@ Page({
       key: 'loginInfo',
       success: function(res) {
         console.log(res)
-        app.globalData.openId = res.data.userInfo.openID
+        app.globalData.openId = res.data.openID
       },
     })
+    console.log(app.globalData)
     var accreditInfo = wx.getStorage({
       key: 'accredit',
       success: function(res) { //key所对应的内容

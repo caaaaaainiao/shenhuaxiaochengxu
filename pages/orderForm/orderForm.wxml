@@ -30,7 +30,7 @@
     <text class='money'>{{price}}</text>
   </view>
   <view class='option' wx:if="{{seatCouponList.length > 0}}" bindtap='setType1'>
-    电影票优惠券
+    {{ticketName}}
     <image src='/images/gray_more.png'></image>
     <text wx:if="{{seatCoupon == null}}">去选择</text>
     <text wx:else>-{{ticketRealPrice}}元</text>
