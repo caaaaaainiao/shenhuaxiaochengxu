@@ -105,32 +105,26 @@ Page({
     // var nowtime = new Date().getTime();
     // var sign = app.createMD5('getWantSeeMovie', nowtime);
     // var pageNo = that.data.pageNo;
-    let useropenID = null
-    wx.getStorage({
-      key: 'loginInfo',
-      success: function(res) {
-        useropenID = res.data.userInfo.openID
-        wx.request({
-          url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + useropenID + '/' + 1,
-          method: "GET",
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            console.log(res.data.data)
-            // wx.hideLoading()
-            // var result = that.addJson(that.data.result, res.data.data);
-            // pageNo++;
-            // for(var i = 0;i < result.length;i++){
-            //   result[i].startPlay2 = result[i].startPlay.substring(0,10)
-            // }
-            that.setData({
-              result: res.data.data,
-              // pageNo: pageNo
-            })
-          }
-        })
+    // let useropenID = null
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.userInfo.openID + '/' + 1,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
       },
+      success: function (res) {
+        console.log(res.data.data)
+        // wx.hideLoading()
+        // var result = that.addJson(that.data.result, res.data.data);
+        // pageNo++;
+        // for(var i = 0;i < result.length;i++){
+        //   result[i].startPlay2 = result[i].startPlay.substring(0,10)
+        // }
+        that.setData({
+          result: res.data.data,
+          // pageNo: pageNo
+        })
+      }
     })
 
     // wx.showLoading({
