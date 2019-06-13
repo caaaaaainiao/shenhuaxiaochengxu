@@ -5,27 +5,7 @@ App({
    * 当小程序初始化完成时，会触发 onLaunch（全局只触发一次）
    */
   onLaunch: function () {
-    // var loginInfo = wx.getStorage({
-    //   key: 'loginInfo',
-      // success: function (res) {
-      //   console.log(res)
-        // that.setData({
-        //   userInfo: res.data.userInfo,
-        //   openId: res.data.openId,
-        //   phone: res.data.phone,
-        // });
-        // console.log(that.data.userInfo)
-        // if (that.data.userInfo == undefined || that.data.userInfo == null) {
-
-        // } else {
-        //   that.setData({
-        //     hasUserInfo: true,
-        //   })
-        // }
-        // if (that.data.openId != null && that.data.phone != null) {
-        //   that.login();
-        // }
-      // },
+    
   },
 
   /**

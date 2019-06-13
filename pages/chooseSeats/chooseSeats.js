@@ -149,8 +149,16 @@ Page({
             };
           }
         }
+        var maxColumn = 0; // 计算最大列
+        for (var i = 0; i < seats.length; i++) {
+          if (seats[i].seats.length > maxColumn) {
+            maxColumn = seats[i].seats.length
+          }
+        }
+        var scale = 650 / (maxColumn * 64 - 8);
         that.setData({
-          rows: seats
+          rows: seats,
+          scale:scale
         })
       }
     })

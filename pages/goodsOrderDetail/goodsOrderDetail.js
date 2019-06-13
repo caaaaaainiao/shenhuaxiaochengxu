@@ -55,7 +55,7 @@ Page({
     var nowtime = new Date().getTime();
     var sign = app.createMD5('orderDetail', nowtime);
   },
-  phone:function(e){
+  phone: function (e) {
     var phone = e.currentTarget.dataset.phone;
     wx.makePhoneCall({
       phoneNumber: phone,
