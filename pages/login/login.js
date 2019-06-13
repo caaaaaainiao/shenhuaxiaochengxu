@@ -146,7 +146,9 @@ Page({
         password: apiuser.Password,
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res.data.data.mobilePhone)//用户注册的手机号码
+        app.globalData.userInfo.mobilePhone = res.data.data.mobilePhone//设置手机号码
+        console.log(app.globalData.userInfo)
         wx.hideLoading()
         if (res.data.Status == "Success") {
           // 获取优惠券弹窗信息
