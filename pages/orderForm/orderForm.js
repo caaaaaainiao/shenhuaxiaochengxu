@@ -34,7 +34,7 @@ Page({
     comboList: null,
     refreshments: 0,
     allPrice: 0,
-    orderCode: '',
+    orderCode: '', // 锁座订单号
     isShow: false,
     couponsCode: null,
     reductionPrice: null,
@@ -61,6 +61,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    console.log(options)
     var that = this;
     // 查询手机号
     wx.request({
@@ -70,7 +71,7 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         that.setData({
           phone: res.data.data.mobilePhone,
         })
@@ -812,7 +813,7 @@ Page({
                 // 会员卡折扣 判断售票系统
                 if (app.globalData.cinemaList.cinemaType == "电影1905") { // 1905系统不传参
                   wx.request({
-                    url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + null + '/' + data.CardNo + '/' + data.CardPassword + '/' + null + '/' + data.SessionCode + '/' + null + '/' + null + '/' + null + '/' + null + '/' + null,
+                    url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
                     method: 'GET',
                     header: {
                       'content-type': 'application/json' // 默认值
@@ -870,7 +871,7 @@ Page({
                 } 
                 else { //辰星系统参数全要传
                   wx.request({
-                    url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.TicketNum + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.SessionCode + '/' + data.SessionTime + '/' + data.FilmCode + '/' + data.ScreenType + '/' + data.ListingPrice + '/' + data.LowestPrice,
+                    url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
                     method: 'GET',
                     header: {
                       'content-type': 'application/json' // 默认值
@@ -1207,7 +1208,7 @@ Page({
   // 选择会员卡号支付
   btnChoose: function (e) {
     let that = this;
-    console.log(e)
+    // console.log(e)
     let cardNo = e.currentTarget.dataset.cardno;
     let levelCode = e.currentTarget.dataset.levelcode;
     that.setData({

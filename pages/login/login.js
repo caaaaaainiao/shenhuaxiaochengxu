@@ -13,7 +13,7 @@ Page({
     yzmText: "获取验证码",
     yzmTime: "60",
     image: null,
-    modalHidden: true,
+    modalHidden: false,
   },
 
   /**

@@ -64,7 +64,7 @@
         "selectedIconPath": "images/bar/sell-1.png"
       },
       {
-        "pagePath": "pages/movie/movie",
+        "pagePath": "pages/login/login",
         "text": "放映厅",
         "iconPath": "images/bar/movie-0.png",
         "selectedIconPath": "images/bar/movie-1.png"
