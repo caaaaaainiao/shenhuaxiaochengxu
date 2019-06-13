@@ -68,11 +68,7 @@ Page({
   roomin:function(e){
     var that =this
     var index = e.currentTarget.dataset.index;
-<<<<<<< HEAD
     // if (!wx.getStorageSync('sjhm')){  //验证登录状态
-=======
-    // if (!wx.getStorageSync('sjhm')){
->>>>>>> ab4f8e6cbbdc82d126a83f57a5dafe33ea764d61
     //   wx.showToast({
     //     title: '请先注册手机号',
     //     icon: "loading",
