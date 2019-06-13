@@ -157,8 +157,8 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              console.log(res)
-              if (res.data.data.images == null) {
+              // console.log(res)
+              if (!res.data.data.images) {
                 wx.redirectTo({
                   url: '../index/index',
                 })
@@ -235,7 +235,7 @@ Page({
           mobilePhone: phone
         },
         success: function (res) {
-          // console.log(res)
+          console.log(res)
           if (res.data.Status == "Success") {
             //倒计时
             that.setData({

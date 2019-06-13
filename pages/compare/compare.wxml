@@ -46,11 +46,15 @@
         </view>
         <view class='price'>
           <view class='session_top'>
-            <image src='/images/applogo.png'></image>
+            <!-- <image src='/images/applogo.png'></image> -->
             <view class='minPrice'>
               <text>￥</text>
               <text class='num'>{{session.standardPrice}}</text>
             </view>
+            <!-- <view class='memberPrice'>
+              <text>￥</text>
+              <text class='num'>19</text>
+            </view> -->
           </view>
           <view class='session_bottom'>
             <image src="/images/more.png"></image>
