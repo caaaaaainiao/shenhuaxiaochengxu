@@ -59,8 +59,8 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function(res) {
-        // console.log(res)
-        app.globalData.openId = res.data.userInfo.openID
+        console.log(res)
+        app.globalData.openId = res.data.openID
       },
     })
     var accreditInfo = wx.getStorage({
