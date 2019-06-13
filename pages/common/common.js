@@ -19,14 +19,15 @@ Page({
     var that = this;
     // 查询手机号
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUserInfo' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.openId,
       method: "GET",
       header: {
         "Content-Type": "application/json"
       },
       success: function (res) {
+        console.log(res)
         that.setData({
-          phone: res.data.data.mobilePhone,
+          // phone: res.data.data.mobilePhone,
         })
       }
     })
