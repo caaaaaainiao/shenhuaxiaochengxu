@@ -48,17 +48,30 @@ Page({
     //     console.log(res.data)
     //   },
     // })
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function(res) {
+        that.setData({
+          userInfo: res.data.userInfo,
+        })
+      },
+      fail:function(res){
+        console.log(res)
+      }
+    })
     this.setData({
       height: contentHeight,
       movie: app.globalData.movieRoom,
       // cinema: app.globalData.cinemaList[app.globalData.cinemaNo],
-      userInfo: app.globalData.userInfo
+      // userInfo: app.globalData.userInfo
     })
     this.leftTime()
+    console.log(app.globalData)
     // console.log(that.data.movie)
     // that.movie = that.data.movie
+    var SocketUrl = "wss://app.legendpicture.com/ws"
     // wx.connectSocket({ //建立连接
-    //   url: 'wss://app.legendpicture.com/ws/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
+    //   url: SocketUrl +'/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
     //   // url: 'ws://192.168.1.16:8080/ws/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
     //   data: {
     //     // x: '',
@@ -83,158 +96,158 @@ Page({
     //     })
     //   }
     // })
-    // wx.onSocketOpen(function() {
-    //   console.log("已连接")
-    // })
-    // wx.onSocketClose(function () { 
-    //   console.log("close")
-    //   if(!that.data.unload){
-    //     that.reline();
-    //   }
+    wx.onSocketOpen(function() {
+      console.log("已连接")
+    })
+    wx.onSocketClose(function () { 
+      console.log("close")
+      if(!that.data.unload){
+        that.reline();
+      }
       
-    // })
-    // wx.onSocketError(function(res) {
-    //   // console.log("连接已断开")
-    //   // console.log(res)
-    //   wx.showModal({
-    //     title: '聊天室连接错误',
-    //     content: '聊天室连接出现错误，请退出重进',
-    //     success: function (res) {
-    //       wx.navigateBack()
-    //     },
-    //   })
-    // })
+    })
+    wx.onSocketError(function(res) {
+      // console.log("连接已断开")
+      // console.log(res)
+      wx.showModal({
+        title: '聊天室连接错误',
+        content: '聊天室连接出现错误，请退出重进',
+        success: function (res) {
+          wx.navigateBack()
+        },
+      })
+    })
     // setTimeout(function(){
     //   wx.closeSocket()
     // },2000)
-    // wx.onSocketMessage(function(res) {
-    //   var message = JSON.parse(res.data)
-    //   console.log(message)
-    //   if (message.messageType == 1) { //发言消息
-    //     var screen = that.data.screenText;
-    //     var rowNum = parseInt(screen.length * Math.random());
-    //     var id = index++;
-    //     // console.log(id)
-    //     var row = {};
-    //     row.text = message.content;
-    //     row.id = id;
-    //     row.img = message.header;
-    //     row.roll = message.role;
-    //     row.time = 0.5;
-    //     if (message.phoneOrOpenid == that.data.userInfo.mobile){
-    //       row.self = true
-    //     }
-    //     if (screen[rowNum].words.length > 0){
-    //       rowNum = parseInt(screen.length * Math.random());
-    //       row.time = 1;
-    //     }
-    //     screen[rowNum].words.push(row);
-    //     that.setData({
-    //       screenText: screen
-    //     })
-    //     setTimeout(function() {
-    //       var screen2 = that.data.screenText;
-    //       for (var i = 0; i < screen2.length; i++) {
-    //         for (var j = 0; j < screen2[i].words.length; j++) {
-    //           if (screen2[i].words[j].id == id) {
-    //             screen2[i].words.splice(screen2[i].words[j], 1)
-    //           }
-    //         }
-    //       }
-    //       that.setData({
-    //         screenText: screen2
-    //       })
-    //     }, 12000)
-    //   } else if (message.messageType == 2) { //管理员发送红包
-    //     var id = message.prizeId.split("_")[0];
-    //     var content = message.content;
-    //     var giftNum = 0;
-    //     for(var i = 0;i < that.data.gifts.gift.length;i++){
-    //       if (that.data.gifts.gift[i].id == id){
-    //         giftNum = that.data.gifts.gift[i].number
-    //       }
-    //     }
-    //     for (var i = 0; i < that.data.gifts.ticket.length; i++) {
-    //       if (that.data.gifts.ticket[i].id == id) {
-    //         giftNum = that.data.gifts.ticket[i].number
-    //       }
-    //     }
-    //     // console.log(message)
-    //     that.setData({
-    //       showGift:true,
-    //       showGift2: true,
-    //       content:content,
-    //       prizeId: message.prizeId,
-    //       giftNum:giftNum
-    //     })
-    //   } else if (message.messageType == 22){//实时奖品数量变化
-    //     that.setData({
-    //       giftNum:message.content
-    //     })
-    //   } else if (message.messageType == 3) {//奖品已领取
-    //     that.setData({
-    //       showGift: false
-    //     })
-    //     wx.showToast({
-    //       title: '领取成功',
-    //     })
-    //   }else if (message.messageType == -3){//奖品领完了
-    //     wx.showModal({
-    //       title: '奖品已领完',
-    //       content: '',
-    //       showCancel: false,
-    //     })
-    //     that.setData({
-    //       showGift: false,
-    //       showGift2: false,
-    //     })
-    //   } else if (message.messageType == -2) {//房间结束
-    //     wx.showToast({
-    //       title: '房间已关闭',
-    //       icon:"loading",
-    //       duration:2000
-    //     })
-    //     setTimeout(function(){
-    //        wx.switchTab({
-    //          url: '../movie/movie',
-    //        })
-    //     },2000)
-    //   } else if (message.messageType == -1) {//房间未开启
-    //     wx.showToast({
-    //       title: '房间未开启',
-    //       icon: "loading",
-    //       duration: 2000
-    //     })
-    //     setTimeout(function () {
-    //       wx.switchTab({
-    //         url: '../movie/movie',
-    //       })
-    //     }, 2000)
-    //   } else if (message.messageType == 0){//其他地方登陆
-    //     wx.showModal({
-    //       title: '',
-    //       content: '当前账号在其他地方进入了该聊天室',
-    //       success(res) {
-    //         if (res.confirm) {
-    //           wx.switchTab({
-    //             url: '../movie/movie',
-    //           })
-    //         }
-    //       }
-    //     })
-    //   } else if (message.messageType == -12){
-    //     wx.showModal({
-    //       title: '发送失败',
-    //       content: '奖品库存不足',
-    //     })
-    //   } else if (message.messageType == -11) {
-    //     wx.showModal({
-    //       title: '发送失败',
-    //       content: '该房间达到发送上限',
-    //     })
-    //   }
+    wx.onSocketMessage(function(res) {
+      var message = JSON.parse(res.data)
+      console.log(message)
+      if (message.messageType == 1) { //发言消息
+        var screen = that.data.screenText;
+        var rowNum = parseInt(screen.length * Math.random());
+        var id = index++;
+        // console.log(id)
+        var row = {};
+        row.text = message.content;
+        row.id = id;
+        row.img = message.header;
+        row.roll = message.role;
+        row.time = 0.5;
+        if (message.phoneOrOpenid == that.data.userInfo.mobile){
+          row.self = true
+        }
+        if (screen[rowNum].words.length > 0){
+          rowNum = parseInt(screen.length * Math.random());
+          row.time = 1;
+        }
+        screen[rowNum].words.push(row);
+        that.setData({
+          screenText: screen
+        })
+        setTimeout(function() {
+          var screen2 = that.data.screenText;
+          for (var i = 0; i < screen2.length; i++) {
+            for (var j = 0; j < screen2[i].words.length; j++) {
+              if (screen2[i].words[j].id == id) {
+                screen2[i].words.splice(screen2[i].words[j], 1)
+              }
+            }
+          }
+          that.setData({
+            screenText: screen2
+          })
+        }, 12000)
+      } else if (message.messageType == 2) { //管理员发送红包
+        var id = message.prizeId.split("_")[0];
+        var content = message.content;
+        var giftNum = 0;
+        for(var i = 0;i < that.data.gifts.gift.length;i++){
+          if (that.data.gifts.gift[i].id == id){
+            giftNum = that.data.gifts.gift[i].number
+          }
+        }
+        for (var i = 0; i < that.data.gifts.ticket.length; i++) {
+          if (that.data.gifts.ticket[i].id == id) {
+            giftNum = that.data.gifts.ticket[i].number
+          }
+        }
+        // console.log(message)
+        that.setData({
+          showGift:true,
+          showGift2: true,
+          content:content,
+          prizeId: message.prizeId,
+          giftNum:giftNum
+        })
+      } else if (message.messageType == 22){//实时奖品数量变化
+        that.setData({
+          giftNum:message.content
+        })
+      } else if (message.messageType == 3) {//奖品已领取
+        that.setData({
+          showGift: false
+        })
+        wx.showToast({
+          title: '领取成功',
+        })
+      }else if (message.messageType == -3){//奖品领完了
+        wx.showModal({
+          title: '奖品已领完',
+          content: '',
+          showCancel: false,
+        })
+        that.setData({
+          showGift: false,
+          showGift2: false,
+        })
+      } else if (message.messageType == -2) {//房间结束
+        wx.showToast({
+          title: '房间已关闭',
+          icon:"loading",
+          duration:2000
+        })
+        setTimeout(function(){
+           wx.switchTab({
+             url: '../movie/movie',
+           })
+        },2000)
+      } else if (message.messageType == -1) {//房间未开启
+        wx.showToast({
+          title: '房间未开启',
+          icon: "loading",
+          duration: 2000
+        })
+        setTimeout(function () {
+          wx.switchTab({
+            url: '../movie/movie',
+          })
+        }, 2000)
+      } else if (message.messageType == 0){//其他地方登陆
+        wx.showModal({
+          title: '',
+          content: '当前账号在其他地方进入了该聊天室',
+          success(res) {
+            if (res.confirm) {
+              wx.switchTab({
+                url: '../movie/movie',
+              })
+            }
+          }
+        })
+      } else if (message.messageType == -12){
+        wx.showModal({
+          title: '发送失败',
+          content: '奖品库存不足',
+        })
+      } else if (message.messageType == -11) {
+        wx.showModal({
+          title: '发送失败',
+          content: '该房间达到发送上限',
+        })
+      }
 
-    // })
+    })
     that.getGifts();
     // that.getTime();
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
@@ -363,7 +376,7 @@ Page({
     var pageNo = that.data.pageNo;
     let apiuser = util.getAPIUserData(null);
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Room/QueryRoomGift' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
+      url: app.globalData.url+'/Api/Room/QueryRoomGift' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值

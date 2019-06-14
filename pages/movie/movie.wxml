@@ -22,10 +22,10 @@
   <view class='list' wx:if="{{MovieList.length>0}}">
     <block wx:for="{{MovieList}}" wx:for-item="room" wx:key="room" >
       <view class='room' data-index="{{index}}" bindtap='roomin'>
-        <image class='listbg' src='{{room.image}}'></image>
+        <image class='listbg' src='{{room.moviePhoto}}'></image>
         <view class='box'>
-          <view class='moviename'>{{room.filmName}}</view>
-          <view class='address'>{{room.screenName}}</view>
+          <view class='moviename'>{{room.movieName}}</view>
+          <view class='address'>{{room.hallName}}</view>
           <view class='movietime'>{{room.startTime}}-{{room.endTime}}</view>
           <view class='roomin'>进入</view>
         </view>

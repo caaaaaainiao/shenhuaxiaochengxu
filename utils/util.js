@@ -1,3 +1,4 @@
+const app = getApp();
 const formatTime = date => {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
@@ -96,7 +97,7 @@ const getcinemaList = callback => {
         AppId: 'wx8079e2f2a9958d05'
       };
       wx.request({
-        url: 'https://xc.80piao.com:8443/Api/Cinema/QueryCinemas/' + data.Username + '/' + data.Password + '/' + data.AppId,
+        url: app.globalData.url+'/Api/Cinema/QueryCinemas/' + data.Username + '/' + data.Password + '/' + data.AppId,
         method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
         header: {
           'content-type': 'application/json' // 默认值
@@ -401,7 +402,7 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
     EndDate: endday,
   }
   wx.request({
-    url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessions' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode ,
+    url: app.globalData.url+'/Api/Session/QueryFilmSessions' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode ,
     method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
     header: {
       'content-type': 'application/json' // 默认值
@@ -460,7 +461,7 @@ const getCity=(callback)=>{
       let apiuser = getAPIUserData(null);
 
       wx.request({
-        url: 'https://xc.80piao.com:8443/Api/Cinema/QueryCinemas/' + apiuser.UserName + '/' + apiuser.Password + '/' + apiuser.AppId,
+        url: app.globalData.url+'/Api/Cinema/QueryCinemas/' + apiuser.UserName + '/' + apiuser.Password + '/' + apiuser.AppId,
         method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
         header: {
           'content-type': 'application/json' // 默认值
@@ -496,7 +497,7 @@ const getMemberCardByPhone = (cinemaNo, mobilePhone, callback) => {
     MobilePhone: mobilePhone
   }
   wx.request({
-    url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByPhone' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone ,
+    url: app.globalData.url+'/Api/Member/QueryMemberCardByPhone' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone ,
     method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
     header: {
       'content-type': 'application/json' // 默认值
@@ -525,7 +526,7 @@ const getCardInfo = function (username, password, openid, cinemacode, callback) 
     CinemaCode: cinemacode
   }
   wx.request({
-    url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
+    url: app.globalData.url+'/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
     method: 'GET',
     header: {
       'content-type': 'application/json' // 默认值
@@ -548,7 +549,7 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
     CardPassword: cardpassword,
   };
   wx.request({
-    url: 'https://xc.80piao.com:8443/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
+    url: app.globalData.url+'/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
     method: 'GET',
     header: {
       'content-type': 'application/json' // 默认值
