@@ -87,13 +87,14 @@ Page({
   },
   ask: function () {
     var that = this;
+    console.log(app.globalData)
     var nowtime = new Date().getTime();
     var pageNo = that.data.pageNo;
     var data = {
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
       CinemaCode: app.globalData.cinemacode,
-      OpenID: app.globalData.userInfo.userInfo.openID,
+      OpenID: app.globalData.openId,
       Status: 'All'
     };
     wx.request({
@@ -212,45 +213,45 @@ Page({
     var num = that.data.couponNum;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('bindCxTichet', nowtime);
-    wx.showLoading({
-      title: '添加中...',
-      mask:true
-    })
-    wx.request({
-      url: app.globalData.url + '/api/ticket/bindCxTichet',
-      data: {
-        ticketNumber:num,
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        console.log(res)
-        wx.hideLoading();
-        if(res.data.status == 1){
-          wx.showToast({
-            title: '绑定成功',
-          })
-          setTimeout(function(){
-            wx.redirectTo({
-              url: '/pages/mycoupon/mycoupon',
-            })
-          },1000)
-        }else{
-          wx.showModal({
-            title: '绑定失败',
-            content: res.data.message,
-          })
-        }
-        that.setData({
-          isAdd:false
-        })
-      }
-    })
+    // wx.showLoading({
+    //   title: '添加中...',
+    //   mask:true
+    // })
+    // wx.request({
+    //   url: app.globalData.url + '/api/ticket/bindCxTichet',
+    //   data: {
+    //     ticketNumber:num,
+    //     appUserId: app.globalData.userInfo.id,
+    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     console.log(res)
+    //     wx.hideLoading();
+    //     if(res.data.status == 1){
+    //       wx.showToast({
+    //         title: '绑定成功',
+    //       })
+    //       setTimeout(function(){
+    //         wx.redirectTo({
+    //           url: '/pages/mycoupon/mycoupon',
+    //         })
+    //       },1000)
+    //     }else{
+    //       wx.showModal({
+    //         title: '绑定失败',
+    //         content: res.data.message,
+    //       })
+    //     }
+    //     that.setData({
+    //       isAdd:false
+    //     })
+    //   }
+    // })
   }
 })

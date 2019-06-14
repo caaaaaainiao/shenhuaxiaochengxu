@@ -65,7 +65,7 @@ Page({
 
     // })
     // 调用全局函数设置余额以及积分
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openID, app.globalData.cinemacode, function (res) {
       var memberCard = [];
       var status = [];
       if (res.data.Status == "Failure") {
@@ -121,7 +121,7 @@ Page({
     })
     var that = this;
     // 调用全局函数设置余额以及积分
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openID, app.globalData.cinemacode, function (res) {
       var memberCard = [];
       var status = [];
       if (res.data.Status == "Failure") {

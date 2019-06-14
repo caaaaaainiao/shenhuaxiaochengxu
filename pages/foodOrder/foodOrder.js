@@ -40,7 +40,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
+    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openID, app.globalData.cinemacode, function(res) {
       that.setData({
         card: res.data.data.memberCard,
       })
@@ -82,7 +82,7 @@ Page({
 
     //todo 优惠券
     console.log(app.globalData.openId)
-    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function(res) {
+    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openID + "/All", function(res) {
       // console.log(res)//适用于该影院的优惠券
       var sellTicket = []
       for (var x in res) {
