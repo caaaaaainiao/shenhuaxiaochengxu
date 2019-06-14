@@ -180,7 +180,7 @@ Page({
           }
 
         }
-
+        // console.log(merOrder)
         let merOrder = {
 
           merTicket: {
@@ -194,7 +194,7 @@ Page({
           merOrder: merOrder,
 
         });
-        console.log(merOrder);
+        console.log(merOrder.merTicket.conponCode);
         that.updatetotalPrice();
       }
     });
@@ -640,7 +640,7 @@ Page({
     };
     if (that.data.cinemaType == '辰星') {
       wx.request({
-        url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum,
+        url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + that.data.merOrder.merTicket.conponCode,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
