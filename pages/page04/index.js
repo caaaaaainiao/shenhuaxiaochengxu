@@ -189,7 +189,7 @@ Page({
     // 获取全局变量 判断售票系统
     var cinemaType = app.globalData.cinemaList.cinemaType;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
-    var openID = app.globalData.openId;
+    var openID = app.globalData.userInfo.openID;
     var userName = _this.data.Username;
     var passWord = _this.data.Password;
     var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;

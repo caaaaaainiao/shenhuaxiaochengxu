@@ -118,6 +118,7 @@ Page({
           that.getMovie(app.globalData.cinemacode)
           if (app.globalData.openID){
             util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openID, app.globalData.cinemacode, function (res) {
+              console.log(res)
               var memberCard = [];
               var status = [];
               if (res.data.Status == "Failure") {

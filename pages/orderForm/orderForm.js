@@ -63,9 +63,10 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    console.log(app.globalData)
     // 查询手机号
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.userInfo.openID,
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: "GET",
       header: {
         "Content-Type": "application/json"
@@ -114,7 +115,7 @@ Page({
     })
     console.log(app.globalData)
     // 获取优惠券
-    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.userInfo.openID + "/All", function(res) {
+    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID + "/All", function(res) {
       // console.log(res)
       if (res && res.length > 0) {
         let seatCouponList = [];
@@ -363,7 +364,7 @@ Page({
       }
     });
     // 获取会员卡信息
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.userInfo.openID, app.globalData.cinemacode, function(res) {
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
       that.setData({
         card: res.data.data.memberCard,
       })
@@ -480,7 +481,7 @@ Page({
       data: {
         "userName": app.usermessage.Username,
         "password": app.usermessage.Password,
-        "openID": app.globalData.userInfo.userInfo.openID,
+        "openID": app.globalData.userInfo.openID,
         "queryXml": xml,
       },
       method: 'POST',
