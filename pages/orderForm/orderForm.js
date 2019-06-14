@@ -65,7 +65,7 @@ Page({
     var that = this;
     // 查询手机号
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.userInfo.openID,
       method: "GET",
       header: {
         "Content-Type": "application/json"
@@ -112,8 +112,9 @@ Page({
         }
       }
     })
+    console.log(app.globalData)
     // 获取优惠券
-    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function (res) {
+    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.userInfo.openID + "/All", function (res) {
       // console.log(res)
       if (res && res.length > 0) {
         let seatCouponList = [];
@@ -363,7 +364,7 @@ Page({
       }
     });
     // 获取会员卡信息
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.userInfo.openID, app.globalData.cinemacode, function (res) {
       that.setData({
         card: res.data.data.memberCard,
       })
@@ -480,7 +481,7 @@ Page({
       data: {
         "userName": app.usermessage.Username,
         "password": app.usermessage.Password,
-        "openID": app.globalData.openId,
+        "openID": app.globalData.userInfo.userInfo.openID,
         "queryXml": xml,
       },
       method: 'POST',
@@ -1341,7 +1342,6 @@ Page({
     let refreshments = that.data.refreshments; // 卖品总价
     let seatCouponPrice = that.data.seatCoupon.price; // 优惠券金额
     if (that.data.seatCoupon.couonsType == '2') { // 兑换券
-    console.log(price);
       seatCouponPrice = price;
       priceArr.push(seatCouponPrice);
       codeArr.push(that.data.seatCoupon.conponCode);

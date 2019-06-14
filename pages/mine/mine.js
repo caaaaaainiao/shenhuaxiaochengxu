@@ -29,7 +29,7 @@ Page({
       Password: app.usermessage.Password,
       CinemaCode: app.globalData.cinemacode,
       GradeCode: "06",
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.userInfo.openID,
     };
     // 读取页面背景图片
     wx.request({

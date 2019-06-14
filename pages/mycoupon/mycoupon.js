@@ -21,10 +21,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // this.setData({
-    //   couponCount:options.number
-    // })
-    console.log(app.globalData)
     let that = this;
     that.ask();
     var pages = getCurrentPages().length - 1;
@@ -97,7 +93,7 @@ Page({
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
       CinemaCode: app.globalData.cinemacode,
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.userInfo.openID,
       Status: 'All'
     };
     wx.request({
@@ -109,12 +105,10 @@ Page({
       success: function (res) {
         console.log(res)
         var result = that.addJson(that.data.result, res.data.data);
-        console.log(result)
         that.setData({
           result: result.conpons,
           couponCount: result.conponCount
         })
-        console.log(that.data.result)
         app.globalData.resultList = that.data.result
       }
     })
