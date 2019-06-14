@@ -253,6 +253,7 @@ Page({
     // })
   },
   buy: function(e) {
+    console.log(e)
     var that = this;
     var i = that.data.select;
     var index = e.currentTarget.dataset.index
@@ -301,7 +302,8 @@ Page({
           
     //     }
     //   })
-    // } else if (code == 36) {//0:神画;36:猫眼；49:淘票票;
+    // }
+    // if (code == 36) {//36:猫眼；49:淘票票;
     //   that.setData({
     //     showTip:2
     //   })

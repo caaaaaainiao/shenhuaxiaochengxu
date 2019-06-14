@@ -236,7 +236,8 @@ Page({
     var that = this
     let apiuser = util.getAPIUserData(null);
     wx.request({
-      url: app.globalData.url +'/Api/chatRoom/getRooms' ,
+      url: 'http://192.168.1.110:8080/Api/chatRoom/getRooms' ,
+      // url: app.globalData.url + '/Api/chatRoom/getRooms',
       method: "POST",
       data:{
         cinemaCode  : app.globalData.cinemacode

@@ -38,9 +38,9 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     var that = this;
-    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
+    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function (res) {
       that.setData({
         card: res.data.data.memberCard,
       })
@@ -82,7 +82,7 @@ Page({
 
     //todo 优惠券
     console.log(app.globalData.openId)
-    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function(res) {
+    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function (res) {
       // console.log(res)//适用于该影院的优惠券
       var sellTicket = []
       for (var x in res) {
@@ -201,7 +201,7 @@ Page({
     //  });
 
     // console.log(newList)
-    util.getcinemaList(function(res) {
+    util.getcinemaList(function (res) {
       if (res) {
 
         that.setData({
@@ -216,7 +216,7 @@ Page({
     });
     console.log(app.globalData)
     if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone != null || app.globalData.userInfo.mobilePhone != "")) {
-      util.getMemberCardByPhone(app.globalData.cinemacode, app.globalData.userInfo.mobilePhone, function(res) {
+      util.getMemberCardByPhone(app.globalData.cinemacode, app.globalData.userInfo.mobilePhone, function (res) {
 
         app.globalData.userInfo.dxInsiderInfo = res;
 
@@ -245,14 +245,14 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     this.setData({
       userInfo: app.globalData.userInfo
     })
@@ -264,42 +264,42 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
       title: '神画电影',
       path: '/pages/index/index'
     }
   },
   // 接口
-  ask: function() {
+  ask: function () {
     var that = this;
     // var json = [{ id: 32, number: 1 }, { id: 33, number: 1 }];
     var json = [];
@@ -326,7 +326,7 @@ Page({
     wx.showLoading()
     var nowtime = new Date().getTime();
   },
-  choosePay: function() {
+  choosePay: function () {
 
     var that = this
 
@@ -350,7 +350,7 @@ Page({
         openID: app.globalData.openId,
         isReady: app.globalData.isReady
       },
-      success: function(res) {
+      success: function (res) {
         console.log(res)
         var ordercode = res.data.order.orderCode
         app.globalData.ordercode = ordercode
@@ -358,7 +358,7 @@ Page({
         wx.request({
           url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
           method: "GET",
-          success: function(res) {
+          success: function (res) {
             console.log(res)
             var arr = res.data.data.goodsList
             var goodslist = []
@@ -410,9 +410,9 @@ Page({
                 image: '',
                 duration: 2000,
                 mask: true,
-                success: function(res) {},
-                fail: function(res) {},
-                complete: function(res) {},
+                success: function (res) { },
+                fail: function (res) { },
+                complete: function (res) { },
               })
             }
           },
@@ -428,30 +428,30 @@ Page({
     })
 
   },
-  chooseClose: function() {
+  chooseClose: function () {
     this.setData({
       showReady: false
     })
   },
-  chooseType: function(e) {
+  chooseType: function (e) {
     var that = this;
     var type = e.currentTarget.dataset.type;
     that.setData({
       isReady: type,
     })
   },
-  sureChoose: function() {
+  sureChoose: function () {
     this.setData({
       showBlack: true,
       showReady: false
     })
   },
-  close: function() {
+  close: function () {
     this.setData({
       showBlack: false
     })
   },
-  wxPay: function() {
+  wxPay: function () {
     var that = this;
     if (that.data.canClick != 1) {
       return;
@@ -514,7 +514,7 @@ Page({
         goodsList: app.globalData.goodslist
 
       },
-      success: function(res) {
+      success: function (res) {
         console.log(res.data.data)
         wx.requestPayment({
           timeStamp: res.data.data.timeStamp,
@@ -532,7 +532,7 @@ Page({
                 password: "6BF477EBCC446F54E6512AFC0E976C41",
                 queryXml: app.globalData.queryXml
               },
-              success: function(res) {
+              success: function (res) {
                 console.log(res)
                 var orderNum = res.data.order.orderCode
                 if (res.data.Status == 'Failure') {
@@ -542,7 +542,7 @@ Page({
                     header: {
                       "Content-Type": "application/json"
                     },
-                    success: function(res) {
+                    success: function (res) {
                       console.log(res)
                     }
                   })
@@ -565,7 +565,7 @@ Page({
       }
     })
   },
-  cardPay: function() {
+  cardPay: function () {
     var that = this;
     if (that.data.canClick != 1) {
       return;
@@ -645,7 +645,7 @@ Page({
         header: {
           'content-type': 'application/json' // 默认值
         },
-        success: function(res) {
+        success: function (res) {
           console.log(res)
           that.setData({
             tradeNo: res.data.tradeNo
@@ -681,7 +681,7 @@ Page({
               password: "6BF477EBCC446F54E6512AFC0E976C41",
               queryXml: app.globalData.mpXml
             },
-            success: function(res) {
+            success: function (res) {
               console.log(res)
               if (res.data.Status == "Failure") {
                 wx.showModal({
@@ -694,7 +694,7 @@ Page({
                   header: {
                     'content-type': 'application/json' // 默认值
                   },
-                  success: function(res) {
+                  success: function (res) {
                     console.log(res)
                   }
                 })
@@ -744,7 +744,7 @@ Page({
           password: "6BF477EBCC446F54E6512AFC0E976C41",
           queryXml: app.globalData.mpXml
         },
-        success: function(res) {
+        success: function (res) {
           console.log(res)
           if (res.data.Status == "Failure") {
             wx.showModal({
@@ -804,7 +804,7 @@ Page({
     //   }
     // })
   },
-  syn: function() {
+  syn: function () {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userCard', nowtime);
@@ -837,13 +837,13 @@ Page({
     //   }
     // })
   },
-  setM: function(e) {
+  setM: function (e) {
     var password = e.detail.value;
     this.setData({
       password: password
     })
   },
-  showM: function() {
+  showM: function () {
     var that = this
     that.setData({
       cinemaType: app.globalData.cinemaList.cinemaType
@@ -852,7 +852,7 @@ Page({
       wx.showModal({
         title: '支付失败',
         content: "您还没有会员卡，是否前去绑定/开卡？",
-        success: function(res) {
+        success: function (res) {
           if (res.confirm) {
             wx.navigateTo({
               url: '../page04/index',
@@ -878,18 +878,18 @@ Page({
       showM: true
     })
   },
-  closeM: function() {
+  closeM: function () {
     this.setData({
       showM: false,
       isShow: false,
     })
   },
-  btnShowExchange2: function() {
+  btnShowExchange2: function () {
     this.setData({
       isShow: !this.data.isShow
     })
   },
-  btnChoose: function(e) {
+  btnChoose: function (e) {
     let that = this;
     console.log(e)
     let cardNo = e.currentTarget.dataset.cardno;
@@ -901,12 +901,12 @@ Page({
       isShow: false,
     });
   },
-  chooseCoupon: function() {
+  chooseCoupon: function () {
     this.setData({
       startChoose: true
     })
   },
-  setFoodCoupon: function(e) {
+  setFoodCoupon: function (e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
     var code = e.currentTarget.dataset.code;
@@ -925,23 +925,23 @@ Page({
 
     // that.ask();
   },
-  closeChoose: function() {
+  closeChoose: function () {
     this.updatetotalPrice();
     this.setData({
       startChoose: false
     })
   },
-  messageshow: function() {
+  messageshow: function () {
     this.setData({
       messageshow: true
     })
   },
-  closeMessageshow: function() {
+  closeMessageshow: function () {
     this.setData({
       messageshow: false
     })
   },
-  setMessage: function(e) {
+  setMessage: function (e) {
     var userMessage = e.detail.value;
     this.setData({
       userMessage: userMessage

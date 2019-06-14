@@ -54,6 +54,33 @@ Page({
         that.setData({
           userInfo: res.data.userInfo,
         })
+        var SocketUrl = "wss://app.legendpicture.com/ws"
+        wx.connectSocket({ //建立连接
+          // url: SocketUrl +'/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobile,
+          url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
+          data: {
+            // x: '',
+            // y: ''
+          },
+          header: {
+            'content-type': 'application/json',
+            'Authorization': null
+          },
+          // protocols: ['TCP'],
+          method: "GET",
+          success: function (res) {
+            // console.log("ok")
+          },
+          fail: function (res) {
+            wx.showModal({
+              title: '聊天室连接失败',
+              content: '',
+              success: function (res) {
+                wx.navigateBack()
+              }
+            })
+          }
+        })
       },
       fail:function(res){
         console.log(res)
@@ -62,40 +89,14 @@ Page({
     this.setData({
       height: contentHeight,
       movie: app.globalData.movieRoom,
-      // cinema: app.globalData.cinemaList[app.globalData.cinemaNo],
+      cinema: app.globalData.lookcinemaname,
       // userInfo: app.globalData.userInfo
     })
     this.leftTime()
     console.log(app.globalData)
     // console.log(that.data.movie)
     // that.movie = that.data.movie
-    var SocketUrl = "wss://app.legendpicture.com/ws"
-    // wx.connectSocket({ //建立连接
-    //   url: SocketUrl +'/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
-    //   // url: 'ws://192.168.1.16:8080/ws/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
-    //   data: {
-    //     // x: '',
-    //     // y: ''
-    //   },
-    //   header: {
-    //     'content-type': 'application/json',
-    //     'Authorization': null
-    //   },
-    //   // protocols: ['TCP'],
-    //   method: "GET",
-    //   success: function(res) {
-    //     // console.log("ok")
-    //   },
-    //   fail: function(res) {
-    //     wx.showModal({
-    //       title: '聊天室连接失败',
-    //       content: '',
-    //       success:function(res){
-    //        wx.navigateBack()
-    //       }
-    //     })
-    //   }
-    // })
+   
     wx.onSocketOpen(function() {
       console.log("已连接")
     })
@@ -336,7 +337,7 @@ Page({
     }
     var json = {
       messageType: "1",
-      header: that.data.userInfo.header,
+      header: that.data.userInfo.headlmgUrl,
       nickName: that.data.userInfo.nickName,
       messageContent: that.data.text,
       prizeId: ""
@@ -491,7 +492,7 @@ Page({
       url: app.globalData.url + '/api/userGift/myGift',
       data: {
         roomName: that.data.movie.roomName,
-        phone: that.data.userInfo.mobile,
+        phone: that.data.userInfo.mobilePhone,
         timeStamp: nowtime,
         mac: sign
       },
@@ -603,37 +604,39 @@ Page({
   //     }
   //   })
   // },
-  // reline:function(){
-  //   var that = this;
-  //   wx.showLoading({
-  //     title: '重新连接第' + relineTime + '次',
-  //   })
-  //   if (relineTime > 10){
-  //     wx.showModal({
-  //       title: '重连失败',
-  //       content: '聊天室连接已断开，请退出重进',
-  //       success: function (res) {
-  //         wx.navigateBack()
-  //       }
-  //     })
-  //     return;
-  //   }
-  //   wx.connectSocket({ //建立连接
-  //     url: 'wss://app.legendpicture.com/ws/webSocket/chat/' + that.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + that.data.userInfo.mobile,
-  //     data: {},
-  //     header: {
-  //       'content-type': 'application/json',
-  //       'Authorization': null
-  //     },
-  //     method: "GET",
-  //     success: function (res) {
-  //       wx.hideLoading();
-  //     },
-  //     fail: function (res) {
-  //       wx.hideLoading();
-  //       relineTime++;
-  //       that.reline();
-  //     }
-  //   })
-  // }
+  reline:function(){
+    var that = this;
+    wx.showLoading({
+      title: '重新连接第' + relineTime + '次',
+    })
+    if (relineTime > 10){
+      wx.showModal({
+        title: '重连失败',
+        content: '聊天室连接已断开，请退出重进',
+        success: function (res) {
+          wx.navigateBack()
+        }
+      })
+      return;
+    }
+    var SocketUrl = "wss://app.legendpicture.com/ws"
+    wx.connectSocket({ //建立连接
+      // url: SocketUrl +'/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobile,
+      url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
+      data: {},
+      header: {
+        'content-type': 'application/json',
+        'Authorization': null
+      },
+      method: "GET",
+      success: function (res) {
+        wx.hideLoading();
+      },
+      fail: function (res) {
+        wx.hideLoading();
+        relineTime++;
+        that.reline();
+      }
+    })
+  }
 })
