@@ -107,7 +107,7 @@ Page({
     // var pageNo = that.data.pageNo;
     // let useropenID = null
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.userInfo.openID + '/' + 1,
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + 1,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值

@@ -1,5 +1,6 @@
 // pages/movieDetail/movieDetail.js
 const app = getApp();
+const util = require('../../utils/util.js');
 Page({
 
   /**
@@ -29,7 +30,7 @@ Page({
     // console.log(app.globalData.movieList)
     var that = this;
     var movie = app.globalData.movieList[app.globalData.movieIndex];
-    // console.log(movie)
+    console.log(movie)
     var event = movie;
     // console.log(event)
     var nameList = event.cast.split(',')
@@ -40,6 +41,25 @@ Page({
     that.manage(event);
     // console.log(app.globalData)
     var nowtime = new Date().getTime();
+    let apiuser = util.getAPIUserData(null);
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + 1,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res.data.data)
+        for (var i in res.data.data.film) { 
+          if (res.data.data.film[i].filmName == movie.name){
+               that.setData({
+                 isWant : 1
+               })
+          }
+        }
+      }
+    })
+    
   },
 
   /**
@@ -113,6 +133,7 @@ Page({
   },
   wantSee:function(){//想看按钮
     var that = this;
+    let apiuser = util.getAPIUserData(null);
     if (that.data.canTap == "1") {
       that.setData({
         canTap: "0"
@@ -126,20 +147,12 @@ Page({
           isWant: 0
         })
       }
-      var nowtime = new Date().getTime();
-      var sign = app.createMD5('saveWantSee', nowtime);
+      
       wx.request({
-        url: app.globalData.url+'/api/Comment/saveWantSee',
-        data:{
-          appUserId: app.globalData.userInfo.id,
-          movieId: that.data.movie.id,
-          wantSee:that.data.isWant,
-          timeStamp: nowtime,
-          mac: sign
-        },
-        method: "POST",
-        header: { "Content-Type": "application/x-www-form-urlencoded" },
-        success:function(res){
+        url: 'https://xc.80piao.com:8443/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isWant,
+        method: "GET",
+        header: { 'content-type': 'application/json' },
+        success: function (res) {
           // console.log(res);
           that.setData({
             canTap: "1"
