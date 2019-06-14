@@ -166,7 +166,6 @@ Page({
                 success: function(e) {
                   console.log(e)
                   var userInfo = e.data;
-                  // console.log(userInfo)
                   userInfo.mobilePhone = that.data.phone;
                   wx.setStorage({
                     key: 'loginInfo',

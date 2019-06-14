@@ -42,7 +42,7 @@ Page({
     // console.log(app.globalData)
     var nowtime = new Date().getTime();
     let apiuser = util.getAPIUserData(null);
-    var a = app.globalData.openID
+    var a = app.globalData.openId
     console.log(a)
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,

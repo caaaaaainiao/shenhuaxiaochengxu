@@ -53,18 +53,12 @@ Page({
     var accreditInfo = wx.getStorage({
       key: 'accredit',
       success: function (res) { //key所对应的内容
-        // console.log(res)
         that.setData({
           wxInfo: res.data.userInfo, //用户信息
           userInfoDetail: res.data.userInfoDetail
         })
-        // console.log(that.data.wxInfo)
         app.globalData.getUsename = that.data.wxInfo.nickName
         app.globalData.getAvatarUrl = that.data.wxInfo.avatarUrl
-        // console.log(app.globalData.getUsename)
-
-        // wx.hideTabBar(); //隐藏栏
-        that.wxLogin(); //获取信息函数
       },
       fail: function (res) {
         that.setData({
@@ -145,8 +139,22 @@ Page({
                 })
               }
             })
+
+          var accreditInfo = wx.getStorage({
+            key: 'accredit',
+            success: function (res) { //key所对应的内容
+             
+              that.wxLogin(); //获取信息函数
+            },
+            fail: function (res) {
+              that.setData({
+                shouquan: true
+              })
+              wx.hideTabBar() //隐藏栏
+            }
+          })
           }
-        }, 1000)
+      }, 1000)
       }
       // 声明一个新数组 将市区添加到新数组内
       var arr = [];
@@ -431,9 +439,9 @@ Page({
   },
   // 比价购票
   buy: function (e) {
-    wx.redirectTo({
-              url: '../login/login'
-            })
+    // wx.redirectTo({
+    //           url: '../login/login'
+    //         })
     // console.log(e)
     // console.log(res.data)
     // console.log(e.currentTarget.dataset)
@@ -642,9 +650,7 @@ Page({
         // userInfo: e.detail.userInfo,
         userInfoDetail: e.detail
       })
-      console.log(e.detail.userInfo)
       app.globalData.userInfo = e.detail.userInfo;
-      console.log(app.globalData.userInfo)
       wx.setStorage({
         key: 'accredit',
         data: {
@@ -672,6 +678,39 @@ Page({
       that.setData({
         userInfo: loginInfo
       });
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+        var memberCard = [];
+        var status = [];
+        if (res.data.Status == "Failure") {
+          that.setData({
+            memberCardScore: '---',
+            memberCardBalance: '---'
+          })
+        } else if (res.data.data.memberCard == null) {
+          that.setData({
+            memberCardScore: '---',
+            memberCardBalance: '---'
+          })
+        } else {
+          var memberCard = res.data.data.memberCard;
+          for (var i = 0; i < memberCard.length; i++) {
+            if (memberCard[i].status == 1) {
+              status.push(memberCard[i]);
+            }
+          }
+          // 计算余额最多的会员卡
+          var first = memberCard.sort(function (a, b) {
+            return a.balance < b.balance
+          })[0];
+          if (first.score == null) {
+            first.score = 0
+          }
+          that.setData({
+            memberCardBalance: first.balance,
+            memberCardScore: first.score
+          })
+        }
+      })
       return;
     }
 
@@ -681,11 +720,8 @@ Page({
         let encryptedData = that.data.userInfoDetail.encryptedData;
         let iv = that.data.userInfoDetail.iv;
         let url = app.globalData.url + '/Api/User/UserLogin';
-        // var nowtime = new Date().getTime();
         let apiuser = util.getAPIUserData(null);
-        // var sign = app.createMD5('appletA  uthorize', nowtime);
         wx.request({
-          //url: app.globalData.url + '/shDistributor/appletAuthorize',
           url: app.globalData.url + '/Api/User/UserLogin',
           data: {
             code: wxCode,
@@ -700,8 +736,7 @@ Page({
             "Content-Type": "application/json"
           },
           success: function (e) {
-            // console.log(e)
-            // console.log("登录")
+            console.log(e)
             //个人信息
             that.setData({
               onLoad: true
@@ -712,12 +747,45 @@ Page({
                 data:  e.data.data,
                 success: function () {
                   // console.log(e)
-                  app.globalData.openId = e.data.data.openID;
+                  app.globalData.openId = e.data.data.openID; 
                   app.globalData.userInfo = e.data.data;
                   that.setData({
                     userInfo: e.data.data
                   })
                   //that.getPlace();
+                  util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+                    var memberCard = [];
+                    var status = [];
+                    if (res.data.Status == "Failure") {
+                      that.setData({
+                        memberCardScore: '---',
+                        memberCardBalance: '---'
+                      })
+                    } else if (res.data.data.memberCard == null) {
+                      that.setData({
+                        memberCardScore: '---',
+                        memberCardBalance: '---'
+                      })
+                    } else {
+                      var memberCard = res.data.data.memberCard;
+                      for (var i = 0; i < memberCard.length; i++) {
+                        if (memberCard[i].status == 1) {
+                          status.push(memberCard[i]);
+                        }
+                      }
+                      // 计算余额最多的会员卡
+                      var first = memberCard.sort(function (a, b) {
+                        return a.balance < b.balance
+                      })[0];
+                      if (first.score == null) {
+                        first.score = 0
+                      }
+                      that.setData({
+                        memberCardBalance: first.balance,
+                        memberCardScore: first.score
+                      })
+                    }
+                  })
 
                 }
               })
