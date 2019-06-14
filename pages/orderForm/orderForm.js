@@ -66,7 +66,7 @@ Page({
     console.log(app.globalData)
     // 查询手机号
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method: "GET",
       header: {
         "Content-Type": "application/json"
@@ -1341,7 +1341,7 @@ Page({
       that.setData({
         conponCode: that.data.seatCoupon.conponCode,
         reductionPrice: that.data.seatCoupon.price,
-        ticketRealPrice: seatCouponPrice, // 减免金额
+        ticketRealPrice: (that.data.price) / (that.data.count),  /* 减免金额 */
         allPrice: price + refreshments,
         priceArr: priceArr,
         codeArr: codeArr,
@@ -1356,7 +1356,7 @@ Page({
       that.setData({
         conponCode: that.data.seatCoupon.conponCode,
         reductionPrice: that.data.seatCoupon.price,
-        ticketRealPrice: (that.data.seatCoupon.price) / (that.data.count),  /* 减免金额 */
+        ticketRealPrice: seatCouponPrice, // 减免金额
         // price: price,
         allPrice: price + refreshments,
         priceArr: priceArr,

@@ -1,10 +1,10 @@
 <!--pages/login/login.wxml-->
 <view class="container">
     <image class='logo' src='/images/logo.png'></image>
-    <view class='message'>
+    <view hidden="{{!modalHidden}}"  class='message'>
       <view class='phone'>
         <image src='/images/phone_icon.png'></image>
-        <input id='phone' placeholder='输入手机号' placeholder-style="color:#888;" type='idcard' bindinput='phoneCut' value='{{inputPhone}}'/>
+        <input id='phone'  placeholder='输入手机号' placeholder-style="color:#888;" type='idcard' bindinput='phoneCut' value='{{inputPhone}}'/>
       </view>
       <view class='yzm'>
         <image src='/images/icon_num.png'></image>
@@ -13,19 +13,24 @@
       </view>
     </view>
     <image class='film' src='/images/film.png'></image>
-    <view class='signIn' bindtap='login'>
+    <view hidden="{{!modalHidden}}"  class='signIn' bindtap='login'>
       <image src='/images/btn_bg.png'></image>
       <text>注 册</text>
     </view>
 </view>
 <!-- 优惠券弹窗 -->
-<view class='img'>
+<view hidden="{{modalHidden}}" bindtap='modalCandel' class='img'>
   <!-- <view>
       <image class="image" src="{{image}}" mode='aspectFill'></image>
     </view> -->
-  <modal hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+  <!-- <modal no-cancel='true' bindtap='modalConfirm'  hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
     <view>
       <image class="image" src="{{image}}" mode='aspectFill' style='position: relative;left: -40rpx;'></image>
     </view>
-  </modal>
+  </modal> -->
+  <view class='hiddenImg' >
+  <image  src='/images/yhj/409d7475ab6cb185569dbf45b33eceb.jpg' bindtap='modalConfirm' ></image>
+  </view>
+  
+  <!-- <view hidden="{{modalHidden}}"></view> -->
 </view>

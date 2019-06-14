@@ -440,7 +440,7 @@ Page({
       wx.getStorage({
         key: 'loginInfo',
         success: function (res) {
-          if (res.data.userInfo.mobilePhone) {
+          if (res.data.mobilePhone) {
             wx.navigateTo({
               url: '../sellDetail/sellDetail?type=' + type,
             })
@@ -460,7 +460,7 @@ Page({
           wx.getStorage({
             key: 'loginInfo',
             success: function (res) {
-              if (res.data.userInfo.mobilePhone) {
+              if (res.data.mobilePhone) {
                 wx.navigateTo({
                   url: '../sellDetail/sellDetail?type=' + type,
                 })

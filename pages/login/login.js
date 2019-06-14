@@ -94,8 +94,8 @@ Page({
     this.setData({
       modalHidden: true
     })
-    wx.redirectTo({
-      url: '../mycoupon/mycoupon',
+    wx.switchTab({
+      url: '../index/index',
     })
   },
 
@@ -164,8 +164,8 @@ Page({
               wx.getStorage({
                 key: 'loginInfo',
                 success: function(e) {
+                  console.log(e)
                   var userInfo = e.data;
-                  console.log(userInfo)
                   userInfo.mobilePhone = that.data.phone;
                   wx.setStorage({
                     key: 'loginInfo',

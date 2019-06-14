@@ -105,6 +105,41 @@ Page({
           })
           app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
           that.getMovie(app.globalData.cinemacode)
+          if (app.globalData.openId != null) {
+            util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+              var memberCard = [];
+              var status = [];
+              if (res.data.Status == "Failure") {
+                that.setData({
+                  memberCardScore: '---',
+                  memberCardBalance: '---'
+                })
+              } else if (res.data.data.memberCard == null) {
+                that.setData({
+                  memberCardScore: '---',
+                  memberCardBalance: '---'
+                })
+              } else {
+                var memberCard = res.data.data.memberCard;
+                for (var i = 0; i < memberCard.length; i++) {
+                  if (memberCard[i].status == 1) {
+                    status.push(memberCard[i]);
+                  }
+                }
+                // 计算余额最多的会员卡
+                var first = memberCard.sort(function (a, b) {
+                  return a.balance < b.balance
+                })[0];
+                if (first.score == null) {
+                  first.score = 0
+                }
+                that.setData({
+                  memberCardBalance: first.balance,
+                  memberCardScore: first.score
+                })
+              }
+            })
+
           var accreditInfo = wx.getStorage({
             key: 'accredit',
             success: function (res) { //key所对应的内容
@@ -118,7 +153,8 @@ Page({
               wx.hideTabBar() //隐藏栏
             }
           })
-        }, 1000)
+          }
+      }, 1000)
       }
       // 声明一个新数组 将市区添加到新数组内
       var arr = [];
@@ -403,9 +439,13 @@ Page({
   },
   // 比价购票
   buy: function (e) {
+    // wx.redirectTo({
+    //           url: '../login/login'
+    //         })
     // console.log(e)
     // console.log(res.data)
     // console.log(e.currentTarget.dataset)
+    
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
     wx.setStorage({
       key: 'movieList',
