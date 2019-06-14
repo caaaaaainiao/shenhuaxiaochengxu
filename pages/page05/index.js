@@ -293,7 +293,7 @@ Page({
       },
     })
     that.setData({
-      openId: app.globalData.userInfo.openID,
+      openId: app.globalData.openID,
       cinemaCode: app.globalData.cinemacode,
       userName: app.usermessage.Username,
       passWord: app.usermessage.Password,

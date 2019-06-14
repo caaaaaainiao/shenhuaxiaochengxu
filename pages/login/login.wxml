@@ -23,9 +23,11 @@
   <!-- <view>
       <image class="image" src="{{image}}" mode='aspectFill'></image>
     </view> -->
-  <modal hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
+  <!-- <modal no-cancel='true' bindtap='modalConfirm'  hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
     <view>
       <image class="image" src="{{image}}" mode='aspectFill' style='position: relative;left: -40rpx;'></image>
     </view>
-  </modal>
+  </modal> -->
+  <image src='/images/yhj/409d7475ab6cb185569dbf45b33eceb.jpg' class='imgHidden' bindtap='modalConfirm' hidden="{{modalHidden}}"></image>
+  <!-- <view hidden="{{modalHidden}}"></view> -->
 </view>

@@ -87,8 +87,37 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
+  a:function(){
+    var that = this
+    let data = {
+      UserName: app.usermessage.Username,
+      Password: app.usermessage.Password,
+      CinemaCode: app.globalData.cinemacode,
+      GradeCode: "06",
+      OpenID: app.globalData.openID,
+    };
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUserResourceNumber' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        if (res.data.Status == "Success") {
+          that.setData({
+            couponsCount: res.data.data.couponsCount,
+            giftCount: res.data.data.giftCount,
+            goodsCount: res.data.data.goodsCount,
+            ticketCount: res.data.data.ticketCount,
+          })
+        }
+      }
+    })
+  },
   onShow: function() {
     var that = this;
+    that.a()
     wx.getStorage({
       key: 'accredit',
       success: function (res) {

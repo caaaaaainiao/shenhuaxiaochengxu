@@ -88,4 +88,10 @@
   position: relative;
   z-index: 9;
 }
+.img{
+  position: relative
+}
+.imgHidden{
+  position: absolute
+}
 

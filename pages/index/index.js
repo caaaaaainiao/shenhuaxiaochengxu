@@ -438,9 +438,13 @@ Page({
   },
   // 比价购票
   buy: function(e) {
+    // wx.reLaunch({
+    //   url: '../login/login',
+    // })
     // console.log(e)
     // console.log(res.data)
     // console.log(e.currentTarget.dataset)
+    
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
     wx.setStorage({
       key: 'movieList',
