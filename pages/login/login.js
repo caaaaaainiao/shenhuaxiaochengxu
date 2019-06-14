@@ -165,12 +165,12 @@ Page({
                 key: 'loginInfo',
                 success: function(e) {
                   var userInfo = e.data.userInfo;
-                  userInfo.mobilePhone = that.data.phone
+                  console.log(userInfo)
+                  userInfo.mobilePhone = that.data.phone;
                   wx.setStorage({
                     key: 'loginInfo',
                     data: userInfo,
                   })
-                  console.log(userInfo)
                 },
                 fail:function(res){
                   console.log(res)
