@@ -560,7 +560,7 @@ Page({
         } else {
           console.log(res)
           wx.showToast({
-            title: '选座失败',
+            title: '选座失败，请选择其他场次',
             content: res.data.ErrorMessage,
             icon: 'none',
             duration: 3000

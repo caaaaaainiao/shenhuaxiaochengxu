@@ -118,9 +118,6 @@ Page({
               wx.hideTabBar() //隐藏栏
             }
           })
-          if (app.globalData.userInfo != null) {
-          
-          }
         }, 1000)
       }
       // 声明一个新数组 将市区添加到新数组内

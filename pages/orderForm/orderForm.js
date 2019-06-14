@@ -1356,7 +1356,7 @@ Page({
       that.setData({
         conponCode: that.data.seatCoupon.conponCode,
         reductionPrice: that.data.seatCoupon.price,
-        ticketRealPrice: that.data.seatCoupon.price, // 减免金额
+        ticketRealPrice: (that.data.seatCoupon.price) / (that.data.count),  /* 减免金额 */
         // price: price,
         allPrice: price + refreshments,
         priceArr: priceArr,
