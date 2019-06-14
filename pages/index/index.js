@@ -415,9 +415,26 @@ Page({
     // console.log("details")
     app.globalData.movieIndex = e.currentTarget.dataset.index;
     // console.log(e)
-    wx.navigateTo({
-      url: '../movieDetail/movieDetail', //跳转到影片列表
+    console.log(app)
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function(res) {
+        if (res.data.userInfo.mobilePhone){
+          wx.navigateTo({
+            url: '../movieDetail/movieDetail', //跳转到影片列表
+          })
+        }else{
+          wx.navigateTo({
+          url: '../login/login'
+          })
+        }
+      },fail:function(){
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
+   
   },
   // 比价购票
   buy: function(e) {
@@ -448,8 +465,23 @@ Page({
     // }
     app.globalData.movieId = e.currentTarget.dataset.id;
     app.globalData.movieIndex = e.currentTarget.dataset.index;
-    wx.navigateTo({
-      url: '../compare/compare',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../compare/compare', //跳转到影片列表
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   getMovies: function() {
@@ -777,13 +809,13 @@ Page({
     that.getMovie(app.globalData.cinemacode);
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
-      app.globalData.userInfo = loginInfo;
+      app.globalData.userInfo = loginInfo.userInfo;
       // app.globalData.openID = loginInfo.userInfo.openID
       that.setData({
-        userInfo: loginInfo,
-        openID: loginInfo.openID
+        userInfo: loginInfo.userInfo,
+        openID: loginInfo.userInfo.openID
       });
-      app.globalData.openID = loginInfo.openID
+      app.globalData.openID = loginInfo.userInfo.openID
       console.log(app.globalData.openID)
     }
     // 调用全局函数设置余额以及积分
@@ -883,12 +915,42 @@ Page({
   toCard: function() {
     var that = this;
     if (that.data.memberCardBalance == "---") {
-      wx.navigateTo({
-        url: '../page04/index',
+      wx.getStorage({
+        key: 'loginInfo',
+        success: function (res) {
+          if (res.data.userInfo.mobilePhone) {
+            wx.navigateTo({
+              url: '../page04/index', //跳转到影片列表
+            })
+          } else {
+            wx.navigateTo({
+              url: '../login/login'
+            })
+          }
+        }, fail: function () {
+          wx.reLaunch({
+            url: '../index/index',
+          })
+        }
       })
     } else {
-      wx.navigateTo({
-        url: '../page05/index',
+      wx.getStorage({
+        key: 'loginInfo',
+        success: function (res) {
+          if (res.data.userInfo.mobilePhone) {
+            wx.navigateTo({
+              url: '../page05/index', //跳转到影片列表
+            })
+          } else {
+            wx.navigateTo({
+              url: '../login/login'
+            })
+          }
+        }, fail: function () {
+          wx.reLaunch({
+            url: '../index/index',
+          })
+        }
       })
     }
   },
