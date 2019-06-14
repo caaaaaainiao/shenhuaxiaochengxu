@@ -23,7 +23,7 @@ Page({
   onLoad: function (options) {
     var that = this;
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys/' + 'MiniProgram/' +'6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode +'/04',
+      url: app.globalData.url+'/Api/Activity/QueryActivitys/' + 'MiniProgram/' +'6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode +'/04',
       method:'GET',
       success: function (res) {
         console.log(res.data.data)
@@ -236,16 +236,20 @@ Page({
     var that = this
     let apiuser = util.getAPIUserData(null);
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Room/QueryScreenRoom' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
-      method: "GET",
+      url: app.globalData.url +'/Api/chatRoom/getRooms' ,
+      method: "POST",
+      data:{
+        cinemaCode  : app.globalData.cinemacode
+      },
       header: {
-        'content-type': 'application/json' // 默认值
+        // 'content-type': 'application/json' // 默认值
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function (res) {
-        console.log(res);
+        console.log(res.data);
         // that.data.FlimList.push(res)
         that.setData({
-          MovieList : res.data.data
+          MovieList : res.data
         })
         app.globalData.movieRoom = that.data.MovieList;
         // console.log(e)

@@ -49,6 +49,7 @@ App({
     screenPlanList:null,
     list:null,
     url:"https://xc.80piao.com:8443",
+    // url:"http://192.168.1.110:8080",
     goodsList:null,
     type2address:"",
     sellfeatureAppNo:"",

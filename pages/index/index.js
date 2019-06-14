@@ -372,7 +372,7 @@ Page({
     let apiuser = util.getAPIUserData(null);
 
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Film/QueryFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + filmCode,
+      url: app.globalData.url+'/Api/Film/QueryFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + filmCode,
 
       method: 'GET',
       header: {
@@ -682,7 +682,7 @@ Page({
         var wxCode = msg.code; // 发送 res.code 到后台换取 openId, sessionKey, unionId
         let encryptedData = that.data.userInfoDetail.encryptedData;
         let iv = that.data.userInfoDetail.iv;
-        let url = 'https://xc.80piao.com:8443/Api/User/UserLogin';
+        let url = app.globalData.url+'/Api/User/UserLogin';
         // var nowtime = new Date().getTime();
         let apiuser = util.getAPIUserData(null);
         // var sign = app.createMD5('appletA  uthorize', nowtime);
@@ -734,7 +734,7 @@ Page({
             }
             if (e.data.Status == 'Success') {
               wx.request({
-                url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + e.data.data.cinemaCode + '/' + e.data.data.openID,
+                url: app.globalData.url+'/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + e.data.data.cinemaCode + '/' + e.data.data.openID,
                 method: "GET",
                 header: {
                   "Content-Type": "application/json"
