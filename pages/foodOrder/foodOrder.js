@@ -356,7 +356,7 @@ Page({
         app.globalData.ordercode = ordercode
         //查询订单
         wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
+          url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
           method: "GET",
           success: function(res) {
             console.log(res)
@@ -502,7 +502,7 @@ Page({
     var nowtime = new Date().getTime();
     //预支付
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Goods/PrePayGoodsOrder',
+      url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
       method: "POST",
       data: {
         userName: "MiniProgram",
@@ -525,7 +525,7 @@ Page({
           success(res) {
             console.log(res)
             wx.request({
-              url: 'https://xc.80piao.com:8443/Api/Goods/SubmitGoodsOrder',
+              url: app.globalData.url + '/Api/Goods/SubmitGoodsOrder',
               method: "POST",
               data: {
                 userName: "MiniProgram",
@@ -537,7 +537,7 @@ Page({
                 var orderNum = res.data.order.orderCode
                 if (res.data.Status == 'Failure') {
                   wx.request({
-                    url: 'https://xc.80piao.com:8443/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
+                    url: app.globalData.url + '/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
                     method: "GET",
                     header: {
                       "Content-Type": "application/json"
@@ -640,7 +640,7 @@ Page({
     };
     if (that.data.cinemaType == '辰星') {
       wx.request({
-        url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + that.data.merOrder.merTicket.conponCode,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
@@ -674,7 +674,7 @@ Page({
           mpXml += ' </goodsList></SubmitGoodsOrder>';
           app.globalData.mpXml = mpXml
           wx.request({
-            url: 'https://xc.80piao.com:8443/Api/Goods/SubmitGoodsOrder',
+            url: app.globalData.url + '/Api/Goods/SubmitGoodsOrder',
             method: "POST",
             data: {
               userName: "MiniProgram",
@@ -689,7 +689,7 @@ Page({
                   content: res.data.ErrorMessage,
                 })
                 wx.request({
-                  url: 'https://xc.80piao.com:8443/Api/Member/CardPayBack' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.totalPrice,
+                  url: app.globalData.url + '/Api/Member/CardPayBack' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.totalPrice,
                   method: 'GET',
                   header: {
                     'content-type': 'application/json' // 默认值
@@ -737,7 +737,7 @@ Page({
       mpXml += ' </goodsList></SubmitGoodsOrder>';
       app.globalData.mpXml = mpXml
       wx.request({
-        url: 'https://xc.80piao.com:8443/Api/Goods/SubmitGoodsOrder',
+        url: app.globalData.url + '/Api/Goods/SubmitGoodsOrder',
         method: "POST",
         data: {
           userName: "MiniProgram",

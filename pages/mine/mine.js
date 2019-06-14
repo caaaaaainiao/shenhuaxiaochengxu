@@ -34,7 +34,7 @@ Page({
     };
     // 读取页面背景图片
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Activity/QueryActivitys/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.GradeCode,
+      url: app.globalData.url + '/Api/Activity/QueryActivitys/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.GradeCode,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -49,7 +49,7 @@ Page({
     });
     // 读取资源数量
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUserResourceNumber' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
+      url: app.globalData.url + '/Api/User/QueryUserResourceNumber' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -98,7 +98,7 @@ Page({
       OpenID: app.globalData.openId,
     };
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUserResourceNumber' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
+      url: app.globalData.url + '/Api/User/QueryUserResourceNumber' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值

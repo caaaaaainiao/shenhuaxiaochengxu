@@ -44,7 +44,7 @@ Page({
       OrderCode: that.data.orderNum,
     };
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/QueryTicketOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+      url: app.globalData.url + '/Api/Order/QueryTicketOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -170,7 +170,7 @@ Page({
     //   title: '加载中',
     // })
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.PrintNo + '/' + data.VerifyCode,
+      url: app.globalData.url + '/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.PrintNo + '/' + data.VerifyCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值

@@ -18,9 +18,9 @@ Page({
   onLoad: function (options) {
     var that = this;
     // 查询手机号
-    var a = app.globalData.openID
+    var a = app.globalData.openId
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUserInfo' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + a,
+      url: app.globalData.url + '/Api/User/QueryUserInfo' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + a,
       method: "GET",
       header: {
         "Content-Type": "application/json"

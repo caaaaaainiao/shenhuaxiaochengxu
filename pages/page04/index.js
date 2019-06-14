@@ -55,7 +55,7 @@ Page({
     };
     wx.request({
       // 点击会员卡号输入密码直接绑定
-      url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
+      url: app.globalData.url + '/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -112,7 +112,7 @@ Page({
         };
         temp[index] = 1;
         wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevel' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode,
+          url: app.globalData.url + '/Api/Member/QueryMemberCardLevel' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode,
           method: 'GET',
           header: {
             'content-type': 'application/json' // 默认值
@@ -192,7 +192,7 @@ Page({
     })
     // console.log(app.globalData)
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevel' + '/' + that.data.Username + '/' + that.data.Password + '/' + app.globalData.cinemaList.cinemaCode,
+      url: app.globalData.url + '/Api/Member/QueryMemberCardLevel' + '/' + that.data.Username + '/' + that.data.Password + '/' + app.globalData.cinemaList.cinemaCode,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -271,7 +271,7 @@ Page({
       console.log(cinemaType)
       wx.request({
         // 会员卡号
-        url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
+        url: app.globalData.url + '/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
@@ -305,7 +305,7 @@ Page({
       if (Num.test(that.data.inputNum)) {
         // 手机号返回会员卡号进行选择绑定
         wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Member/GetMemberCardByMobile' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
+          url: app.globalData.url + '/Api/Member/GetMemberCardByMobile' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
           method: 'GET',
           header: {
             'content-type': 'application/json' // 默认值
@@ -327,7 +327,7 @@ Page({
       else {
         wx.request({
           // 会员卡号输入密码直接绑定
-          url: 'https://xc.80piao.com:8443/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
+          url: app.globalData.url + '/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
           method: 'GET',
           header: {
             'content-type': 'application/json' // 默认值
@@ -374,7 +374,7 @@ Page({
         };
         temp[index] = 1;
         wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevel' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode,
+          url: app.globalData.url + '/Api/Member/QueryMemberCardLevel' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode,
           method: 'GET',
           header: {
             'content-type': 'application/json' // 默认值

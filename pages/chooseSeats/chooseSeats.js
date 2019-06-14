@@ -117,7 +117,7 @@ Page({
       Status: 'All'
     }
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Screen/QueryScreenSeatsArrangement' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.ScreenCode,
+      url: app.globalData.url + '/Api/Screen/QueryScreenSeatsArrangement' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.ScreenCode,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -130,7 +130,7 @@ Page({
       }
     });
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Session/QuerySessionSeat' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.FeatureAppNo + '/' + data.Status,
+      url: app.globalData.url + '/Api/Session/QuerySessionSeat' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.FeatureAppNo + '/' + data.Status,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -514,7 +514,7 @@ Page({
     xml += '</Order>';
     xml += '</LockSeat>';
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/LockSeat',
+      url: app.globalData.url + '/Api/Order/LockSeat',
       data: {
         userName: app.usermessage.Username,
         password: app.usermessage.Password,

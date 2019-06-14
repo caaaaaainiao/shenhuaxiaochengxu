@@ -80,7 +80,7 @@ Page({
     //   title: '加载中',
     // })
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryGiftRecord',
+      url: app.globalData.url + '/Api/User/QueryGiftRecord',
       data: {
         "userName": "MiniProgram",
         "password": "6BF477EBCC446F54E6512AFC0E976C41",
