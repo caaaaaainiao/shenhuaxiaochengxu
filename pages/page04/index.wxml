@@ -6,7 +6,7 @@
   </view>
   <block wx:if="{{tabContent[0]}}">
     <view class="panel">
-      <image src="http://wx.80piao.com:83/cdnimg/card45.png" class="icon" mode="widthFix"></image>
+      <image src="{{backgroundImage}}" class="icon" mode="widthFix"></image>
     </view>
     <view class="form">
       <view class="item">
@@ -47,7 +47,7 @@
       <view class="item" wx:for="{{memberCardLevel}}" wx:for-item="level" wx:key="level" >
         <view class="tt">{{level.ruleName}}
         </view>
-        <view class="con" bindtap='manage' data-Id='{{level.levelCode}}' data-text='{{level.ruleDescription}}' data-time='{{level.effectiveDays}}' data-name='{{level.levelName}}' data-price='{{level.credit}}' data-rule='{{level.ruleCode}}'>
+        <view class="con" style="background:url('{{level.memberCardImage}}') 0 0 no-repeat" bindtap='manage' data-Id='{{level.levelCode}}' data-text='{{level.ruleDescription}}' data-time='{{level.effectiveDays}}' data-name='{{level.levelName}}' data-price='{{level.credit}}' data-rule='{{level.ruleCode}}'>
           <view class="l">
             <view class="txt5">
               <text class="tag">{{level.levelName}}</text>

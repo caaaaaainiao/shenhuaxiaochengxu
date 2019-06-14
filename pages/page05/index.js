@@ -145,6 +145,7 @@ Page({
       },
       success: function (res) {
           // 微信支付接口
+          console.log(res)
         wx.requestPayment({
           timeStamp: res.data.data.timeStamp,
           nonceStr: res.data.data.nonceStr,
@@ -293,7 +294,7 @@ Page({
       },
     })
     that.setData({
-      openId: app.globalData.openID,
+      openId: app.globalData.openId,
       cinemaCode: app.globalData.cinemacode,
       userName: app.usermessage.Username,
       passWord: app.usermessage.Password,
@@ -333,7 +334,6 @@ Page({
               // 循环绑定会员卡调用方法请求到最新的余额以及积分
               for (let i = 0; i < status.length; i++) {
                 getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res) {
-                  console.log(res)
                   userCardList.push(res);
                   that.setData({
                     userCardList: userCardList

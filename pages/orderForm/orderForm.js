@@ -66,7 +66,7 @@ Page({
     console.log(app.globalData)
     // 查询手机号
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openID,
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method: "GET",
       header: {
         "Content-Type": "application/json"
@@ -113,7 +113,6 @@ Page({
         }
       }
     })
-    console.log(app.globalData)
     // 获取优惠券
     util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.userInfo.openID + "/All", function(res) {
       // console.log(res)

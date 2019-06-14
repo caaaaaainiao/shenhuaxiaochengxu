@@ -24,12 +24,13 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    console.log(app.globalData)
     let data = {
       UserName: app.usermessage.Username,
       Password: app.usermessage.Password,
       CinemaCode: app.globalData.cinemacode,
       GradeCode: "06",
-      OpenID: app.globalData.userInfo.userInfo.openID,
+      OpenID: app.globalData.openId,
     };
     // 读取页面背景图片
     wx.request({
@@ -94,7 +95,7 @@ Page({
       Password: app.usermessage.Password,
       CinemaCode: app.globalData.cinemacode,
       GradeCode: "06",
-      OpenID: app.globalData.openID,
+      OpenID: app.globalData.openId,
     };
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/User/QueryUserResourceNumber' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
@@ -174,7 +175,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../myticket/myticket',
           })
@@ -194,7 +195,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../myfood/myfood',
           })
@@ -220,7 +221,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../mycoupon/mycoupon',
           })
@@ -240,7 +241,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../myprize/myprize',
           })
@@ -260,7 +261,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../common/common',
           })
@@ -280,7 +281,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../hotActivity/hotActivity',
           })
@@ -300,7 +301,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../seenMovie/seenMovie',
           })
@@ -320,7 +321,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../wantsee/wantsee',
           })
@@ -342,7 +343,7 @@ Page({
         wx.getStorage({
           key: 'loginInfo',
           success: function (res) {
-            if (res.data.userInfo.mobilePhone) {
+            if (res.data.mobilePhone) {
               wx.navigateTo({
                 url: '../page04/index',
               })
@@ -362,7 +363,7 @@ Page({
         wx.getStorage({
           key: 'loginInfo',
           success: function (res) {
-            if (res.data.userInfo.mobilePhone) {
+            if (res.data.mobilePhone) {
               wx.navigateTo({
                 url: '../page05/index',
               })
@@ -474,7 +475,7 @@ Page({
         wx.getStorage({
           key: 'loginInfo',
           success: function (res) {
-            if (res.data.userInfo.mobilePhone) {
+            if (res.data.mobilePhone) {
               wx.navigateTo({
                 url: '../acivityUrl/acivityUrl',
               })
@@ -499,7 +500,7 @@ Page({
           wx.getStorage({
             key: 'loginInfo',
             success: function (res) {
-              if (res.data.userInfo.mobilePhone) {
+              if (res.data.mobilePhone) {
                 wx.navigateTo({
                   url: '../movieDetail/movieDetail',
                 })

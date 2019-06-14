@@ -106,7 +106,7 @@ Page({
     // var sign = app.createMD5('getWantSeeMovie', nowtime);
     // var pageNo = that.data.pageNo;
     // let useropenID = null
-    var a = app.globalData.openID
+    var a = app.globalData.openId
     console.log(a)
     wx.request({
       url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,

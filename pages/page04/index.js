@@ -1,6 +1,6 @@
 //获取应用实例
 const app = getApp()
-let _this;
+// let _this;
 Page({
   // 页面的初始数据
   data: {
@@ -12,6 +12,7 @@ Page({
     inputPass: '',
     Username: '',
     Password: '',
+    backgroundImage: null,
   },
   bindPickerChange999: function (e) {
     this.setData({
@@ -30,7 +31,7 @@ Page({
     })
   },
   btnShowExchange2: (e) => {
-    _this.setData({ isShow: !_this.data.isShow })
+    this.setData({ isShow: !this.data.isShow })
   },
   btnChoose: function (e) {
     var that = this;
@@ -40,7 +41,7 @@ Page({
     })
     var cinemaType = app.globalData.cinemaList.cinemaType;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
-    var openID = app.globalData.openId;
+    var openID = app.globalData.userInfo.openID;
     var userName = that.data.Username;
     var passWord = that.data.Password;
     var data = {
@@ -91,7 +92,7 @@ Page({
     var credit = e.currentTarget.dataset.price;
     var rule = e.currentTarget.dataset.rule;
     wx.navigateTo({
-      url: '../page06/index?id=' + id + '&openId=' + app.globalData.openId + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit + '&ruleCode=' + rule,
+      url: '../page06/index?id=' + id + '&openId=' + app.globalData.userInfo.openID + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit + '&ruleCode=' + rule,
     })
   },
   // 跳转到会员卡类别
@@ -99,9 +100,9 @@ Page({
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     let idx = e.currentTarget.dataset.id;
-    let temp = _this.data.tabContent;
-    var userName = _this.data.Username;
-    var passWord = _this.data.Password;
+    let temp = that.data.tabContent;
+    var userName = that.data.Username;
+    var passWord = that.data.Password;
     temp.forEach((item, index) => {
       if (index == idx) {
         var data = {
@@ -117,9 +118,15 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            console.log(res)
             var memberCardLevel = [];
-            memberCardLevel = res.data.data.level;
+            for (let i = 0; i < res.data.data.level.length; i ++) {
+              if (res.data.data.level[i].isOnlineOpenCard == '1') {
+                memberCardLevel.push(res.data.data.level[i])
+              }
+            }
+            that.setData({
+              backgroundImage: memberCardLevel[0].memberCardImage,
+            })
             for (var i = 0; i < memberCardLevel.length; i ++) {
               var levelName = "memberCardLevel[" + i + "].levelName";
               var levelCode = "memberCardLevel[" + i + "].levelCode";
@@ -128,7 +135,8 @@ Page({
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var ruleCode = "memberCardLevel[" + i + "].ruleCode";
-              var str = memberCardLevel[i].ruleDescription
+              var image = "memberCardLevel[" + i + "].memberCardImage"
+              var str = memberCardLevel[i].ruleDescription;
               if (str != null) {
                 var newDescription = str.replace(/，/g, "，\n")
                 that.setData({
@@ -139,6 +147,7 @@ Page({
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
+                  [image]: memberCardLevel[i].memberCardImage,
                 })
               } else {
                 that.setData({
@@ -149,6 +158,7 @@ Page({
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
+                  [image]: memberCardLevel[i].memberCardImage,
                 })
               }
             }
@@ -158,42 +168,96 @@ Page({
         temp[index] = 0
       }
     })
-    _this.setData({
+    that.setData({
       tabContent: temp
     })
   },
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
-    _this = this;
+    let that = this;
     wx.setNavigationBarTitle({
       title: '会员卡'
     });
     wx.getStorage({
       key: 'sjhm',
       success: function(res) {
-        _this.setData({
+        that.setData({
           inputNum: res.data
         })
       },
     })
-    _this.setData({
+    that.setData({
       Username: app.usermessage.Username,
       Password: app.usermessage.Password
     })
     // console.log(app.globalData)
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevel' + '/' + that.data.Username + '/' + that.data.Password + '/' + app.globalData.cinemaList.cinemaCode,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        var memberCardLevel = [];
+        for (let i = 0; i < res.data.data.level.length; i++) {
+          if (res.data.data.level[i].isOnlineOpenCard == '1') {
+            memberCardLevel.push(res.data.data.level[i])
+          }
+        }
+        that.setData({
+          backgroundImage: memberCardLevel[0].memberCardImage,
+        })
+        for (var i = 0; i < memberCardLevel.length; i++) {
+          var levelName = "memberCardLevel[" + i + "].levelName";
+          var levelCode = "memberCardLevel[" + i + "].levelCode";
+          var ruleName = "memberCardLevel[" + i + "].ruleName";
+          var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
+          var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
+          var credit = "memberCardLevel[" + i + "].credit";
+          var ruleCode = "memberCardLevel[" + i + "].ruleCode";
+          var image = "memberCardLevel[" + i + "].memberCardImage"
+          var str = memberCardLevel[i].ruleDescription;
+          if (str != null) {
+            var newDescription = str.replace(/，/g, "，\n")
+            that.setData({
+              [levelName]: memberCardLevel[i].levelName,
+              [levelCode]: memberCardLevel[i].levelCode,
+              [ruleName]: memberCardLevel[i].ruleName,
+              [ruleDescription]: newDescription,
+              [effectiveDays]: memberCardLevel[i].effectiveDays,
+              [credit]: memberCardLevel[i].credit,
+              [ruleCode]: memberCardLevel[i].ruleCode,
+              [image]: memberCardLevel[i].memberCardImage,
+            })
+          } else {
+            that.setData({
+              [levelName]: memberCardLevel[i].levelName,
+              [levelCode]: memberCardLevel[i].levelCode,
+              [ruleName]: memberCardLevel[i].ruleName,
+              [ruleDescription]: memberCardLevel[i].ruleDescription,
+              [effectiveDays]: memberCardLevel[i].effectiveDays,
+              [credit]: memberCardLevel[i].credit,
+              [ruleCode]: memberCardLevel[i].ruleCode,
+              [image]: memberCardLevel[i].memberCardImage,
+            })
+          }
+        }
+      }
+    })
   },
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
   //  绑定会员卡
   querenbangding: function () {
     // 获取全局变量 判断售票系统
+    let that = this;
     var cinemaType = app.globalData.cinemaList.cinemaType;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var openID = app.globalData.userInfo.openID;
-    var userName = _this.data.Username;
-    var passWord = _this.data.Password;
+    var userName = that.data.Username;
+    var passWord = that.data.Password;
     var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
-    var that = this;
     var data = {
       Username: userName,
       Password: passWord,
@@ -296,11 +360,11 @@ Page({
   // 跳转到会员卡类别
   zhuce: function (e) {
     var that = this;
-    let idx = e.currentTarget.dataset.id;
-    let temp = _this.data.tabContent;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
-    var userName = _this.data.Username;
-    var passWord = _this.data.Password;
+    let idx = e.currentTarget.dataset.id;
+    let temp = that.data.tabContent;
+    var userName = that.data.Username;
+    var passWord = that.data.Password;
     temp.forEach((item, index) => {
       if (index == idx) {
         var data = {
@@ -316,9 +380,15 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
-            // console.log(res)
             var memberCardLevel = [];
-            memberCardLevel = res.data.data.level;
+            for (let i = 0; i < res.data.data.level.length; i++) {
+              if (res.data.data.level[i].isOnlineOpenCard == '1') {
+                memberCardLevel.push(res.data.data.level[i])
+              }
+            }
+            that.setData({
+              backgroundImage: memberCardLevel[0].memberCardImage
+            })
             for (var i = 0; i < memberCardLevel.length; i++) {
               var levelName = "memberCardLevel[" + i + "].levelName";
               var levelCode = "memberCardLevel[" + i + "].levelCode";
@@ -327,6 +397,7 @@ Page({
               var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var ruleCode = "memberCardLevel[" + i + "].ruleCode";
+              var image = "memberCardLevel[" + i + "].memberCardImage"
               var str = memberCardLevel[i].ruleDescription;
               if (str != null) {
                 var newDescription = str.replace(/，/g, "，\n")
@@ -338,6 +409,7 @@ Page({
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
+                  [image]: memberCardLevel[i].memberCardImage,
                 })
               } else {
                 that.setData({
@@ -348,6 +420,7 @@ Page({
                   [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
+                  [image]: memberCardLevel[i].memberCardImage,
                 })
               }
             }
@@ -357,12 +430,9 @@ Page({
         temp[index] = 0
       }
     })
-    _this.setData({
+    that.setData({
       tabContent: temp
     })
-    // wx.navigateTo({
-    //   url: '../page06/index'
-    // })
   },
   // 生命周期函数--监听页面显示
   onShow: function () { },
