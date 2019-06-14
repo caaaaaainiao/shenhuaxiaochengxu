@@ -109,7 +109,7 @@ Page({
     var a = app.globalData.openId
     console.log(a)
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
+      url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值

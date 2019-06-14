@@ -98,7 +98,7 @@ Page({
       Status: 'All'
     };
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Conpon/QueryUserConpons' + '/' + data.Username + '/' +data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.Status,
+      url: app.globalData.url + '/Api/Conpon/QueryUserConpons' + '/' + data.Username + '/' +data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.Status,
       method: "Get",
       header: {
         'content-type': 'application/json' // 默认值

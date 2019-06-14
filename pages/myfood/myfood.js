@@ -78,7 +78,7 @@ Page({
     var pageNo = that.data.pageNo;
     console.log(app.globalData.openId)
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryCinemaGoods/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryCinemaGoods/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method:'GET',
       header: {
         "Content-Type": "application/json"

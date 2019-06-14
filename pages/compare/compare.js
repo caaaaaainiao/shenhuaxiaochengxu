@@ -208,7 +208,7 @@ Page({
     let cinemacode = app.globalData.cinemacode
 
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + this.data.checkfilmcode,
+      url: app.globalData.url + '/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + this.data.checkfilmcode,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -431,7 +431,7 @@ Page({
 
 
       wx.request({
-        url: 'https://xc.80piao.com:8443/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode ,
+        url: app.globalData.url + '/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode ,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值

@@ -66,7 +66,7 @@ Page({
     console.log(app.globalData)
     // 查询手机号
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method: "GET",
       header: {
         "Content-Type": "application/json"
@@ -97,7 +97,7 @@ Page({
       sessionCode: options.sessionCode,
     });
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Goods/QueryComponents' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + options.count,
+      url: app.globalData.url + '/Api/Goods/QueryComponents' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + options.count,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -476,7 +476,7 @@ Page({
     xml += '</ReleaseSeat>'
     // 解锁座位
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/ReleaseSeat',
+      url: app.globalData.url + '/Api/Order/ReleaseSeat',
       data: {
         "userName": app.usermessage.Username,
         "password": app.usermessage.Password,
@@ -670,7 +670,7 @@ Page({
     }
     // 预支付
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/PrePayOrder',
+      url: app.globalData.url + '/Api/Order/PrePayOrder',
       data: {
         "userName": app.usermessage.Username,
         "password": app.usermessage.Password,
@@ -698,7 +698,7 @@ Page({
           };
           // 查询本地订单
           wx.request({
-            url: 'https://xc.80piao.com:8443/Api/Order/QueryLocalOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+            url: app.globalData.url + '/Api/Order/QueryLocalOrder' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
             method: 'GET',
             header: {
               'content-type': 'application/json' // 默认值
@@ -741,7 +741,7 @@ Page({
                       xml += '</SubmitOrder>';
                       // 提交订单   
                       wx.request({
-                        url: 'https://xc.80piao.com:8443/Api/Order/SubmitOrder',
+                        url: app.globalData.url + '/Api/Order/SubmitOrder',
                         data: {
                           userName: data.UserName,
                           password: data.Password,
@@ -778,7 +778,7 @@ Page({
                               success: function(res) {
                                 // 自动退款
                                 wx.request({
-                                  url: 'https://xc.80piao.com:8443/Api/Order/RefundPayment' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+                                  url: app.globalData.url + '/Api/Order/RefundPayment' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
                                   method: "GET",
                                   header: {
                                     'content-type': 'application/json' // 默认值
@@ -892,7 +892,7 @@ Page({
     // console.log(data)
     // 查询本地订单
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Order/QueryLocalOrder' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode,
+      url: app.globalData.url + '/Api/Order/QueryLocalOrder' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -903,7 +903,7 @@ Page({
           // 会员卡折扣 判断售票系统
           if (app.globalData.cinemaList.cinemaType == "电影1905") { // 1905
             wx.request({
-              url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
+              url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
               method: 'GET',
               header: {
                 'content-type': 'application/json' // 默认值
@@ -914,7 +914,7 @@ Page({
                   let price = res.data.card.price;
                   // 1905系统会员卡支付
                   wx.request({
-                    url: 'https://xc.80piao.com:8443/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
+                    url: app.globalData.url + '/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
                     method: 'GET',
                     header: {
                       'content-type': 'application/json' // 默认值
@@ -958,7 +958,7 @@ Page({
             })
           } else { //辰星
             wx.request({
-              url: 'https://xc.80piao.com:8443/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
+              url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
               method: 'GET',
               header: {
                 'content-type': 'application/json' // 默认值
@@ -975,7 +975,7 @@ Page({
                 if (res.data.Status == "Success") {
                   // 会员卡支付
                   wx.request({
-                    url: 'https://xc.80piao.com:8443/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode,
+                    url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode,
                     method: 'GET',
                     header: {
                       'content-type': 'application/json' // 默认值
@@ -1011,7 +1011,7 @@ Page({
                         xml += '</SubmitOrder>';
                         // 提交订单   
                         wx.request({
-                          url: 'https://xc.80piao.com:8443/Api/Order/SubmitOrder',
+                          url: app.globalData.url + '/Api/Order/SubmitOrder',
                           data: {
                             userName: data.Username,
                             password: data.Password,
@@ -1044,7 +1044,7 @@ Page({
                             else { //订单确认失败
                                   // 自动退款
                                   wx.request({
-                                    url: 'https://xc.80piao.com:8443/Api/Member/CardPayBack' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.deductAmount,
+                                    url: app.globalData.url + '/Api/Member/CardPayBack' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.deductAmount,
                                     method: "GET",
                                     header: {
                                       'content-type': 'application/json' // 默认值

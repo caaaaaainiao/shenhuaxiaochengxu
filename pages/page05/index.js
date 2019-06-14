@@ -11,7 +11,7 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
     CardPassword: cardpassword,
   };
   wx.request({
-    url: 'https://xc.80piao.com:8443/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
+    url: app.globalData.url + '/Api/Member/QueryCard' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
     method: 'GET',
     header: {
       'content-type': 'application/json' // 默认值
@@ -73,7 +73,7 @@ Page({
       LevelCode: levelcode
     };
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
+      url: app.globalData.url + '/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -138,7 +138,7 @@ Page({
       RuleCode: ruleCode
     };
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.RuleCode + '/' + data.ChargeAmount,
+      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.RuleCode + '/' + data.ChargeAmount,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -155,7 +155,7 @@ Page({
           success(res) {
             if (res.errMsg == "requestPayment:ok") {
               wx.request({
-                url: 'https://xc.80piao.com:8443/Api/Member/CardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.ChargeType + '/' + data.RuleCode + '/' + data.ChargeAmount, 
+                url: app.globalData.url + '/Api/Member/CardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.ChargeType + '/' + data.RuleCode + '/' + data.ChargeAmount, 
                 method: 'GET',
                 header: {
                   'content-type': 'application/json' // 默认值
@@ -237,7 +237,7 @@ Page({
       success: function (res) {
         if (res.confirm == true) {
           wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Member/MemberCardUnbind'+ '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
+            url: app.globalData.url + '/Api/Member/MemberCardUnbind'+ '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
           method: 'GET',
           header: {
             'content-type': 'application/json' // 默认值
@@ -250,7 +250,7 @@ Page({
             });
             // 读取已绑定的会员卡判断是否还有会员卡绑定跳转到相应页面
             wx.request({
-              url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
+              url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
               method: 'GET',
               header: {
                 'content-type': 'application/json' // 默认值
@@ -307,7 +307,7 @@ Page({
     }
         // 读取已绑定的会员卡
         wx.request({
-          url: 'https://xc.80piao.com:8443/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
+          url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
           method: 'GET',
           header: {
             'content-type': 'application/json' // 默认值

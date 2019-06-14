@@ -45,7 +45,7 @@ Page({
     var a = app.globalData.openId
     console.log(a)
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
+      url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -152,7 +152,7 @@ Page({
       }
       
       wx.request({
-        url: 'https://xc.80piao.com:8443/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isWant,
+        url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isWant,
         method: "GET",
         header: { 'content-type': 'application/json' },
         success: function (res) {
