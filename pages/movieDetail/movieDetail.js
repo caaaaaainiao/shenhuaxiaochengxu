@@ -42,8 +42,10 @@ Page({
     // console.log(app.globalData)
     var nowtime = new Date().getTime();
     let apiuser = util.getAPIUserData(null);
+    var a = app.globalData.openID
+    console.log(a)
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + 1,
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -56,6 +58,7 @@ Page({
                  isWant : 1
                })
           }
+          // console.log(app.globalData.userInfo)
         }
       }
     })

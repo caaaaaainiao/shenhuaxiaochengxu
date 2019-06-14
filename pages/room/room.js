@@ -42,6 +42,12 @@ Page({
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     var contentHeight = windowHeight - 279;
     // console.log(app.globalData)
+    // wx.getStorage({
+    //   key: 'loginlnfo',
+    //   success: function(res) {
+    //     console.log(res.data)
+    //   },
+    // })
     this.setData({
       height: contentHeight,
       movie: app.globalData.movieRoom,

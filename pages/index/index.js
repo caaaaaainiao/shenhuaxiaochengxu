@@ -767,13 +767,23 @@ Page({
    */
   onShow: function() {
     var that = this;
+    // wx.getStorage({
+    //   key: 'loginInfo',
+    //   success: function (res) {
+    //     app.globalData.openId = res.data.openID
+    //   },
+    // })
     that.getMovie(app.globalData.cinemacode);
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
       app.globalData.userInfo = loginInfo;
+      // app.globalData.openID = loginInfo.userInfo.openID
       that.setData({
-        userInfo: loginInfo
+        userInfo: loginInfo,
+        openID: loginInfo.userInfo.openID
       });
+      app.globalData.openID = loginInfo.userInfo.openID
+      console.log(app.globalData.openID)
     }
     // 调用全局函数设置余额以及积分
     util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {

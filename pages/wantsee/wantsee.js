@@ -106,8 +106,10 @@ Page({
     // var sign = app.createMD5('getWantSeeMovie', nowtime);
     // var pageNo = that.data.pageNo;
     // let useropenID = null
+    var a = app.globalData.openID
+    console.log(a)
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + 1,
+      url: 'https://xc.80piao.com:8443/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
