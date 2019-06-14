@@ -87,8 +87,23 @@ Page({
     // }
     app.globalData.movieRoom = that.data.MovieList[index];
     console.log(that.data.MovieList[index])
-    wx.navigateTo({
-      url: '../room/room',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../room/room',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
 

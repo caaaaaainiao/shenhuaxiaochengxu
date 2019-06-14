@@ -437,13 +437,43 @@ Page({
     app.globalData.type2address = that.data.detailStr;
     app.globalData.sellfeatureAppNo = that.data.sellfeatureAppNo;
     if(type == 1){
-      wx.navigateTo({
-        url: '../sellDetail/sellDetail?type=' + type,
+      wx.getStorage({
+        key: 'loginInfo',
+        success: function (res) {
+          if (res.data.userInfo.mobilePhone) {
+            wx.navigateTo({
+              url: '../sellDetail/sellDetail?type=' + type,
+            })
+          } else {
+            wx.navigateTo({
+              url: '../login/login'
+            })
+          }
+        }, fail: function () {
+          wx.reLaunch({
+            url: '../index/index',
+          })
+        }
       })
     } else if (type == 2){
         if(isOk){
-          wx.navigateTo({
-            url: '../sellDetail/sellDetail?type=' + type,
+          wx.getStorage({
+            key: 'loginInfo',
+            success: function (res) {
+              if (res.data.userInfo.mobilePhone) {
+                wx.navigateTo({
+                  url: '../sellDetail/sellDetail?type=' + type,
+                })
+              } else {
+                wx.navigateTo({
+                  url: '../login/login'
+                })
+              }
+            }, fail: function () {
+              wx.reLaunch({
+                url: '../index/index',
+              })
+            }
           })
         }else{
           that.setData({

@@ -74,13 +74,6 @@ Page({
         })
       },
     })
-    // if (this.data.userInfo.mobile == null || this.data.userInfo.mobile == ""){
-    //   wx.navigateTo({
-    //     url: '../login/login',
-    //   })
-    // }
-    // this.getBanner();
-    // this.getBanner2();
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
@@ -149,13 +142,43 @@ Page({
     }
   },
   myTicket: function() {
-    wx.navigateTo({
-      url: '../myticket/myticket',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../myticket/myticket',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   myFood: function() {
-    wx.navigateTo({
-      url: '../myfood/myfood',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../myfood/myfood',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   myCoupon: function() {
@@ -165,47 +188,165 @@ Page({
     //   icon: "loading",
     //   duration: 2000
     // })
-    wx.navigateTo({
-      url: '../mycoupon/mycoupon',
-      // url: '../mycoupon/mycoupon?number=' + that.data.count.couponCount,
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../mycoupon/mycoupon',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   myPrize: function() {
-    wx.navigateTo({
-      url: '../myprize/myprize',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../myprize/myprize',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   toCommon: function() {
-    wx.navigateTo({
-      url: '../common/common',
-      // url: '../login/login',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../common/common',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   toActivity: function() {
-    wx.navigateTo({
-      url: '../hotActivity/hotActivity',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../hotActivity/hotActivity',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   toSeenMovie: function() {
-    wx.navigateTo({
-      url: '../seenMovie/seenMovie',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../seenMovie/seenMovie',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   toWantsee: function() {
-    wx.navigateTo({
-      url: '../wantsee/wantsee',
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.userInfo.mobilePhone) {
+          wx.navigateTo({
+            url: '../wantsee/wantsee',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../index/index',
+        })
+      }
     })
   },
   toMycard: function() {
     util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
       if (res.data.data.memberPhoneCount == 0) {
-        wx.navigateTo({
-        url: '../page04/index',
-      })
+        wx.getStorage({
+          key: 'loginInfo',
+          success: function (res) {
+            if (res.data.userInfo.mobilePhone) {
+              wx.navigateTo({
+                url: '../page04/index',
+              })
+            } else {
+              wx.navigateTo({
+                url: '../login/login'
+              })
+            }
+          }, fail: function () {
+            wx.reLaunch({
+              url: '../index/index',
+            })
+          }
+        })
       }
       else {
-        wx.navigateTo({
-          url: '../page05/index',
+        wx.getStorage({
+          key: 'loginInfo',
+          success: function (res) {
+            if (res.data.userInfo.mobilePhone) {
+              wx.navigateTo({
+                url: '../page05/index',
+              })
+            } else {
+              wx.navigateTo({
+                url: '../login/login'
+              })
+            }
+          }, fail: function () {
+            wx.reLaunch({
+              url: '../index/index',
+            })
+          }
         })
       }
     })
@@ -301,8 +442,23 @@ Page({
       var url = banner[index].redirectUrl;
       if (url != "") {
         app.globalData.acivityUrl = url;
-        wx.navigateTo({
-          url: '../acivityUrl/acivityUrl',
+        wx.getStorage({
+          key: 'loginInfo',
+          success: function (res) {
+            if (res.data.userInfo.mobilePhone) {
+              wx.navigateTo({
+                url: '../acivityUrl/acivityUrl',
+              })
+            } else {
+              wx.navigateTo({
+                url: '../login/login'
+              })
+            }
+          }, fail: function () {
+            wx.reLaunch({
+              url: '../index/index',
+            })
+          }
         })
       }
     } else if (num == 2 && banner[index].dxMovie != null) {
@@ -311,8 +467,23 @@ Page({
       for (var i = 0; i < movieList.length; i++) {
         if (movieList[i].id == id) {
           app.globalData.movieIndex = i;
-          wx.navigateTo({
-            url: '../movieDetail/movieDetail',
+          wx.getStorage({
+            key: 'loginInfo',
+            success: function (res) {
+              if (res.data.userInfo.mobilePhone) {
+                wx.navigateTo({
+                  url: '../movieDetail/movieDetail',
+                })
+              } else {
+                wx.navigateTo({
+                  url: '../login/login'
+                })
+              }
+            }, fail: function () {
+              wx.reLaunch({
+                url: '../index/index',
+              })
+            }
           })
         }
       }
