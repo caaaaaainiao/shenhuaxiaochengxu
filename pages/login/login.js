@@ -168,7 +168,7 @@ Page({
                   userInfo.mobilePhone = that.data.phone
                   wx.setStorage({
                     key: 'loginInfo',
-                    data: {"userInfo":userInfo},
+                    data: userInfo,
                   })
                   console.log(userInfo)
                 },

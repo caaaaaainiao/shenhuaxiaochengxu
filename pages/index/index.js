@@ -116,9 +116,8 @@ Page({
           })
           app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
           that.getMovie(app.globalData.cinemacode)
-          if (app.globalData.openID){
-            util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openID, app.globalData.cinemacode, function (res) {
-              console.log(res)
+          if (app.globalData.openId){
+            util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
               var memberCard = [];
               var status = [];
               if (res.data.Status == "Failure") {
@@ -419,7 +418,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function(res) {
-        if (res.data.userInfo.mobilePhone){
+        if (res.data.mobilePhone){
           wx.navigateTo({
             url: '../movieDetail/movieDetail', //跳转到影片列表
           })
@@ -468,7 +467,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../compare/compare', //跳转到影片列表
           })
@@ -585,7 +584,7 @@ Page({
       })
     });
     // 调用全局函数设置余额以及积分
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openID, app.globalData.cinemacode, function(res) {
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
       var memberCard = [];
       var status = [];
       if (res.data.Status == "Failure") {
@@ -645,6 +644,7 @@ Page({
         // userInfo: e.detail.userInfo,
         userInfoDetail: e.detail
       })
+      console.log(e.detail.userInfo)
       app.globalData.userInfo = e.detail.userInfo;
       console.log(app.globalData.userInfo)
       wx.setStorage({
@@ -809,18 +809,17 @@ Page({
     that.getMovie(app.globalData.cinemacode);
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
-      app.globalData.userInfo = loginInfo.userInfo;
-      // app.globalData.openID = loginInfo.userInfo.openID
+      app.globalData.userInfo = loginInfo;
       that.setData({
-        userInfo: loginInfo.userInfo,
-        openID: loginInfo.userInfo.openID
+        userInfo: loginInfo,
+        openID: loginInfo.openID
       });
-      app.globalData.openID = loginInfo.userInfo.openID
-      console.log(app.globalData.openID)
+      app.globalData.openId = loginInfo.openID
+
     }
     // 调用全局函数设置余额以及积分
-    if (app.globalData.cinemacode && app.globalData.openID) {
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openID, app.globalData.cinemacode, function(res) {
+    if (app.globalData.cinemacode && app.globalData.openId) {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
         var memberCard = [];
         var status = [];
         let userCardList = [];
@@ -918,7 +917,7 @@ Page({
       wx.getStorage({
         key: 'loginInfo',
         success: function (res) {
-          if (res.data.userInfo.mobilePhone) {
+          if (res.data.mobilePhone) {
             wx.navigateTo({
               url: '../page04/index', //跳转到影片列表
             })
@@ -937,7 +936,7 @@ Page({
       wx.getStorage({
         key: 'loginInfo',
         success: function (res) {
-          if (res.data.userInfo.mobilePhone) {
+          if (res.data.mobilePhone) {
             wx.navigateTo({
               url: '../page05/index', //跳转到影片列表
             })

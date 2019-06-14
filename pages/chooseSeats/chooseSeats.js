@@ -518,7 +518,7 @@ Page({
       data: {
         userName: app.usermessage.Username,
         password: app.usermessage.Password,
-        openID: app.globalData.openID,
+        openID: app.globalData.userInfo.openID,
         queryXml: xml,               
       },
       method: "POST",
