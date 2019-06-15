@@ -926,7 +926,7 @@ Page({
               first.score = 0
             }
             that.setData({
-              memberCardBalance: parseInt(first.balance),
+              memberCardBalance: first.balance,
               memberCardScore: first.score
             })
           }, 1000)
