@@ -29,7 +29,7 @@
     </view>
   </modal> -->
   <view class='hiddenImg' >
-  <image  src='/images/yhj/409d7475ab6cb185569dbf45b33eceb.jpg' bindtap='modalConfirm' ></image>
+  <image  src='{{image}}' bindtap='modalConfirm' ></image>
   </view>
   
   <!-- <view hidden="{{modalHidden}}"></view> -->
