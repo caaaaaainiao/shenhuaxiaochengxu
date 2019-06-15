@@ -430,7 +430,7 @@ Page({
           })
         } else {
           wx.navigateTo({
-            url: '../login/login'
+            url: '../login/login' //2
           })
         }
       }, fail: function () {
@@ -483,7 +483,7 @@ Page({
           })
         } else {
           wx.navigateTo({
-            url: '../login/login'
+            url: '../login/login' //1
           })
         }
       }, fail: function () {
@@ -810,7 +810,7 @@ Page({
                 success: function (res) {
                   if (res.data.data.mobilePhone == null || res.data.data.mobilePhone == '') {
                     wx.redirectTo({
-                      url: '../login/login',
+                      url: '../index/index',
                     })
                   }
                 }
@@ -991,7 +991,7 @@ Page({
             })
           } else {
             wx.navigateTo({
-              url: '../login/login'
+              url: '../login/login' //3
             })
           }
         }, fail: function () {
@@ -1010,7 +1010,7 @@ Page({
             })
           } else {
             wx.navigateTo({
-              url: '../login/login'
+              url: '../login/login' //4
             })
           }
         }, fail: function () {
@@ -1035,7 +1035,7 @@ Page({
     var that = this;
     if (!that.data.userInfo || !that.data.userInfo.mobile || that.data.userInfo.mobile == "") {
       wx.navigateTo({
-        url: '../login/login',
+        url: '../login/login', //none
       })
     }
 

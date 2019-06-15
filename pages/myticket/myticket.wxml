@@ -18,7 +18,9 @@
       <view class='top'></view>
       <view class='bottom'></view>
       <image src='/images/gray_more.png' class='more' wx:if="{{order.payStatus != 3}}"></image>
-       <image src='/images/got.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.status==9}}"></image>
+       <image src='/images/past.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.status==9}}"></image>
+       <!-- <image src='/images/past.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.status==8}}"></image> -->
+       
     </view>
     <view class='food {{order. deliveryStatus==2?"past":""}}' wx:if="{{order.merOrder!=null}}">
        <view class='left'>
