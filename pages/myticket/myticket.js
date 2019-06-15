@@ -30,7 +30,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.showLoading({
+      title: '加载中',
+    })
   },
 
   /**
@@ -92,6 +94,7 @@ Page({
             })
           }
         }
+        wx.hideLoading()
         console.log(that.data.result)
       }
 

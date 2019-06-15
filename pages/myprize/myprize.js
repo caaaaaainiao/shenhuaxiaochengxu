@@ -31,6 +31,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.setNavigationBarTitle({ title: '我的奖品' });
   },
 
@@ -92,19 +95,20 @@ Page({
         'content-type': 'application/json'
       },
       success: function (res) {
-        console.log(res.data)
         wx.hideLoading()
-        var result = that.addJson(that.data.result, res.data.data);
-        for (var i = 0; i < result.length; i++) {
-          result[i].overTime2 = result[i].overTime.substring(0, 10)
-          var nowTime = new Date().getTime();
-          var resultTime = new Date(result[i].overTime).getTime();
-          if (nowTime < result){
-            result[i].status = 0
-          }else{
-            result[i].status = 1
-          }
-        }
+        console.log(res.data.data)
+        // wx.hideLoading()
+        var result = res.data.data;
+        // for (var i = 0; i < result.length; i++) {
+        //   result[i].overTime2 = result[i].overTime.substring(0, 10)
+        //   var nowTime = new Date().getTime();
+        //   var resultTime = new Date(result[i].overTime).getTime();
+        //   if (nowTime < result){
+        //     result[i].status = 0
+        //   }else{
+        //     result[i].status = 1
+        //   }
+        // }
         // pageNo++;
         that.setData({
           result: result,
@@ -113,15 +117,15 @@ Page({
       }
     })
   },
-  addJson: function (json1, json2) {
-    if (json1 == null) {
-      return json2
-    }
-    for (var i = 0; i < json2.length; i++) {
-      json1.push(json2[i])
-    }
-    return json1
+  // addJson: function (json1, json2) {
+  //   if (json1 == null) {
+  //     return json2
+  //   }
+  //   for (var i = 0; i < json2.length; i++) {
+  //     json1.push(json2[i])
+  //   }
+  //   return json1
 
 
-  }
+  // }
 })

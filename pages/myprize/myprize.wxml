@@ -14,10 +14,10 @@
   </view> -->
   <block wx:for="{{result}}" wx:for-item="prize" wx:key="prize">
     <view class='prize'>
-      <image class='icon' src='{{prize.photo}}'></image>
-      <view class='name'>{{prize.memo}}</view>
+      <image class='icon' src='{{prize.image}}'></image>
+      <view class='name'>{{prize.giftName}}</view>
       <!-- <view class='scope'>全店通用，请至前台领取</view> -->
-      <view class='time'>有效期至：{{prize.overTime}}</view>
+      <view class='time'>有效期至：{{prize.expireDate}}</view>
       <!-- <view class='right' >
         <image src='/images/status2.png' class='status'></image>
       </view> -->

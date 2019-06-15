@@ -45,6 +45,9 @@ Page({
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+    })
     var that = this;
     var timestamp = new Date().getTime()
     that.setData({
@@ -212,6 +215,7 @@ Page({
         //   movieList: res
         // })
         console.log(res)
+        wx.hideLoading()
         for (var x in res) { // 影片的预售和购票排序
           res[x].jian = res[x].time - timestamp1
         }
@@ -439,9 +443,9 @@ Page({
   },
   // 比价购票
   buy: function (e) {
-    // wx.redirectTo({
-    //           url: '../login/login'
-    //         })
+    wx.redirectTo({
+              url: '../login/login'
+            })
     // console.log(e)
     // console.log(res.data)
     // console.log(e.currentTarget.dataset)

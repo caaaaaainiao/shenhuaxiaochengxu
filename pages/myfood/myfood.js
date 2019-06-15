@@ -31,6 +31,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.setNavigationBarTitle({ title: '我的小食' });
   },
 
@@ -85,6 +88,7 @@ Page({
       },
       success:function(res){
         console.log(res)
+        wx.hideLoading()
         var result = []
         for(var x in res.data.data.good){
           if (res.data.data.good[x].orderCode!=null){ 
