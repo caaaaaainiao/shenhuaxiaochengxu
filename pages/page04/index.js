@@ -205,6 +205,7 @@ Page({
             memberCardLevel.push(res.data.data.level[i])
           }
         }
+        console.log(memberCardLevel)
         that.setData({
           backgroundImage: memberCardLevel[0].memberCardImage,
         })

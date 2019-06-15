@@ -21,7 +21,7 @@
   </view>
   <view class='option2'>
     <text>性别</text>
-    <picker bindchange="bindSexChange" value="{{sex}}">
+    <picker bindchange="bindSexChange" value="{{sex}}" range="{{sexArr}}">
       <text class='text'>{{sex == 1?"男":"女"}}</text>
     </picker>
     <image src='/images/gray_more.png' class='right'></image>

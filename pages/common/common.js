@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    // sexArr:["男","女"],
+    sexArr:["男","女"],
     userInfo:null,
     phone: null,
   },
@@ -98,11 +98,12 @@ Page({
     wx.chooseImage({
       success(res) {
         const tempFilePaths = res.tempFilePaths
+        console.log(tempFilePaths)
         wx.uploadFile({
           
-          url: app.globalData.url + '/shDxAppUser/modifyPersonalData', // 仅为示例，非真实的接口地址
+          url: app.globalData.url + '/Api/User/UpdateUserInfo', 
           filePath: tempFilePaths[0],
-          name: 'headImage',
+          name: 'headUrl',
           formData: {
             appUserId: app.globalData.userInfo.id,
           },
@@ -112,11 +113,11 @@ Page({
           success(res) {
             // console.log(res)
             var userInfo = that.data.userInfo;
-            userInfo.header = JSON.parse(res.data).data.headurl
+            userInfo.headlmgUrl = JSON.parse(res.data).data.headurl
             that.setData({
               userInfo: userInfo
             })
-            app.globalData.userInfo.header = userInfo.header
+            app.globalData.userInfo.headlmgUrl = userInfo.header
           }
         })
       }
@@ -127,17 +128,16 @@ Page({
     var userInfo = this.data.userInfo;
     userInfo.birthday = e.detail.value;
     this.setData({
-      userInfo: userInfo
+      birthday: e.detail.value,
     })
     this.change()
   },
-  bindSexChange: function (e) {//生日
-    // console.log('picker发送选择改变，携带值为', e.detail.value)
+  bindSexChange: function (e) {//性别
     var sex = parseInt(e.detail.value) + 1;
     var userInfo = this.data.userInfo;
-    userInfo.gender = sex;
+    userInfo.sex = sex;
     this.setData({
-      userInfo: userInfo
+      sex: sex,
     })
     this.change()
   },
@@ -153,38 +153,43 @@ Page({
       title: '加载中',
     })
     wx.request({
-      url: app.globalData.url + '/shDxAppUser/modifyPersonalData',
+      url: app.globalData.url + '/Api/User/UpdateUserInfo',
       data: {
-        appUserId:app.globalData.userInfo.id,
-        name: userInfo.nickName,
-        gender:userInfo.gender,
-        birthday:userInfo.birthday,
-        appUserId: app.globalData.userInfo.id,
-        timeStamp: nowtime,
-        mac: sign
+        userName: app.usermessage.Username,
+        password: app.usermessage.Password,
+        openID: app.globalData.userInfo.openID,
+        headUrl: that.data.headUrl,
+        nickName: that.data.nickName,
+        sex: that.data.sex,
+        birthday: that.data.birthday,
+        mobilePhone: that.data.phone,
       },
       method: "POST",
       header: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-        // "chartset": "utf-8"
+        "Content-Type": "application/json"
       },
       success: function (res) {
-        // console.log(res)
-        wx.hideLoading();
-        if(res.data.status == 1){
-          var userInfo = that.data.userInfo;
-          userInfo.name = res.data.data.name;
-          userInfo.gender = res.data.data.gender;
-          userInfo.birthday = res.data.data.birthday;
-          that.setData({
-            userInfo: userInfo
-          })
-          app.globalData.userInfo = userInfo
-        }else{
+        console.log(res)
+        if (res.data.Status != 'Success') {
           wx.showModal({
             title: '修改失败',
           })
         }
+        wx.hideLoading();
+        // if(res.data.status == 1){
+        //   var userInfo = that.data.userInfo;
+        //   userInfo.name = res.data.data.name;
+        //   userInfo.gender = res.data.data.gender;
+        //   userInfo.birthday = res.data.data.birthday;
+        //   that.setData({
+        //     userInfo: userInfo
+        //   })
+        //   app.globalData.userInfo = userInfo
+        // }else{
+        //   wx.showModal({
+        //     title: '修改失败',
+        //   })
+        // }
       }
     })
   },
@@ -194,7 +199,7 @@ Page({
     var userInfo = that.data.userInfo;
     userInfo.nickName = name;
     that.setData({
-      userInfo: userInfo
+      nickName: name,
     })  
     that.change();
   },

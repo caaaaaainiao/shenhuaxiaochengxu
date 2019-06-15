@@ -55,7 +55,7 @@
             <view class="txt2">
               <text class='p'>{{level.ruleDescription}}</text>
             </view>
-            <view class="txt3">有效期:{{level.effectiveDays}}</view>
+            <!-- <view class="txt3">有效期:{{level.effectiveDays}}</view> -->
           </view>
           <view class="r">
             <view class="big">VIP</view>

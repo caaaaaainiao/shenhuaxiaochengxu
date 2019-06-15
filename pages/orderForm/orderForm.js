@@ -620,9 +620,112 @@ Page({
     // wx.showLoading()
   },
   choosePay: function() {
-    this.setData({
-      showPay: true
-    })
+    let that = this;
+    console.log(that.data);
+    console.log(app.globalData);
+    let data = {
+      Username: app.usermessage.Username, //账号
+      Password: app.usermessage.Password, // 密码
+      CinemaCode: app.globalData.cinemacode, //影院编码
+      LockOrderCode: that.data.orderCode, //锁座订单号(编码)
+      LocalOrderCode: null, //卖品本地订单号
+      CouponsCode: that.data.couponsCode, // 优惠券编码
+      CardNo: that.data.cardNo, //会员卡号
+      CardPassword: that.data.password, //会员卡密码
+      PayAmount: that.data.allPrice, //影票支付金额
+      GoodsPayAmount: 0, //卖品支付金额
+      SessionCode: that.data.sessionCode, //放映计划编码
+      FilmCode: app.globalData.movieId, //影片编码
+      TicketNum: that.data.count, //票数
+      LevelCode: that.data.levelCode, //会员卡等级编码
+      SessionTime: app.globalData.moviesListDate.sessionTime, //排期时间
+      ScreenType: app.globalData.moviesListDate.screenType, //影厅类型
+      ListingPrice: app.globalData.moviesListDate.listingPrice, //挂牌价
+      LowestPrice: app.globalData.moviesListDate.lowestPrice, //最低价
+    };
+    console.log(data)
+    if (that.data.allPrice == '0' && app.globalData.cinemaList.cinemaType == '辰星') {
+      // 查询订单
+      wx.request({
+        url: app.globalData.url + '/Api/Order/QueryLocalOrder' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res);
+          if (res.data.Status == 'Success') {
+            let order = res.data.data;
+            let xml = '<SubmitOrder>' +
+              '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
+              '<Order>' +
+              '<PaySeqNo></PaySeqNo>' +
+              '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
+              '<SessionCode>' + order.sessionCode + '</SessionCode>' +
+              '<Count>' + order.ticketCount + '</Count>' +
+              '<MobilePhone>' + that.data.phone + '</MobilePhone>';
+            for (let i = 0; i < order.seats.length; i++) {
+              let seatCode = order.seats[i].seatCode;
+              let realprice = order.seats[i].salePrice;
+              let price = order.seats[i].price;
+              let fee = order.seats[i].fee;
+              xml += '<Seat>';
+              xml += '<SeatCode>' + seatCode + '</SeatCode>';
+              xml += '<Price>' + price + '</Price>';
+              xml += '<RealPrice>' + realprice + '</RealPrice>';
+              xml += '<Fee>' + fee + '</Fee>';
+              xml += '</Seat>';
+            };
+            xml += '</Order>';
+            xml += '</SubmitOrder>';
+            // 提交订单
+            console.log(xml)
+            wx.request({
+              url: app.globalData.url + '/Api/Order/SubmitOrder',
+              data: {
+                userName: data.Username,
+                password: data.Password,
+                openID: order.openID,
+                queryXml: xml,
+              },
+              method: "POST",
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res)
+                if (res.data.Status == "Success") {
+                  wx.showToast({
+                    title: '支付成功',
+                    mask: true,
+                    duration: 2000
+                  });
+                  that.setData({
+                    orderNum: res.data.order.orderCode, // 订单号
+                    printNo: res.data.order.printNo, // 出票号
+                    verifyCode: res.data.order.verifyCode, // 验证码
+                  })
+                  setTimeout(function () {
+                    wx.redirectTo({
+                      url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
+                    })
+                  }, 1000)
+                } else if (res.data.Status == "Failure"){
+                  wx.showToast({
+                    title: res.data.ErrorMessage,
+                    duration: 2000
+                  });
+                }
+              }
+            })
+          }
+        }
+      })
+    } else {
+      that.setData({
+        showPay: true
+      })
+    }
   },
   close: function() {
     this.setData({
