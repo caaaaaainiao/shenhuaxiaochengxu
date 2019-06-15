@@ -83,12 +83,9 @@
                   <text>￥</text>
                   <text class='num'>{{comparePrices.settlePrice}}</text>
                 </view>
-                <view class='buy' data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="{{session.qmmComparePrices[index].dataType}}" catchtap='buy'>购票</view>
+                <view class='buy' data-index="{{index}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}"  data-code="{{session.qmmComparePrices[index].dataType}}" catchtap='buyMoer'>购票</view>
               </view>
             </view>
-            <!-- <view wx:if='{{isShow}}'>
-
-            </view> -->
           </block>
         </view>
 
@@ -111,10 +108,13 @@
     </view>
   </view>
   <!-- 其他平台提示 -->
-  <view class='tip' wx:if="{{showTip == 2}}" bindtap='hideTip'>
+   <view class='tip' wx:if="{{buyNum == 0}}" bindtap='hideTip'>
     <image src='/images/tipmy.jpg'></image>
   </view>
-  <view class='tip' wx:if="{{showTip == 3}}" bindtap='hideTip'>
+  <view class='tip' wx:if="{{buyNum == 1}}" bindtap='hideTip'>
+    <image src='/images/tipmy.jpg'></image>
+  </view>
+  <view class='tip' wx:if="{{buyNum == 2}}" bindtap='hideTip'>
     <image src='/images/tiptpp.jpg'></image>
   </view>
   <view class='fixed'>第三方渠道票价仅作比价参考，可能部分价格会存在误差。</view>

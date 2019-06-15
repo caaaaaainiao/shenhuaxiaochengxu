@@ -48,6 +48,7 @@ App({
     movieIndex:null,
     screenPlanList:null,
     list:null,
+    // url:"https://ik.legendpicture.com",
     url:"https://xc.80piao.com:8443",
     // url: "http://192.168.1.114:8080",
     // url:"http://192.168.1.110:8080",

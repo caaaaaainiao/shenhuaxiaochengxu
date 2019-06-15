@@ -40,9 +40,7 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    wx.showLoading({
-      title: '加载中',
-    })
+   
     util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function (res) {
       that.setData({
         card: res.data.data.memberCard,
@@ -257,6 +255,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       userInfo: app.globalData.userInfo
     })

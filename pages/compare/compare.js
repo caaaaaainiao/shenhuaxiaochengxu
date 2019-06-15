@@ -22,7 +22,8 @@ Page({
     moviesListDate: null,
     isShow:false,
     index: 0,
-    selectedIndex:0
+    selectedIndex:0,
+    buyNum : 4
   },
 
   /**
@@ -198,6 +199,13 @@ Page({
     })
     app.globalData.screenPlanList = that.data.screenPlanList;
   },
+  buyMoer : function(e){
+    
+    this.setData({
+      buyNum: e.target.dataset.index
+    })
+    console.log(this.data.buyNum)
+  },
   ask: function() { //请求数据
     var that = this;
     var nowtime = new Date();
@@ -316,7 +324,7 @@ Page({
   },
   hideTip:function(){
     this.setData({
-      showTip: 0
+      buyNum: 4
     })
   },
   toOrder:function(){//待支付订单
