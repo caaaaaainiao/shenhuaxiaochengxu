@@ -187,7 +187,7 @@ Page({
         }
         else {
           wx.showToast({
-            title: '退票失败,' + res.data.ErrorMessage,
+            title: '退票失败,已经退过该票或订单重复！',
             icon: 'none',
           })
         }
