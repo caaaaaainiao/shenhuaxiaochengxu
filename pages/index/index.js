@@ -443,9 +443,9 @@ Page({
   },
   // 比价购票
   buy: function (e) {
-    wx.redirectTo({
-              url: '../login/login'
-            })
+    // wx.redirectTo({
+    //           url: '../login/login'
+    //         })
     // console.log(e)
     // console.log(res.data)
     // console.log(e.currentTarget.dataset)
