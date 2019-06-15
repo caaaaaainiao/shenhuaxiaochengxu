@@ -132,7 +132,7 @@ Page({
               var levelCode = "memberCardLevel[" + i + "].levelCode";
               var ruleName = "memberCardLevel[" + i + "].ruleName";
               var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
-              var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
+              // var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var ruleCode = "memberCardLevel[" + i + "].ruleCode";
               var image = "memberCardLevel[" + i + "].memberCardImage"
@@ -144,7 +144,7 @@ Page({
                   [levelCode]: memberCardLevel[i].levelCode,
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: newDescription,
-                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  // [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
                   [image]: memberCardLevel[i].memberCardImage,
@@ -155,7 +155,7 @@ Page({
                   [levelCode]: memberCardLevel[i].levelCode,
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: memberCardLevel[i].ruleDescription,
-                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  // [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
                   [image]: memberCardLevel[i].memberCardImage,
@@ -214,7 +214,7 @@ Page({
           var levelCode = "memberCardLevel[" + i + "].levelCode";
           var ruleName = "memberCardLevel[" + i + "].ruleName";
           var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
-          var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
+          // var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
           var credit = "memberCardLevel[" + i + "].credit";
           var ruleCode = "memberCardLevel[" + i + "].ruleCode";
           var image = "memberCardLevel[" + i + "].memberCardImage"
@@ -226,7 +226,7 @@ Page({
               [levelCode]: memberCardLevel[i].levelCode,
               [ruleName]: memberCardLevel[i].ruleName,
               [ruleDescription]: newDescription,
-              [effectiveDays]: memberCardLevel[i].effectiveDays,
+              // [effectiveDays]: memberCardLevel[i].effectiveDays,
               [credit]: memberCardLevel[i].credit,
               [ruleCode]: memberCardLevel[i].ruleCode,
               [image]: memberCardLevel[i].memberCardImage,
@@ -237,7 +237,7 @@ Page({
               [levelCode]: memberCardLevel[i].levelCode,
               [ruleName]: memberCardLevel[i].ruleName,
               [ruleDescription]: memberCardLevel[i].ruleDescription,
-              [effectiveDays]: memberCardLevel[i].effectiveDays,
+              // [effectiveDays]: memberCardLevel[i].effectiveDays,
               [credit]: memberCardLevel[i].credit,
               [ruleCode]: memberCardLevel[i].ruleCode,
               [image]: memberCardLevel[i].memberCardImage,
@@ -395,7 +395,7 @@ Page({
               var levelCode = "memberCardLevel[" + i + "].levelCode";
               var ruleName = "memberCardLevel[" + i + "].ruleName";
               var ruleDescription = "memberCardLevel[" + i + "].ruleDescription";
-              var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
+              // var effectiveDays = "memberCardLevel[" + i + "].effectiveDays";
               var credit = "memberCardLevel[" + i + "].credit";
               var ruleCode = "memberCardLevel[" + i + "].ruleCode";
               var image = "memberCardLevel[" + i + "].memberCardImage"
@@ -407,7 +407,7 @@ Page({
                   [levelCode]: memberCardLevel[i].levelCode,
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: newDescription,
-                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  // [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
                   [image]: memberCardLevel[i].memberCardImage,
@@ -418,7 +418,7 @@ Page({
                   [levelCode]: memberCardLevel[i].levelCode,
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: memberCardLevel[i].ruleDescription,
-                  [effectiveDays]: memberCardLevel[i].effectiveDays,
+                  // [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
                   [image]: memberCardLevel[i].memberCardImage,

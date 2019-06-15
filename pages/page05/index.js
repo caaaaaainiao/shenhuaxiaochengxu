@@ -126,6 +126,7 @@ Page({
     let ruleCode = that.data.ruleCode;
     let username = that.data.userName;
     let password = that.data.passWord;
+    let levelCode = that.data.levelcode
     var data = {
       Username: username,
       Password: password,
@@ -136,10 +137,11 @@ Page({
       RuleCode: ruleCode,
       OpenID: openId,
       ChargeAmount: price,
-      RuleCode: ruleCode
+      RuleCode: ruleCode,
+      LevelCode: levelCode,
     };
     wx.request({
-      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.RuleCode + '/' + data.ChargeAmount,
+      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' +  data.RuleCode + '/' + data.ChargeAmount,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -147,6 +149,7 @@ Page({
       success: function (res) {
           // 微信支付接口
           console.log(res)
+          console.log(data)
         wx.requestPayment({
           timeStamp: res.data.data.timeStamp,
           nonceStr: res.data.data.nonceStr,
@@ -156,7 +159,7 @@ Page({
           success(res) {
             if (res.errMsg == "requestPayment:ok") {
               wx.request({
-                url: app.globalData.url + '/Api/Member/CardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.ChargeType + '/' + data.RuleCode + '/' + data.ChargeAmount, 
+                url: app.globalData.url + '/Api/Member/CardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.ChargeType + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount, 
                 method: 'GET',
                 header: {
                   'content-type': 'application/json' // 默认值

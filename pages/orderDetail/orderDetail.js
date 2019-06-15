@@ -18,6 +18,10 @@ Page({
     verifyCode: null,
     cinemaCode: null,
     oldPrintNo: null,
+    orderPayType: null, // 支付类型(1微信2会员卡 限辰星)
+    refundFee: null, // 退票手续费
+    overRefundTime: null, // 距离开场前可退票时间(分钟)
+    showTime: null, // 开场时间
   },
 
   /**
@@ -35,6 +39,8 @@ Page({
     })
     that.setData({
       orderNum:options.orderNum,
+      refundFee: app.globalData.cinemaList.refundFee,
+      overRefundTime: app.globalData.cinemaList.overRefundTime,
       // verifyCode: options.verifyCode,
     });
     let data = {
@@ -57,12 +63,15 @@ Page({
           let seat = res.data.data.seat;
           let cinemaCode = res.data.data.cinemaCode;
           let verifyCode = res.data.data.verifyCode;
+          let showTime = res.data.data.showTime;
           that.setData({
             order: order,
             realAmount: realAmount,
             seat: seat,
             cinemaCode: cinemaCode,
             verifyCode: verifyCode,
+            // orderPayType: orderPayType, // 支付类型
+            showTime: showTime,
           })
           if (app.globalData.cinemaList.cinemaType == "辰星") {
             let printNo = that.data.order.printNo.slice(8);
@@ -165,10 +174,6 @@ Page({
     if (app.globalData.cinemaList.cinemaType == "辰星") {
        data.PrintNo = that.data.oldPrintNo;
     }
-    // console.log(data);
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
     wx.request({
       url: app.globalData.url + '/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.PrintNo + '/' + data.VerifyCode,
       method: "GET",
@@ -236,9 +241,16 @@ Page({
     })
   },
   refundbtn:function(){
-    this.setData({
-      retreat: true
-    })
+    let that = this;
+    console.log(that.data.overRefundTime);
+    console.log(that.data.showTime);
+    if (that.data.overRefundTime == '0') {
+      that.setData({
+        retreat: true
+      })
+    } else {
+      
+    }
   },
   syn: function () {
     var that = this;

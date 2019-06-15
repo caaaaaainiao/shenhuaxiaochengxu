@@ -12,7 +12,7 @@
 					<view class="p">开卡日起30天内有效。</view> -->
 				</view>
 			</view>
-			<text class="time">有效期:{{effectiveDays}}</text>
+			<!-- <text class="time">有效期:{{effectiveDays}}</text> -->
 			<image src="/images/vip.png" class="vip" mode="widthFix"></image>
 		</view>
 	</view>

@@ -90,7 +90,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.userInfo.mobilePhone) {
+        if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../room/room',
           })
@@ -236,7 +236,7 @@ Page({
     var that = this
     let apiuser = util.getAPIUserData(null);
     wx.request({
-      url: 'http://192.168.1.110:8080/Api/chatRoom/getRooms' ,
+      url: app.globalData.url + '/Api/chatRoom/getRooms' ,
       // url: app.globalData.url + '/Api/chatRoom/getRooms',
       method: "POST",
       data:{
