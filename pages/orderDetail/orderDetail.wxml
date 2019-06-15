@@ -91,7 +91,7 @@
   <!-- 确认退票 -->
   <view class='black' wx:if="{{retreat}}">
     <view class='black_content'>
-        <view class='text'>退票将收取{{order.order.refundHandFee}}元服务费</view>
+        <view class='text'>退票将收取{{refundFee}}元服务费</view>
         <view class='cancel' bindtap='cancel'>不退了</view>
         <view class='sure' bindtap='refund'>继续退票</view>
     </view>

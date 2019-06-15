@@ -52,12 +52,13 @@ Page({
       key: 'loginInfo',
       success: function(res) {
         that.setData({
-          userInfo: res.data.userInfo,
+          userInfo: res.data,
         })
-        var SocketUrl = "wss://app.legendpicture.com/ws"
+        console.log(res.data)
+        var SocketUrl = "wss://ik.legendpicture.com"
         wx.connectSocket({ //建立连接
-          // url: SocketUrl +'/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobile,
-          url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
+          url: SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + that.data.movie.roomName + '/' + res.data.mobilePhone,
+          // url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
           data: {
             // x: '',
             // y: ''
@@ -135,7 +136,7 @@ Page({
         row.img = message.header;
         row.roll = message.role;
         row.time = 0.5;
-        if (message.phoneOrOpenid == that.data.userInfo.mobile){
+        if (message.phoneOrOpenid == that.data.userInfo.mobilePhone){
           row.self = true
         }
         if (screen[rowNum].words.length > 0){
@@ -619,24 +620,31 @@ Page({
       })
       return;
     }
-    var SocketUrl = "wss://app.legendpicture.com/ws"
-    wx.connectSocket({ //建立连接
-      // url: SocketUrl +'/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobile,
-      url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
-      data: {},
-      header: {
-        'content-type': 'application/json',
-        'Authorization': null
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function(res) {
+
+        var SocketUrl = "wss://ik.legendpicture.com"
+        wx.connectSocket({ //建立连接
+          url: SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + that.data.movie.roomName + '/' + res.data.mobilePhone,
+          // url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
+          data: {},
+          header: {
+            'content-type': 'application/json',
+            'Authorization': null
+          },
+          method: "GET",
+          success: function (res) {
+            wx.hideLoading();
+          },
+          fail: function (res) {
+            wx.hideLoading();
+            relineTime++;
+            that.reline();
+          }
+        })
       },
-      method: "GET",
-      success: function (res) {
-        wx.hideLoading();
-      },
-      fail: function (res) {
-        wx.hideLoading();
-        relineTime++;
-        that.reline();
-      }
     })
+   
   }
 })

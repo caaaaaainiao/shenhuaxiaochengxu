@@ -104,19 +104,26 @@ Page({
           filePath: tempFilePaths[0],
           name: 'headUrl',
           formData: {
-            appUserId: app.globalData.userInfo.id,
+            userName: app.usermessage.Username,
+            password: app.usermessage.Password,
+            openID: app.globalData.userInfo.openID,
+            headUrl: that.data.headUrl,
+            nickName: that.data.nickName,
+            sex: that.data.sex,
+            birthday: that.data.birthday,
+            mobilePhone: that.data.phone,
           },
           header: {
-            "chartset": "utf-8"
+            "Content-Type": "multipart/form-data"
           },
           success(res) {
-            // console.log(res)
-            var userInfo = that.data.userInfo;
-            userInfo.headlmgUrl = JSON.parse(res.data).data.headurl
-            that.setData({
-              userInfo: userInfo
-            })
-            app.globalData.userInfo.headlmgUrl = userInfo.header
+            console.log(res)
+            // var userInfo = that.data.userInfo;
+            // userInfo.headlmgUrl = JSON.parse(res.data).data.headurl
+            // that.setData({
+            //   userInfo: userInfo
+            // })
+            // app.globalData.userInfo.headlmgUrl = userInfo.header
           }
         })
       }

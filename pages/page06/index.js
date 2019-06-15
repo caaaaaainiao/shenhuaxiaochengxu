@@ -225,13 +225,15 @@ Page({
       IDNumber: idNumber,
       Sex: sex
     };
+    console.log(data)
     wx.request({
-      url: app.globalData.url + '/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.RuleCode + '/'  + data.InitialAmount,
+      url: app.globalData.url + '/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         // 微信支付接口
         wx.requestPayment({
           timeStamp: res.data.data.timeStamp,
