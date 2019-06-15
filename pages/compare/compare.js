@@ -256,19 +256,29 @@ Page({
     console.log(e)
     var that = this;
     var i = that.data.select;
+    console.log(i)
     var index = e.currentTarget.dataset.index
+    console.log(index)
     var sessionDate = that.data.moviesListDate.sessionDate[i].sessionDate
+    console.log(sessionDate)
     var screenCode = e.currentTarget.dataset.screencode;
+    console.log(screenCode)
     var time = that.data.moviesListDate.sessionDate[i].session[index].beginTime;
+    console.log(time)
     var endtime = that.data.moviesListDate.sessionDate[i].session[index].endTime;
+    console.log(endtime)
     var screenName = that.data.moviesListDate.sessionDate[i].session[index].screenName;
+    console.log(screenName)
     var sessionCode = that.data.moviesListDate.sessionDate[i].session[index].sessionCode;
+    console.log(sessionCode)
     var filmType = that.data.moviesListDate.filmType;
+    console.log(filmType)
     var standardPrice = that.data.moviesListDate.sessionDate[i].session[index].standardPrice;
+    console.log(standardPrice)
     app.globalData.moviesListDate = that.data.moviesListDate.sessionDate[i].session[index];
-    wx.navigateTo({
-      url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&standardPrice=' + standardPrice + '&&endtime=' + endtime,
-    })
+    // wx.navigateTo({
+    //   url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&standardPrice=' + standardPrice + '&&endtime=' + endtime,
+    // })
     // var featureAppNo = e.currentTarget.dataset.num;
     // var code = e.currentTarget.dataset.code;
     // var nowtime = new Date().getTime();

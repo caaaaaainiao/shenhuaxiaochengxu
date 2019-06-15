@@ -211,7 +211,7 @@ Page({
         // that.setData({
         //   movieList: res
         // })
-        console.log(res)
+        // console.log(res)
         for (var x in res) { // 影片的预售和购票排序
           res[x].jian = res[x].time - timestamp1
         }
@@ -922,7 +922,7 @@ Page({
               first.score = 0
             }
             that.setData({
-              memberCardBalance: parseInt(first.balance),
+              memberCardBalance: first.balance,
               memberCardScore: first.score
             })
           }, 1000)

@@ -55,7 +55,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.Status == "Success") {
           that.setData({
             couponsCount: res.data.data.couponsCount,
@@ -104,7 +104,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.Status == "Success") {
           that.setData({
             couponsCount: res.data.data.couponsCount,

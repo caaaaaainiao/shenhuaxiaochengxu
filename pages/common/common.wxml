@@ -5,13 +5,13 @@
   <view class='line'></view>
   <view class='option'>
     <text>头像</text>
-    <image src='{{userInfo.headlmgUrl}}' class='pic' bindtap='imgChange'></image>
+    <image src='{{headUrl}}' class='pic' bindtap='imgChange'></image>
     <image src='/images/gray_more.png' class='right'></image>
   </view>
   <view class='option2'>
     <text>用户名</text>
-    <!-- <text class='text'>微信昵称</text> -->
-    <input class='name' value='{{userInfo.nickName}}' bindblur='nameChange'></input>
+    <!-- <text class='text'>昵称</text> -->
+    <input class='name' value='{{nickName}}' bindblur='nameChange'></input>
     <image src='/images/gray_more.png' class='right'></image>
   </view>
   <view class='option2'>
@@ -21,15 +21,15 @@
   </view>
   <view class='option2'>
     <text>性别</text>
-    <picker bindchange="bindSexChange" value="{{userInfo.sex}}" range="{{sexArr}}">
-      <text class='text'>{{userInfo.sex == 1?"男":"女"}}</text>
+    <picker bindchange="bindSexChange" value="{{sex}}">
+      <text class='text'>{{sex == 1?"男":"女"}}</text>
     </picker>
     <image src='/images/gray_more.png' class='right'></image>
   </view>
   <view class='option2' style='margin-bottom:30rpx;'>
     <text>生日</text>
-    <picker mode="date" value="{{userInfo.birthday}}"  bindchange="bindDateChange">
-      <text class='text'>{{userInfo.birthday?userInfo.birthday:"1992-05-06"}}</text>
+    <picker mode="date" value="{{birthday}}"  bindchange="bindDateChange">
+      <text class='text'>{{birthday?birthday:"1992-05-06"}}</text>
     </picker>
     <image src='/images/gray_more.png' class='right'></image>
   </view>

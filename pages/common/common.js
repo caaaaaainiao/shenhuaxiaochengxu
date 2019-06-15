@@ -7,7 +7,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    sexArr:["男","女"],
+    // sexArr:["男","女"],
     userInfo:null,
     phone: null,
   },
@@ -26,16 +26,20 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
-        console.log(res)
-        that.setData({
-          // phone: res.data.data.mobilePhone,
-        })
+        if (res.data.Status == "Success") {
+          that.setData({
+            phone: res.data.data.mobilePhone,
+            sex: res.data.data.sex,
+            nickName: res.data.data.nickName,
+            headUrl: res.data.data.headUrl,
+            birthday: res.data.data.birthday,
+          })
+        }
       }
     })
     that.setData({
       userInfo: app.globalData.userInfo,
     })
-    // console.log(app.globalData.userInfo)
   },
 
   /**

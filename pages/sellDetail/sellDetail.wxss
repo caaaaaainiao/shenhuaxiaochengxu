@@ -190,7 +190,7 @@
   position: absolute;
   top: 170rpx;
   right: 20rpx;
-  transition: width 0.5s linear;
+  /* transition: width 0.5s linear; */
 }
 .add{
   width: 50rpx;
