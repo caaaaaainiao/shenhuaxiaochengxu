@@ -45,6 +45,9 @@ Page({
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+    })
     var that = this;
     var timestamp = new Date().getTime()
     that.setData({
@@ -211,7 +214,8 @@ Page({
         // that.setData({
         //   movieList: res
         // })
-        // console.log(res)
+        console.log(res)
+        wx.hideLoading()
         for (var x in res) { // 影片的预售和购票排序
           res[x].jian = res[x].time - timestamp1
         }
@@ -426,7 +430,7 @@ Page({
           })
         } else {
           wx.navigateTo({
-            url: '../login/login'
+            url: '../login/login' //2
           })
         }
       }, fail: function () {
@@ -479,7 +483,7 @@ Page({
           })
         } else {
           wx.navigateTo({
-            url: '../login/login'
+            url: '../login/login' //1
           })
         }
       }, fail: function () {
@@ -806,7 +810,7 @@ Page({
                 success: function (res) {
                   if (res.data.data.mobilePhone == null || res.data.data.mobilePhone == '') {
                     wx.redirectTo({
-                      url: '../login/login',
+                      url: '../index/index',
                     })
                   }
                 }
@@ -987,7 +991,7 @@ Page({
             })
           } else {
             wx.navigateTo({
-              url: '../login/login'
+              url: '../login/login' //3
             })
           }
         }, fail: function () {
@@ -1006,7 +1010,7 @@ Page({
             })
           } else {
             wx.navigateTo({
-              url: '../login/login'
+              url: '../login/login' //4
             })
           }
         }, fail: function () {
@@ -1031,7 +1035,7 @@ Page({
     var that = this;
     if (!that.data.userInfo || !that.data.userInfo.mobile || that.data.userInfo.mobile == "") {
       wx.navigateTo({
-        url: '../login/login',
+        url: '../login/login', //none
       })
     }
 

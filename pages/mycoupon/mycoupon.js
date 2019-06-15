@@ -45,7 +45,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    wx.showLoading({
+      title: '加载中',
+    })
   },
 
   /**
@@ -97,6 +99,7 @@ Page({
       OpenID: app.globalData.openId,
       Status: 'All'
     };
+    
     wx.request({
       url: app.globalData.url + '/Api/Conpon/QueryUserConpons' + '/' + data.Username + '/' +data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.Status,
       method: "Get",
@@ -105,6 +108,7 @@ Page({
       },
       success: function (res) {
         console.log(res)
+        wx.hideLoading()
         var result = that.addJson(that.data.result, res.data.data);
         that.setData({
           result: result.conpons,

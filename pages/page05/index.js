@@ -18,6 +18,7 @@ const getCallBack = function (username, password, cinemacode, cardno, cardpasswo
     },
     success: function (res) {
       // console.log(res)
+      wx.hideLoading()
       callback && callback(res.data.card);
       return res.data.card;
     }
@@ -282,6 +283,9 @@ Page({
 
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
+    wx.showLoading({
+      title: '加载中',
+    })
     var that = this;
     // 设置头像 昵称
     wx.getStorage({
@@ -313,6 +317,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
+            // wx.hideLoading()
             if (res.data.data.memberCard == null) {
               wx.navigateTo({
                 url: '../page04/index',
@@ -404,6 +409,7 @@ Page({
   onReady: function () { },
   // 生命周期函数--监听页面显示
   onShow: function () {
+   
    },
   // 生命周期函数--监听页面隐藏
   onHide: function () { },

@@ -40,6 +40,9 @@ Page({
    */
   onLoad: function(options) {
     console.log(options)
+    wx.showLoading({
+      title: '加载中',
+    })
     this.setData({
       type: options.type
     })
@@ -78,8 +81,8 @@ Page({
     }
     if (that.data.totalNum <= 0) {
       wx.showToast({
-        title: '还没有选择商品哦',
-        icon: "loading",
+        title: '还没有选择商品哦~',
+        icon: "none",
         mask: true,
         duration: 2000
       });
@@ -339,8 +342,8 @@ Page({
     }
 
     wx.showToast({
-      title: '还没有选择商品哦',
-      icon: "loading",
+      title: '还没有选择商品哦~',
+      icon: "none",
       mask: true,
       duration: 2000
     });
@@ -393,7 +396,7 @@ Page({
   
     util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
       let tempgoodsList = [];
-      
+      wx.hideLoading()
       for (var i = 0; i < goodsList.length; i++) {
         if (goodsList[i].goodsType == that.data.currenttype.typeCode) {
           // goodsList[i].itemClass = {
@@ -564,8 +567,8 @@ goodsList: goodsList
       })
     } else {
       wx.showToast({
-        title: '还没有选择商品哦',
-        icon: "loading",
+        title: '还没有选择商品哦~',
+        icon: "none",
         mask: true,
         duration: 2000
       })

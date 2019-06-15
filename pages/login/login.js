@@ -277,6 +277,17 @@ Page({
               }
 
             }, 1000)
+          }else{
+            wx.showToast({
+              title: '没有此手机号或重复注册!',
+              duration: 1000,
+              icon: 'none',
+              mask: true
+            })
+            that.setData({
+              yzmText: "获取验证码",
+              yzmTime: 60
+            })
           }
         }
       })

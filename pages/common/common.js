@@ -100,7 +100,6 @@ Page({
         const tempFilePaths = res.tempFilePaths
         console.log(tempFilePaths)
         wx.uploadFile({
-          
           url: app.globalData.url + '/Api/User/UpdateUserInfo', 
           filePath: tempFilePaths[0],
           name: 'headUrl',
