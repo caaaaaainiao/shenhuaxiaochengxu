@@ -124,7 +124,7 @@
   <!-- 选择小食优惠券 -->
   <view class='chooseCoupon' wx:if="{{startChoose&&merOrder.merTicketList!=null}}">
     <block wx:for="{{merOrder.merTicketList}}" wx:for-item="foodCoupons" wx:key="foodCoupons">
-      <view class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.conponId}}' data-code='{{foodCoupons.conponCode}}' data-couponPrice='{{foodCoupons.price}}'>
+      <view wx-if="{{totalPrice > foodCoupons.price}}"  class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.conponId}}' data-code='{{foodCoupons.conponCode}}' data-couponPrice='{{foodCoupons.price}}'>
         <view class='couponMoney'>￥{{foodCoupons.price}}</view>
         <!-- <view class='couponLimit'>满{{foodCoupons.dxPlatTicket.achieveMoney}}元可用</view> -->
         <view class='couponTime'>有效期至{{foodCoupons.expireDate}}</view>

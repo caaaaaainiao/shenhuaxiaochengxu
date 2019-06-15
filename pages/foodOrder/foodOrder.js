@@ -40,6 +40,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    wx.showLoading({
+      title: '加载中',
+    })
     util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function (res) {
       that.setData({
         card: res.data.data.memberCard,
@@ -84,6 +87,7 @@ Page({
     console.log(app.globalData.openId)
     util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function (res) {
       // console.log(res)//适用于该影院的优惠券
+      wx.hideLoading()
       var sellTicket = []
       for (var x in res) {
         if (res[x].reductionType == 2) {
@@ -457,7 +461,7 @@ Page({
       return;
     }
 
-    if (app.globalData.userInfo.userInfo.mobilePhone.length != 11) {
+    if (app.globalData.userInfo.mobilePhone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
         icon: 'loading',
