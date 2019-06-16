@@ -588,6 +588,7 @@ Page({
       }
 
       res.sort(that.compare("jian"));
+      // console.log(res)
       app.globalData.movieList = res
       that.setData({
         movieList: res

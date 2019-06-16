@@ -242,14 +242,60 @@ Page({
   },
   refundbtn:function(){
     let that = this;
-    console.log(that.data.overRefundTime);
-    console.log(that.data.showTime);
+    let reg = new RegExp("-", "g");
+    let Reg = new RegExp(":", "g");
+    // 获取当前时间
+    let date = new Date();
+    let seperator1 = "-";
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let strDate = date.getDate();
+    let hour = date.getHours();
+    let mimute = date.getMinutes();
+    let second = date.getSeconds();
+    let min = hour * 60 + mimute; // 当前分钟
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }
+    let currentdate = year + seperator1 + month + seperator1 + strDate;
+    let showTime = that.data.showTime.substring(0, 10).replace(reg, ''); // 影片日期
+    let nowTime = currentdate.replace(reg, ''); // 当前日期
+    let start = that.data.showTime.slice(11).substring(0, 5);
+    let Min = Number(start.substring(0, 2) * 60) + Number(start.substring(3)); // 影片开始分钟
+    let refundTime = Number(that.data.overRefundTime) + Number(min); // 当前时间加上退票时间与影片开场时间作比较
     if (that.data.overRefundTime == '0') {
       that.setData({
         retreat: true
       })
     } else {
-      
+      if (showTime != nowTime) {
+        let day = showTime - nowTime;
+        if (day == '0') {
+          // 判断时分秒
+          if (refundTime < Min) { //小于开场时间允许退票
+            that.setData({
+              retreat: true
+            })
+          } else { // 大于或等于都不准退票
+            wx.showToast({
+              title: '退票失败,超过可退票时间',
+            })
+          }
+        } else if (day < '0') {
+          // 当前时间已经超过开场时间  不允许退票
+          wx.showToast({
+            title: '退票失败,超过可退票时间',
+          })
+        } else if (day > '0') {
+          // 当前时间在开场时间日期之前  允许退票
+          that.setData({
+            retreat: true
+          })
+        }
+      }
     }
   },
   syn: function () {

@@ -26,6 +26,7 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
+        console.log(res)
         if (res.data.Status == "Success") {
           that.setData({
             phone: res.data.data.mobilePhone,
@@ -114,7 +115,7 @@ Page({
             mobilePhone: that.data.phone,
           },
           header: {
-            "Content-Type": "multipart/form-data"
+            'content-type': 'application/json'
           },
           success(res) {
             console.log(res)

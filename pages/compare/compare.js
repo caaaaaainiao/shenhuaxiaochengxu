@@ -224,7 +224,6 @@ Page({
       success: function (res) {
         var comparePrices = res.data.data.sessionDate[0].session
         
-        
         that.setData({
           moviesListDate: res.data.data,
           comparePrices: comparePrices

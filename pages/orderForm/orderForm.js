@@ -874,21 +874,19 @@ Page({
                               })
                             }, 1000)
                           } else { // 确认订单失败
-                            wx.showToast({
-                              title: '交易失败,已自动退款',
-                              icon: 'none',
-                              duration: 2000,
-                              success: function(res) {
-                                // 自动退款
-                                wx.request({
-                                  url: app.globalData.url + '/Api/Order/RefundPayment' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
-                                  method: "GET",
-                                  header: {
-                                    'content-type': 'application/json' // 默认值
-                                  },
-                                  success: function(res) {
-                                    console.log(res)
-                                  }
+                            // 自动退款
+                            wx.request({
+                              url: app.globalData.url + '/Api/Order/RefundPayment' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
+                              method: "GET",
+                              header: {
+                                'content-type': 'application/json' // 默认值
+                              },
+                              success: function (res) {
+                                console.log(res)
+                                wx.showToast({
+                                  title: '交易失败,已自动退款',
+                                  icon: 'none',
+                                  duration: 2000,
                                 })
                               }
                             })
@@ -991,6 +989,7 @@ Page({
       ScreenType: app.globalData.moviesListDate.screenType, //影厅类型
       ListingPrice: app.globalData.moviesListDate.listingPrice, //挂牌价
       LowestPrice: app.globalData.moviesListDate.lowestPrice, //最低价
+      MobilePhone: that.data.phone, // 手机号
     };
     // console.log(data)
     // 查询本地订单
@@ -1017,7 +1016,7 @@ Page({
                   let price = res.data.card.price;
                   // 1905系统会员卡支付
                   wx.request({
-                    url: app.globalData.url + '/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
+                    url: app.globalData.url + '/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
                     method: 'GET',
                     header: {
                       'content-type': 'application/json' // 默认值
