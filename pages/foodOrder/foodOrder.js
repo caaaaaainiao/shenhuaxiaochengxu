@@ -183,20 +183,35 @@ Page({
 
         }
         // console.log(merOrder)
-        let merOrder = {
+        // if(){
 
-          merTicket: {
-            conponId: goodTicket[0].conponId,
-            conponCode: goodTicket[0].conponCode,
-            couponPrice: goodTicket[0].price
-          },
-          merTicketList: goodTicket
-        };
+        // }
+        let merOrder = null;
+        console.log(that.data.totalPrice)
+        if (goodTicket[0].price > that.data.totalPrice){
+           merOrder = {
+            merTicket: {
+              conponId: null,
+              conponCode: null,
+              couponPrice: 0
+            },
+            merTicketList: goodTicket
+          };
+        }else{
+           merOrder = {
+            merTicket: {
+              conponId: goodTicket[0].conponId,
+              conponCode: goodTicket[0].conponCode,
+              couponPrice: goodTicket[0].price
+            },
+            merTicketList: goodTicket
+          };
+        }
+       
         that.setData({
           merOrder: merOrder,
-
         });
-        console.log(merOrder.merTicket.conponCode);
+        console.log(merOrder);
         that.updatetotalPrice();
       }
     });
@@ -404,6 +419,7 @@ Page({
               }
               queryXml += ' </goodsList></SubmitGoodsOrder>';
               app.globalData.queryXml = queryXml
+              console.log(app.globalData.queryXml)
               //复制购物车列表到待支付物品列表
               //let cattObj = util.getcartObj(null);
               //wx.setStorageSync('toSubmitGoods', cattObj);
@@ -925,6 +941,7 @@ Page({
         merTicketId: id,
         merOrder: merOrder
       })
+      console.log(that.data.merTicketId)
       console.log(that.data.merOrder)
     }
 

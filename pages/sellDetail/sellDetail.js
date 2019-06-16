@@ -114,7 +114,7 @@ Page({
       }
     }
     xml += '</goodsList></CreateGoodsOrder>';
-    // console.log(xml);
+    console.log(xml);
     app.globalData.xml = xml
    
 
