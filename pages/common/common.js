@@ -17,6 +17,9 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
+    that.setData({
+      userInfo: app.globalData.userInfo,
+    })
     // 查询手机号
     var a = app.globalData.openId
     wx.request({
@@ -35,11 +38,14 @@ Page({
             headUrl: res.data.data.headUrl,
             birthday: res.data.data.birthday,
           })
+          that.data.userInfo.mobilePhone = res.data.data.mobilePhone;
+          that.data.userInfo.nickName = res.data.data.nickName;
+          that.data.userInfo.headlmgUrl = res.data.data.headUrl;
+          that.data.userInfo.sex = res.data.data.sex;
+          that.data.userInfo.birthday = res.data.data.birthday;
+          console.log(that.data.userInfo)
         }
       }
-    })
-    that.setData({
-      userInfo: app.globalData.userInfo,
     })
   },
 
@@ -176,11 +182,13 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.Status != 'Success') {
           wx.showModal({
             title: '修改失败',
           })
+        } else {
+          app.globalData.userInfo = that.data.userInfo;
         }
         wx.hideLoading();
         // if(res.data.status == 1){
@@ -212,6 +220,11 @@ Page({
   },
   phoneChange: function (e) {
     var that = this;
-    console.log(e)
+    var mobilePhone = that.data.userInfo.mobilePhone;
+    that.setData({
+      phone: e.detail.value,
+      mobilePhone: e.detail.value,
+    });
+    that.change(); 
   }
 })

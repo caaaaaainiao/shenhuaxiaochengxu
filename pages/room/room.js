@@ -55,8 +55,8 @@ Page({
           userInfo: res.data,
         })
         console.log(res.data)
-        // var SocketUrl = "wss://ik.legendpicture.com"
-        var SocketUrl = "ws://192.168.1.110:8080"
+        var SocketUrl = "wss://ik.legendpicture.com"
+        // var SocketUrl = "ws://192.168.1.110:8080"
         wx.connectSocket({ //建立连接
           url: SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + that.data.movie.roomName + '/' + res.data.mobilePhone,
           // url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
@@ -633,8 +633,8 @@ Page({
       key: 'loginInfo',
       success: function(res) {
 
-        // var SocketUrl = "wss://ik.legendpicture.com"
-        var SocketUrl = "ws://192.168.1.110:8080"
+        var SocketUrl = "wss://ik.legendpicture.com"
+        // var SocketUrl = "ws://192.168.1.110:8080"
         wx.connectSocket({ //建立连接
           url: SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + that.data.movie.roomName + '/' + res.data.mobilePhone,
           // url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
