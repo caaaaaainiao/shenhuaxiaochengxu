@@ -53,7 +53,7 @@ Page({
       success: function (res) {
         console.log(res.data.data)
         for (var i in res.data.data.film) { 
-          if (res.data.data.film[i].filmName == movie.name){
+          if (res.data.data.film[i].filmImage == movie.image){
                that.setData({
                  isWant : 1
                })

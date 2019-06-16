@@ -183,15 +183,30 @@ Page({
 
         }
         // console.log(merOrder)
-        let merOrder = {
+        // if(){
 
-          merTicket: {
-            conponId: goodTicket[0].conponId,
-            conponCode: goodTicket[0].conponCode,
-            couponPrice: goodTicket[0].price
-          },
-          merTicketList: goodTicket
-        };
+        // }
+        console.log(that.data.totalPrice)
+        if (goodTicket[0].price < that.data.totalPrice){
+          let merOrder = {
+            merTicket: {
+              conponId: null,
+              conponCode: null,
+              couponPrice: 0
+            },
+            merTicketList: goodTicket
+          };
+        }else{
+          let merOrder = {
+            merTicket: {
+              conponId: goodTicket[0].conponId,
+              conponCode: goodTicket[0].conponCode,
+              couponPrice: goodTicket[0].price
+            },
+            merTicketList: goodTicket
+          };
+        }
+       
         that.setData({
           merOrder: merOrder,
 
@@ -925,6 +940,7 @@ Page({
         merTicketId: id,
         merOrder: merOrder
       })
+      console.log(that.data.merTicketId)
       console.log(that.data.merOrder)
     }
 
