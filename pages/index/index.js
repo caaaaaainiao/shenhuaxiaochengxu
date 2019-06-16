@@ -194,11 +194,13 @@ Page({
       })
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
+      that.setData({
+        offerDescription: cinemaList.offerDescription,
+      })
       wx.setNavigationBarTitle({
         title: app.globalData.cinemaList.cinemaName
       });
       // 调用全局函数设置余额以及积分
-      console.log(app.globalData)
     })
     if (that.data.memberCardBalance == "---") {
       app.globalData.cardList = 1;
@@ -571,7 +573,8 @@ Page({
     console.log(app.globalData.cinemacode)
     app.globalData.moviearea = e.currentTarget.dataset.cinemaname;
     that.setData({
-      moviearea: app.globalData.moviearea
+      moviearea: app.globalData.moviearea,
+      offerDescription: app.globalData.cinemaList.offerDescription,
     })
     that.setData({
       isChoose: false
@@ -947,16 +950,13 @@ Page({
       })
     }
     if (app.globalData.cinemaList && that.data.moviearea.cinemaName != app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName) {
-      console.log(1)
       that.setData({
         moviearea: app.globalData.cinemaList[app.globalData.cinemaNo],
         cinemaList: app.globalData.cinemaList,
+        offerDescription: app.globalData.cinemaList.offerDescription,
       })
     }
-    // console.log(app.globalData.userInfo)
     if (app.globalData.movieList != null) {
-      console.log(0)
-
       this.setData({
         moviearea: app.globalData.cinemaList[app.globalData.cinemaNo],
       })

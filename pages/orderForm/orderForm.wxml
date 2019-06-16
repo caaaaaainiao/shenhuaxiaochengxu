@@ -29,6 +29,11 @@
     <text>元</text>
     <text class='money'>{{price}}</text>
   </view>
+     <!-- <view class='option'>
+    会员价
+    <text>元</text>
+    <text class='money'>{{price}}</text>
+  </view> -->
   <view class='option' wx:if="{{seatCouponList.length > 0}}" bindtap='setType1'>
     {{ticketName}}
     <image src='/images/gray_more.png'></image>

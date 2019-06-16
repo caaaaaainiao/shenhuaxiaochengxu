@@ -407,7 +407,6 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
       'content-type': 'application/json' // 默认值
     },
     success: function (res) {
-      console.log(res)
       // if (res.data.code == 200){
         var timestamp = new Date().getTime() + 2592000000
         for (var i = 0; i < res.data.data.film.length; i++) {

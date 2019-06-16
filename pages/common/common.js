@@ -15,12 +15,14 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function () {
     var that = this;
-    // 查询手机号
-    var a = app.globalData.openId
+    that.setData({
+      userInfo: app.globalData.userInfo,
+    })
+    // 获取用户信息
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUserInfo' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + a,
+      url: app.globalData.url + '/Api/User/QueryUserInfo' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.openId,
       method: "GET",
       header: {
         "Content-Type": "application/json"
@@ -35,11 +37,19 @@ Page({
             headUrl: res.data.data.headUrl,
             birthday: res.data.data.birthday,
           })
+          that.data.userInfo.mobilePhone = res.data.data.mobilePhone;
+          that.data.userInfo.nickName = res.data.data.nickName;
+          that.data.userInfo.headlmgUrl = res.data.data.headUrl;
+          that.data.userInfo.sex = res.data.data.sex;
+          that.data.userInfo.birthday = res.data.data.birthday;
+          console.log(that.data.userInfo);
+          wx.setStorage({
+            key: 'loginInfo',
+            data: that.data.userInfo,
+          })
+          app.globalData.userInfo = that.data.userInfo;
         }
       }
-    })
-    that.setData({
-      userInfo: app.globalData.userInfo,
     })
   },
 
@@ -94,6 +104,7 @@ Page({
       path: '/pages/index/index'
     }
   },
+  // 修改头像
   imgChange:function(){
     var that = this;
     wx.chooseImage({
@@ -131,7 +142,7 @@ Page({
     })
   },
   bindDateChange: function (e) {//生日
-    // console.log('picker发送选择改变，携带值为', e.detail.value)
+
     var userInfo = this.data.userInfo;
     userInfo.birthday = e.detail.value;
     this.setData({
@@ -176,27 +187,19 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.Status != 'Success') {
           wx.showModal({
             title: '修改失败',
           })
+        } else {
+          wx.setStorage({
+            key: 'loginInfo',
+            data: that.data.userInfo,
+          })
+          app.globalData.userInfo = that.data.userInfo;
         }
         wx.hideLoading();
-        // if(res.data.status == 1){
-        //   var userInfo = that.data.userInfo;
-        //   userInfo.name = res.data.data.name;
-        //   userInfo.gender = res.data.data.gender;
-        //   userInfo.birthday = res.data.data.birthday;
-        //   that.setData({
-        //     userInfo: userInfo
-        //   })
-        //   app.globalData.userInfo = userInfo
-        // }else{
-        //   wx.showModal({
-        //     title: '修改失败',
-        //   })
-        // }
       }
     })
   },
@@ -212,6 +215,11 @@ Page({
   },
   phoneChange: function (e) {
     var that = this;
-    console.log(e)
+    var mobilePhone = that.data.userInfo.mobilePhone;
+    that.setData({
+      phone: e.detail.value,
+      mobilePhone: e.detail.value,
+    });
+    that.change(); 
   }
 })
