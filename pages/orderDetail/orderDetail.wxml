@@ -25,12 +25,12 @@
           <!-- <text wx:if="{{order.payStatus == 3}}">xxxxxx</text> -->
           <text>{{printNo}}</text>
         </view>
-        <!-- <view class='ticketGot' wx:if="{{order.printStatus == 2}}">
+        <view class='ticketGot' wx:if="{{order.printStatus == 2}}">
           <image src='/images/print.png'></image>
         </view>
         <view class='ticketGot' wx:if="{{order.payStatus == 3}}">
           <image src='/images/refunded.png'></image>
-        </view> -->
+        </view>
       </view>
       <image src='/images/ddbj.png' class='line'></image>
     </view>
@@ -89,11 +89,11 @@
     </view>
   </view>  
   <!-- 确认退票 -->
-  <view class='black' wx:if="{{retreat}}">
+  <view class='black' wx:if="{{retreat}}" catchtouchmove='true'>
     <view class='black_content'>
         <view class='text'>退票将收取{{refundFee}}元服务费</view>
-        <view class='cancel' bindtap='cancel'>不退了</view>
-        <view class='sure' bindtap='refund'>继续退票</view>
+        <view class='cancel' catchtouchstart='cancel'>不退了</view>
+        <view class='sure' catchtouchstart='refund'>继续退票</view>
     </view>
   </view>
 </view>
