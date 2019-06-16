@@ -37,7 +37,7 @@ Page({
    */
   onLoad: function(options) {
     // console.log(options.pa)
-   
+    // this.getGifts()
     var that = this;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     var contentHeight = windowHeight - 279;
@@ -55,7 +55,8 @@ Page({
           userInfo: res.data,
         })
         console.log(res.data)
-        var SocketUrl = "wss://ik.legendpicture.com"
+        // var SocketUrl = "wss://ik.legendpicture.com"
+        var SocketUrl = "ws://192.168.1.110:8080"
         wx.connectSocket({ //建立连接
           url: SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + that.data.movie.roomName + '/' + res.data.mobilePhone,
           // url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
@@ -164,14 +165,15 @@ Page({
         var id = message.prizeId.split("_")[0];
         var content = message.content;
         var giftNum = 0;
+        console.log(that.data.gifts)
         for(var i = 0;i < that.data.gifts.gift.length;i++){
           if (that.data.gifts.gift[i].id == id){
-            giftNum = that.data.gifts.gift[i].number
+            giftNum = that.data.gifts.gift[i].sendNumber
           }
         }
-        for (var i = 0; i < that.data.gifts.ticket.length; i++) {
-          if (that.data.gifts.ticket[i].id == id) {
-            giftNum = that.data.gifts.ticket[i].number
+        for (var i = 0; i < that.data.gifts.coupons.length; i++) {
+          if (that.data.gifts.coupons[i].id == id) {
+            giftNum = that.data.gifts.coupons[i].sendNumber
           }
         }
         // console.log(message)
@@ -250,7 +252,7 @@ Page({
       }
 
     })
-    that.getGifts();
+   
     // that.getTime();
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
@@ -378,20 +380,26 @@ Page({
     var pageNo = that.data.pageNo;
     let apiuser = util.getAPIUserData(null);
     wx.request({
-      url: app.globalData.url+'/Api/Room/QueryRoomGift' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode,
-      method: "GET",
+      url: app.globalData.url +'/Api/chatRoom/getCanSendGifts',
+      data:{
+        cinemaCode: app.globalData.cinemacode,
+      },
+      // app.globalData.cinemacode,
+      method: "POST",
       header: {
-        'content-type': 'application/json' // 默认值
+        // 'content-type': 'application/json' // 默认值
+        "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function (res) {
-        console.log(res.data.data);
+        console.log(res.data);
         that.setData({
-          gifts: res.data.data
+          gifts: res.data
         })
       }
     })
   },
-  sendgift: function() {
+  sendgifts: function() {
+    this.getGifts();
     this.setData({
       showGifts: true
     })
@@ -401,89 +409,90 @@ Page({
       showGifts: false
     })
   },
-  // sendGift: function(e) { //发放
-  //   var that = this;
-  //   wx.showModal({
-  //     title: '提示',
-  //     content: '是否确认发放',
-  //     success:function(res){
-  //       if(res.confirm){
-  //         var id = e.currentTarget.dataset.id;
-  //         var content = e.currentTarget.dataset.type;
-  //         var nowtime = new Date().getTime();
-  //         var prizeId = id + "_" + nowtime;
-  //         var json = {
-  //           messageType: "2",
-  //           header: that.data.userInfo.header,
-  //           nickName: that.data.userInfo.nickName,
-  //           messageContent: content.toString(),
-  //           prizeId: prizeId,
+  sendGift: function(e) { //发放
+    var that = this;
+    console.log(e)
+    wx.showModal({
+      title: '提示',
+      content: '是否确认发放',
+      success:function(res){
+        if(res.confirm){
+          var id = e.currentTarget.dataset.id;
+          var content = e.currentTarget.dataset.type;
+          var nowtime = new Date().getTime();
+          var prizeId = id + "_" + nowtime;
+          console.log(e)
+          var json = {
+            messageType: "2",
+            header: that.data.userInfo.headlmgUrl,
+            nickName: that.data.userInfo.nickName,
+            messageContent: content.toString(),
+            prizeId: prizeId,
+          };
+          console.log(json)
+          wx.sendSocketMessage({
+            data: JSON.stringify(json),
+            success: function (res) {
+              console.log(res)
+              that.setData({
+                showGifts: false
+              })
+            },
+            fail: function () {
+              wx.showModal({
+                title: '发送失败',
+                content: '红包发送失败',
+              })
+            }
 
-  //         };
-  //         // console.log(json)
-  //         wx.sendSocketMessage({
-  //           data: JSON.stringify(json),
-  //           success: function () {
-  //             // console.log('res')
-  //             that.setData({
-  //               showGifts: false
-  //             })
-  //           },
-  //           fail: function () {
-  //             wx.showModal({
-  //               title: '发送失败',
-  //               content: '红包发送失败',
-  //             })
-  //           }
-
-  //         })
-  //       }
-  //     }
-  //   })
+          })
+        }
+      }
+    })
    
-  // },
-  // tapRed:function(){//领取红包
-  //   var that = this;
-  //   var json = {
-  //     messageType: "21",
-  //     header: that.data.userInfo.header,
-  //     nickName: that.data.userInfo.nickName,
-  //     messageContent: that.data.content,
-  //     prizeId: that.data.prizeId
-  //   };
-  //   that.setData({
-  //     showGift:false
-  //   })
-  //   if(that.data.userInfo.roll == 2){
-  //     wx.showModal({
-  //       title: '抢包失败',
-  //       content: '管理员不可以抢红包哦',
-  //     })
-  //   }else{
-  //     // console.log(json)
-  //     wx.sendSocketMessage({
-  //       data: JSON.stringify(json),
-  //       success: function () {
-  //         // console.log('res')
+  },
+  tapRed:function(){//领取红包
+    var that = this;
+    var json = {
+      messageType: "21",
+      header: that.data.userInfo.headlmgUrl,
+      nickName: that.data.userInfo.nickName,
+      messageContent: that.data.content,
+      prizeId: that.data.prizeId
+    };
+    that.setData({
+      showGift:false
+    })
+    // if(that.data.userInfo.roll == 2){
+    //   wx.showModal({
+    //     title: '抢包失败',
+    //     content: '管理员不可以抢红包哦',
+    //   })
+    // }else{
+      console.log(json)
+      wx.sendSocketMessage({
+        data: JSON.stringify(json),
+        success: function () {
+          // console.log('res')
 
-  //       },
-  //       fail: function () {
-  //         wx.showModal({
-  //           title: '抢包失败',
-  //           content: '领取红包失败，连接断开'
-  //         })
-  //       }
+        },
+        fail: function () {
+          wx.showModal({
+            title: '抢包失败',
+            content: '领取红包失败，连接断开'
+          })
+        }
 
-  //     })
-  //   }
+      })
+    // }
     
    
-  // },
-  // closeGift:function(){
-  //   this.setData({
-  //     showGift: false
-  //   })
-  // },
+  },
+  closeGift:function(){
+    this.setData({
+      showGift: false
+    })
+  },
   getPrize:function(){
     var that = this;
     var nowtime = new Date().getTime();
@@ -624,7 +633,8 @@ Page({
       key: 'loginInfo',
       success: function(res) {
 
-        var SocketUrl = "wss://ik.legendpicture.com"
+        // var SocketUrl = "wss://ik.legendpicture.com"
+        var SocketUrl = "ws://192.168.1.110:8080"
         wx.connectSocket({ //建立连接
           url: SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + that.data.movie.roomName + '/' + res.data.mobilePhone,
           // url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
