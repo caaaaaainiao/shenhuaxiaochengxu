@@ -43,7 +43,7 @@ Page({
     var nowtime = new Date().getTime();
     let apiuser = util.getAPIUserData(null);
     var a = app.globalData.openId
-    console.log(a)
+    // console.log(a)
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
       method: "GET",
@@ -51,7 +51,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res.data.data)
+        // console.log(res)
+        // console.log(res.data.data)
         for (var i in res.data.data.film) { 
           if (res.data.data.film[i].filmName == movie.name){
                that.setData({
