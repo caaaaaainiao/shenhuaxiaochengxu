@@ -17,6 +17,8 @@ Page({
     giftCount: 0, // 奖品
     goodsCount: 0, // 小食
     ticketCount: 0, // 影票
+    lookedFilmCount: 0, // 看过的电影
+    wantedFilmCount: 0, // 想看的电影
   },
 
   /**
@@ -62,6 +64,8 @@ Page({
             giftCount: res.data.data.giftCount,
             goodsCount: res.data.data.goodsCount,
             ticketCount: res.data.data.ticketCount,
+            wantedFilmCount: res.data.data.wantedFilmCount,
+            lookedFilmCount: res.data.data.lookedFilmCount,
           })
         }
       }

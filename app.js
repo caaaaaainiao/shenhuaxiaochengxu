@@ -50,8 +50,8 @@ App({
     list:null,
     // url:"https://ik.legendpicture.com",
     // url:"https://xc.80piao.com:8443",
-    // url: "http://192.168.1.114:8080",
-    url:"http://192.168.1.117:8080",
+    url: "http://192.168.1.114:8080",
+    // url:"http://192.168.1.117:8080",
     goodsList:null,
     type2address:"",
     sellfeatureAppNo:"",
@@ -65,6 +65,7 @@ App({
     seat: null,
     moviesListDate: null,
     offerDescription: null, // 充值优惠
+    ticketCoupons: null, // 可用影票优惠券
   },
   createMD5: function (apiname, nowtime) {
     var sign = utilMd5.hexMD5("HLBW2018SHAPPLET" + apiname + "SH076WZ80D98X5G2" + nowtime);

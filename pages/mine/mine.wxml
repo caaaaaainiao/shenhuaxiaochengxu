@@ -46,12 +46,12 @@
     <view class='division'></view>
     <view class='entrance middlechild' bindtap='toWantsee'>
       <text>想看的电影</text>
-      <view class='detail_num' wx:if="{{count.wantSeeCount > 0}}">{{count.wantSeeCount}}</view>
+      <view class='detail_num' wx:if="{{wantedFilmCount > 0}}">{{wantedFilmCount}}</view>
       <image src='/images/gray_more.png'></image>
     </view>
     <view class='entrance middlechild' bindtap='toSeenMovie'>
       <text>看过的电影</text>
-      <view class='detail_num' wx:if="{{count.watchCount > 0}}">{{count.watchCount}}</view>
+      <view class='detail_num' wx:if="{{lookedFilmCount > 0}}">{{lookedFilmCount}}</view>
       <image src='/images/gray_more.png'></image>
     </view>
     <!-- <view class='entrance middlechild' bindtap='toActivity'>
