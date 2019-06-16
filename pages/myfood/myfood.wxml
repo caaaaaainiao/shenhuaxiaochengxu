@@ -1,6 +1,6 @@
 <!--pages/myfood/myfood.wxml-->
 <!-- 我的小食 -->
-<scroll-view class='container' scroll-y="true" bindscrolltolower="ask" wx:if="{{result.length>0}}">
+<scroll-view class='container' scroll-y="true"  wx:if="{{result.length>0}}">
   <view class='line'></view>
   <block wx:for="{{result}}" wx:for-item="order" wx:key="order" >
     <view class='type {{order.deliveryStatus==2?"past":""}}' data-num="{{order.orderCode}}" data-type="{{order.deliveryStatus}}" bindtap='toDetail'>

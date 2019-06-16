@@ -1,7 +1,7 @@
 <!--pages/mycoupon/mycoupon.wxml-->
 <!-- <text>pages/mycoupon/mycoupon.wxml</text> -->
 <!-- 我的优惠券 -->
-<scroll-view class='container' scroll-y="true" bindscrolltolower="ask">
+<scroll-view class='container' scroll-y="true" >
   <view class='header'>
   <text bindtap='back' class='back' wx:if="{{isShow}}" style='float: left; margin-left: 30rpx; color: #E04F2E;'>返回首页</text>
   共{{couponCount}}张有效券

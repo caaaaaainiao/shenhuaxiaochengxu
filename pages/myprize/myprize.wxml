@@ -1,7 +1,7 @@
 <!--pages/myprize/myprize.wxml-->
 <!-- <text>pages/myprize/myprize.wxml</text> -->
 <!-- 我的奖品 -->
-<scroll-view class='container' scroll-y="true" bindscrolltolower="ask" wx:if="{{result.length > 0}}">
+<scroll-view class='container' scroll-y="true" wx:if="{{result.length > 0}}">
   <view class='line'></view>
   <!-- <view class='prize'>
     <image class='icon' src=''></image>
