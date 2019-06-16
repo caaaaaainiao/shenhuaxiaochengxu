@@ -235,6 +235,9 @@ Page({
   getNowTimeMovie : function (){
     var that = this
     let apiuser = util.getAPIUserData(null);
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: app.globalData.url + '/Api/chatRoom/getRooms' ,
       // url: app.globalData.url + '/Api/chatRoom/getRooms',
@@ -248,6 +251,7 @@ Page({
       },
       success: function (res) {
         console.log(res.data);
+        wx.hideLoading()
         // that.data.FlimList.push(res)
         that.setData({
           MovieList : res.data
