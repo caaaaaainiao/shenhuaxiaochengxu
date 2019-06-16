@@ -74,7 +74,7 @@
         <text>-{{marActivity.reduceMoney}}元</text>
       </view>
       <view class='right'>应付
-        <text class='numpay'>{{disPrice}}</text>
+        <text class='numpay'>{{disPrice > 0? disPrice : 0}}</text>
         <text>元</text>
       </view>
     </view>
@@ -83,7 +83,9 @@
       <text>{{waitActivity.reduceMoney}}元</text>
     </view>
   </view>
+  <form report-submit='true' bindsubmit="formSubmit">
   <view class='btn' bindtap='choosePay'>立即支付</view>
+  </form>
   <!-- 选择支付方式 -->
   <view class='black' wx:if="{{showBlack}}">
     <view class='checkarea'>
@@ -124,7 +126,7 @@
   <!-- 选择小食优惠券 -->
   <view class='chooseCoupon' wx:if="{{startChoose&&merOrder.merTicketList!=null}}">
     <block wx:for="{{merOrder.merTicketList}}" wx:for-item="foodCoupons" wx:key="foodCoupons">
-      <view wx-if="{{totalPrice > foodCoupons.price}}"  class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.conponId}}' data-code='{{foodCoupons.conponCode}}' data-couponPrice='{{foodCoupons.price}}'>
+      <view  class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.conponId}}' data-code='{{foodCoupons.conponCode}}' data-couponPrice='{{foodCoupons.price}}'>
         <view class='couponMoney'>￥{{foodCoupons.price}}</view>
         <!-- <view class='couponLimit'>满{{foodCoupons.dxPlatTicket.achieveMoney}}元可用</view> -->
         <view class='couponTime'>有效期至{{foodCoupons.expireDate}}</view>

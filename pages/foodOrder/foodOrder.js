@@ -20,7 +20,13 @@ Page({
     coupon: 0,
     showM: false,
     password: "",
-    merOrder: null,
+    merOrder: {
+      merTicket: {
+        conponId: null,
+        conponCode: null,
+        couponPrice: 0
+      },
+    },
     startChoose: false,
     merTicketId: "",
     isReady: 0,
@@ -99,7 +105,7 @@ Page({
           priceTicker.push(sellTicket[x])
         }
       }
-      // console.log(priceTicker)//排除不符合满减得优惠券
+      console.log(priceTicker)//排除不符合满减得优惠券
 
       var notusedTicket = []
       for (var x in priceTicker) {
@@ -158,10 +164,10 @@ Page({
           } else {
             // array.push(timeTicket[y].goodsCodes)
             var array = timeTicket[y].goodsCodes.split(',')
-
             // console.log(array)
             for (var z in array) {
               if (that.data.goodsList[x].goodsCode == array[z]) {
+                // console.log(timeTicket[y])
                 goodTicket.push(timeTicket[y])
               }
             }
@@ -186,32 +192,62 @@ Page({
         // if(){
 
         // }
-        let merOrder = null;
-        console.log(that.data.totalPrice)
-        if (goodTicket[0].price > that.data.totalPrice){
-           merOrder = {
+        
+        // let merOrder = null;
+        // for (that.data.totalPrice) {
+
+        // }
+        // console.log(that.data.totalPrice)
+        // console.log(goodTicket)
+        // var length = goodTicket.length;
+        // for (var i = 0; i < length; i++){
+        //   for (var i = 0; i < length; i++) {
+        //     if (goodTicket[i].price + 1 >= that.data.totalPrice) {
+        //       // console.log(goodTicket[i].price)
+        //       // let goodTicketList = goodTicket.splice(i, 1)
+        //       goodTicket.splice(i, 1)
+        //       // return goodTicket
+        //       // goodTicket = 
+        //     }
+        //   }
+        // }
+        
+        console.log(goodTicket)
+        // if (goodTicket[0].price  <= that.data.totalPrice){
+        //    merOrder = {
+        //     merTicket: {
+        //       conponId: null,
+        //       conponCode: null,
+        //       couponPrice: 0
+        //     },
+        //     merTicketList: goodTicket
+        //   };
+          // console.log(merOrder);
+        // }else{
+        var merOrder = {
             merTicket: {
-              conponId: null,
-              conponCode: null,
-              couponPrice: 0
+              conponId: goodTicket[0].conponId  ,
+              conponCode: goodTicket[0].conponCode  ,
+              couponPrice: goodTicket[0].price 
             },
             merTicketList: goodTicket
           };
-        }else{
-           merOrder = {
-            merTicket: {
-              conponId: goodTicket[0].conponId,
-              conponCode: goodTicket[0].conponCode,
-              couponPrice: goodTicket[0].price
-            },
-            merTicketList: goodTicket
-          };
-        }
-       
+        // if (merOrder == null){
+        //   let merTicket = {
+        //     conponId: null,
+        //     conponCode: null,
+        //     couponPrice: 0 
+        //   }
+        //   merOrder = merTicket
+        //   return merOrder
+        //   }
+          // console.log(merOrder);
+        // }
+        
+        // for (var i in merOrder){}
         that.setData({
           merOrder: merOrder,
         });
-        console.log(merOrder);
         that.updatetotalPrice();
       }
     });
@@ -347,7 +383,7 @@ Page({
     var nowtime = new Date().getTime();
   },
   choosePay: function () {
-
+    this.formSubmit()
     var that = this
 
     var nowtime = new Date();
@@ -757,14 +793,41 @@ Page({
       }
       mpXml += ' </goodsList></SubmitGoodsOrder>';
       app.globalData.mpXml = mpXml
+      // wx.request({
+      //   url: app.globalData.url + '/Api/Goods/SubmitGoodsOrder',
+      //   method: "POST",
+      //   data: {
+      //     userName: "MiniProgram",
+      //     password: "6BF477EBCC446F54E6512AFC0E976C41",
+      //     queryXml: app.globalData.mpXml
+      //   },
+      //   success: function (res) {
+      //     console.log(res)
+      //     if (res.data.Status == "Failure") {
+      //       wx.showModal({
+      //         title: '支付失败',
+      //         content: res.data.ErrorMessage,
+      //       })
+
+      //       wx.redirectTo({
+      //         url: '../foodOrder/foodOrder'
+      //       })
+      //     } else if (res.data.Status == "Success") {
+      //       var ordernum = res.data.order.orderCode
+      //       wx.redirectTo({
+      //         url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
+      //       })
+      //     }
+      //   }
+      // })
       wx.request({
-        url: app.globalData.url + '/Api/Goods/SubmitGoodsOrder',
-        method: "POST",
-        data: {
-          userName: "MiniProgram",
-          password: "6BF477EBCC446F54E6512AFC0E976C41",
-          queryXml: app.globalData.mpXml
-        },
+        url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
+        method: "GET",
+        // data: {
+        //   userName: "MiniProgram",
+        //   password: "6BF477EBCC446F54E6512AFC0E976C41",
+        //   queryXml: app.globalData.mpXml
+        // },
         success: function (res) {
           console.log(res)
           if (res.data.Status == "Failure") {
@@ -777,7 +840,8 @@ Page({
               url: '../foodOrder/foodOrder'
             })
           } else if (res.data.Status == "Success") {
-            var ordernum = res.data.order.orderCode
+            console.log(res.data.orderNo)
+            var ordernum = res.data.orderNo
             wx.redirectTo({
               url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
             })
@@ -866,6 +930,7 @@ Page({
   },
   showM: function () {
     var that = this
+    // console.log(cinemaType)
     that.setData({
       cinemaType: app.globalData.cinemaList.cinemaType
     })
@@ -968,5 +1033,8 @@ Page({
     this.setData({
       userMessage: userMessage
     })
+  },
+  formSubmit : function(e){
+    console.log(e)
   }
 })

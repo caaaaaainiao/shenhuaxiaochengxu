@@ -1,7 +1,7 @@
 <!--pages/myticket/myticket.wxml-->
 <!-- <text>pages/myticket/myticket.wxml</text> -->
 <!-- 我的电影票 -->
-<scroll-view class='container' scroll-y="true" bindscrolltolower="ask" wx:if="{{result.length > 0}}">
+<scroll-view class='container' scroll-y="true" wx:if="{{result.length > 0}}">
   <view class='line'></view>
   <block wx:for="{{result}}" wx:for-item="order" wx:key="order">
    <view class='type' bindtap='toDetail' data-num="{{order.orderCode}}" data-status="{{order.payStatus}}">
