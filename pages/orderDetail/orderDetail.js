@@ -64,6 +64,7 @@ Page({
           let cinemaCode = res.data.data.cinemaCode;
           let verifyCode = res.data.data.verifyCode;
           let showTime = res.data.data.showTime;
+          let ticketCollectionUrl = res.data.data.ewmPicture;
           that.setData({
             order: order,
             realAmount: realAmount,
@@ -72,6 +73,7 @@ Page({
             verifyCode: verifyCode,
             // orderPayType: orderPayType, // 支付类型
             showTime: showTime,
+            ticketCollectionUrl: ticketCollectionUrl,
           })
           if (app.globalData.cinemaList.cinemaType == "辰星") {
             let printNo = that.data.order.printNo.slice(8);
@@ -86,14 +88,14 @@ Page({
             })
           }
           // 生成二维码
-          var qrcode = new QRCode('canvas', {
-            text: that.data.printNo,
-            width: 150,
-            height: 150,
-            colorDark: "#000000",
-            colorLight: "#ffffff",
-            correctLevel: QRCode.CorrectLevel.H,
-          });
+          // var qrcode = new QRCode('canvas', {
+          //   text: that.data.printNo,
+          //   width: 150,
+          //   height: 150,
+          //   colorDark: "#000000",
+          //   colorLight: "#ffffff",
+          //   correctLevel: QRCode.CorrectLevel.H,
+          // });
         }
       }
     })

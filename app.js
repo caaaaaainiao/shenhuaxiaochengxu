@@ -48,10 +48,10 @@ App({
     movieIndex:null,
     screenPlanList:null,
     list:null,
-    url:"https://ik.legendpicture.com",
+    // url:"https://ik.legendpicture.com",
     // url:"https://xc.80piao.com:8443",
     // url: "http://192.168.1.114:8080",
-    // url:"http://192.168.1.110:8080",
+    url:"http://192.168.1.117:8080",
     goodsList:null,
     type2address:"",
     sellfeatureAppNo:"",
@@ -64,7 +64,7 @@ App({
     sellMovielist:null,
     seat: null,
     moviesListDate: null,
-    offerDescription: null,
+    offerDescription: null, // 充值优惠
   },
   createMD5: function (apiname, nowtime) {
     var sign = utilMd5.hexMD5("HLBW2018SHAPPLET" + apiname + "SH076WZ80D98X5G2" + nowtime);

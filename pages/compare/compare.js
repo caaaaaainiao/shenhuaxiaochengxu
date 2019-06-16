@@ -214,7 +214,6 @@ Page({
     let endday = util.formatTimeDay(endtime);
     let apiuser = util.getAPIUserData(null);
     let cinemacode = app.globalData.cinemacode
-
     wx.request({
       url: app.globalData.url + '/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + this.data.checkfilmcode,
       method: 'GET',
