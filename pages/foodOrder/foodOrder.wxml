@@ -83,9 +83,7 @@
       <text>{{waitActivity.reduceMoney}}元</text>
     </view>
   </view>
-  <form report-submit='true' bindsubmit="formSubmit">
   <view class='btn' bindtap='choosePay'>立即支付</view>
-  </form>
   <!-- 选择支付方式 -->
   <view class='black' wx:if="{{showBlack}}">
     <view class='checkarea'>
@@ -110,7 +108,13 @@
       <view class='input2'>
         <input type='password' placeholder-style="color:#888;" placeholder='请输入密码' bindinput='setM'></input>
       </view>
-      <view class='submit2' bindtap='cardPay'>确 定</view>
+      <form  report-submit='true'  bindsubmit='formSubmit'>
+       <!-- <view class="section section_gap">
+    <view class="section__title">switch</view>
+    <switch name="switch"/>
+  </view> -->
+      <button formType="submit" class='submit2' bindtap='cardPay'>确 定</button>
+      </form>
     </view>
   </view>
    <!-- 备注 -->

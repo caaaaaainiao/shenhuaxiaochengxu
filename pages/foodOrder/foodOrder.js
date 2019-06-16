@@ -20,6 +20,7 @@ Page({
     coupon: 0,
     showM: false,
     password: "",
+    formids : '',
     merOrder: {
       merTicket: {
         conponId: null,
@@ -759,6 +760,42 @@ Page({
                   url: '../foodOrder/foodOrder'
                 })
               } else if (res.data.Status == "Success") {
+                wx.request({
+                  url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+                  data:{
+                    "touser": app.globalData.openId,
+                    "template_id": "w-zbH8vqIiOMYBAu7q3IX3UZwuopyMyIJ3FqYewq50I",
+                    "form_id": that.data.formids,
+                    "data" : {
+                      "keyword1": {
+                        "value": "1"
+                      },
+                      "keyword2": {
+                        "value": "2"
+                      },
+                      "keyword3": {
+                        "value": "3"
+                      },
+                      "keyword4": {
+                        "value": "4"
+                      },
+                      "keyword4": {
+                        "value": "4"
+                      },
+                      "keyword4": {
+                        "value": "4"
+                      }
+                    }
+                  },
+                  method:"POST",
+                  header: {
+                    'content-type': 'application/json' // 默认值
+                  },
+                  success: function (res) {
+                    console.log(res)
+                    // app.usermessage.access_token = res.data.access_token
+                  }
+                })
                 var ordernum = res.data.order.orderCode
                 wx.redirectTo({
                   url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
@@ -831,6 +868,17 @@ Page({
         success: function (res) {
           console.log(res)
           if (res.data.Status == "Failure") {
+             wx.request({
+        url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
+        method: "GET",
+        // data: {
+        //   userName: "MiniProgram",
+        //   password: "6BF477EBCC446F54E6512AFC0E976C41",
+        //   queryXml: app.globalData.mpXml
+        // },
+        success: function (res) {
+          console.log(res)
+          if (res.data.Status == "Failure") {
             wx.showModal({
               title: '支付失败',
               content: res.data.ErrorMessage,
@@ -841,6 +889,95 @@ Page({
             })
           } else if (res.data.Status == "Success") {
             console.log(res.data.orderNo)
+            wx.request({
+              url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+              data: {
+                "touser": app.globalData.openId,
+                "template_id": "w-zbH8vqIiOMYBAu7q3IX3UZwuopyMyIJ3FqYewq50I",
+                "form_id": that.data.formids,
+                "data": {
+                  "keyword1": {
+                    "value": "1"
+                  },
+                  "keyword2": {
+                    "value": "2"
+                  },
+                  "keyword3": {
+                    "value": "3"
+                  },
+                  "keyword4": {
+                    "value": "4"
+                  },
+                  "keyword4": {
+                    "value": "4"
+                  },
+                  "keyword4": {
+                    "value": "4"
+                  }
+                }
+              },
+              method: "POST",
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res)
+                // app.usermessage.access_token = res.data.access_token
+              }
+            })
+            var ordernum = res.data.orderNo
+            wx.redirectTo({
+              url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
+            })
+          }
+        }
+      })
+            wx.showModal({
+              title: '支付失败',
+              content: res.data.ErrorMessage,
+            })
+
+            wx.redirectTo({
+              url: '../foodOrder/foodOrder'
+            })
+          } else if (res.data.Status == "Success") {
+            console.log(res.data.orderNo)
+            wx.request({
+              url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+              data: {
+                "touser": app.globalData.openId,
+                "template_id": "w-zbH8vqIiOMYBAu7q3IX3UZwuopyMyIJ3FqYewq50I",
+                "form_id": that.data.formids,
+                "data": {
+                  "keyword1": {
+                    "value": "1"
+                  },
+                  "keyword2": {
+                    "value": "2"
+                  },
+                  "keyword3": {
+                    "value": "3"
+                  },
+                  "keyword4": {
+                    "value": "4"
+                  },
+                  "keyword4": {
+                    "value": "4"
+                  },
+                  "keyword4": {
+                    "value": "4"
+                  }
+                }
+              },
+              method: "POST",
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res)
+                // app.usermessage.access_token = res.data.access_token
+              }
+            })
             var ordernum = res.data.orderNo
             wx.redirectTo({
               url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
@@ -1035,6 +1172,9 @@ Page({
     })
   },
   formSubmit : function(e){
-    console.log(e)
+    this.setData({
+      formids: e.detail.formId
+    })
+    // console.log(e.detail.formId)
   }
 })

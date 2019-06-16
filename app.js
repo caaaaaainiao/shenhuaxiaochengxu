@@ -33,6 +33,8 @@ App({
     Password: "6BF477EBCC446F54E6512AFC0E976C41",
     AppId: 'wx8079e2f2a9958d05',
     OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
+    secret : 'a90e16667f571b11d5e42476d8860524',
+    access_token : ''
   },
   globalData: {
     firstcode:null,
@@ -50,8 +52,8 @@ App({
     list:null,
     // url:"https://ik.legendpicture.com",
     // url:"https://xc.80piao.com:8443",
-    // url: "http://192.168.1.114:8080",
-    url:"http://192.168.1.117:8080",
+    url: "http://192.168.1.114:8080",
+    // url:"http://192.168.1.117:8080",
     goodsList:null,
     type2address:"",
     sellfeatureAppNo:"",

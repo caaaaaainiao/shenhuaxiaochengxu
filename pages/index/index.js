@@ -44,7 +44,11 @@ Page({
   // },
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
+  formSubmit: function (e) {
+    console.log('form发生了submit事件，携带数据为：', e.detail.value)
+  },
   onLoad: function (options) {
+    this.getAccesstoken()
     wx.showLoading({
       title: '加载中',
     })
@@ -1041,4 +1045,17 @@ Page({
     }
 
   },
+  getAccesstoken: function(){
+    wx.request({
+      url: 'https://api.weixin.qq.com/cgi-bin/token' + '?' + 'grant_type' + '=' + 'client_credential' + '&' + 'appid' + '=' + app.usermessage.AppId + '&' + 'secret' + '=' + app.usermessage.secret,
+      method:"GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success:function(res){
+        // console.log(res.data.access_token)
+        app.usermessage.access_token = res.data.access_token
+      }
+    })
+  }
 })
