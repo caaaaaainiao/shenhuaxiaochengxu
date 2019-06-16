@@ -186,9 +186,10 @@ Page({
         // if(){
 
         // }
+        let merOrder = null;
         console.log(that.data.totalPrice)
-        if (goodTicket[0].price < that.data.totalPrice){
-          let merOrder = {
+        if (goodTicket[0].price > that.data.totalPrice){
+           merOrder = {
             merTicket: {
               conponId: null,
               conponCode: null,
@@ -197,7 +198,7 @@ Page({
             merTicketList: goodTicket
           };
         }else{
-          let merOrder = {
+           merOrder = {
             merTicket: {
               conponId: goodTicket[0].conponId,
               conponCode: goodTicket[0].conponCode,
@@ -209,9 +210,8 @@ Page({
        
         that.setData({
           merOrder: merOrder,
-
         });
-        console.log(merOrder.merTicket.conponCode);
+        console.log(merOrder);
         that.updatetotalPrice();
       }
     });
@@ -419,6 +419,7 @@ Page({
               }
               queryXml += ' </goodsList></SubmitGoodsOrder>';
               app.globalData.queryXml = queryXml
+              console.log(app.globalData.queryXml)
               //复制购物车列表到待支付物品列表
               //let cattObj = util.getcartObj(null);
               //wx.setStorageSync('toSubmitGoods', cattObj);
