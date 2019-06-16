@@ -38,7 +38,7 @@
     <view class='box2'>
       <input placeholder='发言喽' placeholder-style='color:#eee;' bindinput='setText' value='{{text}}' maxlength='20' />
     </view>
-    <image src='/images/gift.png' class='gift' bindtap='sendgift'></image>
+    <image src='/images/gift.png' class='gift' bindtap='sendgifts'></image>
     <image src='/images/word.png' class='btn' bindtap='send'></image>
   </view>
   <!-- 我的奖品 -->
@@ -47,22 +47,22 @@
   <view class='giftBox' wx:if="{{showGifts}}">
     <view class='giftList'>
       <image class='close' src='/images/close.png' bindtap='close'></image>
-      <block wx:for="{{gifts}}" wx:for-item="gift" wx:key="gift">
+      <block wx:for="{{gifts.gift}}" wx:for-item="gift" wx:key="gift">
         <view class='gift2'>
           <image src='{{gift.image}}' class='pic2'></image>
           <view class='name'>{{gift.giftName}}</view>
           <view class='num'>{{gift.sendNumber}}</view>
-          <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{gift.giftCode}}' data-type='{{gift.giftType}}'></image>
+          <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{gift.id}}' data-type='{{gift.giftType}}'></image>
         </view>
       </block>
-      <!-- <block wx:for="{{gifts.ticket}}" wx:for-item="ticket" wx:key="ticket">
+      <block wx:for="{{gifts.coupons}}" wx:for-item="ticket" wx:key="ticket">
         <view class='gift2'>
           <image src='/images/ticket.png' class='pic3'></image>
-          <view class='name'>{{ticket.name}}</view>
-          <view class='num'>{{ticket.number}}</view>
+          <view class='name'>{{ticket.couponsName}}</view>
+          <view class='num'>{{ticket.sendNumber}}</view>
           <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{ticket.id}}' data-type='{{ticket.giftType}}'></image>
         </view>
-      </block> -->
+      </block>
     </view>
   </view>
   <view class='showGift' wx:if="{{showGift}}">
