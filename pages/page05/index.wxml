@@ -19,7 +19,7 @@
       <button class="btn-delete" bindtap="btnDelete" data-cardno="{{card.num}}" data-pass="{{card.pass}}" hover-class="none">
 				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
 			</button>
-			<button class="btns" bindtap="btnShowExchange2" hover-class="none" data-code="{{card.levelCode}}" data-cardNo="{{card.num}}" data-pass="{{card.pass}}">立即充值</button>
+			<button class="btns" data-num='{{card.num}}' data-levelName='{{card.levelName}}' bindtap="btnShowExchange2" hover-class="none" data-code="{{card.levelCode}}" data-cardNo="{{card.num}}" data-pass="{{card.pass}}">立即充值</button>
     </view>
 	</view>
   	<!-- <swiper class="list" style="height:345rpx">
@@ -61,9 +61,11 @@
 			<view class="ad">
 				<!-- 送20元卖品券 -->
 			</view>
+     <form report-submit='true'  bindsubmit='formSubmit'>
 			<view class="operate">
-				<button class="btn btn-red" bindtap="pay" hover-class="none">确认充值</button>
+      	<button formType="submit" class="btn btn-red" bindtap="pay" hover-class="none">确认充值</button>
 			</view>
+     </form>
 		</view>
 	</view>
 </block>

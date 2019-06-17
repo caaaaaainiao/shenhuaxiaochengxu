@@ -6,7 +6,6 @@ const formatTime = date => {
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
-
   return [year, month, day].map(formatNumber).join('/') + ' ' + [hour, minute, second].map(formatNumber).join(':')
 }
 const formatTime2 = date => {
@@ -26,8 +25,20 @@ const formatTimeDay = date => {
   const hour = date.getHours()
   const minute = date.getMinutes()
   const second = date.getSeconds()
-
   return [year, month, day].map(formatNumber).join('-')
+}
+const formatTimeDays = date => {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  const hour = date.getHours()
+  const minute = date.getMinutes()
+  const second = date.getSeconds()
+  var NowData = {
+    NowDataYear: year + '年' + month 　+ '月' + day + '日',
+    NowDataTime: year + '年' + month + '月' + day + '日' + ' ' + [hour, minute, second].map(formatNumber).join(':')
+  }
+  return NowData 
 }
 const formatTimeGMT = date => {
   date = dateToGMT(date);
@@ -563,6 +574,7 @@ module.exports = {
   formatTime2: formatTime2,
   formatTimeDay: formatTimeDay,//day
   formatTimeGMT: formatTimeGMT,
+  formatTimeDays: formatTimeDays,
   sortDistance: sortDistance,//计算出最近的影院显示在定位处
   getcinemaList: getcinemaList,
   getgoodList: getgoodList,

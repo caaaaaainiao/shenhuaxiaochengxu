@@ -1,6 +1,7 @@
 //获取应用实例
 const app = getApp();
 // 获取远程余额回调函数 查询会员卡 
+const util = require('../../utils/util.js');
 const getCallBack = function (username, password, cinemacode, cardno, cardpassword, callback) {
   var card = [];
   var data = {
@@ -45,6 +46,7 @@ Page({
     show: '',
     face: '',
     userCardList: '',
+    levelnames : ''
   },
   btnShowExchange: function(e) {
     let that = this;
@@ -55,10 +57,12 @@ Page({
     var cardno = e.currentTarget.dataset.cardno;
     var pass = e.currentTarget.dataset.pass;
     var levelcode = e.currentTarget.dataset.code;
+    var levelname = e.currentTarget.dataset.levelname;
     that.setData({
       cardno: cardno,
       pass: pass,
       levelcode: levelcode,
+      levelnames: levelname,
       showAlertExchange2: !that.data.showAlertExchange2
     });
     var cardNo = that.data.cardno;
@@ -166,6 +170,7 @@ Page({
                 },
                 success: function (res) {
                   if (res.data.Status == "Success") {
+                   var NewTime =  util.formatTimeDays(new Date())
                     wx.request({
                       url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
                       data: {
@@ -174,22 +179,16 @@ Page({
                         "form_id": that.data.formids,
                         "data": {
                           "keyword1": {
-                            "value": "1"
+                            "value": that.data.cardno
                           },
                           "keyword2": {
-                            "value": "2"
+                            "value": NewTime.NowDataYear
                           },
                           "keyword3": {
-                            "value": "3"
+                            "value": that.data.price
                           },
                           "keyword4": {
-                            "value": "4"
-                          },
-                          "keyword4": {
-                            "value": "4"
-                          },
-                          "keyword4": {
-                            "value": "4"
+                            "value": that.data.levelnames
                           }
                         }
                       },
@@ -463,5 +462,11 @@ Page({
   // 页面上拉触底事件的处理函数
   onReachBottom: function () { },
   // 用户点击右上角分享
-  onShareAppMessage: function () { }
+  onShareAppMessage: function () { },
+  formSubmit: function (e) {
+    this.setData({
+      formids: e.detail.formId
+    })
+    console.log(e.detail.formId)
+  }
 })

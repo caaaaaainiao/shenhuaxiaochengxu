@@ -769,22 +769,22 @@ Page({
                     "form_id": that.data.formids,
                     "data" : {
                       "keyword1": {
-                        "value": "1"
+                        "value": "测试"
                       },
                       "keyword2": {
-                        "value": "2"
+                        "value": "测试"
                       },
                       "keyword3": {
-                        "value": "3"
+                        "value": "测试"
                       },
                       "keyword4": {
-                        "value": "4"
+                        "value": "测试"
                       },
                       "keyword4": {
-                        "value": "4"
+                        "value": "测试"
                       },
                       "keyword4": {
-                        "value": "4"
+                        "value": "测试"
                       }
                     }
                   },
