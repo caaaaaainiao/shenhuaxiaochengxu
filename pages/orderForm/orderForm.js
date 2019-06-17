@@ -183,6 +183,7 @@ Page({
   },
   leftTime: function() {
     var that = this;
+    console.log(that.data.autoUnlockDatetime)
     var timer = setInterval(function() {
       var nowTime = parseInt(new Date().getTime());
       var date = new Date(that.data.autoUnlockDatetime)
