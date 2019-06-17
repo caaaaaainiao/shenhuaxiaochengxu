@@ -1,5 +1,6 @@
 <!--pages/foodOrder/foodOrder.wxml-->
 <!-- <text>pages/foodOrder/foodOrder.wxml</text> -->
+<wxs module="filters" src="../../utils/fixed.wxs"></wxs>
 <!-- 确认卖品订单内容 去支付 -->
 <wxs module="filters" src="../../utils/fixed.wxs"></wxs>
 <view class='container'>
@@ -9,7 +10,7 @@
       <image src='{{good.goodsPic}}' class='foodpic'></image>
       <view class='foodname'>{{good.goodsName}}</view>
       <view class='foodprice'>
-        <text wx:if="{{good.standardPrice!=null}}">￥{{good.standardPrice}}</text>￥{{good.settlePrice}}</view>
+        <text wx:if="{{good.standardPrice!=null}}">￥{{filters.toFix(good.standardPrice)}}</text>￥{{filters.toFix(good.settlePrice)}}</view>
       <view class='foodnum '>
         <text>{{good.buyNum}}</text>
       </view>
@@ -18,7 +19,7 @@
   <view class='option' style="border:none;">
     小食总价
     <text>元</text>
-    <text class='money'>{{totalPrice}}</text>
+    <text class='money'>{{filters.toFix(totalPrice)}}</text>
   </view>
   <view class='option' wx:if="{{merOrder.merTicket.couponPrice}}" bindtap='chooseCoupon'>
     小食优惠券
@@ -74,7 +75,7 @@
         <text>-{{marActivity.reduceMoney}}元</text>
       </view>
       <view class='right'>应付
-        <text class='numpay'>{{disPrice > 0? disPrice : 0}}</text>
+        <text class='numpay'>{{disPrice > 0? filters.toFix(disPrice) : 0}}</text>
         <text>元</text>
       </view>
     </view>

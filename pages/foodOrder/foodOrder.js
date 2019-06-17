@@ -385,9 +385,8 @@ Page({
     var nowtime = new Date().getTime();
   },
   choosePay: function () {
-    this.formSubmit()
+    // this.formSubmit()
     var that = this
-
     var nowtime = new Date();
     let apiuser = util.getAPIUserData(null);
     let endtime = new Date(nowtime.getTime() + 1000 * 60);

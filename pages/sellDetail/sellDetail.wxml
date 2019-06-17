@@ -59,7 +59,7 @@
     <view class='bottom_left' bindtap='showcart'>
       <image src='/images/foodicon.png'></image>
       ￥
-      <text>{{totalPrice}}</text>
+      <text>{{filters.toFix(totalPrice)}}</text>
       <view class='totalnum' wx:if="{{totalNum>0}}">{{totalNum}}</view>
     </view>
     <view class='bottom_right' wx:if="{{fullCar}}" bindtap='showcart'>
@@ -114,7 +114,7 @@
     <view class='f_goodsList' wx:for='{{cattObj.list}}' wx:key="{{index}}">
       <view>{{item.goodsName}}</view>
       <view class='f_canke_pack'>
-          ￥{{item.settlePrice*100*item.buyNum/100}}
+          ￥{{filters.toFix(item.settlePrice*100*item.buyNum/100)}}
         </view>
       <view class='f_goodsPrice'>      
         <view class='min_plus1'>

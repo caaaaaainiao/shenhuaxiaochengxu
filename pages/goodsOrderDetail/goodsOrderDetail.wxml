@@ -1,5 +1,6 @@
 <!--pages/orderDetail/orderDetail.wxml-->
 <!-- <text>pages/orderDetail/orderDetail.wxml</text> -->
+<wxs module="filters" src="../../utils/fixed.wxs"></wxs>
 <!-- 影票订单详情 -->
 <view class='container'>
   <image src='/images/bannerbg.jpg' class='bg'></image>
@@ -44,7 +45,7 @@
       </view>
       <view class='address'>
         <view class='storename'>实付金额</view>
-        <view class='money'>{{order.totalSettlePrice}}元</view>
+        <view class='money'>{{filters.toFix(order.totalSettlePrice)}}元</view>
         <view class='descripe'>订单号：{{order.orderCode}}</view>
         <view class='descripe'>购买时间：{{order.created}}</view>
         <view class='descripe'>手机号：{{order.mobilePhone}}</view>
