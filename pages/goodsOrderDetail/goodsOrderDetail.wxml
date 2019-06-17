@@ -6,8 +6,9 @@
   <view class='content'>
     <view class='foodewm top'>
       <view class='title'>取小食</view>
-        <canvas class='canvas' canvas-id='canvas' disable-scroll="true" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas> 
-      <!-- <image src='{{order.ticketCollectionUrl}}' class='ewm'></image> -->
+      <!-- <image src='{{ticketCollectionUrl}}' class='ewm'></image> -->
+        <!-- <canvas class='canvas' canvas-id='canvas' disable-scroll="true" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas>  -->
+      <image src='{{order.ticketCollectionUrl}}' class='ewm'></image>
       <view style='height:40rpx'></view>
       <block wx:for="{{order.goodsList.goods}}" wx:for-item="detail" wx:key="detail">
         <view class='food'>{{detail.goodsName}}

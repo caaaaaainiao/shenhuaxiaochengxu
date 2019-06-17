@@ -92,7 +92,7 @@ Page({
     console.log(app.globalData.openId)
     util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function (res) {
       // console.log(res)//适用于该影院的优惠券
-      wx.hideLoading()
+      
       var sellTicket = []
       for (var x in res) {
         if (res[x].reductionType == 2) {
@@ -251,21 +251,19 @@ Page({
         });
         that.updatetotalPrice();
       }
+    
+    wx.hideLoading()
     });
     //  });
 
     // console.log(newList)
     util.getcinemaList(function (res) {
       if (res) {
-
         that.setData({
           type: options.type,
           cinemaList: res,
-
           cinema: res[0],
         });
-
-
       }
     });
     console.log(app.globalData)
@@ -307,9 +305,12 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    wx.showLoading({
-      title: '加载中',
-    })
+    setTimeout(function(){
+      wx.showLoading({
+        title: '加载中',
+      })
+    },100)
+   
     this.setData({
       userInfo: app.globalData.userInfo
     })
@@ -475,7 +476,7 @@ Page({
             }
           },
         })
-        wx.hideLoading()
+        // wx.hideLoading()
 
 
       }
