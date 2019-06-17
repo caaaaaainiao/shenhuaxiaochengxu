@@ -45,7 +45,7 @@ Page({
     seatNum: 0,
     seatArr: [],
     price: 0,
-    totalPrice: 0,
+    totalPrice: 0, // 座位总价
     seatNumber: [],
     nowlist: null,
     activityPriceNum: 0, //参与特价个数
@@ -54,7 +54,7 @@ Page({
     isClick: false,
     rowNumMr: -20,
     screenName: "",
-    standardPrice: '',
+    salePrice: '',
     seatx:50,
     seaty:50,
     seats: '',
@@ -75,7 +75,7 @@ Page({
       startTime2: options.time,
       movieDimensional: options.filmType,
       screenName: options.screenName,
-      standardPrice: options.standardPrice,
+      salePrice: options.salePrice,
       endtime: options.endtime
     })
     // 单价
@@ -425,7 +425,7 @@ Page({
     that.setData({
       seatArr: seatArr,
       seatNumber: seatNumber,
-      price: that.data.standardPrice,
+      price: that.data.salePrice,
     })
     that.setData({
       totalPrice: (seatArr.length * that.data.price).toFixed(2),
@@ -506,7 +506,7 @@ Page({
       xml += '<AddFee>' + app.globalData.moviesListDate.addFee + '</AddFee>';
       xml += '<CinemaAllowance>' + app.globalData.moviesListDate.cinemaAllowance + '</CinemaAllowance>';
       xml += '<Fee>' + app.globalData.moviesListDate.ticketFee + '</Fee>';
-      xml += '<Price>' + that.data.standardPrice + '</Price>';
+      xml += '<Price>' + that.data.salePrice + '</Price>';
       xml += '<SeatCode>' + newNum + '</SeatCode>';
       xml += '</Seat>';
     }

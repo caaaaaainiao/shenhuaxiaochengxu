@@ -268,10 +268,7 @@ Page({
     let start = that.data.showTime.slice(11).substring(0, 5);
     let Min = Number(start.substring(0, 2) * 60) + Number(start.substring(3)); // 影片开始分钟
     let refundTime = Number(that.data.overRefundTime) + Number(min); // 当前时间加上退票时间与影片开场时间作比较
-    console.log(that.data.overRefundTime)
-    console.log(that.data.refundFee)
     let day = showTime - nowTime;
-    console.log(day)
     if (that.data.overRefundTime == '0' && day >= 0) {
       that.setData({
         retreat: true

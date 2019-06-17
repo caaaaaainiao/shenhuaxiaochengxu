@@ -269,11 +269,11 @@ Page({
     var screenName = that.data.moviesListDate.sessionDate[i].session[index].screenName;
     var sessionCode = that.data.moviesListDate.sessionDate[i].session[index].sessionCode;
     var filmType = that.data.moviesListDate.filmType;
-    var standardPrice = that.data.moviesListDate.sessionDate[i].session[index].standardPrice;
+    var salePrice = that.data.moviesListDate.sessionDate[i].session[index].salePrice;
     app.globalData.moviesListDate = that.data.moviesListDate.sessionDate[i].session[index];
     console.log(that.data.moviesListDate.sessionDate[i])
     wx.navigateTo({
-      url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&standardPrice=' + standardPrice + '&&endtime=' + endtime,
+      url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&salePrice=' + salePrice + '&&endtime=' + endtime,
     })
     // var featureAppNo = e.currentTarget.dataset.num;
     // var code = e.currentTarget.dataset.code;

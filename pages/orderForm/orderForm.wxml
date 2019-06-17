@@ -168,11 +168,11 @@
 
   <view class='chooseCoupon' wx:if="{{chooseType==1}}">
     <block wx:for="{{seatCouponList}}" wx:for-item="seatCoupons" wx:key="seatCoupons">
-    <view class='canUse' bindtap='setSeatCoupon' data-id='{{seatCoupons.conponId}}' data-index="{{index}}">
-      <view class='couponMoney'>￥{{seatCoupons.price}}</view>
-       <view class='couponLimit'>{{seatCoupons.title}}</view>
-       <view class='couponTime'>有效期 {{seatCoupons.expireDate}}</view>
-       <image src='/images/gou.png' class='couponStatus1' wx:if="{{seatCoupons.conponId==seatCoupon.conponId}}"></image>
+    <view class='canUse' bindtap='setSeatCoupon' data-id='{{seatCoupons.couponsCode}}' data-index="{{index}}">
+      <view class='couponMoney'>￥{{seatCoupons.reductionPrice}}</view>
+       <view class='couponLimit'>{{seatCoupons.couponsName}}</view>
+       <!-- <view class='couponTime'>有效期 {{seatCoupons.expireDate}}</view> -->
+       <image src='/images/gou.png' class='couponStatus1' wx:if="{{seatCoupons.couponsCode==seatCoupon.couponsCode}}"></image>
        <view class='couponStatus2' wx:else></view>
     </view>
     </block> 
