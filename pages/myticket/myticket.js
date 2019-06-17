@@ -81,7 +81,7 @@ Page({
     var sign = app.createMD5('userOrderList', nowtime);
     var pageNo = that.data.pageNo;
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryCinemaTicket/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUserTicket/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method: 'GET',
       header: {
         "Content-Type": "application/json"

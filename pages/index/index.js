@@ -27,7 +27,7 @@ Page({
     zchb: "",
     onLoad: false,
     sza: [],
-
+    all: true,
   },
   // onPullDownRefresh: function() {
 
@@ -339,7 +339,7 @@ Page({
                   } else { //当前有影院
                     var list = data.data.data;
                     for (var i = 0; i < list.length; i++) { //影院的距离
-                      list[i].distance = (list[i].distance / 1000).toFixed(1) + "km";
+                      list[i].distance = (list[i].distance / 1000).toFixed(1);
                     }
                     that.setData({
                       moviearea: list[app.globalData.cinemaNo],
@@ -534,12 +534,21 @@ Page({
       that.setData({
         [name]: show[j].cinemaName,
         [address]: show[j].address,
-        [distance]: show[j].distance + "km",
+        [distance]: show[j].distance,
         [cinemaCode]: show[j].cinemaCode
       })
     };
   },
   showCity: function () { //展示城市
+    let that = this;
+    // 由距离远近进行排序 增加一个开关选择是否显示所有影院
+    let cinemaList = app.globalData.areaList.sort(util.sortDistance("distance"));
+    if (that.data.all == true) {
+      that.setData({
+        cinemaList: cinemaList,
+        all: !that.data.all,
+      }) 
+    }
     // var that = this;
     // var nowtime = new Date().getTime();
     // var sign = app.createMD5('getCinemaCity', nowtime);

@@ -105,7 +105,7 @@
     
         <view class='choosename {{area.cinemaName ==moviearea.cinemaName?"selectCinema":""}}'>{{area.cinemaName}}</view>
         <view class='chooseArea'>{{area.address}}</view>
-        <view class='distance'>{{area.distance}}</view>
+        <view class='distance'>{{area.distance}}km</view>
       </view>
     </block>
   </view>
