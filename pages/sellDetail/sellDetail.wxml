@@ -1,5 +1,6 @@
 <!--pages/sellDetail/sellDetail.wxml-->
 <!-- <text>pages/sellDetail/sellDetail.wxml</text> -->
+<wxs module="filters" src="../../utils/fixed.wxs"></wxs>
 <view class='container'>
   
   <swiper class='bannerbg' wx:if="{{!isScroll}}" autoplay>
@@ -38,7 +39,7 @@
              
               {{item.goodsName}}
             </view>
-            <view class='foodprice'><text wx:if="{{item.standardPrice!=null}}">￥{{item.standardPrice}}</text>￥{{item.settlePrice}}</view>
+            <view class='foodprice'><text wx:if="{{item.standardPrice!=null}}">￥{{filters.toFix(item.standardPrice)}}</text>￥{{filters.toFix(item.settlePrice)}}</view>
             <view class='foodnum {{item.buyNum>0?"width180":""}}'>
               <image src='/images/minus.png' class='minus' data-id="{{item.goodsId}}" bindtap='minus'></image>
               <image src='/images/add.png' class='add' data-id="{{item.goodsId}}" bindtap='add'></image>
