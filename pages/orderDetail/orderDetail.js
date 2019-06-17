@@ -191,6 +191,9 @@ Page({
           wx.showToast({
             title: '退票成功',
           })
+          wx.navigateTo({
+            url: '../myticket/myticket',
+          })
         }
         else {
           wx.showToast({
