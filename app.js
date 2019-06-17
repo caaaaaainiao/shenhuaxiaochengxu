@@ -47,6 +47,7 @@ App({
     // url:"https://ik.legendpicture.com",
     url:"https://xc.80piao.com:8443",
     // url: "http://192.168.1.178:8080",
+    // url: "http://192.168.1.177:8080",
     // url: "http://192.168.1.114:8080",
     // url: "http://192.168.1.117:8080",
     goodsList:null,

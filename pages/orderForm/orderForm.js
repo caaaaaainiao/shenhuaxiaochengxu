@@ -71,7 +71,7 @@ Page({
         "Content-Type": "application/json"
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         that.setData({
           phone: res.data.data.mobilePhone,
         })
@@ -539,6 +539,9 @@ Page({
         json[i].reductionPrice = ""
       }
     }
+    wx.showLoading({
+      title: '加载中',
+    })
     // 预支付
     wx.request({
       url: app.globalData.url + '/Api/Order/PrePayOrder',
@@ -575,6 +578,7 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function(res) {
+              wx.hideTabBar() //隐藏栏
               console.log(res)
               // 微信支付
               if (res.data.Status == "Success") {
@@ -587,6 +591,9 @@ Page({
                   paySign: paySign,
                   success(res) {
                     console.log(res);
+                    wx.showLoading({
+                      title: '加载中',
+                    })
                     if (res.errMsg == "requestPayment:ok") {
                       let xml = '<SubmitOrder>' +
                         '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
@@ -624,6 +631,7 @@ Page({
                           'content-type': 'application/json' // 默认值
                         },
                         success: function(res) {
+                          wx.hideTabBar() //隐藏栏
                           console.log(res)
                           if (res.data.Status == "Success") {
                             wx.showToast({
@@ -664,6 +672,7 @@ Page({
                     }
                   },
                   fail(res) {
+                    wx.hideTabBar() //隐藏栏
                     console.log(res);
                   }
                 })
@@ -676,6 +685,7 @@ Page({
             }
           })
         } else {
+          wx.hideTabBar() //隐藏栏
           wx.showToast({
             title: "遇到点小问题",
             icon: 'none',
@@ -710,6 +720,9 @@ Page({
 
   },
   pay2: function() {
+    wx.showLoading({
+      title: '加载中',
+    })
     var that = this;
     // if (that.data.canClick != 1) {
     //   return;
@@ -790,6 +803,7 @@ Page({
                       'content-type': 'application/json' // 默认值
                     },
                     success: function(res) {
+                      wx.hideTabBar() //隐藏栏
                       console.log(res)
                       if (res.data.Status == "Success") {
                         console.log(res)
@@ -851,6 +865,7 @@ Page({
                       'content-type': 'application/json' // 默认值
                     },
                     success: function (res) {
+                      wx.hideTabBar() //隐藏栏
                       console.log(res)
                       if (res.data.Status == "Success") {
                         that.setData({
@@ -920,6 +935,7 @@ Page({
                                       'content-type': 'application/json' // 默认值
                                     },
                                     success: function (res) {
+                                      wx.hideTabBar() //隐藏栏
                                       console.log(res)
                                       if (res.data.Status == "Success") {
                                         wx.showToast({

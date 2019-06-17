@@ -163,6 +163,9 @@ Page({
 
   // 退票
   refund:function(){
+    wx.showLoading({
+      title: '加载中',
+    })
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('refund', nowtime);
@@ -183,6 +186,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        wx.hideTabBar() //隐藏栏
         console.log(res)
         that.setData({
           retreat:false,
