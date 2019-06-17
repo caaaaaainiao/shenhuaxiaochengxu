@@ -18,8 +18,9 @@
       </view>
       <image src='/images/ddbj.png' class='line'></image>
       <view class='movieewm'>
-        <view class='title' >{{order.orderStatus != 9 ? '已退票' : '取电影票'}}</view>
-        <image wx-if="{{order.orderStatus != 9}}" src='{{ticketCollectionUrl}}' class='ewm'></image>
+        <view class='title' >{{order.orderStatus == 9 ? '已退票' : '取电影票'}}</view>
+        <!-- <image class='refunded' wx-if='{{order.orderStatus == 9}}' src="/images/refunded.png"></image> -->
+        <image src='{{ticketCollectionUrl}}' class='ewm'></image>
         <!-- <canvas class='canvas' disable-scroll="true" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas> -->
         <view class='ticketnum'>{{order.count}}张票</view>
         <view class='number'>取票码
