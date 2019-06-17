@@ -21,15 +21,15 @@
         <view class='title' >{{order.orderStatus != 9 ? '已退票' : '取电影票'}}</view>
         <image wx-if="{{order.orderStatus != 9}}" src='{{ticketCollectionUrl}}' class='ewm'></image>
         <!-- <canvas class='canvas' disable-scroll="true" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas> -->
-        <view wx-if="{{!order.orderStatus == 9}}" class='ticketnum'>{{order.count}}张票</view>
-        <view wx-if="{{!order.orderStatus == 9}}" class='number'>取票码
+        <view class='ticketnum'>{{order.count}}张票</view>
+        <view class='number'>取票码
           <!-- <text wx:if="{{order.payStatus == 3}}">xxxxxx</text> -->
-          <text>{{printNo}}</text>
+          <text>{{order.orderStatus == 9 ? 'xxxxxxxx' : printNo}}</text>
         </view>
         <view class='ticketGot' wx:if="{{order.printStatus == 2}}">
           <image src='/images/print.png'></image>
         </view>
-        <view class='ticketGot' wx:if="{{order.payStatus == 3}}">
+        <view class='ticketGot' wx:if="{{order.orderStatus == 9}}">
           <image src='/images/refunded.png'></image>
         </view>
       </view>

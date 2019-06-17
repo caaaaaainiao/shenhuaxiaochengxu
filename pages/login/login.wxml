@@ -1,6 +1,6 @@
 <!--pages/login/login.wxml-->
 <view class="container">
-    <image class='logo' src='/images/logo.png'></image>
+    <image class='logo' src='{{logo}}'></image>
     <view hidden="{{!modalHidden}}"  class='message'>
       <view class='phone'>
         <image src='/images/phone_icon.png'></image>
