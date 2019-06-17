@@ -115,6 +115,10 @@
   display: block;
   margin: 0 auto 50rpx;
 }
+.refunded{
+  width: 177rpx;
+  height : 91rpx;
+}
 .ticketnum{
   font-size: 26rpx;
   color: #878787;
