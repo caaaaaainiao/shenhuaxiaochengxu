@@ -177,8 +177,9 @@ Page({
                 }
               })
               app.globalData.phone = that.data.phone
-              if (!res.data.data.images) {
-                wx.redirectTo({
+              console.log(res.data.data.images)
+              if (res.data.data.images == null) {
+                wx.switchTab({
                   url: '../index/index',
                 })
               }
