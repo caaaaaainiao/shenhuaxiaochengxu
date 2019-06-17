@@ -11,7 +11,7 @@
         <view class='zuo'>座</view>
       </view>
       <view class='right'>
-        <view class='name'><text>{{order.filmName}}</text> {{order.ticketCount}}张</view>
+        <view class='name'><text>{{order.filmName}}</text></view>
         <view class='other'>{{order.created}}</view>
         <view class='other'>{{order.cinemaName}}</view>
       </view>
