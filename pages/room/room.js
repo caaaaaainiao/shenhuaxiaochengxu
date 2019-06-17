@@ -463,12 +463,12 @@ Page({
     that.setData({
       showGift:false
     })
-    // if(that.data.userInfo.roll == 2){
-    //   wx.showModal({
-    //     title: '抢包失败',
-    //     content: '管理员不可以抢红包哦',
-    //   })
-    // }else{
+    if(that.data.userInfo.roll == 2){
+      wx.showModal({
+        title: '抢包失败',
+        content: '管理员不可以抢红包哦',
+      })
+    }else{
       console.log(json)
       wx.sendSocketMessage({
         data: JSON.stringify(json),
@@ -484,7 +484,7 @@ Page({
         }
 
       })
-    // }
+    }
     
    
   },
