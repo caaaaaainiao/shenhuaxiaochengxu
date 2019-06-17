@@ -225,10 +225,9 @@ Page({
         console.log(res)
         that.setData({
           moviesListDate: res.data.data,
-          comparePrices: comparePrices
+          comparePrices: comparePrices,
         })
         console.log(that.data.moviesListDate)
-
       }
     })
     // if (app.globalData.cinemacode) {

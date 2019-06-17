@@ -49,7 +49,7 @@
             <!-- <image src='/images/applogo.png'></image> -->
             <view class='minPrice'>
               <text>￥</text>
-              <text class='num'>{{session.standardPrice}}</text>
+              <text class='num'>{{session.salePrice}}</text>
             </view>
             <!-- <view class='memberPrice'>
               <text>￥</text>
@@ -63,7 +63,7 @@
         </view>
         <view class='btns'>
           <view class='buy' data-index="{{index}}" data-filmCode="{{session.filmCode}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-code="0" catchtap='buy'>购票</view>
-          <text class='session_bottom'>￥{{session.standardPrice}}</text>
+          <text class='session_bottom'>￥{{session.price}}</text>
         </view>
         <view class='node'></view>
         <view data-index='{{index}}' wx:if="{{index == selectedIndex}}">
