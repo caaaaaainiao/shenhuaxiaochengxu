@@ -36,7 +36,6 @@
           <view class='food'>
             <image src='{{item.goodsPic}}' class='foodpic'></image>
             <view class='foodname'>
-             
               {{item.goodsName}}
             </view>
             <view class='foodprice'><text wx:if="{{item.standardPrice!=null}}">￥{{filters.toFix(item.standardPrice)}}</text>￥{{filters.toFix(item.settlePrice)}}</view>
