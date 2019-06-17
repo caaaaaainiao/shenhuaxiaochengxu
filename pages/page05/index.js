@@ -166,6 +166,42 @@ Page({
                 },
                 success: function (res) {
                   if (res.data.Status == "Success") {
+                    wx.request({
+                      url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+                      data: {
+                        "touser": app.globalData.openId,
+                        "template_id": "0fX3l3wFmEOdVmUzLr9jABMqjORBWkjDkxNEYI1MCx4",
+                        "form_id": that.data.formids,
+                        "data": {
+                          "keyword1": {
+                            "value": "1"
+                          },
+                          "keyword2": {
+                            "value": "2"
+                          },
+                          "keyword3": {
+                            "value": "3"
+                          },
+                          "keyword4": {
+                            "value": "4"
+                          },
+                          "keyword4": {
+                            "value": "4"
+                          },
+                          "keyword4": {
+                            "value": "4"
+                          }
+                        }
+                      },
+                      method: "POST",
+                      header: {
+                        'content-type': 'application/json' // 默认值
+                      },
+                      success: function (res) {
+                        console.log(res)
+                        // app.usermessage.access_token = res.data.access_token
+                      }
+                    })
                     wx.showToast({
                       title: '充值成功！',
                       icon: 'none',
