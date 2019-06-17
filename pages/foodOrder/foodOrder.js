@@ -1173,6 +1173,7 @@ Page({
     })
   },
   formSubmit : function(e){
+    console.log(e)
     this.setData({
       formids: e.detail.formId
     })
