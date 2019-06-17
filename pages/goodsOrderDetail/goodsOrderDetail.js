@@ -23,7 +23,7 @@ Page({
     });
       //订单详情
     wx.request({
-      url: app.globalData.url + '/Api/Goods/QueryGoodsOrder' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + that.data.orderNum,
+      url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.orderNum,
       method: "GET",
       header: {
         "Content-Type": "application/json"

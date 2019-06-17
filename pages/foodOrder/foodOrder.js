@@ -409,8 +409,8 @@ Page({
         isReady: app.globalData.isReady
       },
       success: function (res) {
-        console.log(res)
-        var ordercode = res.data.order.orderCode
+        console.log(res.data.data.order.orderCode)
+        var ordercode = res.data.data.order.orderCode
         app.globalData.ordercode = ordercode
         //查询订单
         wx.request({
