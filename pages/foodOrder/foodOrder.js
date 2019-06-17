@@ -396,7 +396,7 @@ Page({
     //todo: 创建订单
     wx.request({
       url: app.globalData.url + '/Api/Goods/CreateGoodsOrder',
-      method: "POST",
+      method : "POST",
       data: {
         deliveryType: app.globalData.optionstype,
         deliveryAddress: deliveryAddress,
@@ -477,8 +477,6 @@ Page({
           },
         })
         // wx.hideLoading()
-
-
       }
     })
 
