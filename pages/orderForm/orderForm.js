@@ -186,7 +186,8 @@ Page({
     console.log(that.data.autoUnlockDatetime)
     var timer = setInterval(function() {
       var nowTime = parseInt(new Date().getTime());
-      var date = new Date(that.data.autoUnlockDatetime)
+      var date = new Date(that.data.autoUnlockDatetime.replace(/-/g, '/')).getTime();
+      console.log("date"+date)
       var leftTime = parseInt((date - nowTime) / 1000);
       var str = "";
       var minute = parseInt(leftTime / 60);
@@ -391,6 +392,25 @@ Page({
     let that = this;
     console.log(that.data);
     console.log(app.globalData);
+    if (!that.data.phone) {
+      wx.showToast({
+        title: '手机号码不能为空!',
+        icon: 'loading',
+        image: '',
+        duration: 1000,
+        mask: true,
+      })
+      return;
+    } else if (that.data.phone.length != 11) {
+      wx.showToast({
+        title: '手机号码格式错误!',
+        icon: 'loading',
+        image: '',
+        duration: 1000,
+        mask: true,
+      })
+      return;
+    }
     let data = {
       Username: app.usermessage.Username, //账号
       Password: app.usermessage.Password, // 密码
@@ -508,16 +528,6 @@ Page({
     // that.setData({
     //   canClick: 0
     // }) //防止多次点击
-    if (!that.data.phone || that.data.phone.length != 11) {
-      wx.showToast({
-        title: '手机格式不正确',
-        icon: 'loading',
-        image: '',
-        duration: 1000,
-        mask: true,
-      })
-      return;
-    }
     var json = [];
     // console.log(that.data)
     let list = app.globalData.seat;
@@ -591,10 +601,10 @@ Page({
                   paySign: paySign,
                   success(res) {
                     console.log(res);
-                    wx.showLoading({
-                      title: '加载中',
-                    })
                     if (res.errMsg == "requestPayment:ok") {
+                      wx.showLoading({
+                        title: '加载中',
+                      })
                       let xml = '<SubmitOrder>' +
                         '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
                         '<Order>' +

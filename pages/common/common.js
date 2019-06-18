@@ -142,7 +142,6 @@ Page({
     })
   },
   bindDateChange: function (e) {//生日
-
     var userInfo = this.data.userInfo;
     userInfo.birthday = e.detail.value;
     this.setData({

@@ -141,6 +141,7 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
+            console.log(res);
             if (res.data.Status == 'Success') {
               var levelRule = res.data.data;
               var rule = levelRule.rule;
