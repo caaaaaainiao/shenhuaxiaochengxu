@@ -23,6 +23,7 @@ Page({
     refundFee: null, // 退票手续费
     overRefundTime: null, // 距离开场前可退票时间(分钟)
     showTime: null, // 开场时间
+    seatBol : false ,
   },
 
   /**
@@ -164,89 +165,95 @@ Page({
 
   // 退票
   refund:function(){
-    wx.showLoading({
-      title: '加载中',
-    })
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('refund', nowtime);
-    let data = {
-      UserName: app.usermessage.Username,
-      Password: app.usermessage.Password,
-      CinemaCode: that.data.cinemaCode,
-      PrintNo: that.data.printNo,
-      VerifyCode: that.data.verifyCode,
-    };
-    if (app.globalData.cinemaList.cinemaType == "辰星") {
-       data.PrintNo = that.data.oldPrintNo;
-    }
-    wx.request({
-      url: app.globalData.url + '/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.PrintNo + '/' + data.VerifyCode,
-      method: "GET",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        wx.hideTabBar() //隐藏栏
-        console.log(res)
-        that.setData({
-          retreat:false,
-        })
-        
-        if (res.data.Status == "Success") {
-          wx.request({
-            url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-            data: {
-              "touser": app.globalData.openId,
-              "template_id": "-T44MoRBctur8xHCZoB169XjI3hbIit1rvPrVOgKnpE",
-              "form_id": that.data.formids,
-              "data": {
-                "keyword1": {
-                  "value": that.data.order.cinemaName + that.data.order.screenName
-                },
-                "keyword2": {
-                  "value": that.data.order.printNo
-                },
-                "keyword3": {
-                  "value": that.data.order.filmName
-                },
-                "keyword4": {
-                  "value": that.data.showTime
-                },
-                "keyword5": {
-                  "value": that.data.seat
-                },
-                "keyword6": {
-                  "value": that.data.realAmount
-                }
-              }
-            },
-            method: "POST",
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
-              console.log(res)
-              // app.usermessage.access_token = res.data.access_token
-            }
-          })
-          wx.showToast({
-            title: '退票成功',
-          })
-          setTimeout(function(){
-            wx.navigateTo({
-              url: '../myticket/myticket',
-            })
-          },2000)
-        }
-        else {
-          wx.showToast({
-            title: '退票失败',
-            icon: 'none',
-          })
-        }
+    var that = this
+    if (this.data.seatBol){
+      that.setData({
+        seatBol: false
+      })
+      wx.showLoading({
+        title: '加载中',
+      })
+      var that = this;
+      var nowtime = new Date().getTime();
+      var sign = app.createMD5('refund', nowtime);
+      let data = {
+        UserName: app.usermessage.Username,
+        Password: app.usermessage.Password,
+        CinemaCode: that.data.cinemaCode,
+        PrintNo: that.data.printNo,
+        VerifyCode: that.data.verifyCode,
+      };
+      if (app.globalData.cinemaList.cinemaType == "辰星") {
+        data.PrintNo = that.data.oldPrintNo;
       }
-    })
+      wx.request({
+        url: app.globalData.url + '/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.PrintNo + '/' + data.VerifyCode,
+        method: "GET",
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          wx.hideTabBar() //隐藏栏
+          console.log(res)
+          that.setData({
+            retreat: false,
+          })
+
+          if (res.data.Status == "Success") {
+            wx.request({
+              url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+              data: {
+                "touser": app.globalData.openId,
+                "template_id": "-T44MoRBctur8xHCZoB169XjI3hbIit1rvPrVOgKnpE",
+                "form_id": that.data.formids,
+                "data": {
+                  "keyword1": {
+                    "value": that.data.order.cinemaName + that.data.order.screenName
+                  },
+                  "keyword2": {
+                    "value": that.data.order.printNo
+                  },
+                  "keyword3": {
+                    "value": that.data.order.filmName
+                  },
+                  "keyword4": {
+                    "value": that.data.showTime
+                  },
+                  "keyword5": {
+                    "value": that.data.seat
+                  },
+                  "keyword6": {
+                    "value": that.data.realAmount
+                  }
+                }
+              },
+              method: "POST",
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res)
+                // app.usermessage.access_token = res.data.access_token
+              }
+            })
+            wx.showToast({
+              title: '退票成功',
+            })
+            setTimeout(function () {
+              wx.navigateTo({
+                url: '../myticket/myticket',
+              })
+            }, 2000)
+          }
+          else {
+            wx.showToast({
+              title: '退票失败',
+              icon: 'none',
+            })
+          }
+        }
+      })
+    }
   },
   cancel:function(){
     this.setData({
@@ -261,7 +268,8 @@ Page({
   },
   refundbtn:function(){
     this.setData({
-      retreat: true
+      retreat: true,
+      seatBol : true
     })
   },
   syn: function () {
