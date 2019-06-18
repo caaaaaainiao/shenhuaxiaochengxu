@@ -256,7 +256,7 @@ Page({
         that.setData({
           MovieList : res.data
         })
-        app.globalData.movieRoom = that.data.MovieList;
+        // app.globalData.movieRoom = that.data.MovieList;
         // console.log(e)
         // var movieRoom = e.data.data;
         // for (var i = 0; i < movieRoom.length; i++) {

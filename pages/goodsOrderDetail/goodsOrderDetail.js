@@ -1,4 +1,4 @@
-// pages/orderDetail/orderDetail.js
+  // pages/orderDetail/orderDetail.js
 //获取应用实例
 const app = getApp();
 const QRCode = require('../../utils/weapp-qrcode.js');
@@ -23,7 +23,7 @@ Page({
     });
       //订单详情
     wx.request({
-      url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.orderNum,
+      url: app.globalData.url + '/Api/Goods/QueryGoodsOrder' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.orderNum,
       method: "GET",
       header: {
         "Content-Type": "application/json"

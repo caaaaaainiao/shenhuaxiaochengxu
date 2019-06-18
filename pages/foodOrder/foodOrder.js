@@ -37,6 +37,7 @@ Page({
     cinema: null,
     isShow: false,
     UrlMap: {
+      conponsUrl: app.globalData.url + '/Api/Conpon/QueryUserConpons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
       conponsUrl: app.globalData.url + '/Api/Conpon/QueryUserConpons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
     }
@@ -385,15 +386,15 @@ Page({
     var nowtime = new Date().getTime();
   },
   choosePay: function () {
-    this.formSubmit()
+    // this.formSubmit()
     var that = this
-
     var nowtime = new Date();
     let apiuser = util.getAPIUserData(null);
     let endtime = new Date(nowtime.getTime() + 1000 * 60);
     let endday = util.formatTime2(endtime);
     var deliveryAddress = app.globalData.selltimename + '' + app.globalData.orderaddname + '[' + app.globalData.sellhallname + ']'
     //todo: 创建订单
+    console.log(app.globalData.isReady)
     wx.request({
       url: app.globalData.url + '/Api/Goods/CreateGoodsOrder',
       method : "POST",
@@ -409,6 +410,7 @@ Page({
         isReady: app.globalData.isReady
       },
       success: function (res) {
+        console.log(res)
         console.log(res.data.data.order.orderCode)
         var ordercode = res.data.data.order.orderCode
         app.globalData.ordercode = ordercode
