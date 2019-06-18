@@ -13,13 +13,13 @@ Page({
     date: null,
     ticketName: '电影票优惠券',
     seatCoupon: 0,  // 电影票优惠券
-    foodCoupon: 0, 
-    formids : 0,
+    foodCoupon: 0,
+    formids: 0,
     seatCouponList: null, //电影票优惠券列表
     foodCouponList: null,
     foodPrice: 0,
     phone: '',
-    timer : '',
+    timer: '',
     // canClick: 1,
     marActivity: null, //参与活动id
     seatsJson: null,
@@ -63,7 +63,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function(options) {
+  onLoad: function (options) {
     var that = this;
     // 查询手机号
     wx.request({
@@ -72,7 +72,7 @@ Page({
       header: {
         "Content-Type": "application/json"
       },
-      success: function(res) {
+      success: function (res) {
         console.log(res)
         that.setData({
           phone: res.data.data.mobilePhone,
@@ -120,7 +120,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.Status == "Success") {
           // console.log(res)
           var comboList = res.data.data
@@ -132,7 +132,7 @@ Page({
       }
     })
     // 获取会员卡信息
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
       that.setData({
         card: res.data.data.memberCard,
       })
@@ -140,22 +140,22 @@ Page({
     });
   },
   //传入数组以及要去重的对象
-  arrayUnique2: function(arr, key) {
+  arrayUnique2: function (arr, key) {
     var hash = {};
-    return arr.reduce(function(item, next) {
+    return arr.reduce(function (item, next) {
       hash[next[key]] ? '' : hash[next[key]] = true && item.push(next);
       return item;
     }, []);
   },
   // 排序
-  sortFun: function(attr, rev) {
+  sortFun: function (attr, rev) {
     if (rev == undefined) {
       rev = 1;
     } else {
       rev = (rev) ? 1 : -1;
     }
 
-    return function(a, b) {
+    return function (a, b) {
       a = a[attr];
       b = b[attr];
       // 改变>和<可以进行升序降序
@@ -172,7 +172,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function() {
+  onReady: function () {
     var that = this;
     // console.log(app.globalData.seatOrder)
   },
@@ -180,10 +180,10 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
 
   },
-  leftTime: function() {
+  leftTime: function () {
     var that = this;
     console.log(that.data.autoUnlockDatetime)
     that.setData({
@@ -214,19 +214,19 @@ Page({
         })
       }, 1000)
     })
-  
+
   },
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function() {
+  onHide: function () {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function() {
+  onUnload: function () {
     clearInterval(this.data.timer)
     let that = this;
     let price = (that.data.allPrice) / (that.data.count);
@@ -260,7 +260,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function(res) {
+      success: function (res) {
         // console.log(res)
       }
     })
@@ -269,27 +269,27 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function() {
+  onPullDownRefresh: function () {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function() {
+  onReachBottom: function () {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
       title: '神画电影',
       path: '/pages/index/index'
     }
   },
-  manage: function() {
+  manage: function () {
     var that = this;
     if (that.data.comboList != null) {
       for (var i = 0; i < that.data.comboList.length; i++) {
@@ -304,7 +304,7 @@ Page({
     that.leftTime();
   },
   // 增加数量
-  add: function(e) {
+  add: function (e) {
     var that = this;
     var comboList = that.data.comboList;
     var refreshments = that.data.refreshments;
@@ -328,7 +328,7 @@ Page({
     // console.log(that.data.comboList)
   },
   // 减少数量
-  minus: function(e) {
+  minus: function (e) {
     var that = this;
     var comboList = that.data.comboList;
     var refreshments = that.data.refreshments;
@@ -353,7 +353,7 @@ Page({
     })
     that.calculate();
   },
-  calculate: function() { //计算价格
+  calculate: function () { //计算价格
     var that = this;
     var json = [];
     let refreshments = 0;
@@ -392,7 +392,7 @@ Page({
     // }
     // wx.showLoading()
   },
-  choosePay: function() {
+  choosePay: function () {
     let that = this;
     console.log(that.data);
     console.log(app.globalData);
@@ -502,7 +502,7 @@ Page({
                       url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                     })
                   }, 1000)
-                } else if (res.data.Status == "Failure"){
+                } else if (res.data.Status == "Failure") {
                   wx.showToast({
                     title: res.data.ErrorMessage,
                     duration: 2000
@@ -519,12 +519,12 @@ Page({
       })
     }
   },
-  close: function() {
+  close: function () {
     this.setData({
       showPay: false
     })
   },
-  wxPay: function() {
+  wxPay: function () {
     var that = this;
     // if (that.data.canClick != 1) {
     //   return;
@@ -570,7 +570,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function(res) {
+      success: function (res) {
         console.log(res);
         if (res.data.Status == "Success") {
           let timeStamp = res.data.data.timeStamp;
@@ -591,7 +591,7 @@ Page({
             header: {
               'content-type': 'application/json' // 默认值
             },
-            success: function(res) {
+            success: function (res) {
               wx.hideTabBar() //隐藏栏
               console.log(res)
               // 微信支付
@@ -644,7 +644,7 @@ Page({
                         header: {
                           'content-type': 'application/json' // 默认值
                         },
-                        success: function(res) {
+                        success: function (res) {
                           wx.hideTabBar() //隐藏栏
                           console.log(res)
                           if (res.data.Status == "Success") {
@@ -658,7 +658,7 @@ Page({
                               printNo: res.data.order.printNo, // 出票号
                               verifyCode: res.data.order.verifyCode, // 验证码
                             })
-                            setTimeout(function() {
+                            setTimeout(function () {
                               wx.redirectTo({
                                 url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                               })
@@ -710,7 +710,7 @@ Page({
     })
   },
   // 会员卡支付
-  cardPay: function() {
+  cardPay: function () {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('cardPay', nowtime);
@@ -733,7 +733,7 @@ Page({
     }
 
   },
-  pay2: function() {
+  pay2: function () {
     wx.showLoading({
       title: '加载中',
     })
@@ -794,7 +794,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function(res) {
+      success: function (res) {
         let order = res.data.data;
         if (res.data.Status == "Success") {
           // 会员卡折扣 判断售票系统
@@ -805,7 +805,7 @@ Page({
               header: {
                 'content-type': 'application/json' // 默认值
               },
-              success: function(res) {
+              success: function (res) {
                 console.log(res)
                 if (res.data.Status == "Success") {
                   let price = res.data.card.price;
@@ -816,7 +816,7 @@ Page({
                     header: {
                       'content-type': 'application/json' // 默认值
                     },
-                    success: function(res) {
+                    success: function (res) {
                       wx.hideTabBar() //隐藏栏
                       console.log(res)
                       if (res.data.Status == "Success") {
@@ -831,7 +831,7 @@ Page({
                           printNo: res.data.printNo, // 出票号
                           verifyCode: res.data.verifyCode, // 验证码
                         })
-                        setTimeout(function() {
+                        setTimeout(function () {
                           wx.redirectTo({
                             url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                           })
@@ -908,7 +908,7 @@ Page({
               header: {
                 'content-type': 'application/json' // 默认值
               },
-              success: function(res) {
+              success: function (res) {
                 console.log(res)
                 let price;
                 if (res.data.card.price == '0') {
@@ -1034,32 +1034,32 @@ Page({
                               }, 1000)
                             }
                             else { //订单确认失败
-                                  // 自动退款
-                                  wx.request({
-                                    url: app.globalData.url + '/Api/Member/CardPayBack' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.deductAmount,
-                                    method: "GET",
-                                    header: {
-                                      'content-type': 'application/json' // 默认值
-                                    },
-                                    success: function (res) {
-                                      wx.hideTabBar() //隐藏栏
-                                      console.log(res)
-                                      if (res.data.Status == "Success") {
-                                        wx.showToast({
-                                            title: '交易失败,已自动退款',
-                                            icon: 'none',
-                                            duration: 3000,
-                                        })
-                                      } 
-                                      else {
-                                        wx.showToast({
-                                          title: '交易失败，联系工作人员退款',
-                                          icon: 'none',
-                                          duration: 3000,
-                                        })
-                                      }
-                                    }
-                                  })
+                              // 自动退款
+                              wx.request({
+                                url: app.globalData.url + '/Api/Member/CardPayBack' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.deductAmount,
+                                method: "GET",
+                                header: {
+                                  'content-type': 'application/json' // 默认值
+                                },
+                                success: function (res) {
+                                  wx.hideTabBar() //隐藏栏
+                                  console.log(res)
+                                  if (res.data.Status == "Success") {
+                                    wx.showToast({
+                                      title: '交易失败,已自动退款',
+                                      icon: 'none',
+                                      duration: 3000,
+                                    })
+                                  }
+                                  else {
+                                    wx.showToast({
+                                      title: '交易失败，联系工作人员退款',
+                                      icon: 'none',
+                                      duration: 3000,
+                                    })
+                                  }
+                                }
+                              })
                             }
                           }
                         })
@@ -1205,7 +1205,7 @@ Page({
     //   }
     // })
   },
-  syn: function() {
+  syn: function () {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userCard', nowtime);
@@ -1221,7 +1221,7 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function(res) {
+      success: function (res) {
         // console.log(res)
         if (res.data.status == 1) {
           var userInfo = res.data.data;
@@ -1238,25 +1238,25 @@ Page({
       }
     })
   },
-  changePhone: function(e) {
+  changePhone: function (e) {
     var phone = e.detail.value;
     this.setData({
       phone: phone
     })
   },
-  setM: function(e) {
+  setM: function (e) {
     var password = e.detail.value;
     this.setData({
       password: password
     })
   },
-  showM: function() {
+  showM: function () {
     let that = this;
     if (that.data.card == null) {
       wx.showModal({
         title: '支付失败',
         content: "您还没有会员卡，是否前去绑定/开卡？",
-        success: function(res) {
+        success: function (res) {
           if (res.confirm) {
             wx.navigateTo({
               url: '../page04/index',
@@ -1281,14 +1281,14 @@ Page({
       }
     }
   },
-  closeM: function() {
+  closeM: function () {
     this.setData({
       showM: false,
       isShow: false,
     })
   },
   // 选择会员卡号支付
-  btnChoose: function(e) {
+  btnChoose: function (e) {
     let that = this;
     // console.log(e)
     let cardNo = e.currentTarget.dataset.cardno;
@@ -1301,17 +1301,17 @@ Page({
     });
   },
   // 获取影票优惠券
-  setType1: function() {
+  setType1: function () {
     this.setData({
       chooseType: 1
     });
   },
-  setType2: function() {
+  setType2: function () {
     this.setData({
       chooseType: 2
     })
   },
-  setSeatCoupon: function(e) {
+  setSeatCoupon: function (e) {
     let that = this;
     let id = e.currentTarget.dataset.id;
     let priceArr = [];
@@ -1358,7 +1358,7 @@ Page({
       })
     };
   },
-  setFoodCoupon: function(e) {
+  setFoodCoupon: function (e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
     that.setData({
@@ -1366,7 +1366,7 @@ Page({
     })
     that.calculate();
   },
-  closeChoose: function() {
+  closeChoose: function () {
     let that = this;
     that.setData({
       chooseType: 0
@@ -1374,22 +1374,22 @@ Page({
     // console.log(that.data.reductionPrice);
     // console.log(that.data.conponCode)
   },
-  messageshow: function() {
+  messageshow: function () {
     this.setData({
       messageshow: true
     })
   },
-  btnShowExchange2: function() {
+  btnShowExchange2: function () {
     this.setData({
       isShow: !this.data.isShow
     })
   },
-  closeMessageshow: function() {
+  closeMessageshow: function () {
     this.setData({
       messageshow: false
     })
   },
-  setMessage: function(e) {
+  setMessage: function (e) {
     var userMessage = e.detail.value;
     this.setData({
       userMessage: userMessage
@@ -1401,7 +1401,7 @@ Page({
     })
     // console.log(e.detail.formId)
   },
-  zero: function() {
+  zero: function () {
     var that = this;
     // if (that.data.canClick != 1) {
     //   return;
@@ -1461,7 +1461,7 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function(res) {
+      success: function (res) {
         if (res.data.status == 0) {
           wx.showModal({
             title: '购票失败',
@@ -1475,7 +1475,7 @@ Page({
           mask: true,
           duration: 2000
         })
-        setTimeout(function() {
+        setTimeout(function () {
           wx.redirectTo({
             url: '../success/success?orderNum=' + ordernum,
           })
