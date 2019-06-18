@@ -151,7 +151,9 @@
       <view class='input2'>
         <input  type='password' placeholder-style="color:#888;" placeholder='请输入密码' bindinput='setM'></input>
       </view>
-      <view class='submit2' bindtap='pay2'>确 定</view>
+       <form report-submit='true'  bindsubmit='formSubmit'>
+       <button formType="submit" class='submit2' bindtap='pay2'>确 定</button>
+      </form>
     </view>
   </view>
   <!-- 备注 -->
