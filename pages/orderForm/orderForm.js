@@ -200,7 +200,6 @@ Page({
           wx.switchTab({
             url: '../index/index',
           })
-
           return;
         }
         if (minute < 10) {
