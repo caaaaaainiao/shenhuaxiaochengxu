@@ -112,7 +112,7 @@
     <image src='/images/tipmy.jpg'></image>
   </view>
   <view class='tip' wx:if="{{buyNum == 1}}" bindtap='hideTip'>
-    <image src='/images/tipmy.jpg'></image>
+    <image src='/images/tipbdrm.jpg'></image>
   </view>
   <view class='tip' wx:if="{{buyNum == 2}}" bindtap='hideTip'>
     <image src='/images/tiptpp.jpg'></image>

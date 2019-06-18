@@ -926,7 +926,7 @@ Page({
                 // app.usermessage.access_token = res.data.access_token
               }
             })
-            var ordernum = res.data.orderNo
+            var ordernum = res.data.data.PickUpCode
             wx.redirectTo({
               url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
             })
