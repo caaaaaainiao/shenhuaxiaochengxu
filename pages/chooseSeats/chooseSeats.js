@@ -523,6 +523,7 @@ Page({
       },
       method: "POST",
       header: {
+        // "content-Type": "application/x-www-form-urlencoded"
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
