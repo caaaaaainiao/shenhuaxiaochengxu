@@ -29,19 +29,6 @@ Page({
     sza: [],
     all: true,
   },
-  // onPullDownRefresh: function() {
-
-  //   wx.showNavigationBarLoading() //在标题栏中显示加载
-  //   this.onLoad()
-
-  //   setTimeout(function() {
-
-  //     wx.hideNavigationBarLoading() //完成停止加载
-
-  //     wx.stopPullDownRefresh() //停止下拉刷新
-
-  //   }, 1500);
-  // },
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
   formSubmit: function (e) {
@@ -57,7 +44,6 @@ Page({
       url: 'https://xc.80piao.com:8443/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
       success: function (res) {
-        console.log(res.data.data.cinemas[0])
         that.setData({
           logo: res.data.data.cinemas[0].businessPic,
           concinemaname: res.data.data.cinemas[0].businessName,
@@ -232,7 +218,6 @@ Page({
         // that.setData({
         //   movieList: res
         // })
-        console.log(res)
         wx.hideLoading()
         for (var x in res) { // 影片的预售和购票排序
           res[x].jian = res[x].time - timestamp1

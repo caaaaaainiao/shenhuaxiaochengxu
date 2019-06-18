@@ -8,16 +8,14 @@
 }
 
 .con_name{
-  position: absolute;
-  left: 270rpx;
-  top: 340rpx;
+  text-align: center;
+  margin-top: 340rpx;
   font-family: '楷体'
 }
 
 .con_con{
-  position: absolute;
-  left: 218rpx;
-  top: 740rpx;
+  text-align: center;
+  margin-top: 740rpx;
   font-family: '楷体'
 }
 
