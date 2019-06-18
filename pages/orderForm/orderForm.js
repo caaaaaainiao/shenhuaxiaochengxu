@@ -97,7 +97,7 @@ Page({
       seatCouponList: app.globalData.ticketCoupons, // 优惠券列表
     });
     if (that.data.seatCouponList.length > 0) { // 如果有优惠券
-      that.data.priceArr.push(that.data.seatCouponList[0].price);
+      that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
       that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
       that.setData({
         ticketRealPrice: parseInt(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
