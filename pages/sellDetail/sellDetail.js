@@ -39,7 +39,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
+    // console.log(options)
+    app.globalData.isReady = 0
     wx.showLoading({
       title: '加载中',
     })
@@ -59,12 +60,13 @@ Page({
     })
   },
   chooseReadyType: function (e) {
+    console.log(e)
     var that = this;
     var type = e.currentTarget.dataset.type;
     that.setData({
       isReady: type,
     })
-    app.globalData.isReady = that.data.isReady
+    app.globalData.isReady = type
   },
   sureChoose: function () {
      let that=this;

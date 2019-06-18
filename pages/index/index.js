@@ -53,6 +53,18 @@ Page({
       title: '加载中',
     })
     var that = this;
+    wx.request({
+      url: 'https://xc.80piao.com:8443/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
+      method: 'GET',
+      success: function (res) {
+        console.log(res.data.data.cinemas[0])
+        that.setData({
+          logo: res.data.data.cinemas[0].businessPic,
+          concinemaname: res.data.data.cinemas[0].businessName,
+          concont: res.data.data.cinemas[0].businessDesc
+        })
+      }
+    })
     var timestamp = new Date().getTime()
     that.setData({
       timestamp: new Date().getTime()
