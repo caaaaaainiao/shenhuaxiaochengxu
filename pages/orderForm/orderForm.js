@@ -19,6 +19,7 @@ Page({
     foodCouponList: null,
     foodPrice: 0,
     phone: '',
+    timer : '',
     // canClick: 1,
     marActivity: null, //参与活动id
     seatsJson: null,
@@ -185,34 +186,37 @@ Page({
   leftTime: function() {
     var that = this;
     console.log(that.data.autoUnlockDatetime)
-    var timer = setInterval(function() {
-      var nowTime = parseInt(new Date().getTime());
-      var date = new Date(that.data.autoUnlockDatetime.replace(/-/g, '/')).getTime();
-      console.log("date"+date)
-      var leftTime = parseInt((date - nowTime) / 1000);
-      var str = "";
-      var minute = parseInt(leftTime / 60);
-      var second = parseInt(leftTime % 60);
-      if (minute == 0 && second < 1) {
-        clearInterval(timer)
-        wx.switchTab({
-          url: '../index/index',
-        })
+    that.setData({
+      timer: setInterval(function () {
+        var nowTime = parseInt(new Date().getTime());
+        var date = new Date(that.data.autoUnlockDatetime.replace(/-/g, '/')).getTime();
+        console.log("date" + date)
+        var leftTime = parseInt((date - nowTime) / 1000);
+        var str = "";
+        var minute = parseInt(leftTime / 60);
+        var second = parseInt(leftTime % 60);
+        if (minute == 0 && second < 1) {
+          clearInterval(that.data.timer)
+          wx.switchTab({
+            url: '../index/index',
+          })
 
-        return;
-      }
-      if (minute < 10) {
-        minute = "0" + minute;
-      }
-      if (second < 10) {
-        second = "0" + second;
-      }
-      str = minute + ":" + second;
-      // console.log(str)
-      that.setData({
-        endTime: str
-      })
-    }, 1000)
+          return;
+        }
+        if (minute < 10) {
+          minute = "0" + minute;
+        }
+        if (second < 10) {
+          second = "0" + second;
+        }
+        str = minute + ":" + second;
+        // console.log(str)
+        that.setData({
+          endTime: str
+        })
+      }, 1000)
+    })
+  
   },
   /**
    * 生命周期函数--监听页面隐藏
@@ -225,6 +229,7 @@ Page({
    * 生命周期函数--监听页面卸载
    */
   onUnload: function() {
+    clearInterval(this.data.timer)
     let that = this;
     let price = (that.data.allPrice) / (that.data.count);
     let xml = '<ReleaseSeat>' +
@@ -977,6 +982,52 @@ Page({
                                 orderNum: res.data.order.orderCode, // 订单号
                                 printNo: res.data.order.printNo, // 出票号
                                 verifyCode: res.data.order.verifyCode, // 验证码(退票使用)
+                              })
+                              var NewTime = util.formatTimeDays(new Date())
+                              wx.request({
+                                url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+                                data: {
+                                  "touser": app.globalData.openId,
+                                  "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
+                                  "form_id": that.data.formids,
+                                  "data": {
+                                    "keyword1": {
+                                      "value": that.data.cardno
+                                    },
+                                    "keyword2": {
+                                      "value": app.globalData.lookcinemaname + '-' + that.data.hallName
+                                    },
+                                    "keyword3": {
+                                      "value": that.data.price
+                                    },
+                                    "keyword4": {
+                                      "value": that.data.movieName
+                                    },
+                                    "keyword5": {
+                                      "value": that.data.date
+                                    },
+                                    "keyword6": {
+                                      "value": that.data.seat
+                                    },
+                                    "keyword7": {
+                                      "value": that.data.price
+                                    },
+                                    "keyword8": {
+                                      "value": NewTime.NowDataYear
+                                    },
+                                    "keyword9": {
+                                      "value": res.data.printNo
+                                    }
+                                  }
+                                },
+                                method: "POST",
+                                header: {
+                                  'content-type': 'application/json' // 默认值
+                                },
+                                success: function (res) {
+                                  console.log(res)
+                                  // app.usermessage.access_token = res.data.access_token
+                                }
                               })
                               setTimeout(function () {
                                 wx.redirectTo({

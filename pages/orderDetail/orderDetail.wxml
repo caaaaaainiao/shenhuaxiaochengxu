@@ -87,7 +87,9 @@
       <view class='refunded' wx:if="{{order.payStatus == 3}}">
         <image src='/images/refunded.png'></image>
       </view>
-      <view class='refund' bindtap='refundbtn'>退票</view>
+       <form report-submit='true'  bindsubmit='formSubmit'>
+      <button formType="submit" class='refund' bindtap='refundbtn'>退票</button>
+      </form>
     </view>
   </view>  
   <!-- 确认退票 -->

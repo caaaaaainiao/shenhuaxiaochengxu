@@ -8,6 +8,7 @@ Page({
    * 页面的初始数据
    */
   data: {
+    formids : '',
     orderNum: 0,
     order: null,
     retreat: false,
@@ -191,7 +192,44 @@ Page({
         that.setData({
           retreat:false,
         })
+        
         if (res.data.Status == "Success") {
+          wx.request({
+            url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+            data: {
+              "touser": app.globalData.openId,
+              "template_id": "-T44MoRBctur8xHCZoB169XjI3hbIit1rvPrVOgKnpE",
+              "form_id": that.data.formids,
+              "data": {
+                "keyword1": {
+                  "value": that.data.order.cinemaName + that.data.order.screenName
+                },
+                "keyword2": {
+                  "value": that.data.order.printNo
+                },
+                "keyword3": {
+                  "value": that.data.order.filmName
+                },
+                "keyword4": {
+                  "value": that.data.showTime
+                },
+                "keyword5": {
+                  "value": that.data.seat
+                },
+                "keyword6": {
+                  "value": that.data.realAmount
+                }
+              }
+            },
+            method: "POST",
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              console.log(res)
+              // app.usermessage.access_token = res.data.access_token
+            }
+          })
           wx.showToast({
             title: '退票成功',
           })
@@ -214,6 +252,12 @@ Page({
     this.setData({
       retreat:false
     })
+  },
+  formSubmit: function (e) {
+    this.setData({
+      formids: e.detail.formId
+    })
+    console.log(e.detail.formId)
   },
   refundbtn:function(){
     this.setData({
