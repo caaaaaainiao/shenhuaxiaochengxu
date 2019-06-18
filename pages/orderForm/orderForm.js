@@ -183,11 +183,9 @@ Page({
   },
   leftTime: function() {
     var that = this;
-    console.log(that.data.autoUnlockDatetime)
     var timer = setInterval(function() {
       var nowTime = parseInt(new Date().getTime());
       var date = new Date(that.data.autoUnlockDatetime.replace(/-/g, '/')).getTime();
-      console.log("date"+date)
       var leftTime = parseInt((date - nowTime) / 1000);
       var str = "";
       var minute = parseInt(leftTime / 60);
