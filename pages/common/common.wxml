@@ -33,8 +33,8 @@
     </picker>
     <image src='/images/gray_more.png' class='right'></image>
   </view>
-  <view class='option2'>
+  <!-- <view class='option2'>
     <text>反馈与帮助</text>
     <image src='/images/gray_more.png' class='right'></image>
-  </view>
+  </view> -->
 </view>

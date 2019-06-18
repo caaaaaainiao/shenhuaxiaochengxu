@@ -162,7 +162,7 @@ Page({
   change:function(){
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('modifyPersonalData', nowtime);
+    // var sign = app.createMD5('modifyPersonalData', nowtime);
     var userInfo = that.data.userInfo;
     if(userInfo.birthday == null){
       userInfo.birthday = ""
