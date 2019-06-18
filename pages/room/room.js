@@ -48,6 +48,12 @@ Page({
     //     console.log(res.data)
     //   },
     // })
+    this.setData({
+      height: contentHeight,
+      movie: app.globalData.movieRoom,
+      cinema: app.globalData.lookcinemaname,
+      // userInfo: app.globalData.userInfo
+    })
     wx.getStorage({
       key: 'loginInfo',
       success: function(res) {
@@ -56,10 +62,10 @@ Page({
         })
         console.log(res.data)
         // var SocketUrl = "wss://ik.legendpicture.com"
-        var SocketUrl = app.globalData.SocketUrl
+        var SocketUrl = app.globalData.SocketUrl;
+        var url = SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + app.globalData.movieRoom.roomName + '/' + res.data.mobilePhone;
         wx.connectSocket({ //建立连接
-          url: SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + that.data.movie.roomName + '/' + res.data.mobilePhone,
-          // url: 'ws://192.168.1.110:8080/webSocket/chat/' + res.data.userInfo.roll + '/' + that.data.movie.roomName + '/' + res.data.userInfo.mobilePhone,
+          url: url,
           data: {
             // x: '',
             // y: ''
@@ -88,12 +94,7 @@ Page({
         console.log(res)
       }
     })
-    this.setData({
-      height: contentHeight,
-      movie: app.globalData.movieRoom,
-      cinema: app.globalData.lookcinemaname,
-      // userInfo: app.globalData.userInfo
-    })
+    
     this.leftTime()
     console.log(app.globalData.movieRoom)
     // console.log(that.data.movie)
@@ -494,37 +495,37 @@ Page({
     })
   },
   getPrize:function(){
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('myGift', nowtime);
-    var pageNo = that.data.pageNo;
-    wx.request({
-      url: app.globalData.url + '/api/userGift/myGift',
-      data: {
-        roomName: that.data.movie.roomName,
-        phone: that.data.userInfo.mobilePhone,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        if(res.data.status == 1){
-          that.setData({
-            prizeList:res.data.data,
-            showPrize:true
-          })
-        }else{
-          wx.showModal({
-            title: '',
-            content: res.data.message,
-          })
-        }
-      }
-    })
+    // var that = this;
+    // var nowtime = new Date().getTime();
+    // var sign = app.createMD5('myGift', nowtime);
+    // var pageNo = that.data.pageNo;
+    // wx.request({
+    //   url: app.globalData.url + '/api/userGift/myGift',
+    //   data: {
+    //     roomName: that.data.movie.roomName,
+    //     phone: that.data.userInfo.mobilePhone,
+    //     timeStamp: nowtime,
+    //     mac: sign
+    //   },
+    //   method: "POST",
+    //   header: {
+    //     "Content-Type": "application/x-www-form-urlencoded"
+    //   },
+    //   success: function (res) {
+    //     // console.log(res)
+    //     if(res.data.status == 1){
+    //       that.setData({
+    //         prizeList:res.data.data,
+    //         showPrize:true
+    //       })
+    //     }else{
+    //       wx.showModal({
+    //         title: '',
+    //         content: res.data.message,
+    //       })
+    //     }
+    //   }
+    // })
   },
   // closePrzie:function(){
   //   this.setData({
@@ -538,7 +539,9 @@ Page({
       timer : setInterval(function () {
         var nowTimeData = new Date()
         var nowTime = '0001-01-01' + ' ' + nowTimeData.getHours() + ':' + nowTimeData.getMinutes() + ':' + nowTimeData.getSeconds()
-        var newTime = new Date('0001-01-01' + ' ' + that.data.movie.startTime).getTime() - new Date(nowTime).getTime() + 40 * 1000 * 60
+        var ThisTime = '0001-01-01' + ' ' + that.data.movie.startTime
+        var newTime = new Date(ThisTime.replace(/-/g, '/')).getTime() - new Date(nowTime.replace(/-/g, '/')).getTime() + 40 * 1000 * 60
+        // console.log(newTime)
         // var timerData = parseInt(newTime / 1000 / 60) + ':' + parseInt(newTime / 1000 % 60)
         // console.log(timerData)
         // var nowTime = parseInt(new Date().getTime() / 1000);

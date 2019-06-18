@@ -42,7 +42,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        if (res.data.Status == "Success") {
+        if (res.data.Status == "Success" ) {
           that.setData({
             picture: res.data.data.images[0].image,
           })

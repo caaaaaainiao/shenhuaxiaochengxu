@@ -14,6 +14,7 @@ Page({
     ticketName: '电影票优惠券',
     seatCoupon: 0,  // 电影票优惠券
     foodCoupon: 0, 
+    formids : 0,
     seatCouponList: null, //电影票优惠券列表
     foodCouponList: null,
     foodPrice: 0,
@@ -830,6 +831,53 @@ Page({
                             url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                           })
                         }, 1000)
+                        var NewTime = util.formatTimeDays(new Date())
+                        wx.request({
+                          url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+                          data: {
+                            "touser": app.globalData.openId,
+                            "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
+                            "form_id": that.data.formids,
+                            "data": {
+                              "keyword1": {
+                                "value": that.data.cardno
+                              },
+                              "keyword2": {
+                                "value": app.globalData.lookcinemaname + '-' + that.data.hallName
+                              },
+                              "keyword3": {
+                                "value": that.data.price
+                              },
+                              "keyword4": {
+                                "value": that.data.movieName
+                              },
+                              "keyword5": {
+                                "value": that.data.date
+                              },
+                              "keyword6": {
+                                "value": that.data.seat
+                              },
+                              "keyword7": {
+                                "value": that.data.price
+                              },
+                              "keyword8": {
+                                "value": NewTime.NowDataYear
+                              },
+                              "keyword9": {
+                                "value": res.data.printNo
+                              }
+                            }
+                          },
+                          method: "POST",
+                          header: {
+                            'content-type': 'application/json' // 默认值
+                          },
+                          success: function (res) {
+                            console.log(res)
+                            // app.usermessage.access_token = res.data.access_token
+                          }
+                        })
+
                       } else { //支付失败
                         wx.showToast({
                           title: "订单确认失败",
@@ -1295,6 +1343,12 @@ Page({
     this.setData({
       userMessage: userMessage
     })
+  },
+  formSubmit: function (e) {
+    this.setData({
+      formids: e.detail.formId
+    })
+    // console.log(e.detail.formId)
   },
   zero: function() {
     var that = this;

@@ -943,6 +943,8 @@ Page({
             })
           } else if (res.data.Status == "Success") {
             console.log(res.data.orderNo)
+            var ordernum = res.data.orderNo
+            var NewTime = util.formatTimeDays(new Date())
             wx.request({
               url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
               data: {
@@ -951,22 +953,25 @@ Page({
                 "form_id": that.data.formids,
                 "data": {
                   "keyword1": {
-                    "value": "1"
+                    "value": app.globalData.lookcinemaname
                   },
                   "keyword2": {
-                    "value": "2"
+                    "value": NewTime.NowDataTime
                   },
                   "keyword3": {
-                    "value": "3"
+                    "value": ordernum
                   },
                   "keyword4": {
-                    "value": "4"
+                    "value": ordernum
                   },
-                  "keyword4": {
-                    "value": "4"
+                  "keyword5": {
+                    "value": "已出餐"
                   },
-                  "keyword4": {
-                    "value": "4"
+                  "keyword6": {
+                    "value": "点餐内容"
+                  },
+                  "keyword7": {
+                    "value": that.data.userMessage
                   }
                 }
               },
@@ -979,7 +984,7 @@ Page({
                 // app.usermessage.access_token = res.data.access_token
               }
             })
-            var ordernum = res.data.orderNo
+            
             wx.redirectTo({
               url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
             })

@@ -43,7 +43,7 @@
     "backgroundColor": "#E04F2E",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#E04F2E",
-    "navigationBarTitleText": "万画筒",
+    "navigationBarTitleText": "",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
