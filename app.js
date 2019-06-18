@@ -52,7 +52,7 @@ App({
     // url: "http://192.168.1.114:8080",
     // url: "http://192.168.1.117:8080",
     // SocketUrl: "wss://ik.legendpicture.com",
-    SocketUrl: "wss:xc.80piao.com:8443",
+    SocketUrl: "wss://xc.80piao.com:8443",
     goodsList:null,
     type2address:"",
     sellfeatureAppNo:"",
