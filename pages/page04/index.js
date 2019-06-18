@@ -311,7 +311,7 @@ Page({
           header: {
             'content-type': 'application/json' // 默认值
           },
-          success: function (res) {zz
+          success: function (res) {
             var memberPhones = [];
             // console.log(res.data.data)
             for (var i = 0; i < res.data.data.cards.cardNo.length; i++) {
