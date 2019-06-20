@@ -901,7 +901,7 @@ Page({
                 }
               }
             })
-          } else { //辰星
+          } else if (app.globalData.cinemaList.cinemaType == "辰星") { //辰星
             wx.request({
               url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
               method: 'GET',
@@ -1080,6 +1080,17 @@ Page({
                     duration: 3000
                   });
                 }
+              }
+            })
+          } else if (app.globalData.cinemaList.cinemaType == "粤科") { //粤科
+            wx.request({
+              url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res)
               }
             })
           }

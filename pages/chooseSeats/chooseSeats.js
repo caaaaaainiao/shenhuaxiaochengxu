@@ -123,6 +123,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         var seats = res.data.data.rows;
         that.setData({
           seats: seats,
@@ -136,23 +137,28 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         var seat = res.data.sessionSeat.seat;
         var seats = that.data.seats;
         for (let i = 0; i < seats.length; i++) {
-          for (let j = 0; j < seats[i].seats.length; j++) {
-            if (seats[i].seats[j] != null) {
-              for (let k in seat) {
-                if (seats[i].seats[j].seatCode == seat[k].code) {
-                  seats[i].seats[j].status = seat[k].status
+          if (seats[i]) {
+            for (let j = 0; j < seats[i].seats.length; j++) {
+              if (seats[i].seats[j] != null) {
+                for (let k in seat) {
+                  if (seats[i].seats[j].seatCode == seat[k].code) {
+                    seats[i].seats[j].status = seat[k].status
+                  }
                 }
-              }
-            };
+              };
+            }
           }
         }
         var maxColumn = 0; // 计算最大列
         for (var i = 0; i < seats.length; i++) {
-          if (seats[i].seats.length > maxColumn) {
-            maxColumn = seats[i].seats.length
+          if (seats[i]) {
+            if (seats[i].seats.length > maxColumn) {
+              maxColumn = seats[i].seats.length
+            }
           }
         }
         var scale = 650 / (maxColumn * 64 - 8);
@@ -345,32 +351,34 @@ Page({
       return;
     }
     for (let i = 0; i < rows.length; i++) {
-      for (let j = 0; j < rows[i].seats.length; j++) {
-        let g = j + 1;
-        let k = j - 1;
-        if (rows[i].seats[j] != null && rows[i].seats[j].seatCode == code) {
-          if (rows[i].seats[j].isSelect) {
-            rows[i].seats[j].isSelect = false;
-            checkNum--;
-            if (rows[i].seats[j].loveFlag == 'L') {
-              rows[i].seats[g].isSelect = false;
+      if (rows[i]) {
+        for (let j = 0; j < rows[i].seats.length; j++) {
+          let g = j + 1;
+          let k = j - 1;
+          if (rows[i].seats[j] != null && rows[i].seats[j].seatCode == code) {
+            if (rows[i].seats[j].isSelect) {
+              rows[i].seats[j].isSelect = false;
               checkNum--;
-            };
-            if (rows[i].seats[j].loveFlag == 'R') {
-              rows[i].seats[k].isSelect = false;
-              checkNum--;
-            }
-          } else {
-            if (rows[i].seats[j].loveFlag == 'L') {
-              rows[i].seats[g].isSelect = true;
+              if (rows[i].seats[j].loveFlag == 'L') {
+                rows[i].seats[g].isSelect = false;
+                checkNum--;
+              };
+              if (rows[i].seats[j].loveFlag == 'R') {
+                rows[i].seats[k].isSelect = false;
+                checkNum--;
+              }
+            } else {
+              if (rows[i].seats[j].loveFlag == 'L') {
+                rows[i].seats[g].isSelect = true;
+                checkNum++;
+              };
+              if (rows[i].seats[j].loveFlag == 'R') {
+                rows[i].seats[k].isSelect = true;
+                checkNum++;
+              }
+              rows[i].seats[j].isSelect = true;
               checkNum++;
-            };
-            if (rows[i].seats[j].loveFlag == 'R') {
-              rows[i].seats[k].isSelect = true;
-              checkNum++;
             }
-            rows[i].seats[j].isSelect = true;
-            checkNum++;
           }
         }
       }
@@ -378,19 +386,21 @@ Page({
     seatNum = seatNum + checkNum;
     if (seatNum > 4) {
       for (var i = 0; i < rows.length; i++) {
-        for (var j = 0; j < rows[i].seats.length; j++) {
-          let g = j + 1;
-          let k = j - 1;
-          if (rows[i].seats[j] != null && rows[i].seats[j].seatCode == code) {
-            rows[i].seats[j].isSelect = false;
-            seatNum--;
-            if (rows[i].seats[j].loveFlag == "L") {
-              rows[i].seats[g].isSelect = false;
+        if (rows[i]) {
+          for (var j = 0; j < rows[i].seats.length; j++) {
+            let g = j + 1;
+            let k = j - 1;
+            if (rows[i].seats[j] != null && rows[i].seats[j].seatCode == code) {
+              rows[i].seats[j].isSelect = false;
               seatNum--;
-            }
-            if (rows[i].seats[j].loveFlag == "R") {
-              rows[i].seats[k].isSelect = false;
-              seatNum--;
+              if (rows[i].seats[j].loveFlag == "L") {
+                rows[i].seats[g].isSelect = false;
+                seatNum--;
+              }
+              if (rows[i].seats[j].loveFlag == "R") {
+                rows[i].seats[k].isSelect = false;
+                seatNum--;
+              }
             }
           }
         }
@@ -413,10 +423,12 @@ Page({
     var seatNumber = [];
     // console.log(rows)
     for (var i = 0; i < rows.length; i++) {
-      for (var j = 0; j < rows[i].seats.length; j++) {
-        if (rows[i].seats[j] != null && rows[i].seats[j].isSelect) {
-          seatArr.push([rows[i].seats[j].rowNum + '排' + rows[i].seats[j].columnNum + '座'])
-          seatNumber.push(rows[i].seats[j].seatCode)
+      if (rows[i]) {
+        for (var j = 0; j < rows[i].seats.length; j++) {
+          if (rows[i].seats[j] != null && rows[i].seats[j].isSelect) {
+            seatArr.push([rows[i].seats[j].rowNum + '排' + rows[i].seats[j].columnNum + '座'])
+            seatNumber.push(rows[i].seats[j].seatCode)
+          }
         }
       }
     }

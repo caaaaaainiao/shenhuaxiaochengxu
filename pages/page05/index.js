@@ -420,7 +420,7 @@ Page({
               }
               app.globalData.card = card;
             }
-          }, 1000);
+          }, 2000);
           // 计算余额最多的会员卡
           var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
           first.cinemaCode = that.data.cinemaCode;
