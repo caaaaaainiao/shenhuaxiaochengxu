@@ -40,7 +40,7 @@ Page({
    */
   onLoad: function(options) {
     // console.log(options)
-    app.globalData.isReady = 0
+    app.globalData.isReady = 1
     wx.showLoading({
       title: '加载中',
     })

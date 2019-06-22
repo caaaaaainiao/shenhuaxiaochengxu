@@ -423,7 +423,7 @@ Page({
     // console.log("details")
     app.globalData.movieIndex = e.currentTarget.dataset.index;
     // console.log(e)
-    console.log(app)
+    // console.log(app)
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {

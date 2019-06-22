@@ -30,14 +30,39 @@ Page({
     // console.log(app.globalData.movieList)
     var that = this;
     var movie = app.globalData.movieList[app.globalData.movieIndex];
-    console.log(movie)
+    // console.log(movie)
     var event = movie;
     // console.log(event)
-    var nameList = event.cast.split(',')
-    // console.log(nameList)
+    if (movie.introduction==null){
+      movie.introduction = ''
+    }
+    var juzhaoList =[]
+    if (movie.stagePhoto1 !=null){
+      juzhaoList.push(movie.stagePhoto1) 
+    }
+    if (movie.stagePhoto2 != null) {
+      juzhaoList.push(movie.stagePhoto2)
+    }
+    if (movie.stagePhoto3 != null) {
+      juzhaoList.push(movie.stagePhoto3)
+    }
+    if (movie.stagePhoto4 != null) {
+      juzhaoList.push(movie.stagePhoto4)
+    }
+    if (movie.stagePhoto5 != null) {
+      juzhaoList.push(movie.stagePhoto5)
+    }
+    if (movie.stagePhoto6 != null) {
+      juzhaoList.push(movie.stagePhoto6)
+    }
+    console.log(juzhaoList)
+
     that.setData({
-      nameList:nameList
+      movie : movie,
+      juzhaoList: juzhaoList
     })
+    console.log(that.data.movie)
+    // console.log(nameList)
     that.manage(event);
     // console.log(app.globalData)
     var nowtime = new Date().getTime();
@@ -45,7 +70,7 @@ Page({
     var a = app.globalData.openId
     // console.log(a)
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
+      url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a ,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -165,58 +190,58 @@ Page({
       })
     } 
   },
-  getComment:function(){//获取评论列表
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('commentList', nowtime);
-    wx.request({
-      url: app.globalData.url+'/api/Comment/commentList',
-      data: {
-        movieId: that.data.movie.id,
-        pageNo:"1",
-        pageSize: "3",
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: { "Content-Type": "application/x-www-form-urlencoded" },
-      success: function (res) {
-        // console.log(res);
-        that.setData({
-          comments:res.data.data
-        })
-      }
-    })
-  },
-  praiseComment:function(e){//评论点赞
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('upvote', nowtime);
-    var id = e.currentTarget.dataset.id;
-    wx.request({
-      url: app.globalData.url+'/api/movie/comment/upvote',
-      data: {
-        appUserId:app.globalData.userInfo.id,
-        id: id,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: { "Content-Type": "application/x-www-form-urlencoded" },
-      success: function (res) {
-        var newComment = that.data.comments;
-        for (var i = 0; i < newComment.length;i++){
-          if (newComment[i].id == id){
-            newComment[i].upvoteNum = res.data.data.upvoteNum;
-            newComment[i].upvoteStatus = res.data.data.upvoteStatus;
-          }
-        }
-        that.setData({
-          comments: newComment
-        })
-      }
-    })
-  },
+  // getComment:function(){//获取评论列表
+  //   var that = this;
+  //   var nowtime = new Date().getTime();
+  //   var sign = app.createMD5('commentList', nowtime);
+  //   wx.request({
+  //     url: app.globalData.url+'/api/Comment/commentList',
+  //     data: {
+  //       movieId: that.data.movie.id,
+  //       pageNo:"1",
+  //       pageSize: "3",
+  //       timeStamp: nowtime,
+  //       mac: sign
+  //     },
+  //     method: "POST",
+  //     header: { "Content-Type": "application/x-www-form-urlencoded" },
+  //     success: function (res) {
+  //       // console.log(res);
+  //       that.setData({
+  //         comments:res.data.data
+  //       })
+  //     }
+  //   })
+  // },
+  // praiseComment:function(e){//评论点赞
+  //   var that = this;
+  //   var nowtime = new Date().getTime();
+  //   var sign = app.createMD5('upvote', nowtime);
+  //   var id = e.currentTarget.dataset.id;
+  //   wx.request({
+  //     url: app.globalData.url+'/api/movie/comment/upvote',
+  //     data: {
+  //       appUserId:app.globalData.userInfo.id,
+  //       id: id,
+  //       timeStamp: nowtime,
+  //       mac: sign
+  //     },
+  //     method: "POST",
+  //     header: { "Content-Type": "application/x-www-form-urlencoded" },
+  //     success: function (res) {
+  //       var newComment = that.data.comments;
+  //       for (var i = 0; i < newComment.length;i++){
+  //         if (newComment[i].id == id){
+  //           newComment[i].upvoteNum = res.data.data.upvoteNum;
+  //           newComment[i].upvoteStatus = res.data.data.upvoteStatus;
+  //         }
+  //       }
+  //       that.setData({
+  //         comments: newComment
+  //       })
+  //     }
+  //   })
+  // },
   toCompare:function(){
     app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
     wx.navigateTo({
