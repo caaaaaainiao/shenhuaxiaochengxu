@@ -86,19 +86,58 @@
   line-height: 100rpx;
   border-bottom: 1rpx solid #DCDCDC;
 }
-.option text{
+.payoption{
+  width: 100%;
+  height: 200rpx;
+  font-size: 26rpx;
+  color: #322D2B;
+  padding-left: 40rpx;
+  padding-right: 40rpx;
+  line-height: 100rpx;
+  border-bottom: 1rpx solid #DCDCDC;
+}
+.membercardpay{
+  width: 100%;
+  height: 100rpx;
+  border-bottom: 1rpx solid #DCDCDC;
+  position: relative;
+}
+.wxpay{
+  width: 100%;
+  height: 100rpx;
+  position: relative;
+}
+.payoption .money{
+  font-size: 30rpx;
+  font-weight: bold;
+  margin-right: 10rpx;
+}
+.payimg{
+  width: 60rpx;
+  height: 50rpx;
+  float: left;
+  margin-top: 24rpx;
+}
+.option text,.payoption text{
   color: #E04F2E;
   font-size: 26rpx;
   float: right;
+  margin-right: 50rpx;
+}
+.selectimg{
+  width: 38rpx;
+  height: 38rpx;
+  float: right;
+  margin-top: 30rpx;
+  position: absolute;
+  right: 0;
 }
 .option image{
   width: 10rpx;
   height: 18rpx;
   margin-left: 15rpx;
-  display: inline-block;
   float: right;
   margin-top: 40rpx;
-
 }
 .option .money{
   font-size: 36rpx;

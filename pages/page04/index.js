@@ -268,7 +268,7 @@ Page({
       CardPassword: that.data.inputPass,
       MobilePhone: that.data.inputNum
     };
-    if (cinemaType == "辰星" || cinemaType == "满天星") {
+    if (cinemaType == "辰星") {
       console.log(cinemaType)
       wx.request({
         // 会员卡号
@@ -357,7 +357,7 @@ Page({
           }
         })
       }
-    } else if (cinemaType == "粤科") {
+    } else if (cinemaType == "粤科" || cinemaType == "满天星") {
       console.log(cinemaType);
       if (Num.test(that.data.inputNum)) {
         // 手机号返回会员卡号进行选择绑定
@@ -368,8 +368,9 @@ Page({
             'content-type': 'application/json' // 默认值
           },
           success: function (res) {
+            console.log(res)
             var memberPhones = [];
-            console.log(res.data.data)
+            // console.log(res.data.data)
             for (var i = 0; i < res.data.data.memberPhones.length; i++) {
               memberPhones.push(res.data.data.memberPhones[i].cardNo);
               var cardNo = "memberPhones[" + i + "]";

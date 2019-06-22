@@ -18,6 +18,7 @@ Page({
     phone: '',
     password: '',
     name: '',
+    cardId: '120101200005299837', //身份证号码
     id: '',
     openId: '',
     movieName: '',
@@ -28,7 +29,9 @@ Page({
     ruleCode: '',
     disabled: false,
     userName: '',
-    passWord: ''
+    passWord: '',
+    isShow: false,
+    cinematype: 1,
   },
   //  获取页面用户输入信息
   getPhone: function (e) {
@@ -62,6 +65,11 @@ Page({
   bindPickerChange002: function (e) {
     this.setData({ index002: e.detail.value })
   },
+  getId: function (e) {
+      this.setData({
+        cardId: e.detail.value,
+      })
+  },
   btnShowExchange2:function(){
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
@@ -84,7 +92,7 @@ Page({
         // 手机号
         MobilePhone: that.data.phone,
         // 身份证号
-        IDNumber: '120101200005299837',
+        IDNumber: that.data.cardId,
         // 性别
         Sex: that.data.index002
       };
@@ -209,7 +217,7 @@ Page({
     let cardPassword = that.data.password;
     let cardUserName = that.data.name;
     let mobilePhone = that.data.phone;
-    let idNumber = '120101200005299837';
+    let idNumber = that.data.cardId;
     let levelCode = that.data.id;
     let sex = that.data.index002;
     var data = {
@@ -226,6 +234,10 @@ Page({
       IDNumber: idNumber,
       Sex: sex
     };
+    if (!data.InitialAmount) {
+      disabled: true;
+      return;
+    }
     console.log(data)
     wx.request({
       url: app.globalData.url + '/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount,
@@ -252,6 +264,7 @@ Page({
                   'content-type': 'application/json' // 默认值
                 },
                 success: function (res) {
+                  console.log(res)
                   if (res.data.Status == "Success") {
                     wx.showToast({
                       title: '开卡成功！',
@@ -259,9 +272,11 @@ Page({
                       duration: 2000
                     });
                     that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
-                    wx.redirectTo({
-                      url: '../page05/index',
-                    })
+                    setTimeout(function(){
+                      wx.redirectTo({
+                        url: '../page05/index',
+                      })
+                    },1000)
                   }
                   else {
                     wx.showToast({
@@ -306,6 +321,16 @@ Page({
     var movieName = app.globalData.moviearea;
     var userName = app.usermessage.Username;
     var passWord = app.usermessage.Password;
+    if (app.globalData.cinemaList.cinemaType == '满天星') {
+      that.setData({
+        isShow: true,
+      })
+    }
+    if (app.globalData.cinemaList.cinemaType == '辰星' || app.globalData.cinemaList.cinemaType == '粤科') {
+      that.setData({
+        cinematype: 0,
+      })
+    }
     that.setData({
       id: options.id,
       openId: options.openId,
@@ -317,14 +342,6 @@ Page({
       userName: userName,
       passWord: passWord,
       ruleCode: options.ruleCode
-    })
-    wx.getStorage({
-      key: 'sjhm',
-      success: function(res) {
-        that.setData({
-          phone: res.data
-        })
-      },
     })
     wx.setNavigationBarTitle({ title: '会员卡' });
   },

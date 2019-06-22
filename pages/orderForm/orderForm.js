@@ -53,6 +53,7 @@ Page({
     deductAmount: 0, //支付金额
     printNo: null, // 出票号
     verifyCode: null, // 验证码
+    payway: 0, //支付方式 0-会员卡，1-微信
     // waitActivity: null,//可參與活動
     UrlMap: {
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
@@ -133,10 +134,11 @@ Page({
     })
     // 获取会员卡信息
     util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+      var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
       that.setData({
-        card: res.data.data.memberCard,
+        card: first,
       })
-      // console.log(that.data.card)
+      console.log(that.data.card)
     });
   },
   //传入数组以及要去重的对象
@@ -289,6 +291,18 @@ Page({
       path: '/pages/index/index'
     }
   },
+  // 选择会员卡支付
+  cardway: function () {
+    this.setData({
+      payway: 0,
+    })
+  },
+  // 选择微信支付
+  wxway: function () {
+    this.setData({
+      payway: 1,
+    })
+  },
   manage: function () {
     var that = this;
     if (that.data.comboList != null) {
@@ -398,7 +412,7 @@ Page({
     console.log(app.globalData);
     if (!that.data.phone) {
       wx.showToast({
-        title: '手机号码不能为空!',
+        title: '号码不能为空!',
         icon: 'loading',
         image: '',
         duration: 1000,
@@ -407,7 +421,7 @@ Page({
       return;
     } else if (that.data.phone.length != 11) {
       wx.showToast({
-        title: '手机号码格式错误!',
+        title: '号码格式错误!',
         icon: 'loading',
         image: '',
         duration: 1000,
@@ -514,9 +528,12 @@ Page({
         }
       })
     } else {
-      that.setData({
-        showPay: true
-      })
+      if (that.data.payway == 1) { // 微信支付
+        that.wxPay();
+      };
+      if (that.data.payway == 0) { // 会员卡支付
+        that.showM();
+      }
     }
   },
   close: function () {
@@ -738,12 +755,6 @@ Page({
       title: '加载中',
     })
     var that = this;
-    // if (that.data.canClick != 1) {
-    //   return;
-    // }
-    // that.setData({
-    //   canClick: 0
-    // })//防止多次点击
     if (!that.data.phone || that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
@@ -764,7 +775,6 @@ Page({
       })
       return;
     }
-    // console.log(app.globalData)
     let data = {
       Username: app.usermessage.Username, //账号
       Password: app.usermessage.Password, // 密码
@@ -786,7 +796,6 @@ Page({
       LowestPrice: app.globalData.moviesListDate.lowestPrice, //最低价
       MobilePhone: that.data.phone, // 手机号
     };
-    // console.log(data)
     // 查询本地订单
     wx.request({
       url: app.globalData.url + '/Api/Order/QueryLocalOrder' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode,
@@ -795,6 +804,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res);
+        return;
         let order = res.data.data;
         if (res.data.Status == "Success") {
           // 会员卡折扣 判断售票系统
@@ -820,7 +831,6 @@ Page({
                       wx.hideTabBar() //隐藏栏
                       console.log(res)
                       if (res.data.Status == "Success") {
-                        console.log(res)
                         wx.showToast({
                           title: '交易成功',
                           mask: true,
@@ -845,7 +855,7 @@ Page({
                             "form_id": that.data.formids,
                             "data": {
                               "keyword1": {
-                                "value": that.data.cardno
+                                "value": that.data.cardNo
                               },
                               "keyword2": {
                                 "value": app.globalData.lookcinemaname + '-' + that.data.hallName
@@ -901,7 +911,7 @@ Page({
                 }
               }
             })
-          } else if (app.globalData.cinemaList.cinemaType == "辰星") { //辰星
+          } else if (app.globalData.cinemaList.cinemaType == "辰星" || app.globalData.cinemaList.cinemaType == "满天星") { //辰星、满天星
             wx.request({
               url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
               method: 'GET',
@@ -990,7 +1000,7 @@ Page({
                                   "form_id": that.data.formids,
                                   "data": {
                                     "keyword1": {
-                                      "value": that.data.cardno
+                                      "value": that.data.cardNo
                                     },
                                     "keyword2": {
                                       "value": app.globalData.lookcinemaname + '-' + that.data.hallName
@@ -1091,6 +1101,103 @@ Page({
               },
               success: function (res) {
                 console.log(res)
+                let price;
+                if (res.data.card.discountType == '1') {
+                  price = res.data.card.price;
+                }
+                if (!res.data.card.price) {
+                  price = that.data.price
+                }
+                console.log(data)
+                if (res.data.Status == 'Success') {
+                  // 会员卡支付
+                  wx.request({
+                    url: app.globalData.url + '/Api/Member/YkTicketmMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
+                    method: 'GET',
+                    header: {
+                      'content-type': 'application/json' // 默认值
+                    },
+                    success: function(res) {
+                      wx.hideTabBar() //隐藏栏
+                      console.log(res)
+                      if (res.data.Status == "Success") {
+                        wx.showToast({
+                          title: '交易成功',
+                          mask: true,
+                          duration: 2000
+                        });
+                        that.setData({
+                          orderNum: res.data.orderNo, // 订单号
+                          printNo: res.data.printNo, // 出票号
+                          verifyCode: res.data.verifyCode, // 验证码
+                        })
+                        setTimeout(function () {
+                          wx.redirectTo({
+                            url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
+                          })
+                        }, 1000)
+                        // var NewTime = util.formatTimeDays(new Date())
+                        // wx.request({
+                        //   url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+                        //   data: {
+                        //     "touser": app.globalData.openId,
+                        //     "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
+                        //     "form_id": that.data.formids,
+                        //     "data": {
+                        //       "keyword1": {
+                        //         "value": that.data.cardno
+                        //       },
+                        //       "keyword2": {
+                        //         "value": app.globalData.lookcinemaname + '-' + that.data.hallName
+                        //       },
+                        //       "keyword3": {
+                        //         "value": that.data.price
+                        //       },
+                        //       "keyword4": {
+                        //         "value": that.data.movieName
+                        //       },
+                        //       "keyword5": {
+                        //         "value": that.data.date
+                        //       },
+                        //       "keyword6": {
+                        //         "value": that.data.seat
+                        //       },
+                        //       "keyword7": {
+                        //         "value": that.data.price
+                        //       },
+                        //       "keyword8": {
+                        //         "value": NewTime.NowDataYear
+                        //       },
+                        //       "keyword9": {
+                        //         "value": res.data.printNo
+                        //       }
+                        //     }
+                        //   },
+                        //   method: "POST",
+                        //   header: {
+                        //     'content-type': 'application/json' // 默认值
+                        //   },
+                        //   success: function (res) {
+                        //     console.log(res)
+                        //     // app.usermessage.access_token = res.data.access_token
+                        //   }
+                        // })
+                      } else {// 支付失败
+                        wx.showToast({
+                          title: "订单确认失败",
+                          icon: 'none',
+                          duration: 3000
+                        });
+                      }
+                    }
+                  })
+                } else { // 查询会员卡价格失败
+                  wx.showToast({
+                    title: res.data.ErrorMessage,
+                    icon: 'none',
+                    duration: 3000
+                  });
+                }
               }
             })
           }
@@ -1278,16 +1385,12 @@ Page({
       return;
     } else {
       let card = that.data.card;
-      // console.log(card)
-      if (card.length > 1) {
-        that.setData({
-          isShow: true,
-        });
-      } else if (card.length == 1) {
+      console.log(card)
+      if (card) {
         that.setData({
           showM: true,
-          cardNo: card[0].cardNo,
-          levelCode: card[0].levelCode,
+          cardNo: card.cardNo,
+          levelCode: card.levelCode,
         })
       }
     }
