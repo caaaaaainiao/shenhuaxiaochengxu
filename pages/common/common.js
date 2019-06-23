@@ -107,35 +107,43 @@ Page({
   // 修改头像
   imgChange:function(){
     var that = this;
+    console.log(app.usermessage.Username)
+    console.log(app.usermessage.Password)
+    console.log(app.globalData.userInfo.openID)
     wx.chooseImage({
+      count: 1,
       success(res) {
+        console.log(res)
         const tempFilePaths = res.tempFilePaths
         console.log(tempFilePaths)
         wx.uploadFile({
-          url: app.globalData.url + '/Api/User/UpdateUserInfo', 
+          //  url: app.globalData.url + '/Api/User/UpdateUserInfo', 
+          url:'http://192.168.1.178:8080/Api/User/UpdateHeadUrl',
           filePath: tempFilePaths[0],
-          name: 'headUrl',
+          name: 'file',
           formData: {
             userName: app.usermessage.Username,
             password: app.usermessage.Password,
-            openID: app.globalData.userInfo.openID,
-            headUrl: that.data.headUrl,
-            nickName: that.data.nickName,
-            sex: that.data.sex,
-            birthday: that.data.birthday,
-            mobilePhone: that.data.phone,
+            openID: app.globalData.userInfo.openID
+            // headUrl: that.data.headUrl,
+            // nickName: that.data.nickName,
+            // sex: that.data.sex,
+            // birthday: that.data.birthday,
+            // mobilePhone: that.data.phone,
           },
           header: {
-            'content-type': 'application/json'
+            'charset':'UTF - 8'
           },
           success(res) {
             console.log(res)
-            // var userInfo = that.data.userInfo;
-            // userInfo.headlmgUrl = JSON.parse(res.data).data.headurl
-            // that.setData({
-            //   userInfo: userInfo
-            // })
-            // app.globalData.userInfo.headlmgUrl = userInfo.header
+            var userInfo = that.data.userInfo;
+            userInfo.headlmgUrl = JSON.parse(res.data).data.headUrl
+            // console.log(userInfo.headlmgUrl)
+            that.setData({
+              userInfo: userInfo,
+              headUrl: userInfo.headlmgUrl
+            })
+            app.globalData.userInfo.headlmgUrl = userInfo.header
           }
         })
       }
@@ -161,7 +169,6 @@ Page({
   change:function(){
     var that = this;
     var nowtime = new Date().getTime();
-    // var sign = app.createMD5('modifyPersonalData', nowtime);
     var userInfo = that.data.userInfo;
     if(userInfo.birthday == null){
       userInfo.birthday = ""

@@ -97,41 +97,58 @@ Page({
       sessionCode: options.sessionCode,
       seatCouponList: app.globalData.ticketCoupons, // 优惠券列表
     });
-    if (that.data.seatCouponList.length > 0) { // 如果有优惠券
-      that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
-      that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
-      that.setData({
-        ticketRealPrice: parseInt(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
-        couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
-        reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
-      })
-      let allPrice = Number(options.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
-      that.setData({
-        allPrice: allPrice,
-      })
-    } else {
-      let allPrice = Number(options.price) + Number(that.data.refreshments);
-      that.setData({
-        allPrice: allPrice,
-      })
-    }
+    // 获取优惠券
     wx.request({
-      url: app.globalData.url + '/Api/Goods/QueryComponents' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + options.count,
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.orderCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        if (res.data.Status == "Success") {
-          // console.log(res)
-          var comboList = res.data.data
+        console.log(res)
+        if (res.data.Status == 'Success') {
           that.setData({
-            comboList: comboList
+            seatCouponList: res.data.data.couponsList,
           });
-          that.manage();
+          if (that.data.seatCouponList && that.data.seatCouponList.length > 0) { // 如果有优惠券
+            that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
+            that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
+            that.setData({
+              ticketRealPrice: parseInt(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
+              couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
+              reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
+            })
+            let allPrice = Number(options.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
+            that.setData({
+              allPrice: allPrice,
+            })
+          } else {
+            let allPrice = Number(options.price) + Number(that.data.refreshments);
+            that.setData({
+              allPrice: allPrice,
+            })
+          }
         }
       }
     })
+    // 获取小食套餐
+    // wx.request({
+    //   url: app.globalData.url + '/Api/Goods/QueryComponents' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + options.count,
+    //   method: "GET",
+    //   header: {
+    //     'content-type': 'application/json' // 默认值
+    //   },
+    //   success: function (res) {
+    //     if (res.data.Status == "Success") {
+    //       // console.log(res)
+    //       var comboList = res.data.data
+    //       that.setData({
+    //         comboList: comboList
+    //       });
+    //       that.manage();
+    //     }
+    //   }
+    // })
     // 获取会员卡信息
     util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
       var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];

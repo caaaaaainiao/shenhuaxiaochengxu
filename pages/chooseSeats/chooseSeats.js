@@ -543,7 +543,7 @@ Page({
         if (res.data.Status == "Success") {
           // console.log(that.data)
           // console.log(app.globalData)
-          var order = res.data.data.order;
+          var order = res.data.order;
           var date = that.data.date + ' ' + that.data.startTime2 + '-' + that.data.endtime;
           var screenName = that.data.screenName;
           var autoUnlockDatetime = order.autoUnlockDatetime;
@@ -554,7 +554,6 @@ Page({
           var title = app.globalData.movieList[app.globalData.movieIndex].name;
           var price = that.data.totalPrice;
           app.globalData.seat = order.seat;
-          app.globalData.ticketCoupons = res.data.data.coupon.coupons;// 可用优惠券
           wx.hideLoading();
           wx.showToast({
             title: '正在预定座位...',
