@@ -35,6 +35,7 @@ Page({
           order : res.data.data,
           cinemaList: app.globalData.cinemaList
         })
+        console.log(that.that.order)
         var qrcode = new QRCode('canvas', {
           text: that.data.order.orderCode,
           width: 150,
