@@ -715,9 +715,9 @@ Page({
         "seatCode": seatCode,
       })
     }
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     // 预支付
     wx.request({
       url: app.globalData.url + '/Api/Order/PrePayOrder',
