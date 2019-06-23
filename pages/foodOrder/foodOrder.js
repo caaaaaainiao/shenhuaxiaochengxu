@@ -48,47 +48,6 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function (res) {
-      that.setData({
-        card: res.data.data.memberCard,
-      })
-    })
-    // console.log(app.globalData.queryXml)
-    let goodsList = wx.getStorageSync('toSubmitGoods');
-    if (!goodsList)
-      return;
-    goodsList = goodsList.data;
-    // util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
-    var newList = [];
-    var totalPrice = 0;
-
-    for (var i = 0; i < goodsList.length; i++) {
-      if (goodsList[i].buyNum > 0) {
-        newList.push(goodsList[i]);
-      }
-    }
-    var json2 = [];
-    var arr = [];
-    for (var i = 0; i < newList.length; i++) {
-      if (arr.indexOf(newList[i].goodsId) == -1) {
-        arr.push(newList[i].goodsId);
-        json2.push(newList[i])
-        if (newList[i].buyNum > 0) {
-          totalPrice += newList[i].buyNum * newList[i].settlePrice;
-        }
-
-      } else {
-        newList[i].repetition = true;
-      }
-    }
-    that.setData({
-      goodsList: newList,
-      totalPrice: totalPrice,
-      disPrice: totalPrice
-    });
-
-
-
     //todo: 创建订单
     var nowtime = new Date();
     let endtime = new Date(nowtime.getTime() + 1000 * 60);
@@ -131,7 +90,7 @@ Page({
             //   };
             //   console.log(merOrder);
             // }
-            if (goodTicket[0].reductionPrice){
+            if (goodTicket[0].reductionPrice) {
               var merOrder = {
                 merTicket: {
                   conponId: goodTicket[0].couponsCode,
@@ -158,6 +117,52 @@ Page({
         })
       }
     })
+    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function (res) {
+      that.setData({
+        card: res.data.data.memberCard,
+      })
+    })
+    // console.log(app.globalData.queryXml)
+    let goodsList = wx.getStorageSync('toSubmitGoods');
+    if (!goodsList)
+      return;
+    goodsList = goodsList.data;
+    // util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
+    var newList = [];
+    var totalPrice = 0;
+
+    for (var i = 0; i < goodsList.length; i++) {
+      if (goodsList[i].buyNum > 0) {
+        newList.push(goodsList[i]);
+      }
+    }
+    var json2 = [];
+    var arr = [];
+    for (var i = 0; i < newList.length; i++) {
+      if (arr.indexOf(newList[i].goodsId) == -1) {
+        arr.push(newList[i].goodsId);
+        json2.push(newList[i])
+        if (newList[i].buyNum > 0) {
+          totalPrice += newList[i].buyNum * newList[i].settlePrice;
+        }
+
+      } else {
+        newList[i].repetition = true;
+      }
+    }
+    setTimeout(function(){
+      console.log(that.data.merOrder)
+      that.setData({
+        goodsList: newList,
+        totalPrice: totalPrice,
+        disPrice: totalPrice - that.data.merOrder.merTicket.couponPrice
+      });
+    },3000)
+    
+
+
+
+   
 
     //   if (goodTicket && goodTicket.length > 0) {
     //     //formatTime
@@ -384,11 +389,12 @@ Page({
                 var arr = res.data.data.goodsList
                 console.log(arr)
                 var goodslist = []
-                var obj = {}
-                for (var x = 0; x < arr.goods.length; x++) {
+                for (let x = 0; x < arr.goods.length; x++) {
+                  var obj = {}
                   obj.goodsCode = arr.goods[x].goodsCode
                   obj.goodsCount = arr.goods[x].goodsCount
                   goodslist.push(obj)
+                  console.log(goodslist)
                   that.setData({
                     goodslist: goodslist
                   })
@@ -670,7 +676,7 @@ Page({
             method: "POST",
             data: {
               userName: "MiniProgram",
-              password: "6BF477EBCC446F54E6512AFC0E976C4",
+              password: "6BF477EBCC446F54E6512AFC0E976C41",
               queryXml: app.globalData.mpXml
             },
             success: function (res) {
