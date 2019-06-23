@@ -36,7 +36,7 @@ Page({
     autoUnlockDatetime: '',
     comboList: null,
     refreshments: 0, // 小食价格
-    allPrice: 0,
+    allPrice: 0, // 总价
     orderCode: '', // 锁座订单号
     isShow: false,
     couponsCode: null,
@@ -88,6 +88,7 @@ Page({
       count: options.count,
       cinemaName: app.globalData.moviearea,
       price: options.price, // 影票总价
+      memberCardPrice: options.price, // 会员卡价格
       beginTicket: options.price,
       hallName: options.screenName,
       seat: options.seat,
@@ -99,7 +100,7 @@ Page({
     });
     // 获取优惠券
     wx.request({
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.orderCode,
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.orderCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -136,6 +137,72 @@ Page({
         }
       }
     })
+    // 获取会员卡信息
+    setTimeout(function(){
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+        if (res.data.Status == 'Success' && res.data.data.memberCard) { // 如果有会员卡
+          var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+          that.setData({
+            card: first,
+          })
+          // 获取会员卡折扣
+          if (first) {
+            if (app.globalData.cinemaList.cinemaType != '电影1905') { // 非1905
+              wx.request({
+                url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + first.cardNo + '/' + null + '/' + first.levelCode + '/' + app.globalData.moviesListDate.screenType + '/' + that.data.orderCode,
+                method: 'GET',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function (res) {
+                  console.log(res);
+                  let reductionPrice = that.data.reductionPrice;
+                  let refreshments = that.data.refreshments;
+                  if (res.data.Status == 'Success') {
+                    if (app.globalData.cinemaList.cinemaType == '辰星') {
+                      let price;
+                      if (res.data.card.price == '0') {
+                        price = that.data.price;
+                      } else {
+                        price = res.data.card.price;
+                      }
+                      that.setData({
+                        memberCardPrice: price,
+                        allPrice: (price - reductionPrice + refreshments),
+                      })
+                    } else if (app.globalData.cinemaList.cinemaType == '粤科') {
+                      let price;
+                      if (res.data.card.discountType == '1') {
+                        price = res.data.card.price;
+                      }
+                      if (!res.data.card.price) {
+                        price = that.data.price
+                      }
+                      that.setData({
+                        memberCardPrice: price,
+                        allPrice: (price - reductionPrice + refreshments),
+                      })
+                    } else if (app.globalData.cinemaList.cinemaType == '满天星') {
+                      let price;
+                      if (res.data.card.price == '0') {
+                        price = that.data.price;
+                      } else {
+                        price = res.data.card.price;
+                      }
+                      that.setData({
+                        memberCardPrice: price,
+                        allPrice: (price - reductionPrice + refreshments),
+                      })
+                    }
+                    console.log(that.data.allPrice)
+                  }
+                }
+              })
+            }
+          }
+        }
+      });
+    },1000)
     // 获取小食套餐
     // wx.request({
     //   url: app.globalData.url + '/Api/Goods/QueryComponents' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + options.count,
@@ -154,14 +221,7 @@ Page({
     //     }
     //   }
     // })
-    // 获取会员卡信息
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
-      var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
-      that.setData({
-        card: first,
-      })
-      console.log(that.data.card)
-    });
+    that.leftTime();
   },
   //传入数组以及要去重的对象
   arrayUnique2: function (arr, key) {
@@ -315,14 +375,94 @@ Page({
   },
   // 选择会员卡支付
   cardway: function () {
-    this.setData({
+    let that = this;
+    that.setData({
       payway: 0,
+    });
+    // 获取优惠券
+    wx.request({
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.orderCode,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        if (res.data.Status == 'Success') {
+          that.setData({
+            seatCouponList: res.data.data.couponsList,
+          });
+          if (that.data.seatCouponList && that.data.seatCouponList.length > 0) { // 如果有优惠券
+            that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
+            that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
+            that.setData({
+              ticketRealPrice: parseInt(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
+              couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
+              reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
+            })
+            let allPrice = Number(that.data.memberCardPrice) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
+            that.setData({
+              allPrice: allPrice,
+            })
+          } else {
+            let allPrice = Number(that.data.memberCardPrice) + Number(that.data.refreshments);
+            that.setData({
+              allPrice: allPrice,
+            })
+          }
+        } else {
+          let allPrice = Number(that.data.memberCardPrice) + Number(that.data.refreshments);
+          that.setData({
+            allPrice: allPrice,
+          })
+        }
+      }
     })
   },
   // 选择微信支付
   wxway: function () {
-    this.setData({
+    let that = this;
+    that.setData({
       payway: 1,
+    });
+    // 获取优惠券
+    wx.request({
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.orderCode,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        if (res.data.Status == 'Success') {
+          that.setData({
+            seatCouponList: res.data.data.couponsList,
+          });
+          if (that.data.seatCouponList && that.data.seatCouponList.length > 0) { // 如果有优惠券
+            that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
+            that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
+            that.setData({
+              ticketRealPrice: parseInt(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
+              couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
+              reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
+            })
+            let allPrice = Number(that.data.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
+            that.setData({
+              allPrice: allPrice,
+            })
+          } else {
+            let allPrice = Number(that.data.price) + Number(that.data.refreshments);
+            that.setData({
+              allPrice: allPrice,
+            })
+          }
+        } else {
+          let allPrice = Number(that.data.price) + Number(that.data.refreshments);
+          that.setData({
+            allPrice: allPrice,
+          })
+        }
+      }
     })
   },
   manage: function () {
@@ -565,32 +705,15 @@ Page({
   },
   wxPay: function () {
     var that = this;
-    // if (that.data.canClick != 1) {
-    //   return;
-    // }
-    // that.setData({
-    //   canClick: 0
-    // }) //防止多次点击
     var json = [];
-    // console.log(that.data)
+    console.log(that.data)
     let list = app.globalData.seat;
-    let couponsCode = that.data.codeArr;
-    let reductionPrice = that.data.priceArr;
+    console.log(list)
     for (let i = 0; i < list.length; i++) {
       let seatCode = list[i].seatCode;
       json.push({
         "seatCode": seatCode,
-        "couponsCode": couponsCode[i],
-        "reductionPrice": reductionPrice[i]
       })
-    }
-    for (let i = 0; i < json.length; i++) {
-      if (json[i].couponsCode == undefined) {
-        json[i].couponsCode = ""
-      }
-      if (json[i].reductionPrice == undefined) {
-        json[i].reductionPrice = ""
-      }
     }
     wx.showLoading({
       title: '加载中',
@@ -603,7 +726,9 @@ Page({
         "password": app.usermessage.Password,
         "cinemaCode": app.globalData.cinemacode,
         "orderCode": that.data.orderCode,
-        "seats": json
+        "couponsCode": that.data.couponsCode,
+        "reductionPrice": that.data.reductionPrice,
+        "seats": json,
       },
       method: 'POST',
       header: {
@@ -777,6 +902,13 @@ Page({
       title: '加载中',
     })
     var that = this;
+    // if (that.data.canClick != 1) {
+    //   wx.hideTabBar() //隐藏栏
+    //   return;
+    // }
+    // that.setData({
+    //   canClick: 0
+    // }) //防止多次点击
     if (!that.data.phone || that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
@@ -804,6 +936,7 @@ Page({
       LockOrderCode: that.data.orderCode, //锁座订单号(编码)
       LocalOrderCode: null, //卖品本地订单号
       CouponsCode: that.data.couponsCode, // 优惠券编码
+      CouponsCode2: null,
       CardNo: that.data.cardNo, //会员卡号
       CardPassword: that.data.password, //会员卡密码
       PayAmount: that.data.allPrice, //影票支付金额
@@ -827,137 +960,103 @@ Page({
       },
       success: function (res) {
         console.log(res);
-        // return;
         let order = res.data.data;
+        let price = that.data.memberCardPrice;
         if (res.data.Status == "Success") {
-          // 会员卡折扣 判断售票系统
+          // 判断售票系统
           if (app.globalData.cinemaList.cinemaType == "电影1905") { // 1905
-            wx.request({
-              url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
-              method: 'GET',
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
-              success: function (res) {
-                console.log(res)
-                if (res.data.Status == "Success") {
-                  let price = res.data.card.price;
-                  // 1905系统会员卡支付
-                  wx.request({
-                    url: app.globalData.url + '/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
-                    method: 'GET',
-                    header: {
-                      'content-type': 'application/json' // 默认值
-                    },
-                    success: function (res) {
-                      wx.hideTabBar() //隐藏栏
-                      console.log(res)
-                      if (res.data.Status == "Success") {
-                        wx.showToast({
-                          title: '交易成功',
-                          mask: true,
-                          duration: 2000
-                        });
-                        that.setData({
-                          orderNum: res.data.orderNo, // 订单号
-                          printNo: res.data.printNo, // 出票号
-                          verifyCode: res.data.verifyCode, // 验证码
+                // 1905系统会员卡支付
+                wx.request({
+                  url: app.globalData.url + '/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
+                  method: 'GET',
+                  header: {
+                    'content-type': 'application/json' // 默认值
+                  },
+                  success: function (res) {
+                    wx.hideTabBar() //隐藏栏
+                    console.log(res)
+                    if (res.data.Status == "Success") {
+                      wx.showToast({
+                        title: '交易成功',
+                        mask: true,
+                        duration: 2000
+                      });
+                      that.setData({
+                        orderNum: res.data.orderNo, // 订单号
+                        printNo: res.data.printNo, // 出票号
+                        verifyCode: res.data.verifyCode, // 验证码
+                      })
+                      setTimeout(function () {
+                        wx.redirectTo({
+                          url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                         })
-                        setTimeout(function () {
-                          wx.redirectTo({
-                            url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
-                          })
-                        }, 1000)
-                        var NewTime = util.formatTimeDays(new Date())
-                        wx.request({
-                          url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-                          data: {
-                            "touser": app.globalData.openId,
-                            "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
-                            "form_id": that.data.formids,
-                            "data": {
-                              "keyword1": {
-                                "value": that.data.cardNo
-                              },
-                              "keyword2": {
-                                "value": app.globalData.lookcinemaname + '-' + that.data.hallName
-                              },
-                              "keyword3": {
-                                "value": that.data.price
-                              },
-                              "keyword4": {
-                                "value": that.data.movieName
-                              },
-                              "keyword5": {
-                                "value": that.data.date
-                              },
-                              "keyword6": {
-                                "value": that.data.seat
-                              },
-                              "keyword7": {
-                                "value": that.data.price
-                              },
-                              "keyword8": {
-                                "value": NewTime.NowDataYear
-                              },
-                              "keyword9": {
-                                "value": res.data.printNo
-                              }
+                      }, 1000)
+                      var NewTime = util.formatTimeDays(new Date())
+                      wx.request({
+                        url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+                        data: {
+                          "touser": app.globalData.openId,
+                          "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
+                          "form_id": that.data.formids,
+                          "data": {
+                            "keyword1": {
+                              "value": that.data.cardNo
+                            },
+                            "keyword2": {
+                              "value": app.globalData.lookcinemaname + '-' + that.data.hallName
+                            },
+                            "keyword3": {
+                              "value": that.data.price
+                            },
+                            "keyword4": {
+                              "value": that.data.movieName
+                            },
+                            "keyword5": {
+                              "value": that.data.date
+                            },
+                            "keyword6": {
+                              "value": that.data.seat
+                            },
+                            "keyword7": {
+                              "value": that.data.price
+                            },
+                            "keyword8": {
+                              "value": NewTime.NowDataYear
+                            },
+                            "keyword9": {
+                              "value": res.data.printNo
                             }
-                          },
-                          method: "POST",
-                          header: {
-                            'content-type': 'application/json' // 默认值
-                          },
-                          success: function (res) {
-                            console.log(res)
-                            // app.usermessage.access_token = res.data.access_token
                           }
-                        })
+                        },
+                        method: "POST",
+                        header: {
+                          'content-type': 'application/json' // 默认值
+                        },
+                        success: function (res) {
+                          console.log(res)
+                          // app.usermessage.access_token = res.data.access_token
+                        }
+                      })
 
-                      } else { //支付失败
-                        wx.showToast({
-                          title: "订单确认失败",
-                          icon: 'none',
-                          duration: 3000
-                        });
-                      }
+                    } else { //支付失败
+                      wx.showToast({
+                        title: "订单确认失败",
+                        icon: 'none',
+                        duration: 3000
+                      });
                     }
-                  })
-                } else { // 折扣读取失败
-                  wx.showToast({
-                    title: res.data.ErrorMessage,
-                    icon: 'none',
-                    duration: 3000
-                  });
-                }
-              }
-            })
-          } else if (app.globalData.cinemaList.cinemaType == "辰星" || app.globalData.cinemaList.cinemaType == "满天星") { //辰星、满天星
-            wx.request({
-              url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
-              method: 'GET',
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
-              success: function (res) {
-                console.log(res)
-                let price;
-                if (res.data.card.price == '0') {
-                  price = that.data.price;
-                } else {
-                  price = res.data.card.price;
-                }
-                console.log(data)
-                if (res.data.Status == "Success") {
+                  }
+                })
+          } else if (app.globalData.cinemaList.cinemaType == "辰星") { //辰星
+              if (res.data.Status == "Success") {
                   // 会员卡支付
-                  wx.request({
-                    url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode,
-                    method: 'GET',
-                    header: {
-                      'content-type': 'application/json' // 默认值
-                    },
-                    success: function (res) {
+                wx.request({
+                  url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2,
+                  method: 'GET',
+                  header: {
+                     'content-type': 'application/json' // 默认值
+                  },
+                  success: function (res) {
                       wx.hideTabBar() //隐藏栏
                       console.log(res)
                       if (res.data.Status == "Success") {
@@ -1105,123 +1204,249 @@ Page({
                       }
                     }
                   })
-                } else { // 折扣查询失败
-                  wx.showToast({
-                    title: res.data.ErrorMessage,
-                    icon: 'none',
-                    duration: 3000
-                  });
                 }
-              }
-            })
           } else if (app.globalData.cinemaList.cinemaType == "粤科") { //粤科
-            wx.request({
-              url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.ScreenType + '/' + data.LockOrderCode,
-              method: 'GET',
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
-              success: function (res) {
-                console.log(res)
-                let price;
-                if (res.data.card.discountType == '1') {
-                  price = res.data.card.price;
-                }
-                if (!res.data.card.price) {
-                  price = that.data.price
-                }
-                console.log(data)
                 if (res.data.Status == 'Success') {
                   // 会员卡支付
-                  wx.request({
-                    url: app.globalData.url + '/Api/Member/YkTicketmMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
-                    method: 'GET',
-                    header: {
-                      'content-type': 'application/json' // 默认值
-                    },
-                    success: function(res) {
-                      wx.hideTabBar() //隐藏栏
-                      console.log(res)
-                      if (res.data.Status == "Success") {
-                        wx.showToast({
-                          title: '交易成功',
-                          mask: true,
-                          duration: 2000
-                        });
-                        that.setData({
-                          orderNum: res.data.orderNo, // 订单号
-                          printNo: res.data.printNo, // 出票号
-                          verifyCode: res.data.verifyCode, // 验证码
+                wx.request({
+                  url: app.globalData.url + '/Api/Member/YkTicketmMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
+                  method: 'GET',
+                  header: {
+                    'content-type': 'application/json' // 默认值
+                  },
+                  success: function(res) {
+                    wx.hideTabBar() //隐藏栏
+                    console.log(res)
+                    if (res.data.Status == "Success") {
+                      wx.showToast({
+                        title: '交易成功',
+                        mask: true,
+                        duration: 2000
+                      });
+                      that.setData({
+                        orderNum: res.data.orderNo, // 订单号
+                        printNo: res.data.printNo, // 出票号
+                        verifyCode: res.data.verifyCode, // 验证码
+                      })
+                      setTimeout(function () {
+                        wx.redirectTo({
+                          url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                         })
-                        setTimeout(function () {
-                          wx.redirectTo({
-                            url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
-                          })
-                        }, 1000)
-                        // var NewTime = util.formatTimeDays(new Date())
-                        // wx.request({
-                        //   url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-                        //   data: {
-                        //     "touser": app.globalData.openId,
-                        //     "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
-                        //     "form_id": that.data.formids,
-                        //     "data": {
-                        //       "keyword1": {
-                        //         "value": that.data.cardno
-                        //       },
-                        //       "keyword2": {
-                        //         "value": app.globalData.lookcinemaname + '-' + that.data.hallName
-                        //       },
-                        //       "keyword3": {
-                        //         "value": that.data.price
-                        //       },
-                        //       "keyword4": {
-                        //         "value": that.data.movieName
-                        //       },
-                        //       "keyword5": {
-                        //         "value": that.data.date
-                        //       },
-                        //       "keyword6": {
-                        //         "value": that.data.seat
-                        //       },
-                        //       "keyword7": {
-                        //         "value": that.data.price
-                        //       },
-                        //       "keyword8": {
-                        //         "value": NewTime.NowDataYear
-                        //       },
-                        //       "keyword9": {
-                        //         "value": res.data.printNo
-                        //       }
-                        //     }
-                        //   },
-                        //   method: "POST",
-                        //   header: {
-                        //     'content-type': 'application/json' // 默认值
-                        //   },
-                        //   success: function (res) {
-                        //     console.log(res)
-                        //     // app.usermessage.access_token = res.data.access_token
-                        //   }
-                        // })
-                      } else {// 支付失败
-                        wx.showToast({
-                          title: "订单确认失败",
-                          icon: 'none',
-                          duration: 3000
-                        });
-                      }
+                      }, 1000)
+                      // var NewTime = util.formatTimeDays(new Date())
+                      // wx.request({
+                      //   url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+                      //   data: {
+                      //     "touser": app.globalData.openId,
+                      //     "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
+                      //     "form_id": that.data.formids,
+                      //     "data": {
+                      //       "keyword1": {
+                      //         "value": that.data.cardno
+                      //       },
+                      //       "keyword2": {
+                      //         "value": app.globalData.lookcinemaname + '-' + that.data.hallName
+                      //       },
+                      //       "keyword3": {
+                      //         "value": that.data.price
+                      //       },
+                      //       "keyword4": {
+                      //         "value": that.data.movieName
+                      //       },
+                      //       "keyword5": {
+                      //         "value": that.data.date
+                      //       },
+                      //       "keyword6": {
+                      //         "value": that.data.seat
+                      //       },
+                      //       "keyword7": {
+                      //         "value": that.data.price
+                      //       },
+                      //       "keyword8": {
+                      //         "value": NewTime.NowDataYear
+                      //       },
+                      //       "keyword9": {
+                      //         "value": res.data.printNo
+                      //       }
+                      //     }
+                      //   },
+                      //   method: "POST",
+                      //   header: {
+                      //     'content-type': 'application/json' // 默认值
+                      //   },
+                      //   success: function (res) {
+                      //     console.log(res)
+                      //     // app.usermessage.access_token = res.data.access_token
+                      //   }
+                      // })
+                    } else {// 支付失败
+                      wx.showToast({
+                        title: "订单确认失败",
+                        icon: 'none',
+                        duration: 3000
+                      });
                     }
-                  })
-                } else { // 查询会员卡价格失败
-                  wx.showToast({
-                    title: res.data.ErrorMessage,
-                    icon: 'none',
-                    duration: 3000
-                  });
-                }
-              }
-            })
+                  }
+                })
+                } 
+          } else if (app.globalData.cinemaList.cinemaType == "满天星") { // 满天星
+              if (res.data.Status == "Success") {
+                // 会员卡支付
+                wx.request({
+                  url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2,
+                  method: 'GET',
+                  header: {
+                    'content-type': 'application/json' // 默认值
+                  },
+                  success: function (res) {
+                    wx.hideTabBar() //隐藏栏
+                    console.log(res)
+                    if (res.data.Status == "Success") {
+                      that.setData({
+                        tradeNo: res.data.tradeNo,
+                        deductAmount: res.data.deductAmount,
+                      })
+                      let xml = '<SubmitOrder>' +
+                        '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
+                        '<Order>' +
+                        '<PaySeqNo>' + that.data.tradeNo + '</PaySeqNo>' +
+                        '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
+                        '<SessionCode>' + order.sessionCode + '</SessionCode>' +
+                        '<Count>' + order.ticketCount + '</Count>' +
+                        '<MobilePhone>' + that.data.phone + '</MobilePhone>';
+                      for (let i = 0; i < order.seats.length; i++) {
+                        let seatCode = order.seats[i].seatCode;
+                        let realprice = order.seats[i].salePrice;
+                        let price = order.seats[i].price;
+                        let fee = order.seats[i].fee;
+                        xml += '<Seat>';
+                        xml += '<SeatCode>' + seatCode + '</SeatCode>';
+                        xml += '<Price>' + price + '</Price>';
+                        xml += '<RealPrice>' + realprice + '</RealPrice>';
+                        xml += '<Fee>' + fee + '</Fee>';
+                        xml += '</Seat>';
+                      };
+                      xml += '</Order>';
+                      xml += '</SubmitOrder>';
+                      // 提交订单   
+                      wx.request({
+                        url: app.globalData.url + '/Api/Order/SubmitOrder',
+                        data: {
+                          userName: data.Username,
+                          password: data.Password,
+                          openID: order.openID,
+                          queryXml: xml,
+                        },
+                        method: "POST",
+                        header: {
+                          'content-type': 'application/json' // 默认值
+                        },
+                        success: function (res) {
+                          console.log(res)
+                          if (res.data.Status == "Success") {
+                            wx.showToast({
+                              title: '支付成功',
+                              mask: true,
+                              duration: 2000
+                            });
+                            that.setData({
+                              orderNum: res.data.order.orderCode, // 订单号
+                              printNo: res.data.order.printNo, // 出票号
+                              verifyCode: res.data.order.verifyCode, // 验证码(退票使用)
+                            })
+                            var NewTime = util.formatTimeDays(new Date())
+                            wx.request({
+                              url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+                              data: {
+                                "touser": app.globalData.openId,
+                                "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
+                                "form_id": that.data.formids,
+                                "data": {
+                                  "keyword1": {
+                                    "value": that.data.cardNo
+                                  },
+                                  "keyword2": {
+                                    "value": app.globalData.lookcinemaname + '-' + that.data.hallName
+                                  },
+                                  "keyword3": {
+                                    "value": that.data.price
+                                  },
+                                  "keyword4": {
+                                    "value": that.data.movieName
+                                  },
+                                  "keyword5": {
+                                    "value": that.data.date
+                                  },
+                                  "keyword6": {
+                                    "value": that.data.seat
+                                  },
+                                  "keyword7": {
+                                    "value": that.data.price
+                                  },
+                                  "keyword8": {
+                                    "value": NewTime.NowDataYear
+                                  },
+                                  "keyword9": {
+                                    "value": res.data.printNo
+                                  }
+                                }
+                              },
+                              method: "POST",
+                              header: {
+                                'content-type': 'application/json' // 默认值
+                              },
+                              success: function (res) {
+                                console.log(res)
+                                // app.usermessage.access_token = res.data.access_token
+                              }
+                            })
+                            setTimeout(function () {
+                              wx.redirectTo({
+                                url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
+                              })
+                            }, 1000)
+                          }
+                          else { //订单确认失败
+                            // 自动退款
+                            wx.request({
+                              url: app.globalData.url + '/Api/Member/CardPayBack' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.deductAmount,
+                              method: "GET",
+                              header: {
+                                'content-type': 'application/json' // 默认值
+                              },
+                              success: function (res) {
+                                wx.hideTabBar() //隐藏栏
+                                console.log(res)
+                                if (res.data.Status == "Success") {
+                                  wx.showToast({
+                                    title: '交易失败,已自动退款',
+                                    icon: 'none',
+                                    duration: 3000,
+                                  })
+                                }
+                                else {
+                                  wx.showToast({
+                                    title: '交易失败，联系工作人员退款',
+                                    icon: 'none',
+                                    duration: 3000,
+                                  })
+                                }
+                              }
+                            })
+                          }
+                        }
+                      })
+                    }
+                    else { //支付失败
+                      wx.showToast({
+                        title: res.data.ErrorMessage,
+                        icon: 'none',
+                        duration: 3000
+                      });
+                    }
+                  }
+                })
+              } 
           }
         } else { //订单查询失败
           wx.showToast({
@@ -1438,9 +1663,11 @@ Page({
   },
   // 获取影票优惠券
   setType1: function () {
-    this.setData({
+    let that = this;
+    that.setData({
       chooseType: 1
     });
+    console.log(that.data)
   },
   setType2: function () {
     this.setData({
@@ -1469,7 +1696,7 @@ Page({
       codeArr.push(that.data.seatCoupon.couponsCode);
       price = (that.data.beginTicket) - (seatCouponPrice);
       that.setData({
-        conponCode: that.data.seatCoupon.couponsCode,
+        couponsCode: that.data.seatCoupon.couponsCode,
         reductionPrice: that.data.seatCoupon.reductionPrice,
         ticketRealPrice: (that.data.price) / (that.data.count),  /* 减免金额 */
         allPrice: price + refreshments,
@@ -1482,9 +1709,11 @@ Page({
     } else { // 代金券
       priceArr.push(seatCouponPrice);
       codeArr.push(that.data.seatCoupon.couponsCode);
-      price = (that.data.beginTicket) - (seatCouponPrice);
+      price = Number(that.data.beginTicket) - Number(seatCouponPrice);
+      price = Math.ceil(price * 100) / 100;
+      console.log(price)
       that.setData({
-        conponCode: that.data.seatCoupon.couponsCode,
+        couponsCode: that.data.seatCoupon.couponsCode,
         reductionPrice: that.data.seatCoupon.reductionPrice, // 优惠券价格
         ticketRealPrice: seatCouponPrice, // 减免金额
         // price: price,
@@ -1507,8 +1736,6 @@ Page({
     that.setData({
       chooseType: 0
     })
-    // console.log(that.data.reductionPrice);
-    // console.log(that.data.conponCode)
   },
   messageshow: function () {
     this.setData({
