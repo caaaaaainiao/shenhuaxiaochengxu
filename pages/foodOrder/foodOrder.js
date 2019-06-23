@@ -48,7 +48,6 @@ Page({
    */
   onLoad: function (options) {
     var that = this;
-   
     util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function (res) {
       that.setData({
         card: res.data.data.memberCard,
@@ -89,172 +88,123 @@ Page({
     });
 
 
-    //todo 优惠券
-    console.log(app.globalData.openId)
-    util.getconponsList(that.data.UrlMap.conponsUrl + app.globalData.cinemacode + "/" + app.globalData.openId + "/All", function (res) {
-      // console.log(res)//适用于该影院的优惠券
-      
-      var sellTicket = []
-      for (var x in res) {
-        if (res[x].reductionType == 2) {
-          sellTicket.push(res[x])
-        }
-      }
-      // console.log(sellTicket)  //排除电影票优惠券
-      var priceTicker = []
-      for (var x in sellTicket) {
-        if (sellTicket[x].initialAmount < that.data.totalPrice || sellTicket[x].initialAmount == that.data.totalPrice) {
-          priceTicker.push(sellTicket[x])
-        }
-      }
-      console.log(priceTicker)//排除不符合满减得优惠券
 
-      var notusedTicket = []
-      for (var x in priceTicker) {
-        if (priceTicker[x].status == 1) {
-          notusedTicket.push(priceTicker[x])
-        }
-      }
-      // console.log(notusedTicket) //排除已使用 已过期优惠券
+    //todo: 创建订单
+    var nowtime = new Date();
+    let endtime = new Date(nowtime.getTime() + 1000 * 60);
+    let endday = util.formatTime2(endtime);
+    var deliveryAddress = app.globalData.selltimename + '' + app.globalData.orderaddname + '[' + app.globalData.sellhallname + ']'
+    console.log(app.globalData.isReady)
+    wx.request({
+      url: app.globalData.url + '/Api/Goods/CreateGoodsOrder',
+      method: "POST",
+      data: {
+        deliveryType: app.globalData.optionstype,
+        deliveryAddress: deliveryAddress,
+        deliveryMark: that.data.userMessage,
+        deliveryTime: endday,
+        queryXml: app.globalData.xml,
+        userName: 'MiniProgram',
+        password: "6BF477EBCC446F54E6512AFC0E976C41",
+        openID: app.globalData.openId,
+        isReady: app.globalData.isReady
+      },
+      success: function (res) {
+        console.log(res)
+        console.log(res.data.order.orderCode)
+        var ordercode = res.data.order.orderCode
+        app.globalData.ordercode = ordercode
+        wx.request({//查询优惠券
+          url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '1' + '/' + ordercode,
+          success: function (res) {
+            console.log(res.data.data.couponsList)
+            var goodTicket = res.data.data.couponsList
 
-      var timeTicket = []
-      var nowday = new Date().getDay() + 1
-      // console.log(nowday)
-      for (var x in notusedTicket) {
-        if (notusedTicket[x].canUsePeriodType == 1) {
-          timeTicket.push(notusedTicket[x])
-        } else if (notusedTicket[x].canUsePeriodType == 2) {
-          if (notusedTicket[x].weekDays == '') { //每天都适用的添加进数组
-            timeTicket.push(notusedTicket[x])
-          } else { //有固定周几的
-            if (notusedTicket[x].weekDays.indexOf(nowday) != -1) {
-              if (notusedTicket[x].timePeriod == '') { //没有固定几点到几点的添加进组
-                timeTicket.push(notusedTicket[x])
-              } else { //固定时间的
-                var arr = notusedTicket[x].timePeriod.split(',')
-                // console.log(arr) //字符串转数组
-
-                var hourtime = new Date().getHours() + '' + new Date().getMinutes()
-                // console.log(hourtime) //获取本地的小时分钟
-                for (var y in arr) {
-                  // console.log(arr[y]) //获取数组中的每一个字符串
-                  var arr1 = arr[y].split('-')
-                  // console.log(arr1) //将字符串转化为数组
-                  for (var z in arr1) {
-                    var hourtime1 = arr1[0].replace(':', '')
-                    var hourtime2 = arr1[1].replace(':', '')
-
-                  }
-                  if (hourtime > hourtime1 && hourtime < hourtime2) {
-                    timeTicket.push(notusedTicket[x])
-                  }
+            // if (goodTicket[0].reductionPrice <= that.data.totalPrice) {
+            //   merOrder = {
+            //     merTicket: {
+            //       // conponId: null,
+            //       conponCode: null,
+            //       couponPrice: 0
+            //     },
+            //     merTicketList: goodTicket
+            //   };
+            //   console.log(merOrder);
+            // }
+            if (goodTicket[0].reductionPrice){
+              var merOrder = {
+                merTicket: {
+                  conponId: goodTicket[0].couponsCode,
+                  conponCode: goodTicket[0].couponsCode,
+                  couponPrice: goodTicket[0].reductionPrice
+                },
+                merTicketList: goodTicket
+              };
+              if (merOrder == null) {
+                let merTicket = {
+                  conponId: null,
+                  conponCode: null,
+                  couponPrice: 0
                 }
+                merOrder = merTicket
+                return merOrder
               }
+              console.log(merOrder);
+              that.setData({
+                merOrder: merOrder
+              })
             }
           }
-        }
+        })
       }
+    })
 
+    //   if (goodTicket && goodTicket.length > 0) {
+    //     //formatTime
+    //     for (var i = 0; i < goodTicket.length; i++) {
+    //       if (goodTicket[i].validityDate) {
+    //         goodTicket[i].validityDateStr = util.formatTimeGMT(goodTicket[i].validityDate);
+    //       } else {
+    //         goodTicket[i].validityDateStr = ""
+    //       }
 
-      // console.log(timeTicket)
-      // console.log(that.data.goodsList)
-      var goodTicket = []
-      for (var x in that.data.goodsList) {
-        for (var y in timeTicket) {
-          if (timeTicket[y].goodsCodes == '') {
-            goodTicket.push(timeTicket[y])
-          } else {
-            // array.push(timeTicket[y].goodsCodes)
-            var array = timeTicket[y].goodsCodes.split(',')
-            // console.log(array)
-            for (var z in array) {
-              if (that.data.goodsList[x].goodsCode == array[z]) {
-                // console.log(timeTicket[y])
-                goodTicket.push(timeTicket[y])
-              }
-            }
-          }
+    //     }
+    //     // console.log(merOrder)
+    //     // if(){
 
-        }
-      }
-      // console.log(goodTicket)
-
-
-      if (goodTicket && goodTicket.length > 0) {
-        //formatTime
-        for (var i = 0; i < goodTicket.length; i++) {
-          if (goodTicket[i].validityDate) {
-            goodTicket[i].validityDateStr = util.formatTimeGMT(goodTicket[i].validityDate);
-          } else {
-            goodTicket[i].validityDateStr = ""
-          }
-
-        }
-        // console.log(merOrder)
-        // if(){
-
-        // }
+    //     // }
         
-        // let merOrder = null;
-        // for (that.data.totalPrice) {
+    //     // let merOrder = null;
+    //     // for (that.data.totalPrice) {
 
-        // }
-        // console.log(that.data.totalPrice)
-        // console.log(goodTicket)
-        // var length = goodTicket.length;
-        // for (var i = 0; i < length; i++){
-        //   for (var i = 0; i < length; i++) {
-        //     if (goodTicket[i].price + 1 >= that.data.totalPrice) {
-        //       // console.log(goodTicket[i].price)
-        //       // let goodTicketList = goodTicket.splice(i, 1)
-        //       goodTicket.splice(i, 1)
-        //       // return goodTicket
-        //       // goodTicket = 
-        //     }
-        //   }
-        // }
+    //     // }
+    //     // console.log(that.data.totalPrice)
+    //     // console.log(goodTicket)
+    //     // var length = goodTicket.length;
+    //     // for (var i = 0; i < length; i++){
+    //     //   for (var i = 0; i < length; i++) {
+    //     //     if (goodTicket[i].price + 1 >= that.data.totalPrice) {
+    //     //       // console.log(goodTicket[i].price)
+    //     //       // let goodTicketList = goodTicket.splice(i, 1)
+    //     //       goodTicket.splice(i, 1)
+    //     //       // return goodTicket
+    //     //       // goodTicket = 
+    //     //     }
+    //     //   }
+    //     // }
         
-        console.log(goodTicket)
-        // if (goodTicket[0].price  <= that.data.totalPrice){
-        //    merOrder = {
-        //     merTicket: {
-        //       conponId: null,
-        //       conponCode: null,
-        //       couponPrice: 0
-        //     },
-        //     merTicketList: goodTicket
-        //   };
-          // console.log(merOrder);
-        // }else{
-        var merOrder = {
-            merTicket: {
-              conponId: goodTicket[0].conponId  ,
-              conponCode: goodTicket[0].conponCode  ,
-              couponPrice: goodTicket[0].price 
-            },
-            merTicketList: goodTicket
-          };
-        // if (merOrder == null){
-        //   let merTicket = {
-        //     conponId: null,
-        //     conponCode: null,
-        //     couponPrice: 0 
-        //   }
-        //   merOrder = merTicket
-        //   return merOrder
-        //   }
-          // console.log(merOrder);
-        // }
+    //     console.log(goodTicket)
+       
         
-        // for (var i in merOrder){}
-        that.setData({
-          merOrder: merOrder,
-        });
-        that.updatetotalPrice();
-      }
+      //   // for (var i in merOrder){}
+      //   that.setData({
+      //     merOrder: merOrder,
+      //   });
+      //   that.updatetotalPrice();
+      // }
     
-    wx.hideLoading()
-    });
+    // wx.hideLoading()
+    // });
     //  });
 
     // console.log(newList)
@@ -388,100 +338,6 @@ Page({
   choosePay: function () {
     // this.formSubmit()
     var that = this
-    var nowtime = new Date();
-    let apiuser = util.getAPIUserData(null);
-    let endtime = new Date(nowtime.getTime() + 1000 * 60);
-    let endday = util.formatTime2(endtime);
-    var deliveryAddress = app.globalData.selltimename + '' + app.globalData.orderaddname + '[' + app.globalData.sellhallname + ']'
-    //todo: 创建订单
-    console.log(app.globalData.isReady)
-    wx.request({
-      url: app.globalData.url + '/Api/Goods/CreateGoodsOrder',
-      method : "POST",
-      data: {
-        deliveryType: app.globalData.optionstype,
-        deliveryAddress: deliveryAddress,
-        deliveryMark: that.data.userMessage,
-        deliveryTime: endday,
-        queryXml: app.globalData.xml,
-        userName: apiuser.UserName,
-        password: apiuser.Password,
-        openID: app.globalData.openId,
-        isReady: app.globalData.isReady
-      },
-      success: function (res) {
-        console.log(res)
-        console.log(res.data.data.order.orderCode)
-        var ordercode = res.data.data.order.orderCode
-        app.globalData.ordercode = ordercode
-        //查询订单
-        wx.request({
-          url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + ordercode,
-          method: "GET",
-          success: function (res) {
-            console.log(res)
-            var arr = res.data.data.goodsList
-            var goodslist = []
-            var obj = {}
-            for (var x = 0; x < arr.goods.length; x++) {
-              obj.goodsCode = arr.goods[x].goodsCode
-              obj.goodsCount = arr.goods[x].goodsCount
-              goodslist.push(obj)
-              that.setData({
-                goodslist: goodslist
-              })
-            }
-            app.globalData.goodslist = that.data.goodslist
-            if (res.data.Status == "Success") {
-              that.setData({ //关闭浮层
-                showReady: false
-              })
-              //确认订单的参数(微信)
-              let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
-              let queryobj = app.globalData.queryobj
-
-              if (queryobj && queryobj.list) {
-                for (var i = 0; i < queryobj.list.length; i++) {
-                  let items = queryobj.list[i];
-                  queryXml += '<goods>';
-                  queryXml += '<goodsCode>' + items.goodsCode + '</goodsCode>';
-                  queryXml += '<goodsCount>' + items.buyNum + '</goodsCount>';
-                  queryXml += '<settlePrice>' + items.settlePrice + '</settlePrice>';
-                  queryXml += '<standardPrice>' + items.standardPrice + '</standardPrice>';
-                  if (items.channelFee) {
-                    queryXml += '<goodsChannelFee>' + items.channelFee + '</goodsChannelFee>';
-                  } else {
-                    queryXml += '<goodsChannelFee>0</goodsChannelFee>';
-                  }
-
-                  queryXml += '</goods>';
-                }
-              }
-              queryXml += ' </goodsList></SubmitGoodsOrder>';
-              app.globalData.queryXml = queryXml
-              console.log(app.globalData.queryXml)
-              //复制购物车列表到待支付物品列表
-              //let cattObj = util.getcartObj(null);
-              //wx.setStorageSync('toSubmitGoods', cattObj);
-
-            } else {
-              wx.showToast({
-                title: '订单创建失败,请重试',
-                icon: 'loading',
-                image: '',
-                duration: 2000,
-                mask: true,
-                success: function (res) { },
-                fail: function (res) { },
-                complete: function (res) { },
-              })
-            }
-          },
-        })
-        // wx.hideLoading()
-      }
-    })
-
     this.setData({
       showBlack: true
     })
@@ -516,6 +372,142 @@ Page({
       return;
     }
 
+   
+       
+                  //查询订单
+            wx.request({
+              url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + 'MiniProgram' + '/' + "6BF477EBCC446F54E6512AFC0E976C41" + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
+              method: "GET",
+              success: function (res) {
+                console.log(res)
+                var arr = res.data.data.goodsList
+                console.log(arr)
+                var goodslist = []
+                var obj = {}
+                for (var x = 0; x < arr.goods.length; x++) {
+                  obj.goodsCode = arr.goods[x].goodsCode
+                  obj.goodsCount = arr.goods[x].goodsCount
+                  goodslist.push(obj)
+                  that.setData({
+                    goodslist: goodslist
+                  })
+                }
+                app.globalData.goodslist = that.data.goodslist
+                if (res.data.Status == "Success") {
+                  that.setData({ //关闭浮层
+                    showReady: false
+                  })
+                  //确认订单的参数(微信)
+                  let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
+                  let queryobj = app.globalData.queryobj
+
+                  if (queryobj && queryobj.list) {
+                    for (var i = 0; i < queryobj.list.length; i++) {
+                      let items = queryobj.list[i];
+                      queryXml += '<goods>';
+                      queryXml += '<goodsCode>' + items.goodsCode + '</goodsCode>';
+                      queryXml += '<goodsCount>' + items.buyNum + '</goodsCount>';
+                      queryXml += '<settlePrice>' + items.settlePrice + '</settlePrice>';
+                      queryXml += '<standardPrice>' + items.standardPrice + '</standardPrice>';
+                      if (items.channelFee) {
+                        queryXml += '<goodsChannelFee>' + items.channelFee + '</goodsChannelFee>';
+                      } else {
+                        queryXml += '<goodsChannelFee>0</goodsChannelFee>';
+                      }
+
+                      queryXml += '</goods>';
+                    }
+                  }
+                  queryXml += ' </goodsList></SubmitGoodsOrder>';
+                  app.globalData.queryXml = queryXml
+                  console.log(app.globalData.queryXml)
+                  //复制购物车列表到待支付物品列表
+                  //let cattObj = util.getcartObj(null);
+                  //wx.setStorageSync('toSubmitGoods', cattObj);
+                  wx.request({//预支付
+                    url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
+                    method: "POST",
+                    data: {
+                      userName: "MiniProgram",
+                      password: "6BF477EBCC446F54E6512AFC0E976C41",
+                      orderCode: app.globalData.ordercode,
+                      cinemaCode: app.globalData.cinemacode,
+                      couponsCode: "156129216896061364",
+                      reductionPrice: '29.99',
+                      goodsList: app.globalData.goodslist
+
+                    },
+                    success: function (res) {
+                      console.log(res)
+                      wx.requestPayment({//微信支付
+                        timeStamp: res.data.data.timeStamp,
+                        nonceStr: res.data.data.nonceStr,
+                        package: res.data.data.packages,
+                        signType: res.data.data.signType,
+                        paySign: res.data.data.paySign,
+                        success(res) {
+                          console.log(res)
+                          wx.request({
+                            url: app.globalData.url + '/Api/Goods/SubmitGoodsOrder',
+                            method: "POST",
+                            data: {
+                              userName: "MiniProgram",
+                              password: "6BF477EBCC446F54E6512AFC0E976C4",
+                              queryXml: app.globalData.queryXml
+                            },
+                            success: function (res) {
+                              console.log(res)
+                             
+                              if (res.data.Status == 'Failure') {
+                                wx.request({
+                                  url: app.globalData.url + '/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
+                                  method: "GET",
+                                  header: {
+                                    "Content-Type": "application/json"
+                                  },
+                                  success: function (res) {
+                                    console.log(res)
+                                  }
+                                })
+                              }
+                              else{
+                                var orderNum = res.data.order.orderCode
+                              }
+                              wx.redirectTo({
+                                url: '../foodSuccess/foodSuccess?orderNum=' + orderNum
+                              })
+                            }
+
+                          })
+
+                        },
+                        fail(res) {
+                          console.log(res)
+                          that.setData({
+                            canClick: 1
+                          })
+                        }
+                      })
+                    }
+                  })
+
+                } else {
+                  wx.showToast({
+                    title: '订单创建失败,请重试',
+                    icon: 'loading',
+                    image: '',
+                    duration: 2000,
+                    mask: true,
+                    success: function (res) { },
+                    fail: function (res) { },
+                    complete: function (res) { },
+                  })
+                }
+              },
+            })
+
+      
+        // wx.hideLoading()
     if (app.globalData.userInfo.mobilePhone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
@@ -560,69 +552,7 @@ Page({
     }
     var nowtime = new Date().getTime();
     //预支付
-    wx.request({
-      url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
-      method: "POST",
-      data: {
-        userName: "MiniProgram",
-        password: "6BF477EBCC446F54E6512AFC0E976C41",
-        orderCode: app.globalData.ordercode,
-        cinemaCode: app.globalData.cinemacode,
-        couponsCode: that.data.merOrder.merTicket.conponCode,
-        reductionPrice: that.data.merOrder.merTicket.couponPrice,
-        goodsList: app.globalData.goodslist
-
-      },
-      success: function (res) {
-        console.log(res.data.data)
-        wx.requestPayment({
-          timeStamp: res.data.data.timeStamp,
-          nonceStr: res.data.data.nonceStr,
-          package: res.data.data.packages,
-          signType: res.data.data.signType,
-          paySign: res.data.data.paySign,
-          success(res) {
-            console.log(res)
-            wx.request({
-              url: app.globalData.url + '/Api/Goods/SubmitGoodsOrder',
-              method: "POST",
-              data: {
-                userName: "MiniProgram",
-                password: "6BF477EBCC446F54E6512AFC0E976C41",
-                queryXml: app.globalData.queryXml
-              },
-              success: function (res) {
-                console.log(res)
-                var orderNum = res.data.order.orderCode
-                if (res.data.Status == 'Failure') {
-                  wx.request({
-                    url: app.globalData.url + '/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
-                    method: "GET",
-                    header: {
-                      "Content-Type": "application/json"
-                    },
-                    success: function (res) {
-                      console.log(res)
-                    }
-                  })
-                }
-                wx.redirectTo({
-                  url: '../foodSuccess/foodSuccess?orderNum=' + orderNum
-                })
-              }
-
-            })
-
-          },
-          fail(res) {
-            console.log(res)
-            that.setData({
-              canClick: 1
-            })
-          }
-        })
-      }
-    })
+ 
   },
   cardPay: function () {
     var that = this;
@@ -1149,7 +1079,7 @@ Page({
         merTicketId: id,
         merOrder: merOrder
       })
-      console.log(that.data.merTicketId)
+      // console.log(that.data.merTicketId)
       console.log(that.data.merOrder)
     }
 

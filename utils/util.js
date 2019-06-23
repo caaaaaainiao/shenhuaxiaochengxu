@@ -463,8 +463,6 @@ const getCity=(callback)=>{
   wx.getLocation({
     type: 'wgs84',
     success: function (res) {
-
-
       var userLat = res.latitude;
       var userLng = res.longitude;
       let apiuser = getAPIUserData(null);
