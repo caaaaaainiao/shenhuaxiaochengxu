@@ -331,7 +331,7 @@
 }
 .f_canke_pack{
   position: absolute;
-  left: 468rpx;
+  left: 420rpx;
   color: #FF6483;
 }
 .f_goodsPrice {

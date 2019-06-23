@@ -115,7 +115,7 @@ Page({
         var ordercode = res.data.order.orderCode
         app.globalData.ordercode = ordercode
         wx.request({//查询优惠券
-          url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '1' + '/' + ordercode,
+          url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + ordercode,
           success: function (res) {
             console.log(res.data.data.couponsList)
             var goodTicket = res.data.data.couponsList
@@ -256,11 +256,11 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    setTimeout(function(){
-      wx.showLoading({
-        title: '加载中',
-      })
-    },100)
+    // setTimeout(function(){
+    //   wx.showLoading({
+    //     title: '加载中',
+    //   })
+    // },100)
    
     this.setData({
       userInfo: app.globalData.userInfo
@@ -372,6 +372,7 @@ Page({
       return;
     }
 
+
    
        
                   //查询订单
@@ -424,6 +425,8 @@ Page({
                   //复制购物车列表到待支付物品列表
                   //let cattObj = util.getcartObj(null);
                   //wx.setStorageSync('toSubmitGoods', cattObj);
+                  console.log(that.data.merOrder)
+                  
                   wx.request({//预支付
                     url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
                     method: "POST",
@@ -432,8 +435,8 @@ Page({
                       password: "6BF477EBCC446F54E6512AFC0E976C41",
                       orderCode: app.globalData.ordercode,
                       cinemaCode: app.globalData.cinemacode,
-                      couponsCode: "156129216896061364",
-                      reductionPrice: '29.99',
+                      couponsCode: that.data.merOrder.merTicket.conponCode,
+                      reductionPrice: that.data.merOrder.merTicket.couponPrice,
                       goodsList: app.globalData.goodslist
 
                     },
@@ -452,7 +455,7 @@ Page({
                             method: "POST",
                             data: {
                               userName: "MiniProgram",
-                              password: "6BF477EBCC446F54E6512AFC0E976C4",
+                              password: "6BF477EBCC446F54E6512AFC0E976C41",
                               queryXml: app.globalData.queryXml
                             },
                             success: function (res) {
@@ -629,7 +632,7 @@ Page({
     };
     if (that.data.cinemaType == '辰星') {
       wx.request({
-        url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + null +'/' +that.data.merOrder.merTicket.conponCode,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
@@ -667,7 +670,7 @@ Page({
             method: "POST",
             data: {
               userName: "MiniProgram",
-              password: "6BF477EBCC446F54E6512AFC0E976C41",
+              password: "6BF477EBCC446F54E6512AFC0E976C4",
               queryXml: app.globalData.mpXml
             },
             success: function (res) {
