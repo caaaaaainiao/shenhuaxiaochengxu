@@ -117,8 +117,8 @@ Page({
         const tempFilePaths = res.tempFilePaths
         console.log(tempFilePaths)
         wx.uploadFile({
-          //  url: app.globalData.url + '/Api/User/UpdateUserInfo', 
-          url:'http://192.168.1.178:8080/Api/User/UpdateHeadUrl',
+          url: app.globalData.url + '/Api/User/UpdateHeadUrl', 
+          // url:'http://192.168.1.178:8080/Api/User/UpdateHeadUrl',
           filePath: tempFilePaths[0],
           name: 'file',
           formData: {

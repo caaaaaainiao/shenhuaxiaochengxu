@@ -128,6 +128,11 @@ Page({
               allPrice: allPrice,
             })
           }
+        } else {
+          let allPrice = Number(options.price) + Number(that.data.refreshments);
+          that.setData({
+            allPrice: allPrice,
+          })
         }
       }
     })
@@ -822,7 +827,7 @@ Page({
       },
       success: function (res) {
         console.log(res);
-        return;
+        // return;
         let order = res.data.data;
         if (res.data.Status == "Success") {
           // 会员卡折扣 判断售票系统
