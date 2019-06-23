@@ -117,8 +117,8 @@ Page({
         const tempFilePaths = res.tempFilePaths
         console.log(tempFilePaths)
         wx.uploadFile({
-          url: app.globalData.url + '/Api/User/UpdateHeadUrl', 
-          // url:'http://192.168.1.178:8080/Api/User/UpdateHeadUrl',
+          // url: app.globalData.url + '/Api/User/UpdateHeadUrl', 
+          url:'http://192.168.1.178:8080/Api/User/UpdateHeadUrl',
           filePath: tempFilePaths[0],
           name: 'file',
           formData: {
@@ -135,15 +135,25 @@ Page({
             'charset':'UTF - 8'
           },
           success(res) {
-            console.log(res)
             var userInfo = that.data.userInfo;
             userInfo.headlmgUrl = JSON.parse(res.data).data.headUrl
-            // console.log(userInfo.headlmgUrl)
             that.setData({
               userInfo: userInfo,
               headUrl: userInfo.headlmgUrl
             })
-            app.globalData.userInfo.headlmgUrl = userInfo.header
+            app.globalData.userInfo.headlmgUrl = userInfo.headlmgUrl
+            wx.getStorage({
+              key: 'accredit',
+              success: function(res) {
+                res.data.userInfo.avatarUrl = userInfo.headlmgUrl
+                var oRes = res
+                console.log(oRes)
+                wx.setStorage({
+                  key: 'accredit',
+                  data: res.data,
+                })
+              },
+            })
           }
         })
       }
