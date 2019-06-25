@@ -230,7 +230,7 @@ Page({
         that.setData({
           movieList: res
         })
-        // console.log(res)
+        console.log(res)
         app.globalData.sellMovielist = that.data.movieList
 
       });

@@ -6,7 +6,7 @@
   </view>
 
   <image class='bannerbg' src='/images/bannerbg.jpg'></image>
-  <view class='location' bindtap='startChoose' >
+  <view class='location' bindtap='startChoose'>
     <image src='/images/location.png'></image>
     <text>{{moviearea}}</text>
   </view>
@@ -37,39 +37,39 @@
           <block wx:for="{{movieList}}" wx:for-item="movie" wx:key="movie">
             <view class='movie' bindtap='toDetails' data-index="{{index}}">
               <image class='moviePic' src='{{movie.image}}'></image>
-             
-               <block wx:if='{{movie.name}}'>
-                <text  class='movieName'>{{movie.name}}</text>
-              </block>
-                <block wx:else>
-                   <text class='movieName'>暂无</text>
-              </block>
-            
 
-  <block wx:if='{{movie.introduction}}'>
-                <text  class='movieText'>{{movie.introduction}}</text>
+              <block wx:if='{{movie.name}}'>
+                <text class='movieName'>{{movie.name}}</text>
               </block>
-                <block wx:else>
-                   <text class='movieText'>暂无</text>
+              <block wx:else>
+                <text class='movieName'>暂无</text>
               </block>
-            
 
-              <block wx:if='{{movie.cast}}'>
-                <text  class='moviePeople'>{{movie.cast}}</text>
+
+              <block wx:if='{{movie.introduction}}'>
+                <text class='movieText'>{{movie.introduction}}</text>
               </block>
+              <block wx:else>
+                <text class='movieText'>暂无</text>
+              </block>
+
+              <view wx:for="{{movie.cast}}" wx:for-item="cast" wx:key="cast">
+                <block wx:if='{{cast}}'>
+                  <text class='moviePeople'>{{cast.castName}}</text>
+                </block>
                 <block wx:else>
-                   <text class='moviePeople'>暂无</text>
-              </block>
-            
-            
-              <view class='label'>  
+                  <text class='moviePeople'>暂无</text>
+                </block>
+              </view>
+
+              <view class='label'>
                 <block wx:if='{{movie.version}}'>
-                <text >{{movie.version}}</text>
-              </block>
+                  <text>{{movie.version}}</text>
+                </block>
                 <block wx:else>
-                   <text >暂无</text>
-              </block>
-            
+                  <text>暂无</text>
+                </block>
+
               </view>
               <image class='check' src='/images/buy_btn.png' catchtap='buy' data-id="{{movie.code}}" data-index="{{index}}" wx:if="{{movie.time < timestamp}}"></image>
               <image class='check' src='/images/buy2_btn.png' catchtap='buy' data-id="{{movie.code}}" data-index="{{index}}" wx:elif="{{movie.time > timestamp}}"></image>
@@ -83,7 +83,7 @@
     </view>
 
   </view>
-<!-- 选择城市 -->
+  <!-- 选择城市 -->
   <view class='choosearea' wx:if="{{isChoose}}">
     <view class='city'>
       <block wx:for="{{nowCity}}" wx:for-item="city" wx:key="city">
@@ -92,7 +92,7 @@
     </view>
     <block wx:for="{{cinemaList}}" wx:for-item="area" wx:key="area">
       <view class='option' data-index='{{index}}' data-cinemaName='{{area.cinemaName}}' data-cinemaCode='{{area.cinemaCode}}' bindtap='chooseCinema' data-address='{{area.address}}'>
-    
+
         <view class='choosename {{area.cinemaName ==moviearea.cinemaName?"selectCinema":""}}'>{{area.cinemaName}}</view>
         <view class='chooseArea'>{{area.address}}</view>
         <view class='distance'>{{area.distance}}km</view>
@@ -105,7 +105,9 @@
       <image src='{{logo}}' class='accreditbg'></image>
       <view class='con_name'>{{concinemaname}}</view>
       <view class='con_con'>{{concont}}</view>
-      <button  open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='getUserInfo' ><image src='/images/accreditbtn.png'></image></button>
+      <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='getUserInfo'>
+        <image src='/images/accreditbtn.png'></image>
+      </button>
     </view>
     <block wx:else>
       <view>微信版本过低，请升级后使用</view>
