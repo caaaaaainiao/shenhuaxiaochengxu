@@ -53,14 +53,15 @@
                 <text class='movieText'>暂无</text>
               </block>
 
-              <view wx:for="{{movie.cast}}" wx:for-item="cast" wx:key="cast">
-                <block wx:if='{{cast}}'>
-                  <text class='moviePeople'>{{cast.castName}}</text>
-                </block>
+              <block wx:if='{{movie.cast}}'>
+                <view class='moviePeopletxt' >
+                    <text wx:for="{{movie.cast}}" wx:for-item="cast" wx:key="cast" class='moviePeople'>{{cast.castName}}</text>
+                </view>
+                  
+              </block>
                 <block wx:else>
                   <text class='moviePeople'>暂无</text>
                 </block>
-              </view>
 
               <view class='label'>
                 <block wx:if='{{movie.version}}'>

@@ -248,8 +248,8 @@
   white-space: nowrap;
 }
 
-.moviePeople {
-  width: 250rpx;
+.moviePeopletxt{
+    width: 250rpx;
   line-height: 1;
   font-size: 22rpx;
   color: #a9a9a9;
@@ -261,8 +261,12 @@
   white-space: nowrap;
 }
 
-.moviePeople text {
-  margin-right: 10rpx;
+.moviePeople {
+margin-left: 10rpx
+}
+
+.moviePeople:first-child{
+  margin-left: 0
 }
 
 .label {
