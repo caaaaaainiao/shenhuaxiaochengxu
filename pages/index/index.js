@@ -550,26 +550,6 @@ Page({
         all: !that.data.all,
       })
     }
-    // var that = this;
-    // var nowtime = new Date().getTime();
-    // var sign = app.createMD5('getCinemaCity', nowtime);
-    // wx.request({
-    //   url: app.globalData.url + '/shDxCinema/getCinemaCity', //点击左上角获取所有影院
-    //   data: {
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function(res) {
-    //     // console.log(res)
-    //     that.setData({
-    //       nowCity: res.data.data
-    //     })
-    //   }
-    // })
   },
   chooseCinema: function(e) { //选择影院
     console.log(e)

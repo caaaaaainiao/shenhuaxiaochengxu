@@ -164,7 +164,7 @@ Page({
                       if (res.data.card.price == '0') {
                         price = that.data.price;
                       } else {
-                        price = res.data.card.price;
+                        price = res.data.card.price * that.data.count;
                       }
                       that.setData({
                         memberCardPrice: price,
@@ -173,7 +173,7 @@ Page({
                     } else if (app.globalData.cinemaList.cinemaType == '粤科') {
                       let price;
                       if (res.data.card.discountType == '1') {
-                        price = res.data.card.price;
+                        price = res.data.card.price * that.data.count;
                       }
                       if (!res.data.card.price) {
                         price = that.data.price
@@ -187,7 +187,7 @@ Page({
                       if (res.data.card.price == '0') {
                         price = that.data.price;
                       } else {
-                        price = res.data.card.price;
+                        price = res.data.card.price * that.data.count;
                       }
                       that.setData({
                         memberCardPrice: price,
@@ -202,7 +202,7 @@ Page({
           }
         }
       });
-    },1000)
+    },500)
     // 获取小食套餐
     // wx.request({
     //   url: app.globalData.url + '/Api/Goods/QueryComponents' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + options.count,
