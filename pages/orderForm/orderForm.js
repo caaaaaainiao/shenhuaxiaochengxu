@@ -167,7 +167,7 @@ Page({
                         price = res.data.card.price * that.data.count;
                       }
                       that.setData({
-                        memberCardPrice: price,
+                        memberCardPrice: price.toFixed(2),
                         allPrice: (price - reductionPrice + refreshments),
                       })
                     } else if (app.globalData.cinemaList.cinemaType == '粤科') {
@@ -179,7 +179,7 @@ Page({
                         price = that.data.price
                       }
                       that.setData({
-                        memberCardPrice: price,
+                        memberCardPrice: price.toFixed(2),
                         allPrice: (price - reductionPrice + refreshments),
                       })
                     } else if (app.globalData.cinemaList.cinemaType == '满天星') {
@@ -190,7 +190,7 @@ Page({
                         price = res.data.card.price * that.data.count;
                       }
                       that.setData({
-                        memberCardPrice: price,
+                        memberCardPrice: price.toFixed(2),
                         allPrice: (price - reductionPrice + refreshments),
                       })
                     }
