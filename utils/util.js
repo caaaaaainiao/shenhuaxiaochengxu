@@ -105,7 +105,7 @@ const getcinemaList = callback => {
       var data = {
         Username: 'MiniProgram',
         Password: '6BF477EBCC446F54E6512AFC0E976C41',
-        AppId: 'wx8079e2f2a9958d05'
+        AppId: app.usermessage.AppId,
       };
       wx.request({
         url: app.globalData.url+'/Api/Cinema/QueryCinemas/' + data.Username + '/' + data.Password + '/' + data.AppId,
@@ -376,7 +376,7 @@ const getAPIUserData=callback=>{
   let obj = {
     UserName: 'MiniProgram',
     Password: '6BF477EBCC446F54E6512AFC0E976C41',
-    AppId: 'wx8079e2f2a9958d05'
+    AppId: 'wx1baa1fc8240ef183'
   };
   wx.setStorage({
     key: 'APIUSER',

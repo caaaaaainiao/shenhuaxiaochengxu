@@ -158,61 +158,7 @@ Page({
         disPrice: totalPrice - that.data.merOrder.merTicket.couponPrice
       });
     },3000)
-    
 
-
-
-   
-
-    //   if (goodTicket && goodTicket.length > 0) {
-    //     //formatTime
-    //     for (var i = 0; i < goodTicket.length; i++) {
-    //       if (goodTicket[i].validityDate) {
-    //         goodTicket[i].validityDateStr = util.formatTimeGMT(goodTicket[i].validityDate);
-    //       } else {
-    //         goodTicket[i].validityDateStr = ""
-    //       }
-
-    //     }
-    //     // console.log(merOrder)
-    //     // if(){
-
-    //     // }
-        
-    //     // let merOrder = null;
-    //     // for (that.data.totalPrice) {
-
-    //     // }
-    //     // console.log(that.data.totalPrice)
-    //     // console.log(goodTicket)
-    //     // var length = goodTicket.length;
-    //     // for (var i = 0; i < length; i++){
-    //     //   for (var i = 0; i < length; i++) {
-    //     //     if (goodTicket[i].price + 1 >= that.data.totalPrice) {
-    //     //       // console.log(goodTicket[i].price)
-    //     //       // let goodTicketList = goodTicket.splice(i, 1)
-    //     //       goodTicket.splice(i, 1)
-    //     //       // return goodTicket
-    //     //       // goodTicket = 
-    //     //     }
-    //     //   }
-    //     // }
-        
-    //     console.log(goodTicket)
-       
-        
-      //   // for (var i in merOrder){}
-      //   that.setData({
-      //     merOrder: merOrder,
-      //   });
-      //   that.updatetotalPrice();
-      // }
-    
-    // wx.hideLoading()
-    // });
-    //  });
-
-    // console.log(newList)
     util.getcinemaList(function (res) {
       if (res) {
         that.setData({
@@ -636,7 +582,8 @@ Page({
       FilmCode: null, //影片编码
       TicketNum: null, //票数
     };
-    if (that.data.cinemaType == '辰星') {
+    if (that.data.cinemaType == '辰星' || that.data.cinemaType == '满天星') {
+      console.log(data)
       wx.request({
         url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + null +'/' +that.data.merOrder.merTicket.conponCode,
         method: 'GET',
