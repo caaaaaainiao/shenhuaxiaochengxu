@@ -172,11 +172,11 @@ Page({
             giftNum = that.data.gifts.gift[i].sendNumber
           }
         }
-        for (var i = 0; i < that.data.gifts.coupons.length; i++) {
-          if (that.data.gifts.coupons[i].id == id) {
-            giftNum = that.data.gifts.coupons[i].sendNumber
-          }
-        }
+        // for (var i = 0; i < that.data.gifts.coupons.length; i++) {
+        //   if (that.data.gifts.coupons[i].id == id) {
+        //     giftNum = that.data.gifts.coupons[i].sendNumber
+        //   }
+        // }
         // console.log(message)
         that.setData({
           showGift:true,

@@ -31,10 +31,10 @@ Page({
   },
   //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等
   //授权信息
-  formSubmit: function(e) {
+  formSubmit: function (e) {
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
   },
-  onLoad: function(options) {
+  onLoad: function (options) {
     this.getAccesstoken()
     wx.getStorage({
       key: 'accredit',
@@ -61,7 +61,7 @@ Page({
     wx.request({
       url:app.globalData.url+'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
-      success: function(res) {
+      success: function (res) {
         that.setData({
           logo: res.data.data.cinemas[0].businessPic,
           concinemaname: res.data.data.cinemas[0].businessName,
@@ -74,7 +74,7 @@ Page({
       timestamp: new Date().getTime()
     })
     wx.getSetting({ //获取用户当前设置
-      success: function(res) {
+      success: function (res) {
         //  console.log(res)
         //authSetting 返回的授权结果
         if (res.authSetting["scope.userLocation"]) {
@@ -86,7 +86,7 @@ Page({
     })
     wx.getStorage({
       key: 'zchb',
-      success: function(res) {
+      success: function (res) {
         console.log(res)
         that.setData({
           zchb: res.data //key所对应的内容
@@ -95,7 +95,7 @@ Page({
       },
     })
     //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等 监听页面加载
-    util.getCity(function(res, userLat, userLng) {
+    util.getCity(function (res, userLat, userLng) {
       var cinemas = res;
       var recent = []
       if (userLat && userLng) {
@@ -105,14 +105,14 @@ Page({
           var distance = that.distance(userLat, userLng, lat, lng);
           cinemas[i].distance = distance
         }
-        setTimeout(function() {
+        setTimeout(function () {
           that.setData({
             soncinemas: cinemas
           })
           app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
           that.getMovie(app.globalData.cinemacode)
           if (app.globalData.openId != null) {
-            util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
+            util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
               var memberCard = [];
               var status = [];
               if (res.data.Status == "Failure") {
@@ -133,7 +133,7 @@ Page({
                   }
                 }
                 // 计算余额最多的会员卡
-                var first = memberCard.sort(function(a, b) {
+                var first = memberCard.sort(function (a, b) {
                   return a.balance < b.balance
                 })[0];
                 if (first.score == null) {
@@ -148,12 +148,12 @@ Page({
 
             wx.getStorage({
               key: 'accredit',
-              success: function(res) { //key所对应的内容
+              success: function (res) { //key所对应的内容
                 // console.log(res)
 
                 that.wxLogin(); //获取信息函数
               },
-              fail: function(res) {
+              fail: function (res) {
                 that.setData({
                   shouquan: true
                 })
@@ -170,7 +170,7 @@ Page({
       };
       // console.log(arr)
       // 去除重复省市显示返回新数组newArr
-      var newArr = arr.filter(function(element, index, self) {
+      var newArr = arr.filter(function (element, index, self) {
         return self.indexOf(element) === index;
       });
       // 将数据赋值到nowCity中显示
@@ -184,7 +184,7 @@ Page({
       };
 
       function sortDistance(property) {
-        return function(a, b) {
+        return function (a, b) {
           var value1 = a[property];
           var value2 = b[property];
           return value1 - value2;
@@ -212,11 +212,11 @@ Page({
       app.globalData.cardList = 0;
     };
   },
-  getMovie: function(cinemaNo) {
+  getMovie: function (cinemaNo) {
     if (cinemaNo) {
       var timestamp1 = new Date().getTime()
       var that = this;
-      util.getQueryFilmSession(cinemaNo, function(res) {
+      util.getQueryFilmSession(cinemaNo, function (res) {
         // that.setData({
         //   movieList: res
         // })
@@ -240,9 +240,9 @@ Page({
 
   //json数组比较
 
-  compare: function(property) {
+  compare: function (property) {
 
-    return function(a, b) {
+    return function (a, b) {
 
       var value1 = a[property];
 
@@ -254,16 +254,16 @@ Page({
 
   },
   // 获取用户位置，请求影院列表
-  getPlace: function() {
+  getPlace: function () {
     var that = this;
     // console.log("place")
     wx.getStorage({
       key: 'location',
-      success: function(res) {
+      success: function (res) {
         // console.log(res)
         wx.getStorage({
           key: 'areaNo',
-          success: function(e) {
+          success: function (e) {
             // console.log(e)
             if (res.data.length > 0) { //有内容
               var list = res.data;
@@ -277,7 +277,7 @@ Page({
               return;
             }
           },
-          fail: function(e) {
+          fail: function (e) {
             if (res.data.length > 0) {
               var list = res.data;
               that.setData({
@@ -296,10 +296,10 @@ Page({
           }
         })
       },
-      fail: function(res) {
+      fail: function (res) {
         wx.getLocation({
           type: 'wgs84', //wgs84 返回 gps 坐标，gcj02 返回可用于 wx.openLocation 的坐标
-          success: function(res) {
+          success: function (res) {
             // console.log(res)
             var la = res.latitude; //纬度
             var lg = res.longitude; //经度
@@ -319,7 +319,7 @@ Page({
               header: {
                 "Content-Type": "application/x-www-form-urlencoded"
               },
-              success: function(data) {
+              success: function (data) {
                 console.log(data)
                 if (data.data.status == 0) { //数据返回错误
                   // console.log(data.data.message)
@@ -367,7 +367,7 @@ Page({
 
   },
   // 计算用户与影院距离
-  distance: function(la1, lo1, la2, lo2) {
+  distance: function (la1, lo1, la2, lo2) {
     var La1 = la1 * Math.PI / 180.0;
     var La2 = la2 * Math.PI / 180.0;
     var La3 = La1 - La2;
@@ -378,7 +378,7 @@ Page({
     s = s.toFixed(2);
     return s;
   },
-  QueryFilm: function(filmCode, cinemacode) { //显示电影详情
+  QueryFilm: function (filmCode, cinemacode) { //显示电影详情
     var that = this;
     let apiuser = util.getAPIUserData(null);
 
@@ -389,7 +389,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function(res) {
+      success: function (res) {
         // console.log(res)
         that.data.FlimList.push(res)
         that.setData({
@@ -408,7 +408,7 @@ Page({
     })
   },
   // 移除第一次进入引导
-  removeBlack: function() {
+  removeBlack: function () {
     this.setData({
       isFirst: false
     })
@@ -421,14 +421,14 @@ Page({
     })
   },
   // 影片详情
-  toDetails: function(e) {
+  toDetails: function (e) {
     // console.log("details")
     app.globalData.movieIndex = e.currentTarget.dataset.index;
     // console.log(e)
     // console.log(app)
     wx.getStorage({
       key: 'loginInfo',
-      success: function(res) {
+      success: function (res) {
         if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../movieDetail/movieDetail', //跳转到影片列表
@@ -439,7 +439,7 @@ Page({
           })
         }
       },
-      fail: function() {
+      fail: function () {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -448,7 +448,13 @@ Page({
 
   },
   // 比价购票
-  buy: function(e) {
+  buy: function (e) {
+    // wx.redirectTo({
+    //           url: '../login/login'
+    //         })
+    // console.log(e)
+    // console.log(res.data)
+    // console.log(e.currentTarget.dataset)
 
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
     wx.setStorage({
@@ -459,7 +465,7 @@ Page({
     app.globalData.movieIndex = e.currentTarget.dataset.index;
     wx.getStorage({
       key: 'loginInfo',
-      success: function(res) {
+      success: function (res) {
         if (res.data.mobilePhone) {
           wx.navigateTo({
             url: '../compare/compare', //跳转到影片列表
@@ -470,20 +476,20 @@ Page({
           })
         }
       },
-      fail: function() {
+      fail: function () {
         wx.reLaunch({
           url: '../login/login',
         })
       }
     })
   },
-  getMovies: function() {
+  getMovies: function () {
     var that = this;
     this.setData({
       isChoose: false
     })
   },
-  chooseCity: function(e) {
+  chooseCity: function (e) {
     var that = this;
     var crCity = e.currentTarget.dataset.name;
     // var show = [];
@@ -517,7 +523,7 @@ Page({
       })
     };
   },
-  showCity: function() { //展示城市
+  showCity: function () { //展示城市
     let that = this;
     // 由距离远近进行排序 增加一个开关选择是否显示所有影院
     let cinemaList = app.globalData.areaList.sort(util.sortDistance("distance"));
@@ -528,7 +534,7 @@ Page({
       })
     }
   },
-  chooseCinema: function(e) { //选择影院
+  chooseCinema: function (e) { //选择影院
     console.log(e)
     // console.log(app.globalData.cinemaList)
     app.globalData.lookcinemaadd = e.currentTarget.dataset.address;
@@ -553,7 +559,7 @@ Page({
     that.setData({
       isChoose: false
     })
-    util.getQueryFilmSession(app.globalData.cinemacode, function(res) {
+    util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
       var timestamp1 = new Date().getTime()
       // console.log(res)
       // that.setData({
@@ -572,7 +578,7 @@ Page({
       })
     });
     // 调用全局函数设置余额以及积分
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
       var memberCard = [];
       var status = [];
       if (res.data.Status == "Failure") {
@@ -593,7 +599,7 @@ Page({
           }
         }
         // 计算余额最多的会员卡
-        var first = memberCard.sort(function(a, b) {
+        var first = memberCard.sort(function (a, b) {
           return a.balance < b.balance
         })[0];
         if (first.score == null) {
@@ -605,19 +611,19 @@ Page({
         })
       }
     });
-    setTimeout(function() {
+    setTimeout(function () {
       wx.setNavigationBarTitle({
         title: app.globalData.cinemaList.cinemaName
       });
     }, 100);
   },
-  startChoose: function() {
+  startChoose: function () {
     this.setData({
       isChoose: true
     })
     this.showCity();
   },
-  getUserInfo: function(e) { //获取用户信息
+  getUserInfo: function (e) { //获取用户信息
     // console.log(e)
     var that = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
@@ -639,7 +645,7 @@ Page({
           "userInfo": e.detail.userInfo,
           "userInfoDetail": e.detail
         },
-        success: function(res) {
+        success: function (res) {
           // console.log(res)
           that.setData({
             shouquan: false,
@@ -652,7 +658,7 @@ Page({
 
 
   },
-  wxLogin: function() { //用户信息
+  wxLogin: function () { //用户信息
     var that = this;
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
@@ -660,7 +666,7 @@ Page({
       that.setData({
         userInfo: loginInfo
       });
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
         var memberCard = [];
         var status = [];
         if (res.data.Status == "Failure") {
@@ -681,7 +687,7 @@ Page({
             }
           }
           // 计算余额最多的会员卡
-          var first = memberCard.sort(function(a, b) {
+          var first = memberCard.sort(function (a, b) {
             return a.balance < b.balance
           })[0];
           if (first.score == null) {
@@ -697,7 +703,7 @@ Page({
     }
 
     wx.login({
-      success: function(msg) {
+      success: function (msg) {
         var wxCode = msg.code; // 发送 res.code 到后台换取 openId, sessionKey, unionId
         let encryptedData = that.data.userInfoDetail.encryptedData;
         let iv = that.data.userInfoDetail.iv;
@@ -717,7 +723,7 @@ Page({
           header: {
             "Content-Type": "application/json"
           },
-          success: function(e) {
+          success: function (e) {
             console.log(e)
             //个人信息
             that.setData({
@@ -727,7 +733,7 @@ Page({
               wx.setStorage({
                 key: 'loginInfo',
                 data: e.data.data,
-                success: function() {
+                success: function () {
                   // console.log(e)
                   app.globalData.openId = e.data.data.openID;
                   app.globalData.userInfo = e.data.data;
@@ -735,7 +741,7 @@ Page({
                     userInfo: e.data.data
                   })
                   //that.getPlace();
-                  util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
+                  util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
                     var memberCard = [];
                     var status = [];
                     if (res.data.Status == "Failure") {
@@ -756,7 +762,7 @@ Page({
                         }
                       }
                       // 计算余额最多的会员卡
-                      var first = memberCard.sort(function(a, b) {
+                      var first = memberCard.sort(function (a, b) {
                         return a.balance < b.balance
                       })[0];
                       if (first.score == null) {
@@ -785,7 +791,7 @@ Page({
                 header: {
                   "Content-Type": "application/json"
                 },
-                success: function(res) {
+                success: function (res) {
                   if (res.data.data.mobilePhone == null || res.data.data.mobilePhone == '') {
                     wx.redirectTo({
                       url: '../login/login',
@@ -806,10 +812,10 @@ Page({
             //是否第一次进入 引导
             wx.getStorage({
               key: 'firstUse',
-              success: function(res) {
+              success: function (res) {
 
               },
-              fail: function() {
+              fail: function () {
                 that.setData({
                   isFirst: true
                 })
@@ -818,14 +824,14 @@ Page({
             })
 
           },
-          fail: function(e) {
+          fail: function (e) {
             console.log(e)
           }
         })
       }
     })
   },
-  getLocation: function() {
+  getLocation: function () {
     wx.getSetting({
       success(res) {
         console.log(res.authSetting)
@@ -844,7 +850,7 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function() {
+  onShow: function () {
     var that = this;
     wx.getStorage({
       key: 'accredit',
@@ -883,7 +889,7 @@ Page({
     }
     // 调用全局函数设置余额以及积分
     if (app.globalData.cinemacode && app.globalData.openId) {
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
         var memberCard = [];
         var status = [];
         let userCardList = [];
@@ -906,7 +912,7 @@ Page({
           }
           // console.log(status)
           for (let i = 0; i < status.length; i++) {
-            util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, status[i].cardNo, status[i].cardPassword, function(res) {
+            util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, status[i].cardNo, status[i].cardPassword, function (res) {
               userCardList.push(res);
               that.setData({
                 userCardList: userCardList
@@ -914,8 +920,8 @@ Page({
             })
           }
           // 计算余额最多的会员卡
-          setTimeout(function() {
-            var first = userCardList.sort(function(a, b) {
+          setTimeout(function () {
+            var first = userCardList.sort(function (a, b) {
               return a.balance < b.balance
             })[0];
             if (first.score == null) {
@@ -959,25 +965,25 @@ Page({
     } else {
       app.globalData.cardList = 0;
     };
-    setTimeout(function() {
+    setTimeout(function () {
       wx.setNavigationBarTitle({
         title: app.globalData.cinemaList.cinemaName
       });
     }, 1000);
   },
-  onShareAppMessage: function() {
+  onShareAppMessage: function () {
     return {
       title: '神画电影',
       path: '/pages/index/index'
     }
   },
 
-  toCard: function() {
+  toCard: function () {
     var that = this;
     if (that.data.memberCardBalance == "---") {
       wx.getStorage({
         key: 'loginInfo',
-        success: function(res) {
+        success: function (res) {
           if (res.data.mobilePhone) {
             wx.navigateTo({
               url: '../page04/index', //跳转到影片列表
@@ -988,7 +994,7 @@ Page({
             })
           }
         },
-        fail: function() {
+        fail: function () {
           wx.reLaunch({
             url: '../login/login',
           })
@@ -997,7 +1003,7 @@ Page({
     } else {
       wx.getStorage({
         key: 'loginInfo',
-        success: function(res) {
+        success: function (res) {
           if (res.data.mobilePhone) {
             wx.navigateTo({
               url: '../page05/index', //跳转到影片列表
@@ -1008,7 +1014,7 @@ Page({
             })
           }
         },
-        fail: function() {
+        fail: function () {
           wx.reLaunch({
             url: '../login/login',
           })
@@ -1016,7 +1022,7 @@ Page({
       })
     }
   },
-  hidehb: function() {
+  hidehb: function () {
     this.setData({
       zchb: ''
     })
@@ -1026,7 +1032,7 @@ Page({
     })
     wx.showTabBar()
   },
-  tologin: function() {
+  tologin: function () {
     var that = this;
     if (!that.data.userInfo || !that.data.userInfo.mobile || that.data.userInfo.mobile == "") {
       wx.navigateTo({
@@ -1035,14 +1041,14 @@ Page({
     }
 
   },
-  getAccesstoken: function() {
+  getAccesstoken: function () {
     wx.request({
       url: 'https://api.weixin.qq.com/cgi-bin/token' + '?' + 'grant_type' + '=' + 'client_credential' + '&' + 'appid' + '=' + app.usermessage.AppId + '&' + 'secret' + '=' + app.usermessage.secret,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function(res) {
+      success: function (res) {
         // console.log(res.data.access_token)
         app.usermessage.access_token = res.data.access_token
       }

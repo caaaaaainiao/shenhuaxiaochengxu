@@ -27,6 +27,7 @@ App({
     // AppId: 'wxe9ac67c34cccb15d', // 1905
     OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
     secret: 'a90e16667f571b11d5e42476d8860524', // 所有
+    // AppId: 'wxe9ac67c34cccb15d', // 1905
     // secret: '71239b48a93c0f199df74f5588020574', // 1905
     access_token : ''
   },
@@ -50,8 +51,10 @@ App({
     // url: "http://192.168.1.178:8080",
     // url: "http://192.168.1.177:8080", 
     // url: "http://192.168.1.114:8080",
-    // SocketUrl: "wss://ik.legendpicture.com",
-    SocketUrl: "wss://xc.80piao.com:8443",
+    // url: "http://192.168.1.109:8080",
+    SocketUrl: "wss://ik.legendpicture.com",
+    // SocketUrl: "wss://xc.80piao.com:8443",
+    // SocketUrl: "wss://192.168.1.109:8080",
     goodsList:null,
     type2address:"",
     sellfeatureAppNo:"",

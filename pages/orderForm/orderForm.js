@@ -115,24 +115,24 @@ Page({
             that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
             that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
             that.setData({
-              ticketRealPrice: parseInt(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
+              ticketRealPrice: Number(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
               couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
               reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
             })
             let allPrice = Number(options.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
             that.setData({
-              allPrice: allPrice,
+              allPrice: parseFloat(allPrice).toFixed(2),
             })
           } else {
             let allPrice = Number(options.price) + Number(that.data.refreshments);
             that.setData({
-              allPrice: allPrice,
+              allPrice: parseFloat(allPrice).toFixed(2),
             })
           }
         } else {
           let allPrice = Number(options.price) + Number(that.data.refreshments);
           that.setData({
-            allPrice: allPrice,
+            allPrice: parseFloat(allPrice).toFixed(2),
           })
         }
       }
@@ -162,36 +162,36 @@ Page({
                     if (app.globalData.cinemaList.cinemaType == '辰星') {
                       let price;
                       if (res.data.card.price == '0') {
-                        price = that.data.price;
+                        price = parseFloat(that.data.price).toFixed(2);
                       } else {
-                        price = res.data.card.price * that.data.count;
+                        price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
                       }
                       that.setData({
-                        memberCardPrice: price.toFixed(2),
-                        allPrice: (price - reductionPrice + refreshments),
+                        memberCardPrice: price,
+                        allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
                     } else if (app.globalData.cinemaList.cinemaType == '粤科') {
                       let price;
                       if (res.data.card.discountType == '1') {
-                        price = res.data.card.price * that.data.count;
+                        price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
                       }
                       if (!res.data.card.price) {
-                        price = that.data.price
+                        price = parseFloat(that.data.price).toFixed(2)
                       }
                       that.setData({
-                        memberCardPrice: price.toFixed(2),
-                        allPrice: (price - reductionPrice + refreshments),
+                        memberCardPrice: price,
+                        allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
                     } else if (app.globalData.cinemaList.cinemaType == '满天星') {
                       let price;
                       if (res.data.card.price == '0') {
-                        price = that.data.price;
+                        price = parseFloat(that.data.price).toFixed(2);
                       } else {
-                        price = res.data.card.price * that.data.count;
+                        price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
                       }
                       that.setData({
-                        memberCardPrice: price.toFixed(2),
-                        allPrice: (price - reductionPrice + refreshments),
+                        memberCardPrice: price,
+                        allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
                     }
                     console.log(that.data.allPrice)
@@ -396,24 +396,24 @@ Page({
             that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
             that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
             that.setData({
-              ticketRealPrice: parseInt(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
+              ticketRealPrice: Number(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
               couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
               reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
             })
             let allPrice = Number(that.data.memberCardPrice) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
             that.setData({
-              allPrice: allPrice,
+              allPrice: parseFloat(allPrice).toFixed(2),
             })
           } else {
             let allPrice = Number(that.data.memberCardPrice) + Number(that.data.refreshments);
             that.setData({
-              allPrice: allPrice,
+              allPrice: parseFloat(allPrice).toFixed(2),
             })
           }
         } else {
           let allPrice = Number(that.data.memberCardPrice) + Number(that.data.refreshments);
           that.setData({
-            allPrice: allPrice,
+            allPrice: parseFloat(allPrice).toFixed(2),
           })
         }
       }
@@ -442,24 +442,24 @@ Page({
             that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
             that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
             that.setData({
-              ticketRealPrice: parseInt(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
+              ticketRealPrice: Number(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
               couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
               reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
             })
             let allPrice = Number(that.data.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
             that.setData({
-              allPrice: allPrice,
+              allPrice: parseFloat(allPrice).toFixed(2),
             })
           } else {
             let allPrice = Number(that.data.price) + Number(that.data.refreshments);
             that.setData({
-              allPrice: allPrice,
+              allPrice: parseFloat(allPrice).toFixed(2),
             })
           }
         } else {
           let allPrice = Number(that.data.price) + Number(that.data.refreshments);
           that.setData({
-            allPrice: allPrice,
+            allPrice: parseFloat(allPrice).toFixed(2),
           })
         }
       }
@@ -475,7 +475,7 @@ Page({
     that.setData({
       comboList: that.data.comboList,
       price: that.data.price,
-      allPrice: that.data.allPrice,
+      allPrice: parseFloat(that.data.allPrice).toFixed(2),
     })
     that.leftTime();
   },
@@ -546,7 +546,7 @@ Page({
     if (json.length == 0) {
       that.setData({
         refreshments: 0,
-        allPrice: that.data.price,
+        allPrice: parseFloat(that.data.allPrice).toFixed(2),
       })
     } else {
       for (let i = 0; i < json.length; i++) {
@@ -554,7 +554,7 @@ Page({
       }
       that.setData({
         refreshments: refreshments,
-        allPrice: refreshments + Number(that.data.price)
+        allPrice: parseFloat(refreshments + Number(that.data.price)).toFixed(2),
       })
     }
     // if (json.length == 0) {
@@ -1699,7 +1699,7 @@ Page({
         couponsCode: that.data.seatCoupon.couponsCode,
         reductionPrice: that.data.seatCoupon.reductionPrice,
         ticketRealPrice: (that.data.price) / (that.data.count),  /* 减免金额 */
-        allPrice: price + refreshments,
+        allPrice: parseFloat(price + refreshments).toFixed(2),
         priceArr: priceArr,
         codeArr: codeArr,
       })
@@ -1709,15 +1709,19 @@ Page({
     } else { // 代金券
       priceArr.push(seatCouponPrice);
       codeArr.push(that.data.seatCoupon.couponsCode);
-      price = Number(that.data.beginTicket) - Number(seatCouponPrice);
-      price = Math.ceil(price * 100) / 100;
-      console.log(price)
+      if (that.data.payway == '0') { // 会员卡支付
+        price = Number(that.data.memberCardPrice) - Number(seatCouponPrice); // 会员价减去优惠券价格
+        price = parseFloat(price * 100) / 100;
+      } else {
+        price = Number(that.data.beginTicket) - Number(seatCouponPrice);// 影票原价减去优惠券价格
+        price = parseFloat(price * 100) / 100;
+      }
       that.setData({
         couponsCode: that.data.seatCoupon.couponsCode,
         reductionPrice: that.data.seatCoupon.reductionPrice, // 优惠券价格
         ticketRealPrice: seatCouponPrice, // 减免金额
         // price: price,
-        allPrice: price + refreshments,
+        allPrice: parseFloat(price + refreshments).toFixed(2),
         priceArr: priceArr,
         codeArr: codeArr,
       })
