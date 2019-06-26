@@ -38,7 +38,7 @@ Page({
     this.getAccesstoken()
     wx.getStorage({
       key: 'accredit',
-      success: function (res) { //key所对应的内容
+      success: function(res) { //key所对应的内容
         // console.log(res)
         that.setData({
           wxInfo: res.data.userInfo, //用户信息
@@ -47,7 +47,7 @@ Page({
         app.globalData.getUsename = that.data.wxInfo.nickName
         app.globalData.getAvatarUrl = that.data.wxInfo.avatarUrl
       },
-      fail: function (res) {
+      fail: function(res) {
         that.setData({
           shouquan: true
         })
@@ -59,7 +59,7 @@ Page({
     })
     var that = this;
     wx.request({
-      url: 'https://xc.80piao.com:8443/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
+      url:app.globalData.url+'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
       success: function(res) {
         that.setData({
@@ -146,10 +146,10 @@ Page({
               }
             })
 
-       wx.getStorage({
+            wx.getStorage({
               key: 'accredit',
               success: function(res) { //key所对应的内容
-              // console.log(res)
+                // console.log(res)
 
                 that.wxLogin(); //获取信息函数
               },
@@ -441,7 +441,7 @@ Page({
       },
       fail: function() {
         wx.reLaunch({
-          url: '../index/index',
+          url: '../login/login',
         })
       }
     })
@@ -449,35 +449,12 @@ Page({
   },
   // 比价购票
   buy: function(e) {
-    // wx.redirectTo({
-    //           url: '../login/login'
-    //         })
-    // console.log(e)
-    // console.log(res.data)
-    // console.log(e.currentTarget.dataset)
 
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
     wx.setStorage({
       key: 'movieList',
       data: app.globalData.movieList,
     })
-    // return;
-    // if (app.globalData.userInfo.mobile == null || app.globalData.userInfo.mobile == "") {
-    //   wx.showToast({
-    //     title: '请先注册手机号',
-    //     icon: "loading",
-    //     mask: true,
-    //     duration: 2000,
-    //     success: function() {
-    //       setTimeout(function() {
-    //         wx.redirectTo({
-    //           url: '../login/login'
-    //         })
-    //       }, 2000)
-    //     }
-    //   })
-    //   return;
-    // }
     app.globalData.movieId = e.currentTarget.dataset.id;
     app.globalData.movieIndex = e.currentTarget.dataset.index;
     wx.getStorage({
@@ -495,7 +472,7 @@ Page({
       },
       fail: function() {
         wx.reLaunch({
-          url: '../index/index',
+          url: '../login/login',
         })
       }
     })
@@ -811,7 +788,7 @@ Page({
                 success: function(res) {
                   if (res.data.data.mobilePhone == null || res.data.data.mobilePhone == '') {
                     wx.redirectTo({
-                      url: '../index/index',
+                      url: '../login/login',
                     })
                   }
                 }
@@ -871,7 +848,7 @@ Page({
     var that = this;
     wx.getStorage({
       key: 'accredit',
-      success: function (res) { //key所对应的内容
+      success: function(res) { //key所对应的内容
         // console.log(res)
         that.setData({
           wxInfo: res.data.userInfo, //用户信息
@@ -880,7 +857,7 @@ Page({
         app.globalData.getUsename = that.data.wxInfo.nickName
         app.globalData.getAvatarUrl = that.data.wxInfo.avatarUrl
       },
-      fail: function (res) {
+      fail: function(res) {
         that.setData({
           shouquan: true
         })
@@ -1013,7 +990,7 @@ Page({
         },
         fail: function() {
           wx.reLaunch({
-            url: '../index/index',
+            url: '../login/login',
           })
         }
       })
@@ -1033,7 +1010,7 @@ Page({
         },
         fail: function() {
           wx.reLaunch({
-            url: '../index/index',
+            url: '../login/login',
           })
         }
       })

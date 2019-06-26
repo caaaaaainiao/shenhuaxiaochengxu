@@ -451,7 +451,7 @@ Page({
           }
         }, fail: function () {
           wx.reLaunch({
-            url: '../index/index',
+            url: '../login/login',
           })
         }
       })
@@ -471,7 +471,7 @@ Page({
               }
             }, fail: function () {
               wx.reLaunch({
-                url: '../index/index',
+                url: '../login/login',
               })
             }
           })
