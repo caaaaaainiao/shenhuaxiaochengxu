@@ -141,32 +141,6 @@ Page({
   },
   toIndex:function(e){
     var type = e.currentTarget.dataset.type;
-    // var plat = e.currentTarget.dataset.plat;
-    // var that = this;
-    // if(plat == 2){
-    //   var nowtime = new Date().getTime();
-    //   var sign = app.createMD5('verficationCxTicket', nowtime);
-    //   wx.showLoading({
-    //     mask: true
-    //   })
-    //   wx.request({
-    //     url: app.globalData.url + '/api/shOrder/verficationCxTicket',
-    //     data: {
-    //       appUserId: app.globalData.userInfo.id,
-    //       orderNum:"",
-    //       seatTicketId:"",
-    //       timeStamp: nowtime,
-    //       mac: sign
-    //     },
-    //     method: "POST",
-    //     header: {
-    //       "Content-Type": "application/x-www-form-urlencoded"
-    //     },
-    //     success: function (res) {
-         
-    //     }
-    //   })
-    // }else{
       if (type == 2) {
         wx.switchTab({
           url: '../sell/sell',

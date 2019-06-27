@@ -203,24 +203,6 @@ Page({
         }
       });
     },500)
-    // 获取小食套餐
-    // wx.request({
-    //   url: app.globalData.url + '/Api/Goods/QueryComponents' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + options.count,
-    //   method: "GET",
-    //   header: {
-    //     'content-type': 'application/json' // 默认值
-    //   },
-    //   success: function (res) {
-    //     if (res.data.Status == "Success") {
-    //       // console.log(res)
-    //       var comboList = res.data.data
-    //       that.setData({
-    //         comboList: comboList
-    //       });
-    //       that.manage();
-    //     }
-    //   }
-    // })
     that.leftTime();
   },
   //传入数组以及要去重的对象
@@ -991,52 +973,6 @@ Page({
                           url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                         })
                       }, 1000)
-                      // var NewTime = util.formatTimeDays(new Date())
-                      // wx.request({
-                      //   url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-                      //   data: {
-                      //     "touser": app.globalData.openId,
-                      //     "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
-                      //     "form_id": that.data.formids,
-                      //     "data": {
-                      //       "keyword1": {
-                      //         "value": that.data.cardNo
-                      //       },
-                      //       "keyword2": {
-                      //         "value": app.globalData.lookcinemaname + '-' + that.data.hallName
-                      //       },
-                      //       "keyword3": {
-                      //         "value": that.data.price
-                      //       },
-                      //       "keyword4": {
-                      //         "value": that.data.movieName
-                      //       },
-                      //       "keyword5": {
-                      //         "value": that.data.date
-                      //       },
-                      //       "keyword6": {
-                      //         "value": that.data.seat
-                      //       },
-                      //       "keyword7": {
-                      //         "value": that.data.price
-                      //       },
-                      //       "keyword8": {
-                      //         "value": NewTime.NowDataYear
-                      //       },
-                      //       "keyword9": {
-                      //         "value": res.data.printNo
-                      //       }
-                      //     }
-                      //   },
-                      //   method: "POST",
-                      //   header: {
-                      //     'content-type': 'application/json' // 默认值
-                      //   },
-                      //   success: function (res) {
-                      //     console.log(res)
-                      //     // app.usermessage.access_token = res.data.access_token
-                      //   }
-                      // })
 
                     } else { //支付失败
                       wx.showToast({
@@ -1233,52 +1169,6 @@ Page({
                           url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
                         })
                       }, 1000)
-                      // var NewTime = util.formatTimeDays(new Date())
-                      // wx.request({
-                      //   url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-                      //   data: {
-                      //     "touser": app.globalData.openId,
-                      //     "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
-                      //     "form_id": that.data.formids,
-                      //     "data": {
-                      //       "keyword1": {
-                      //         "value": that.data.cardno
-                      //       },
-                      //       "keyword2": {
-                      //         "value": app.globalData.lookcinemaname + '-' + that.data.hallName
-                      //       },
-                      //       "keyword3": {
-                      //         "value": that.data.price
-                      //       },
-                      //       "keyword4": {
-                      //         "value": that.data.movieName
-                      //       },
-                      //       "keyword5": {
-                      //         "value": that.data.date
-                      //       },
-                      //       "keyword6": {
-                      //         "value": that.data.seat
-                      //       },
-                      //       "keyword7": {
-                      //         "value": that.data.price
-                      //       },
-                      //       "keyword8": {
-                      //         "value": NewTime.NowDataYear
-                      //       },
-                      //       "keyword9": {
-                      //         "value": res.data.printNo
-                      //       }
-                      //     }
-                      //   },
-                      //   method: "POST",
-                      //   header: {
-                      //     'content-type': 'application/json' // 默认值
-                      //   },
-                      //   success: function (res) {
-                      //     console.log(res)
-                      //     // app.usermessage.access_token = res.data.access_token
-                      //   }
-                      // })
                     } else {// 支付失败
                       wx.showToast({
                         title: "订单确认失败",
@@ -1457,118 +1347,6 @@ Page({
         }
       }
     })
-    // var json = [];
-    // for (var i = 0; i < that.data.comboList.length; i++) {
-    //   var row = {};
-    //   row.id = that.data.seatOrder.comboList[i].id;
-    //   row.number = that.data.seatOrder.comboList[i].buyNum;
-    //   if (row.number > 0) {
-    //     json.push(row)
-    //   }
-    // }
-    // if (json.length == 0) {
-    //   json = ""
-    // } else {
-    //   json = JSON.stringify(json);
-    // }
-    // var marActivityId = "";
-    // if (that.data.marActivity != null) {
-    //   marActivityId = that.data.marActivity.id;
-    // }
-    // var seatCouponId = "";
-    // if (that.data.seatCoupon != null) {
-    //   marActivityId = that.data.seatCoupon.id
-    // }
-    // wx.showLoading({
-    //   title: '支付中',
-    // })
-    // var nowtime = new Date().getTime();
-    // var sign = app.createMD5('confirmTotalOrder', nowtime);
-    // wx.request({
-    //   url: app.globalData.url + '/api/shOrder/confirmTotalOrder',
-    //   data: {
-    //     phone: that.data.phone,
-    //     appUserId: app.globalData.userInfo.id,
-    //     orderNum: that.data.seatOrder.orderNum,
-    //     merchandiseInfo: json,
-    //     seatTicketId: seatCouponId,
-    //     merTicketId: that.data.merTicketId,
-    //     activityId: marActivityId, //参与的活动的id
-    //     memo: that.data.userMessage,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function(res) {
-    //     // console.log(res)
-    //     var ordernum = res.data.data.orderNum;
-    //     var nowtime = new Date().getTime();
-    //     var sign = app.createMD5('cardPay', nowtime);
-    //     wx.request({
-    //       url: app.globalData.url + '/api/shOrder/cardPay',
-    //       data: {
-    //         appUserId: app.globalData.userInfo.id,
-    //         orderNum: that.data.seatOrder.orderNum,
-    //         password: that.data.password,
-    //         timeStamp: nowtime,
-    //         mac: sign
-    //       },
-    //       method: "POST",
-    //       header: {
-    //         "Content-Type": "application/x-www-form-urlencoded"
-    //       },
-    //       success: function(res) {
-    //         // console.log(res)
-    //         that.setData({
-    //           canClick: 1
-    //         }) //解開點擊
-    //         wx.hideLoading()
-    //         if (res.data.status == 0) {
-    //           if (res.data.code == "not_enough_balance") {
-    //             wx.showModal({
-    //               title: '',
-    //               content: res.data.message,
-    //               success: function(res) {
-    //                 if (res.confirm) {
-    //                   wx.redirectTo({
-    //                     url: '../page04/index',
-    //                   })
-    //                 } else if (res.cancel) {
-    //                   wx.redirectTo({
-    //                     url: '../waitPay/waitPay?orderNum=' + ordernum,
-    //                   })
-    //                 }
-    //               }
-    //             })
-    //           } else {
-    //             wx.showModal({
-    //               title: '',
-    //               content: res.data.message,
-    //             })
-    //           }
-    //         } else if (res.data.status == 1) {
-    //           that.setData({
-    //             showPay: false
-    //           })
-    //           that.syn();
-    //           wx.showToast({
-    //             title: '支付成功',
-    //             mask: true,
-    //             duration: 2000
-    //           })
-    //           setTimeout(function() {
-    //             wx.redirectTo({
-    //               url: '../success/success?orderNum=' + that.data.seatOrder.orderNum,
-    //             })
-    //           }, 1000)
-    //         }
-    //       }
-    //     })
-    //   }
-    // })
   },
   syn: function () {
     var that = this;

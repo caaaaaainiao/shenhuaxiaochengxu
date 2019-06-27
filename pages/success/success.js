@@ -99,22 +99,6 @@ Page({
   getBanner: function () { //获取轮播图
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('banners', nowtime);
-    // wx.request({
-    //   url: "https://xc.80piao.com:8443/Api/Activity/QueryActivitys",
-    //   method: "GET",
-    //   header: {
-    //     'content-type': 'application/json' // 默认值
-    //   },
-    //   success: function (res) {
-    //     console.log(res)
-    //     if (res.data.data.length > 0) {
-    //       that.setData({
-    //         banner: res.data.data
-    //       })
-    //     }
-    //   }
-    // })
   },
   bannerTap: function (e) {
     var index = e.currentTarget.dataset.index;

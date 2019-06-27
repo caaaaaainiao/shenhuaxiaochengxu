@@ -103,31 +103,6 @@ Page({
       }
 
     })
-    // wx.request({
-    //   url: app.globalData.url + '/api/shOrder/userOrderList',
-    //   data: {
-    //     appUserId: app.globalData.userInfo.id,
-    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     orderType: "1",//小食
-    //     pageNo: pageNo,
-    //     pageSize: that.data.pageSize,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     var result = that.addJson(that.data.result, res.data.data.result);
-    //     pageNo++;
-    //     that.setData({
-    //       result: result,
-    //       pageNo: pageNo
-    //     })
-    //   }
-    // })
   },
   addJson:function(json1,json2){
     if(json1 == null){

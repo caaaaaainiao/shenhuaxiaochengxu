@@ -62,6 +62,7 @@ Page({
       url:app.globalData.url+'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
       success: function (res) {
+        console.log(res)
         that.setData({
           logo: res.data.data.cinemas[0].businessPic,
           concinemaname: res.data.data.cinemas[0].businessName,
@@ -449,12 +450,6 @@ Page({
   },
   // 比价购票
   buy: function (e) {
-    // wx.redirectTo({
-    //           url: '../login/login'
-    //         })
-    // console.log(e)
-    // console.log(res.data)
-    // console.log(e.currentTarget.dataset)
 
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
     wx.setStorage({
@@ -793,8 +788,8 @@ Page({
                 },
                 success: function (res) {
                   if (res.data.data.mobilePhone == null || res.data.data.mobilePhone == '') {
-                    wx.redirectTo({
-                      url: '../login/login',
+                    wx.navigateTo({
+                      url: '../index/index',
                     })
                   }
                 }

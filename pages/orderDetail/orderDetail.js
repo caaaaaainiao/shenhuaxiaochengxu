@@ -89,15 +89,6 @@ Page({
               printNo: that.data.order.printNo,
             })
           }
-          // 生成二维码
-          // var qrcode = new QRCode('canvas', {
-          //   text: that.data.printNo,
-          //   width: 150,
-          //   height: 150,
-          //   colorDark: "#000000",
-          //   colorLight: "#ffffff",
-          //   correctLevel: QRCode.CorrectLevel.H,
-          // });
         }
       }
     })

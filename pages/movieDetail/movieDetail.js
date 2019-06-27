@@ -190,58 +190,6 @@ Page({
       })
     } 
   },
-  // getComment:function(){//获取评论列表
-  //   var that = this;
-  //   var nowtime = new Date().getTime();
-  //   var sign = app.createMD5('commentList', nowtime);
-  //   wx.request({
-  //     url: app.globalData.url+'/api/Comment/commentList',
-  //     data: {
-  //       movieId: that.data.movie.id,
-  //       pageNo:"1",
-  //       pageSize: "3",
-  //       timeStamp: nowtime,
-  //       mac: sign
-  //     },
-  //     method: "POST",
-  //     header: { "Content-Type": "application/x-www-form-urlencoded" },
-  //     success: function (res) {
-  //       // console.log(res);
-  //       that.setData({
-  //         comments:res.data.data
-  //       })
-  //     }
-  //   })
-  // },
-  // praiseComment:function(e){//评论点赞
-  //   var that = this;
-  //   var nowtime = new Date().getTime();
-  //   var sign = app.createMD5('upvote', nowtime);
-  //   var id = e.currentTarget.dataset.id;
-  //   wx.request({
-  //     url: app.globalData.url+'/api/movie/comment/upvote',
-  //     data: {
-  //       appUserId:app.globalData.userInfo.id,
-  //       id: id,
-  //       timeStamp: nowtime,
-  //       mac: sign
-  //     },
-  //     method: "POST",
-  //     header: { "Content-Type": "application/x-www-form-urlencoded" },
-  //     success: function (res) {
-  //       var newComment = that.data.comments;
-  //       for (var i = 0; i < newComment.length;i++){
-  //         if (newComment[i].id == id){
-  //           newComment[i].upvoteNum = res.data.data.upvoteNum;
-  //           newComment[i].upvoteStatus = res.data.data.upvoteStatus;
-  //         }
-  //       }
-  //       that.setData({
-  //         comments: newComment
-  //       })
-  //     }
-  //   })
-  // },
   toCompare:function(){
     app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
     wx.navigateTo({

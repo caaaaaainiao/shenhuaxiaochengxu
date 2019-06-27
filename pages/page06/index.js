@@ -5,13 +5,6 @@ Page({
   // 页面的初始数据
   data: {
     showAlertExchange2: false,
-    // exchangeList2: [
-    //   { text: '100', tips: '', checked: false },
-    //   { text: '200', tips: '送20元', checked: true },
-    //   { text: '300', tips: '送50元', checked: false },
-    //   { text: '400', tips: '送80元', checked: false },
-    //   { text: '500', tips: '送100元', checked: false },
-    // ],
     date999: '',
     array002: ['', '男', '女'],
     index002: 0,

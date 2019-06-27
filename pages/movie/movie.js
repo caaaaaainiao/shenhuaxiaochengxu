@@ -33,58 +33,11 @@ Page({
 
       }
     })
-    // that.setData({
-    //   location: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName
-    // })
-    // that.getBanner();
-    // var nowtime = new Date().getTime();
-    // var sign = app.createMD5('getRoom', nowtime);
-    // wx.request({
-    //   url: app.globalData.url + '/api/chatRoom/getRoom',
-    //   data: {
-    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     appUserId:app.globalData.userInfo.id,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
-    //   },
-    //   success: function (e) {
-    //     console.log(e)
-    //     var movieRoom = e.data.data;
-    //     for (var i = 0; i < movieRoom.length;i++){
-    //       movieRoom[i].startTime2 = movieRoom[i].startTime.substring(11,16).replace("-",":");
-    //       movieRoom[i].endTime2 = movieRoom[i].endTime.substring(11, 16).replace("-", ":");
-    //     }
-    //     that.setData({
-    //       movieRoom: movieRoom
-    //     })
-    //     app.globalData.movieRoom = movieRoom;
-    //   }
-    // })
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
   roomin:function(e){
     var that =this
     var index = e.currentTarget.dataset.index;
-    // if (!wx.getStorageSync('sjhm')){  //验证登录状态
-    //   wx.showToast({
-    //     title: '请先注册手机号',
-    //     icon: "loading",
-    //     mask: true,
-    //     duration: 500,
-    //     success: function () {
-    //       setTimeout(function () {
-    //         wx.navigateTo({
-    //           url: '../login/login'
-    //         })
-    //       }, 200)
-    //     }
-    //   })
-    //   return;
-    // }
     app.globalData.movieRoom = that.data.MovieList[index];
     console.log(that.data.MovieList[index])
     wx.getStorage({
@@ -129,16 +82,7 @@ Page({
       lookcinemaname: lookcinemaname
     })
     var that = this;
-    // this.setData({
-    //   location: app.usermessage.moviearea,
-    //   Username: app.usermessage.Username,
-    //   Password: app.usermessage.Password,
-    //   CinemaCode: app.usermessage.CinemaCode,
-    // })//当前影院名称字段
-    // that.getBanner();
     var nowtime = new Date().getTime();
-    // var sign = app.createMD5('getRoom', nowtime);
-    // var urlString = 
     that.getNowTimeMovie()
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
@@ -180,33 +124,6 @@ Page({
       path: '/pages/index/index'
     }
   },
-  // getBanner: function () { //获取轮播图
-  //   var that = this;
-  //   var nowtime = new Date().getTime();
-  //   var sign = app.createMD5('banners', nowtime);
-  //   wx.request({
-  //     url: app.globalData.url + '/api/banner/banners',
-  //     data: {
-  //       cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-  //       category: "5", //4 卖品 5聊天室房间列表 6个人中心背景图
-  //       timeStamp: nowtime,
-  //       mac: sign
-  //     },
-  //     method: "POST",
-  //     header: {
-  //       "Content-Type": "application/x-www-form-urlencoded"
-  //     },
-  //     success: function (res) {
-  //       // console.log(res)
-  //       if (res.data.data.length>0){
-  //         that.setData({
-  //           banner: res.data.data
-  //         })
-  //       }
-        
-  //     }
-  //   })
-  // },
   bannerTap: function (e) {
     var index = e.currentTarget.dataset.index;
     var banner = this.data.banner;
@@ -256,16 +173,6 @@ Page({
         that.setData({
           MovieList : res.data
         })
-        // app.globalData.movieRoom = that.data.MovieList;
-        // console.log(e)
-        // var movieRoom = e.data.data;
-        // for (var i = 0; i < movieRoom.length; i++) {
-        //   movieRoom[i].startTime2 = movieRoom[i].startTime.substring(11, 16).replace("-", ":");
-        //   movieRoom[i].endTime2 = movieRoom[i].endTime.substring(11, 16).replace("-", ":");
-        // }
-        // that.setData({
-        //   movieRoom: movieRoom
-        // })
        
       }
     })

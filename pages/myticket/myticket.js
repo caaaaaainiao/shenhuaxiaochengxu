@@ -102,32 +102,6 @@ Page({
       }
 
     })
-    // wx.request({
-    //   url: app.globalData.url + '/api/shOrder/userOrderList',
-    //   data: {
-    //     appUserId: app.globalData.userInfo.id,
-    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     orderType:"0",//买票
-    //     pageNo:pageNo,
-    //     pageSize:that.data.pageSize,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     // that.data.result = res.data.data.result;
-    //     var result = that.addJson(that.data.result, res.data.data.result);
-    //     pageNo++;
-    //     that.setData({
-    //       result: result,
-    //       pageNo: pageNo
-    //     })
-    //   }
-    // })
   },
   toDetail:function(e){
     var orderNum = e.currentTarget.dataset.num;
