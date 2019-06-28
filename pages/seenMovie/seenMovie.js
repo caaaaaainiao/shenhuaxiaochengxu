@@ -115,6 +115,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         wx.hideLoading()
         console.log(res.data.data)
         // wx.hideLoading()

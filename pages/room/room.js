@@ -36,8 +36,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log(options.pa)
-    // this.getGifts()
+    // console.log(options)
+    this.getGifts()
     var that = this;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     var contentHeight = windowHeight - 279;
@@ -60,7 +60,7 @@ Page({
         that.setData({
           userInfo: res.data,
         })
-        console.log(res.data)
+        // console.log(res.data)
         // var SocketUrl = "wss://ik.legendpicture.com"
         var SocketUrl = app.globalData.SocketUrl;
         var url = SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + app.globalData.movieRoom.roomName + '/' + res.data.mobilePhone;
@@ -495,37 +495,22 @@ Page({
     })
   },
   getPrize:function(){
-    // var that = this;
-    // var nowtime = new Date().getTime();
-    // var sign = app.createMD5('myGift', nowtime);
-    // var pageNo = that.data.pageNo;
-    // wx.request({
-    //   url: app.globalData.url + '/api/userGift/myGift',
-    //   data: {
-    //     roomName: that.data.movie.roomName,
-    //     phone: that.data.userInfo.mobilePhone,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     if(res.data.status == 1){
-    //       that.setData({
-    //         prizeList:res.data.data,
-    //         showPrize:true
-    //       })
-    //     }else{
-    //       wx.showModal({
-    //         title: '',
-    //         content: res.data.message,
-    //       })
-    //     }
-    //   }
-    // })
+    console.log(app.globalData.userInfo.openID)
+   wx.request({
+     url: 'https://xc.80piao.com:8443/Api/chatRoom/QueryRoomGiftRecord',
+     method:'POST',
+     data:{
+       userName: app.usermessage.Username,
+       password: app.usermessage.Password,
+       cinemaCode:app.globalData.cinemacode,
+       roomCode: app.globalData.movieRoom.roomName,
+       openID: app.globalData.userInfo.openID
+     },
+     success:function(res){
+       console.log(res)
+
+     }
+   })
   },
   // closePrzie:function(){
   //   this.setData({
