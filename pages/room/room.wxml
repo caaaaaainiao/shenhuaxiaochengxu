@@ -51,7 +51,7 @@
         <view class='gift2'>
           <image src='{{gift.image}}' class='pic2'></image>
           <view class='name'>{{gift.giftName}}</view>
-          <view class='num'>{{gift.sendNumber}}</view>
+          <view class='num'>{{gift.groupNumber}}</view>
           <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{gift.id}}' data-type='{{gift.giftType}}'></image>
         </view>
       </block>
@@ -78,15 +78,15 @@
     <view class='prizeContet'>
       <view class='prizeList'>
         <block wx:for="{{prizeList}}" wx:for-item="prize" wx:key="prize">
-          <view class='prize' wx:if="{{prize.type==1}}">
-            <image class='pic2' src='{{prize.photo}}'></image>
-            <view class='prizename'>{{prize.memo}}</view>
-            <view class='save'>{{prize.createTime}}</view>
+          <view class='prize' wx:if="{{prize.giftType==1}}">
+            <image class='pic2' src='{{prize.image}}'></image>
+            <view class='prizename'>{{prize.giftName}}</view>
+            <view class='save'>{{prize.expireDate}}</view>
           </view>
           <view class='prize' wx:else>
             <image class='pic4' src='/images/ticket.png'></image>
-            <view class='prizename'>{{prize.memo}}</view>
-            <view class='save'>{{prize.createTime}}</view>
+            <view class='prizename'>{{prize.giftName}}</view>
+            <view class='save'>{{prize.expireDate}}</view>
           </view>
         </block>
         <!-- <view class='prizetip'>没有更多了</view> -->
