@@ -399,10 +399,10 @@ Page({
                       password: "6BF477EBCC446F54E6512AFC0E976C41",
                       queryXml: app.globalData.queryXml
                     },
-                    success: function(res) {
-                      console.log(res)
+                    success: function(e) {
+                      console.log(e)
 
-                      if (res.data.Status == 'Failure') {
+                      if (e.data.Status == 'Failure') {
                         wx.request({
                           url: app.globalData.url + '/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
                           method: "GET",
@@ -411,14 +411,22 @@ Page({
                           },
                           success: function(res) {
                             console.log(res)
+                            wx.showModal({
+                              title: res.data.data.orderStatus,
+                              content: e.data.ErrorMessage,
+                            })
+                            wx.redirectTo({
+                              url: '../sellDetail/sellDetail'
+                            })
                           }
                         })
                       } else {
                         var orderNum = res.data.order.orderCode
+                        wx.redirectTo({
+                          url: '../foodSuccess/foodSuccess?orderNum=' + orderNum
+                        })
                       }
-                      wx.redirectTo({
-                        url: '../foodSuccess/foodSuccess?orderNum=' + orderNum
-                      })
+                     
                     }
 
                   })
@@ -808,7 +816,7 @@ Page({
               })
           } else if (res.data.Status == "Success") {
             console.log(res.data.orderNo)
-            var ordernum = res.data.orderNo
+            var ordernum = res.data.orderCode
             var NewTime = util.formatTimeDays(new Date())
             wx.request({
               url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,

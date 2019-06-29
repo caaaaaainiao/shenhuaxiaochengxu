@@ -18,6 +18,7 @@ Page({
    */
   onLoad: function (options) {
     let that = this;
+    console.log(options)
     that.setData({
       orderNum:options.orderNum,
     });
@@ -54,7 +55,6 @@ Page({
   onReady: function () {
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('orderDetail', nowtime);
   },
   phone: function (e) {
     var phone = e.currentTarget.dataset.phone;
