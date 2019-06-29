@@ -24,10 +24,7 @@ App({
     Username: "MiniProgram",
     Password: "6BF477EBCC446F54E6512AFC0E976C41",
     AppId: 'wx1baa1fc8240ef183', // 所有
-    OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
     secret: '9461327783c15fe6c9cd421b0a6f9690', // 所有
-    // AppId: 'wxe9ac67c34cccb15d', // 1905
-    // secret: '71239b48a93c0f199df74f5588020574', // 1905
     access_token : ''
   },
   globalData: {
