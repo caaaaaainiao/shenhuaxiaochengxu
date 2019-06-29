@@ -41,7 +41,7 @@ Page({
     var that = this;
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     var contentHeight = windowHeight - 279;
-    // console.log(app.globalData)
+    console.log(app.globalData)
     // wx.getStorage({
     //   key: 'loginlnfo',
     //   success: function(res) {
@@ -169,7 +169,7 @@ Page({
         console.log(that.data.gifts)
         for(var i = 0;i < that.data.gifts.gift.length;i++){
           if (that.data.gifts.gift[i].id == id){
-            giftNum = that.data.gifts.gift[i].sendNumber
+            giftNum = that.data.gifts.gift[i].groupNumber - 1
           }
         }
         // for (var i = 0; i < that.data.gifts.coupons.length; i++) {
@@ -186,6 +186,7 @@ Page({
           giftNum:giftNum
         })
       } else if (message.messageType == 22){//实时奖品数量变化
+        console.log(message)
         that.setData({
           giftNum:message.content
         })
@@ -377,7 +378,6 @@ Page({
   getGifts: function() {
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('canSend', nowtime);
     var pageNo = that.data.pageNo;
     let apiuser = util.getAPIUserData(null);
     wx.request({
@@ -496,27 +496,33 @@ Page({
   },
   getPrize:function(){
     console.log(app.globalData.userInfo.openID)
+    var that = this
    wx.request({
-     url: 'https://xc.80piao.com:8443/Api/chatRoom/QueryRoomGiftRecord',
+     url: app.globalData.url+'/Api/chatRoom/QueryRoomGiftRecord',
      method:'POST',
      data:{
        userName: app.usermessage.Username,
        password: app.usermessage.Password,
        cinemaCode:app.globalData.cinemacode,
        roomCode: app.globalData.movieRoom.roomName,
-       openID: app.globalData.userInfo.openID
+       openID: app.globalData.userInfo.mobilePhone
      },
      success:function(res){
        console.log(res)
+       var prizeList = res.data.data
+       that.setData({
+         showPrize:true,
+         prizeList: prizeList
+       })
 
      }
    })
   },
-  // closePrzie:function(){
-  //   this.setData({
-  //     showPrize: false
-  //   })
-  // },　
+  closePrzie:function(){
+    this.setData({
+      showPrize: false
+    })
+  },　
   leftTime: function () {//计时器
     var that = this;
     // console.log()
