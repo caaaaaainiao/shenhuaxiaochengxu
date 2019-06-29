@@ -23,9 +23,9 @@ App({
   usermessage: {
     Username: "MiniProgram",
     Password: "6BF477EBCC446F54E6512AFC0E976C41",
-    AppId: 'wx8079e2f2a9958d05', // 所有
+    AppId: 'wx1baa1fc8240ef183', // 所有
     OpenID: 'op2p6jrEvV8v0alTJ060Fu6cAreo',
-    secret: 'a90e16667f571b11d5e42476d8860524', // 所有
+    secret: '9461327783c15fe6c9cd421b0a6f9690', // 所有
     // AppId: 'wxe9ac67c34cccb15d', // 1905
     // secret: '71239b48a93c0f199df74f5588020574', // 1905
     access_token : ''
@@ -44,14 +44,12 @@ App({
     movieIndex:null,
     screenPlanList:null,
     list:null,
-    // url:"https://ik.legendpicture.com",
-    url:"https://xc.80piao.com:8443",
+    url:"https://ik.legendpicture.com",
+    // url:"https://xc.80piao.com:8443",
     // url: "http://192.168.1.114:8080",
     // url: "http://192.168.1.109:8080",
-    // SocketUrl: "wss://ik.legendpicture.com",
-    // SocketUrl: "wss://ik.legendpicture.com",
-    SocketUrl: "wss://xc.80piao.com:8443",
-    // SocketUrl: "wss://192.168.1.109:8080",
+    SocketUrl: "wss://ik.legendpicture.com",
+    // SocketUrl: "wss://xc.80piao.com:8443",
     goodsList:null,
     type2address:"",
     sellfeatureAppNo:"",
