@@ -225,8 +225,6 @@ Page({
         for (var x in res) { // 影片的预售和购票排序
           res[x].jian = res[x].time - timestamp1
         }
-
-        res.sort(that.compare("jian"));
         app.globalData.movieList = res
         that.setData({
           movieList: res
