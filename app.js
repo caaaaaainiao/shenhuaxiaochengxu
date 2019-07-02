@@ -23,8 +23,10 @@ App({
   usermessage: {
     Username: "MiniProgram",
     Password: "6BF477EBCC446F54E6512AFC0E976C41",
-    AppId: 'wx1baa1fc8240ef183', // 所有
-    secret: '9461327783c15fe6c9cd421b0a6f9690', // 所有
+    // AppId: 'wx1baa1fc8240ef183', // 高美
+    AppId: 'wxb491affbeb262f2f', // 国购
+    // secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
+    secret: '750818c29e6daf2bc3118cbc4508dc32', // 国购
     access_token : ''
   },
   globalData: {

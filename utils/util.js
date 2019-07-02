@@ -376,7 +376,7 @@ const getAPIUserData=callback=>{
   let obj = {
     UserName: 'MiniProgram',
     Password: '6BF477EBCC446F54E6512AFC0E976C41',
-    AppId: 'wx1baa1fc8240ef183'
+    AppId: 'wxb491affbeb262f2f '
   };
   wx.setStorage({
     key: 'APIUSER',
@@ -420,14 +420,21 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
     success: function (res) {
       // if (res.data.code == 200){
         var timestamp = new Date().getTime() + 2592000000
-        for (var i = 0; i < res.data.data.film.length; i++) {
-          var NowDate = res.data.data.film[i].publishDate
-          if (NowDate != null) {
-            NowDate = NowDate.substring(0, 19);
-            NowDate = NowDate.replace(/-/g, '/');
-            var timestamp1 = new Date(NowDate).getTime();
-            res.data.data.film[i].time = timestamp1
+        if (res.data.data.film) {
+          for (var i = 0; i < res.data.data.film.length; i++) {
+            var NowDate = res.data.data.film[i].publishDate
+            if (NowDate != null) {
+              NowDate = NowDate.substring(0, 19);
+              NowDate = NowDate.replace(/-/g, '/');
+              var timestamp1 = new Date(NowDate).getTime();
+              res.data.data.film[i].time = timestamp1
+            }
           }
+        } else {
+          wx.showModal({
+            title: '暂无影片排期',
+            content: '请选择其他影院',
+          })
         }
       // }
       
