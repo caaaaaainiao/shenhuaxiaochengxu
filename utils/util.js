@@ -376,7 +376,8 @@ const getAPIUserData=callback=>{
   let obj = {
     UserName: 'MiniProgram',
     Password: '6BF477EBCC446F54E6512AFC0E976C41',
-    AppId: 'wxb491affbeb262f2f '
+    // AppId: 'wxb491affbeb262f2f ', // 国购
+    AppId: 'wx1baa1fc8240ef183', // 高美
   };
   wx.setStorage({
     key: 'APIUSER',
