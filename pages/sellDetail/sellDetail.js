@@ -70,7 +70,23 @@ Page({
     })
     app.globalData.isReady = type
   },
-  sureChoose: function() {
+  createGoodsOrder: function() {
+    let that = this;
+    //创建订单
+    if (that.data.type == 1) {
+      that.setData({
+        showReady: true
+      })
+    } else if (that.data.type == 2) {
+      that.setData({
+        showReady: false
+      })
+      that.sureChoose()
+    }
+
+
+  },
+  sureChoose: function () {
     let that = this;
     let loginInfo = wx.getStorageSync('loginInfo');
     app.globalData.loginInfo = loginInfo
@@ -98,7 +114,6 @@ Page({
 
     //创建订单的参数
     let xml = '<CreateGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><payType>0</payType><goodsList>';
-    if (this.data.totalNum > 0) {
       let cartobj = util.getcartObj(null);
       if (cartobj && cartobj.list) {
         for (var i = 0; i < cartobj.list.length; i++) {
@@ -116,7 +131,6 @@ Page({
           xml += '</goods>';
         }
       }
-    }
     xml += '</goodsList></CreateGoodsOrder>';
     // console.log(xml);
     console.log('点击跳转')
@@ -128,36 +142,23 @@ Page({
     if (wx.getStorageSync(key) != "") {
       wx.getStorage({
         key: key,
-        success: function(res) {
+        success: function (res) {
           wx.setStorageSync('toSubmitGoods', res);
           //重置购物阶段数据
           that.emptyCart();
           //新增待支付购物列表
-          wx.redirectTo({
-            url: '../foodOrder/foodOrder?type=' + that.data.type,
-          })
-        
+       
+
         },
       })
 
     }
-
-
-
-  },
-  createGoodsOrder: function() {
-    let that = this;
-    //创建订单
-    if (that.data.type == 1) {
-      that.setData({
-        showReady: true
+    setTimeout(function(){
+      wx.redirectTo({
+        url: '../foodOrder/foodOrder?type=' + that.data.type,
       })
-    } else if (that.data.type == 2) {
-      that.setData({
-        showReady: false
-      })
-      that.sureChoose()
-    }
+    },500)
+
 
 
   },
