@@ -9,14 +9,14 @@
     </view>
     <view class='bottom'>
       <view class='messages'>
-        <view class="leftBlock">
+        <view class="leftBlock" bindtap='toCard'>
           <text class='title'>积分</text>
           <text class='number'>{{memberCardScore}}</text>
         </view>
         <view class="middleBlock">
           <text>{{userInfom.nickName}}</text>
         </view>
-        <view class="rightBlock">
+        <view class="rightBlock" bindtap='toCard'>
           <text class='title'>余额</text>
           <text class='number'>{{memberCardBalance}}</text>
         </view>

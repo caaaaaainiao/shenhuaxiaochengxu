@@ -73,7 +73,7 @@ Page({
         var ordercode = res.data.order.orderCode
         app.globalData.ordercode = ordercode
         wx.request({ //查询优惠券
-          url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + ordercode,
+          url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + ordercode,
           success: function(res) {
             console.log(res)
             console.log(res.data.data.couponsList)
@@ -145,7 +145,7 @@ Page({
         totalPrice: totalPrice,
         disPrice: totalPrice - that.data.merOrder.merTicket.couponPrice
       });
-    }, 3000)
+    }, 0)
 
     util.getcinemaList(function(res) {
       if (res) {
@@ -425,7 +425,7 @@ Page({
                           url: '../foodSuccess/foodSuccess?orderNum=' + orderNum
                         })
                       }
-                     
+
                     }
 
                   })
@@ -687,8 +687,7 @@ Page({
           })
         }
       })
-    }
-    else if (that.data.cinemaType == '粤科') {
+    } else if (that.data.cinemaType == '粤科') {
       console.log(that.data.cardNo)
       //确认订单的参数(会员卡)
       let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
@@ -716,7 +715,7 @@ Page({
       wx.request({
         url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
         method: "GET",
-        success: function (res) {
+        success: function(res) {
           console.log(res)
           if (res.data.Status == "Failure") {
             wx.showModal({
@@ -773,8 +772,7 @@ Page({
           }
         }
       })
-    }
-    else if (that.data.cinemaType == '电影1905') {
+    } else if (that.data.cinemaType == '电影1905') {
       console.log(that.data.cardNo)
       //确认订单的参数(会员卡)
       let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
@@ -805,14 +803,14 @@ Page({
         success: function(res) {
           console.log(res)
           if (res.data.Status == "Failure") {
-              wx.showModal({
-                title: '支付失败',
-                content: res.data.ErrorMessage,
-              })
+            wx.showModal({
+              title: '支付失败',
+              content: res.data.ErrorMessage,
+            })
 
-              wx.redirectTo({
-                url: '../foodOrder/foodOrder'
-              })
+            wx.redirectTo({
+              url: '../foodOrder/foodOrder'
+            })
           } else if (res.data.Status == "Success") {
             console.log(res.data.orderNo)
             var ordernum = res.data.orderCode
