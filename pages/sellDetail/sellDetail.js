@@ -21,17 +21,17 @@ Page({
     type: 0,
     marActivity: null,
     waitActivity: null,
-    isBind:false,
-    merOrder:null,
-    cinemaList:[],//影院信息列表
-    fullCar:true,
-    UrlMap:{
+    isBind: false,
+    merOrder: null,
+    cinemaList: [], //影院信息列表
+    fullCar: true,
+    UrlMap: {
       bannerUrl: app.globalData.url + '/Api/Activity/QueryActivitys/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
-      goodTypesUrl: app.globalData.url +'/Api/Goods/QueryGoodsType/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
-      createOrderUrl: app.globalData.url +'/Api/Goods/CreateGoodsOrder'
+      goodTypesUrl: app.globalData.url + '/Api/Goods/QueryGoodsType/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
+      createOrderUrl: app.globalData.url + '/Api/Goods/CreateGoodsOrder'
     },
-        showReady: false,
+    showReady: false,
     isReady: 0,
   },
 
@@ -51,15 +51,17 @@ Page({
     util.clearCart(null);
     util.removegoodList(null);
     util.clearcartObj(null);
-  // this.ask();
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    // this.ask();
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
-  chooseClose: function () {
+  chooseClose: function() {
     this.setData({
       showReady: false
     })
   },
-  chooseReadyType: function (e) {
+  chooseReadyType: function(e) {
     console.log(e)
     var that = this;
     var type = e.currentTarget.dataset.type;
@@ -68,8 +70,8 @@ Page({
     })
     app.globalData.isReady = type
   },
-  sureChoose: function () {
-     let that=this;
+  sureChoose: function() {
+    let that = this;
     let loginInfo = wx.getStorageSync('loginInfo');
     app.globalData.loginInfo = loginInfo
     if (!loginInfo) {
@@ -90,27 +92,27 @@ Page({
       });
 
       return;
-    }  
-  
- 
-   
-   //创建订单的参数
-    let xml = '<CreateGoodsOrder><cinemaCode>' + app.globalData.cinemacode +'</cinemaCode><payType>0</payType><goodsList>';
-    if (this.data.totalNum > 0){
+    }
+
+
+
+    //创建订单的参数
+    let xml = '<CreateGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><payType>0</payType><goodsList>';
+    if (this.data.totalNum > 0) {
       let cartobj = util.getcartObj(null);
-      if (cartobj && cartobj.list){
-        for (var i = 0; i < cartobj.list.length;i++){
+      if (cartobj && cartobj.list) {
+        for (var i = 0; i < cartobj.list.length; i++) {
           let item = cartobj.list[i];
-          xml +='<goods>';
-          xml += '<goodsCode>' + item.goodsCode+'</goodsCode>';
-          xml += '<goodsCount>' + item.buyNum+ '</goodsCount>';
+          xml += '<goods>';
+          xml += '<goodsCode>' + item.goodsCode + '</goodsCode>';
+          xml += '<goodsCount>' + item.buyNum + '</goodsCount>';
           xml += '<standardPrice>' + item.standardPrice + '</standardPrice>';
-          if (item.channelFee){
+          if (item.channelFee) {
             xml += '<goodsChannelFee>' + item.channelFee + '</goodsChannelFee>';
-          }else{
+          } else {
             xml += '<goodsChannelFee>0</goodsChannelFee>';
           }
-        
+
           xml += '</goods>';
         }
       }
@@ -118,14 +120,14 @@ Page({
     xml += '</goodsList></CreateGoodsOrder>';
     console.log(xml);
     app.globalData.xml = xml
-   
+
 
     let apiuser = util.getAPIUserData(null);
     let key = 'goodList';
     if (wx.getStorageSync(key) != "") {
       wx.getStorage({
         key: key,
-        success: function (res) {
+        success: function(res) {
           wx.setStorageSync('toSubmitGoods', res);
           //重置购物阶段数据
           that.emptyCart();
@@ -138,49 +140,46 @@ Page({
       })
 
     }
-  
- 
+
+
 
   },
-  createGoodsOrder:function(){
-    let that=this;
-    
-  
-    
-          //创建订单
-          if (that.data.type == 1) {
-            that.setData({
-              showReady: true
-            })
-          } else if (that.data.type == 2){
-            that.setData({
-              showReady: false
-            })
-            that.sureChoose()
-          }
-      
+  createGoodsOrder: function() {
+    let that = this;
+    //创建订单
+    if (that.data.type == 1) {
+      that.setData({
+        showReady: true
+      })
+    } else if (that.data.type == 2) {
+      that.setData({
+        showReady: false
+      })
+      that.sureChoose()
+    }
+
 
   },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-   
+
     var that = this;
-    util.getcinemaList(function (res) {
-      if (res){
+    util.getcinemaList(function(res) {
+      if (res) {
         that.setData({
-          cinemaList:res,
+          cinemaList: res,
           cinema: res[0],
         });
-        
+
         that.getBanner();
-        that.getGoodTypes(); 
+        that.getGoodTypes();
       }
     });
- wx.getStorage({
+    wx.getStorage({
       key: 'cinemaList',
-      success: function (res) {
+      success: function(res) {
         var movieList = that.data.movieList
         var movieList = res.data
         // console.log(movieList)
@@ -193,9 +192,9 @@ Page({
           location: recent
         })
       }
-      });
+    });
 
- 
+
   },
 
   /**
@@ -214,11 +213,13 @@ Page({
       lookcinemaname: lookcinemaname,
       lookcinemaadd: lookcinemaadd
     })
-   
+
     this.setData({
-      fullCar:true
+      fullCar: true
     });
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
@@ -252,7 +253,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: '神画电影',
       path: '/pages/index/index'
@@ -293,20 +294,19 @@ Page({
           that.setData({
             onScroll: i - 1,
           })
-        } 
-        else if (that.data.parentTop > that.data.topArr[that.data.topArr.length-1] - 10){
+        } else if (that.data.parentTop > that.data.topArr[that.data.topArr.length - 1] - 10) {
           that.setData({
-            onScroll: that.data.topArr.length - 1, 
+            onScroll: that.data.topArr.length - 1,
           })
         }
       }
-      if(that.data.isBind){
+      if (that.data.isBind) {
         that.setData({
           onScroll: that.data.chooseType,
-          isBind:false
+          isBind: false
         })
       }
-      
+
     } else {
       // console.log(that.data.parentTop)
       this.setData({
@@ -323,18 +323,18 @@ Page({
       chooseType: index,
     })
     that.setData({
-      isBind:true
+      isBind: true
     })
-  
-    let currenttype=that.data.goodTypeList[index];
+
+    let currenttype = that.data.goodTypeList[index];
     that.changeGoodType(currenttype);
   },
   preventD() {
     return
   },
-  showcart:function(){
+  showcart: function() {
 
-    if (this.data.totalNum>0){
+    if (this.data.totalNum > 0) {
       let cattObj = util.getcartObj(null);
       this.setData({
         fullCar: false,
@@ -351,52 +351,52 @@ Page({
     });
 
   },
-  hidecart: function () {
+  hidecart: function() {
     this.setData({
       fullCar: true
     })
   },
   //根据商品类型选择商品列表
-  changeGoodType:function(selecttype){
-    
-    let that=this;
+  changeGoodType: function(selecttype) {
+
+    let that = this;
     //todo:currenttype
     let goodTypeList = that.data.goodTypeList;
-    if (goodTypeList){
+    if (goodTypeList) {
       that.setData({
         currenttype: selecttype
-    })
+      })
       //todo: filterlist
       that.getGoods();
-   }
+    }
   },
 
-  getGoodTypes:function(){
+  getGoodTypes: function() {
     var that = this;
 
     wx.request({
-      url: that.data.UrlMap.goodTypesUrl +  app.globalData.cinemacode,
+      url: that.data.UrlMap.goodTypesUrl + app.globalData.cinemacode,
       method: "GET",
       header: {
         "Content-Type": "application/json"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
-        if (res.data.data.typeCount>0){
+        if (res.data.data.typeCount > 0) {
           //类型筛选商品                         
           that.setData({
             goodTypeList: res.data.data.type
           });
           that.changeGoodType(that.data.goodTypeList[0]);
         }
-       
+
       }
     })
   },
   getGoods: function() { //获取卖品
     var that = this;
-  
-    util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
+
+    util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function(goodsList) {
       let tempgoodsList = [];
       wx.hideLoading()
       for (var i = 0; i < goodsList.length; i++) {
@@ -404,35 +404,35 @@ Page({
           // goodsList[i].itemClass = {
           //   name: that.data.currenttype.typeName
           // }
-          if (!goodsList[i].buyNum){
+          if (!goodsList[i].buyNum) {
             goodsList[i].buyNum = 0;
           }
-       
+
           tempgoodsList.push(goodsList[i]);
         }
       }
 
       that.groupGoodsTypeList(goodsList);
-      
+
       //所有商品列表
       util.updategoodList(null, goodsList);
-      
+
     });
   },
   //分组汇总为一个商品列表集合
-  groupGoodsTypeList: function (goodsList){
+  groupGoodsTypeList: function(goodsList) {
     let that = this;
-    let tempList=[];
-   
+    let tempList = [];
+
     let goodtypes = that.data.goodTypeList;
-    for(var i=0;i<goodtypes.length;i++){
-      let tempobj={
+    for (var i = 0; i < goodtypes.length; i++) {
+      let tempobj = {
         currentItemClass: goodtypes[i].typeName,
-        goodsList:[]
+        goodsList: []
       };
       for (var j = 0; j < goodsList.length; j++) {
         if (goodsList[j].goodsType == goodtypes[i].typeCode) {
-           
+
           if (!goodsList[j].buyNum) {
             goodsList[j].buyNum = 0;
           }
@@ -441,40 +441,40 @@ Page({
         }
       }
 
-      if (tempobj.goodsList.length>0){
+      if (tempobj.goodsList.length > 0) {
         tempList.push(tempobj);
       }
     }
 
     that.setData({
       allGoodTypeList: tempList,
-goodsList: goodsList
+      goodsList: goodsList
     });
   },
   getBanner: function() { //获取轮播图
     var that = this;
-    
+
     wx.request({
-      url: that.data.UrlMap.bannerUrl + app.globalData.cinemacode +'/03',
+      url: that.data.UrlMap.bannerUrl + app.globalData.cinemacode + '/03',
       method: "GET",
       header: {
         "Content-Type": "application/json"
       },
       success: function(res) {
         // console.log(res)
-        if (res.data.data){
+        if (res.data.data) {
           let bannerList = res.data.data;
-          if (bannerList && bannerList.count>0){
+          if (bannerList && bannerList.count > 0) {
             that.setData({
               banner: bannerList.images
             })
           }
         }
-        
+
       }
     })
   },
-  emptyCart:function(){
+  emptyCart: function() {
     let queryobj = util.getcartObj(null);
     app.globalData.queryobj = queryobj
     util.clearCart(null);
@@ -482,11 +482,11 @@ goodsList: goodsList
     util.clearcartObj(null);
     this.setData({
       goodsList: null,
-      groupGoodsTypeList:null,
+      groupGoodsTypeList: null,
       cattObj: null,
-      totalNum:0,
+      totalNum: 0,
       totalPrice: 0,
-      fullCar:true,
+      fullCar: true,
     });
     this.chooseClose();
     this.getGoodTypes();
@@ -497,17 +497,17 @@ goodsList: goodsList
     var goodList = that.data.goodsList;
     for (var i = 0; i < goodList.length; i++) {
       if (goodList[i].goodsId == id) {
-      
-        if (goodList[i].buyNum < goodList[i].stockCount){
+
+        if (goodList[i].buyNum < goodList[i].stockCount) {
           goodList[i].buyNum += 1;
         }
 
         util.updategoodList(goodList[i]);
 
-        util.addCart(goodList[i],function(result){
+        util.addCart(goodList[i], function(result) {
           that.setData({
             goodsList: goodList,
-            
+
           });
 
           that.groupGoodsTypeList(goodList);
@@ -531,32 +531,32 @@ goodsList: goodsList
     for (var i = 0; i < goodList.length; i++) {
       if (goodList[i].goodsId == id) {
         goodList[i].buyNum -= 1;
-        if (goodList[i].buyNum<0){
-          goodList[i].buyNum=0;
+        if (goodList[i].buyNum < 0) {
+          goodList[i].buyNum = 0;
         }
         util.updategoodList(goodList[i]);
-        util.delCart(goodList[i], function (result) {
+        util.delCart(goodList[i], function(result) {
           that.setData({
             goodsList: goodList,
-           
+
           });
           that.groupGoodsTypeList(goodList);
           //更新购物车
-          let tempCart=util.updateCart(result);
+          let tempCart = util.updateCart(result);
           that.setData({
             cattObj: tempCart,
             totalNum: tempCart.totalNum,
             totalPrice: tempCart.totalPrice
           });
 
-          if (tempCart.totalNum<=0){
+          if (tempCart.totalNum <= 0) {
             that.emptyCart();
           }
         })
       }
     }
 
-   
+
   },
   picked: function() {
     var that = this;
@@ -598,10 +598,10 @@ goodsList: goodsList
       if (json.length == 0) {
         json = ""
       } else {
-        var json2=[];
+        var json2 = [];
         var arr = [];
-        for(var i = 0;i < json.length;i++){
-          if(arr.indexOf(json[i].id) == -1){
+        for (var i = 0; i < json.length; i++) {
+          if (arr.indexOf(json[i].id) == -1) {
             arr.push(json[i].id);
             json2.push(json[i])
           }
@@ -627,7 +627,7 @@ goodsList: goodsList
       success: function(res) {
         console.log(res)
         that.setData({
-          merOrder:res.data.data,
+          merOrder: res.data.data,
           totalPrice: res.data.data.totalPrice,
           totalNum: res.data.data.totalNumber,
           waitActivity: res.data.data.waitActivity, //未参与的活动
@@ -636,23 +636,23 @@ goodsList: goodsList
       }
     })
   },
-  bannerTap:function(e){
+  bannerTap: function(e) {
     var index = e.currentTarget.dataset.index;
     var banner = this.data.banner;
     var num = banner[index].playType;
-    if(num == 1||num == 3){
+    if (num == 1 || num == 3) {
       var url = banner[index].redirectUrl;
-      if(url != ""){
+      if (url != "") {
         app.globalData.acivityUrl = url;
         wx.navigateTo({
           url: '../acivityUrl/acivityUrl',
         })
       }
-    } else if (num == 2 && banner[index].dxMovie!=null){
+    } else if (num == 2 && banner[index].dxMovie != null) {
       var id = banner[index].dxMovie.id;
       var movieList = app.globalData.movieList;
-      for(var i = 0;i < movieList.length;i++){
-        if (movieList[i].id == id){
+      for (var i = 0; i < movieList.length; i++) {
+        if (movieList[i].id == id) {
           app.globalData.movieIndex = i;
           wx.navigateTo({
             url: '../movieDetail/movieDetail',

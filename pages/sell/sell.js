@@ -192,6 +192,50 @@ Page({
   //     path: '/pages/index/index'
   //   }
   // },
+  toCard: function () {
+    var that = this;
+    if (that.data.memberCardBalance == "---") {
+      wx.getStorage({
+        key: 'loginInfo',
+        success: function (res) {
+          if (res.data.mobilePhone) {
+            wx.navigateTo({
+              url: '../page04/index', //跳转到影片列表
+            })
+          } else {
+            wx.navigateTo({
+              url: '../login/login' //3
+            })
+          }
+        },
+        fail: function () {
+          wx.reLaunch({
+            url: '../login/login',
+          })
+        }
+      })
+    } else {
+      wx.getStorage({
+        key: 'loginInfo',
+        success: function (res) {
+          if (res.data.mobilePhone) {
+            wx.navigateTo({
+              url: '../page05/index', //跳转到影片列表
+            })
+          } else {
+            wx.navigateTo({
+              url: '../login/login' //4
+            })
+          }
+        },
+        fail: function () {
+          wx.reLaunch({
+            url: '../login/login',
+          })
+        }
+      })
+    }
+  },
   chooseType: function(e) {
     var setType = e.currentTarget.dataset.type;
     var that = this;
