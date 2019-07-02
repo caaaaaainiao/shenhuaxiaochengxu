@@ -53,7 +53,7 @@ Page({
     deductAmount: 0, //支付金额
     printNo: null, // 出票号
     verifyCode: null, // 验证码
-    payway: 0, //支付方式 0-会员卡，1-微信
+    payway: null, //支付方式 2-会员卡，1-微信
     // waitActivity: null,//可參與活動
     UrlMap: {
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
@@ -99,44 +99,44 @@ Page({
       seatCouponList: app.globalData.ticketCoupons, // 优惠券列表
     });
     // 获取优惠券
-    wx.request({
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.orderCode,
-      method: "GET",
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res)
-        if (res.data.Status == 'Success') {
-          that.setData({
-            seatCouponList: res.data.data.couponsList,
-          });
-          if (that.data.seatCouponList && that.data.seatCouponList.length > 0) { // 如果有优惠券
-            that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
-            that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
-            that.setData({
-              ticketRealPrice: Number(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
-              couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
-              reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
-            })
-            let allPrice = Number(options.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
-            that.setData({
-              allPrice: parseFloat(allPrice).toFixed(2),
-            })
-          } else {
-            let allPrice = Number(options.price) + Number(that.data.refreshments);
-            that.setData({
-              allPrice: parseFloat(allPrice).toFixed(2),
-            })
-          }
-        } else {
-          let allPrice = Number(options.price) + Number(that.data.refreshments);
-          that.setData({
-            allPrice: parseFloat(allPrice).toFixed(2),
-          })
-        }
-      }
-    })
+    // wx.request({
+    //   url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.orderCode,
+    //   method: "GET",
+    //   header: {
+    //     'content-type': 'application/json' // 默认值
+    //   },
+    //   success: function (res) {
+    //     console.log(res)
+    //     if (res.data.Status == 'Success') {
+    //       that.setData({
+    //         seatCouponList: res.data.data.couponsList,
+    //       });
+    //       if (that.data.seatCouponList && that.data.seatCouponList.length > 0) { // 如果有优惠券
+    //         that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
+    //         that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
+    //         that.setData({
+    //           ticketRealPrice: Number(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
+    //           couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
+    //           reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
+    //         })
+    //         let allPrice = Number(options.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
+    //         that.setData({
+    //           allPrice: parseFloat(allPrice).toFixed(2),
+    //         })
+    //       } else {
+    //         let allPrice = Number(options.price) + Number(that.data.refreshments);
+    //         that.setData({
+    //           allPrice: parseFloat(allPrice).toFixed(2),
+    //         })
+    //       }
+    //     } else {
+    //       let allPrice = Number(options.price) + Number(that.data.refreshments);
+    //       that.setData({
+    //         allPrice: parseFloat(allPrice).toFixed(2),
+    //       })
+    //     }
+    //   }
+    // })
     // 获取会员卡信息
     setTimeout(function(){
       util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
@@ -359,11 +359,12 @@ Page({
   cardway: function () {
     let that = this;
     that.setData({
-      payway: 0,
+      payway: 2,
     });
+    console.log(that.data)
     // 获取优惠券
     wx.request({
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.orderCode,
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.card.cardNo + '/' + that.data.orderCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -409,7 +410,7 @@ Page({
     });
     // 获取优惠券
     wx.request({
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.orderCode,
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + null + '/' + that.data.orderCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -580,7 +581,7 @@ Page({
       LockOrderCode: that.data.orderCode, //锁座订单号(编码)
       LocalOrderCode: null, //卖品本地订单号
       CouponsCode: that.data.couponsCode, // 优惠券编码
-      CardNo: that.data.cardNo, //会员卡号
+      CardNo: that.data.card.cardNo, //会员卡号
       CardPassword: that.data.password, //会员卡密码
       PayAmount: that.data.allPrice, //影票支付金额
       GoodsPayAmount: 0, //卖品支付金额
@@ -675,7 +676,7 @@ Page({
       if (that.data.payway == 1) { // 微信支付
         that.wxPay();
       };
-      if (that.data.payway == 0) { // 会员卡支付
+      if (that.data.payway == 2) { // 会员卡支付
         that.showM();
       }
     }
@@ -1487,7 +1488,7 @@ Page({
     } else { // 代金券
       priceArr.push(seatCouponPrice);
       codeArr.push(that.data.seatCoupon.couponsCode);
-      if (that.data.payway == '0') { // 会员卡支付
+      if (that.data.payway == '2') { // 会员卡支付
         price = Number(that.data.memberCardPrice) - Number(seatCouponPrice); // 会员价减去优惠券价格
         price = parseFloat(price * 100) / 100;
       } else {

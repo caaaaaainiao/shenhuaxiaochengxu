@@ -35,16 +35,16 @@
       会员卡支付
       <text>元</text>
       <text class='money'>{{memberCardPrice}}</text>
-      <image src='/images/unselect.png' class='selectimg' wx:if="{{payway==1}}"></image>
-      <image src='/images/payselect.png' class='selectimg' wx:else></image>
+      <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==2}}"></image>
+      <image src='/images/unselect.png' class='selectimg' wx:else></image>
       </view>
       <view class='wxpay' bindtap='wxway'>
       <image src='/images/wxpay.png' class='payimg'></image>
       微信支付
       <text>元</text>
       <text class='money'>{{price}}</text>
-      <image src='/images/unselect.png' class='selectimg' wx:if="{{payway==0}}"></image>
-      <image src='/images/payselect.png' class='selectimg' wx:else></image>
+      <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==1}}"></image>
+      <image src='/images/unselect.png' class='selectimg' wx:else></image>
       </view>
     </view>
   <view class='option' wx:if="{{seatCouponList.length > 0}}" bindtap='setType1'>
@@ -140,23 +140,6 @@
   </view>
   <view class='btn' bindtap='zero' wx:if="{{seatOrder.disPrice == 0}}">确认0元购票</view>
   <view class='btn' bindtap='choosePay' wx:else>立即支付</view>
-  <!-- 选择支付方式 -->
-  <!-- <view class='black' wx:if="{{showPay}}">
-    <view class='checkarea'>
-      <view class='close' bindtap='close'>
-        <image src='/images/close.png'></image>
-      </view>
-      <view class='checktitle'>支付方式</view>
-      <view class='way' bindtap='wxPay'>
-        <image src='/images/wx.png'></image>
-        <text>微信支付</text>
-      </view>
-      <view class='way' bindtap='showM'>
-        <image src='/images/ka.png'></image>
-        <text>会员卡支付</text>
-      </view>
-    </view>
-  </view> -->
   <!-- 会员卡密码 -->
   <view class='black2' wx:if="{{showM}}">
     <view class='add2'>
