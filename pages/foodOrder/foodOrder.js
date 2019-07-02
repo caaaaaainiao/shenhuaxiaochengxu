@@ -419,7 +419,7 @@ Page({
                           }
                         })
                       } else {
-                        var orderNum = res.data.order.orderCode
+                        var orderNum = e.data.order.orderCode
                         wx.redirectTo({
                           url: '../foodSuccess/foodSuccess?orderNum=' + orderNum
                         })
