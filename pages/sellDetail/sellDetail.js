@@ -118,7 +118,8 @@ Page({
       }
     }
     xml += '</goodsList></CreateGoodsOrder>';
-    console.log(xml);
+    // console.log(xml);
+    console.log('点击跳转')
     app.globalData.xml = xml
 
 
@@ -131,11 +132,11 @@ Page({
           wx.setStorageSync('toSubmitGoods', res);
           //重置购物阶段数据
           that.emptyCart();
-
           //新增待支付购物列表
-          wx.navigateTo({
+          wx.redirectTo({
             url: '../foodOrder/foodOrder?type=' + that.data.type,
           })
+        
         },
       })
 

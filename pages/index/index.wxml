@@ -105,7 +105,7 @@
     <view wx:if="{{canIUse}}">
       <image src='{{logo}}' class='accreditbg'></image>
       <view class='con_name'>{{concinemaname}}</view>
-      <view class='con_con'>{{concont}}</view>
+      <!-- <view class='con_con'>{{concont}}</view> -->
       <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='getUserInfo'>
         <image src='/images/accreditbtn.png'></image>
       </button>
