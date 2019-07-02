@@ -145,7 +145,7 @@ Page({
         totalPrice: totalPrice,
         disPrice: totalPrice - that.data.merOrder.merTicket.couponPrice
       });
-    }, 0)
+    }, 800)
 
     util.getcinemaList(function(res) {
       if (res) {
@@ -156,7 +156,6 @@ Page({
         });
       }
     });
-    console.log(app.globalData)
     if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone != null || app.globalData.userInfo.mobilePhone != "")) {
       util.getMemberCardByPhone(app.globalData.cinemacode, app.globalData.userInfo.mobilePhone, function(res) {
 

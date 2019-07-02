@@ -381,7 +381,7 @@ Page({
         "Content-Type": "application/json"
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         if (res.data.data.typeCount > 0) {
           //类型筛选商品                         
           that.setData({
