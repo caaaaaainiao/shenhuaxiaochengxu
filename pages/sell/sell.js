@@ -189,12 +189,12 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  // onShareAppMessage: function () {
-  //   return {
-  //     title: '神画电影',
-  //     path: '/pages/index/index'
-  //   }
-  // },
+  onShareAppMessage: function () {
+    return {
+      title: app.globalData.cinemaList.cinemaName,
+      path: '/pages/index/index'
+    }
+  },
   toCard: function() {
     var that = this;
     if (that.data.memberCardBalance == "---") {

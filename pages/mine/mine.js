@@ -171,7 +171,7 @@ Page({
    */
   onShareAppMessage: function() {
     return {
-      title: '神画电影',
+      title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
