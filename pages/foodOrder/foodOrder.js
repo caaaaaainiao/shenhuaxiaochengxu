@@ -724,47 +724,6 @@ Page({
           } else if (res.data.Status == "Success") {
             console.log(res)
             let ordernum = res.data.order.orderCode;
-            // var NewTime = util.formatTimeDays(new Date())
-            // wx.request({
-            //   url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-            //   data: {
-            //     "touser": app.globalData.openId,
-            //     "template_id": "w-zbH8vqIiOMYBAu7q3IX3UZwuopyMyIJ3FqYewq50I",
-            //     "form_id": that.data.formids,
-            //     "data": {
-            //       "keyword1": {
-            //         "value": app.globalData.lookcinemaname
-            //       },
-            //       "keyword2": {
-            //         "value": NewTime.NowDataTime
-            //       },
-            //       "keyword3": {
-            //         "value": ordernum
-            //       },
-            //       "keyword4": {
-            //         "value": ordernum
-            //       },
-            //       "keyword5": {
-            //         "value": "已出餐"
-            //       },
-            //       "keyword6": {
-            //         "value": "点餐内容"
-            //       },
-            //       "keyword7": {
-            //         "value": that.data.userMessage
-            //       }
-            //     }
-            //   },
-            //   method: "POST",
-            //   header: {
-            //     'content-type': 'application/json' // 默认值
-            //   },
-            //   success: function (res) {
-            //     console.log(res)
-            //     // app.usermessage.access_token = res.data.access_token
-            //   }
-            // })
-
             wx.redirectTo({
               url: '../foodSuccess/foodSuccess?orderNum=' + ordernum
             })
@@ -863,76 +822,11 @@ Page({
     }
 
     var nowtime = new Date().getTime();
-    // var sign = app.createMD5('submitMerchaniseOrder', nowtime);
-    // wx.request({
-    //   url: app.globalData.url + '/api/shOrder/submitMerchaniseOrder',
-    //   data: {
-    //     phone: that.data.phone,
-    //     address: that.data.type2address,
-    //     deliveryType: that.data.type - 1, //取货方式 0 自取,1送达;
-    //     featureAppNo: app.globalData.sellfeatureAppNo, //场次唯一编码
-    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     appUserId: app.globalData.userInfo.id,
-    //     merchandiseInfo: json,
-    //     activityId: marActivityId, //参与的活动的id
-    //     isReady: that.data.isReady,
-    //     memo: that.data.userMessage,
-    //     merTicketId: merTicketId,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function(res) {
-    //     console.log(res)
-    //     if (res.data.status == 0) {
-    //       wx.showModal({
-    //         title: '',
-    //         content: res.data.message,
-    //       })
-    //       wx.hideLoading()
-    //       return;
-    //     }
-    //     var ordernum = res.data.data.orderNum;
-    //     // console.log(ordernum)
-    //     var nowtime = new Date().getTime();
-    //   }
-    // })
   },
   syn: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userCard', nowtime);
-    // wx.request({
-    //   url: app.globalData.url + '/api/shAppuser/userCard',
-    //   data: {
-    //     appUserId: app.globalData.userInfo.id,
-    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function(res) {
-    //     // console.log(res)
-    //     if (res.data.status == 1) {
-    //       var userInfo = res.data.data;
-    //       that.setData({
-    //         userInfo: userInfo
-    //       })
-    //       app.globalData.userInfo = userInfo;
-    //     } else {
-    //       wx.showModal({
-    //         title: '',
-    //         content: res.data.message
-    //       })
-    //     }
-    //   }
-    // })
   },
   setM: function(e) {
     var password = e.detail.value;

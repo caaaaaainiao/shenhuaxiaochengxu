@@ -124,11 +124,6 @@ Page({
             userName: app.usermessage.Username,
             password: app.usermessage.Password,
             openID: app.globalData.userInfo.openID
-            // headUrl: that.data.headUrl,
-            // nickName: that.data.nickName,
-            // sex: that.data.sex,
-            // birthday: that.data.birthday,
-            // mobilePhone: that.data.phone,
           },
           header: {
             'charset':'UTF - 8'

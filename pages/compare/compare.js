@@ -230,32 +230,9 @@ Page({
         console.log(that.data.moviesListDate)
       }
     })
-    // if (app.globalData.cinemacode) {
-    //   console.log(app.globalData.cinemacode)
-    //   var that = this;
-    //   util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
-    //     // console.log(res)
-    //     that.setData({
-    //       moviesList: res
-    //     })
-    //     console.log(that.data.moviesList)
-    //   });
-    // }
     that.setData({
       isLoading:true
     })
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
-
-    //    that.manage(res.data.data.screenPlanList);
-    //    wx.hideLoading();
-    //     that.setData({
-    //       isLoading: false
-    //     })
-    //     // console.log(app.globalData)
-    //   }
-    // })
   },
   buy: function(e) {
     console.log(e)
@@ -275,49 +252,6 @@ Page({
     wx.navigateTo({
       url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&salePrice=' + salePrice + '&&endtime=' + endtime,
     })
-    // var featureAppNo = e.currentTarget.dataset.num;
-    // var code = e.currentTarget.dataset.code;
-    // var nowtime = new Date().getTime();
-    // var sign = app.createMD5('checkorder', nowtime);
-    // if (code == 0) {//会员购票
-    //   wx.request({
-    //     url: app.globalData.url + '/api/shOrder/checkorder',//查询订单
-    //     data: {
-    //       appUserId:app.globalData.userInfo.id,
-    //       timeStamp: nowtime,
-    //       mac: sign
-    //     },
-    //     method: "POST",
-    //     header: {
-    //       "Content-Type": "application/x-www-form-urlencoded"
-    //     },
-    //     success: function (res) {
-    //       // console.log(res)
-    //       if(res.data.data.order == 0){//没订单
-    //         wx.navigateTo({
-    //               url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&featureAppNo=' + featureAppNo,
-    //         })
-    //       } else if (res.data.data.order == 1){
-    //         // 有订单提示
-    //         // console.log("有订单提示")
-    //         that.setData({
-    //           orderNum: res.data.data.orderNum,
-    //           showTask: true
-    //         })
-    //       }
-          
-    //     }
-    //   })
-    // }
-    // if (code == 36) {//36:猫眼；49:淘票票;
-    //   that.setData({
-    //     showTip:2
-    //   })
-    // } else if (code == 49) {
-    //   that.setData({
-    //     showTip: 3
-    //   })
-    // }
   },
   hideTip:function(){
     this.setData({
@@ -349,7 +283,6 @@ Page({
     } 
   },
   checkSession:function(e){//选择比价
-  //点击事件在这里
     // console.log(e.currentTarget.dataset.index)
     var that = this;
     // console.log(that.data.comparePrices)
@@ -357,20 +290,10 @@ Page({
       // isShow:true,
       selectedIndex: e.currentTarget.dataset.index
     })
-    // var index = e.currentTarget.dataset.index;
-    // var list = that.data.screenPlanList[that.data.select].list;
-    // for(var i = 0;i < list.length;i++){
-    //   list[i].startCompare = false;
-    // }
-    // list[index].startCompare = true;
-    // this.setData({
-    //   screenPlanList: that.data.screenPlanList
-    // })
   },
   cancel:function(){
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('cancelorder', nowtime);
     that.setData({
       showTask: false
     })

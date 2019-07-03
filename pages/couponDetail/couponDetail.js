@@ -75,27 +75,5 @@ Page({
   ask: function () {
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('ticketInfo', nowtime);
-    // wx.request({
-    //   url: app.globalData.url + '/api/ticket/ticketInfo',
-    //   data: {
-    //     id:that.data.id,
-    //     // id:8,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function (res) {
-    //     // console.log(res)
-    //     var coupon = res.data.data;
-    //     coupon.endTime2 = coupon.endTime.substring(0,10);
-    //     that.setData({
-    //       coupon: coupon
-    //     })
-    //   }
-    // })
   },
 })

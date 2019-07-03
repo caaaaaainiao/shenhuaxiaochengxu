@@ -79,35 +79,6 @@ Page({
       endtime: options.endtime
     })
     // 单价
-
-    // 头部信息
-    // var screenPlanList = app.globalData.screenPlanList;
-    // for (var i = 0; i < screenPlanList.length; i++) {
-    //   var screenPlanList2 = screenPlanList[i].list;
-    //   for (var j = 0; j < screenPlanList2.length; j++) {
-    //     if (screenPlanList[i].list[j].featureAppNo == options.featureAppNo) {
-    //       // console.log("true")
-    //       var price = 0;
-    //       var activityId = null;
-    //       for (var g = 0; g < screenPlanList[i].list[j].qmmComparePrices.length; g++) {
-    //         if (screenPlanList[i].list[j].qmmComparePrices[g].dataType == 0) {
-    //           price = screenPlanList[i].list[j].marketPrice;
-    //           activityId = screenPlanList[i].list[j].activityId
-    //         }
-    //       }
-    //       that.setData({
-    //         date: screenPlanList[i].date,
-    //         nowlist: screenPlanList[i].list[j],
-    //         // time: screenPlanList[i].list[j].startTime2,
-    //         // style: screenPlanList[i].list[j].movieDimensional,
-    //         price: price,
-    //         activityId: activityId
-    //       })
-    //       // console.log(that.data.nowlist)
-    //     }
-    //   }
-    // }
-    // that.touchend();
     var data = {
       Username: app.usermessage.Username,
       Password: app.usermessage.Password,
@@ -199,29 +170,6 @@ Page({
     // 获取座位信息
     var that = this;
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('seatInfos', nowtime);
-    // wx.request({
-    //   url: app.globalData.url + '/api/halls/screening/seatInfos',
-    //   data: {
-    //     cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-    //     screenCode: that.data.screenCode,
-    //     featureAppNo: that.data.featureAppNo,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function(res) {
-    //     // console.log(res)
-    //     that.setData({
-    //       screenName: res.data.data.screenName
-    //     })
-    //     that.manage(res.data.data.seatsInfo)
-    //   }
-    // })
-    
   },
   manage: function(res) { //处理数据
     var that = this;
@@ -584,105 +532,6 @@ Page({
         })
         } 
     })
-    // wx.request({
-    //   url: app.globalData.url + '/api/shOrder/countOrderPrice',
-    //   data: {
-    //     appUserId: appData.userInfo.id,
-    //     seatId: seatNumber,
-    //     seats: seatarr,
-    //     cinemaNumber: appData.cinemaList[appData.cinemaNo].cinemaCode,
-    //     screenCode: that.data.screenCode,
-    //     featureAppNo: that.data.featureAppNo,
-    //     ticketOriginPrice: ticketOriginPrice,
-    //     ticketNum: ticketNum,
-    //     playName: that.data.nowlist.startTime2 + "-" + that.data.nowlist.endTime2,
-    //     activityId: activityId,
-    //     cineMovieNum: appData.movieList[appData.movieIndex].cineMovieNum,
-    //     activityPriceNum: that.data.activityPriceNum,
-    //     orderNum: that.data.orderNum,
-    //     timeStamp: nowtime,
-    //     mac: sign
-    //   },
-    //   method: "POST",
-    //   header: {
-    //     "Content-Type": "application/x-www-form-urlencoded"
-    //   },
-    //   success: function(res) {
-    //     // console.log(res)
-    //     wx.hideLoading();
-    //     if (res.data.status == 0 && res.data.code == -8) {
-    //       var newlist = that.data.nowlist;
-    //       newlist.globalLeftNum = res.data.data;
-    //       that.setData({
-    //         nowlist: newlist,
-    //         isClick: false
-    //       })
-    //       wx.showToast({
-    //         title: '特惠票卖完了',
-    //         icon: 'loading',
-    //         duration: 2000,
-    //         mask: true,
-    //         success: function(res) {},
-    //         fail: function(res) {},
-    //         complete: function(res) {},
-    //       })
-    //       that.dealseat();
-    //       return;
-    //     }
-    //     if (res.data.status == 0 && res.data.code == -7) {
-    //       var newlist = that.data.nowlist;
-    //       newlist.globalLeftNum = 0;
-    //       that.setData({
-    //         nowlist: newlist,
-    //         isClick: false
-    //       })
-    //       wx.showToast({
-    //         title: '特惠活动已结束',
-    //         icon: 'loading',
-    //         duration: 2000,
-    //         mask: true,
-    //         success: function (res) { },
-    //         fail: function (res) { },
-    //         complete: function (res) { },
-    //       })
-    //       that.dealseat();
-    //       return;
-    //     }
-    //     if (res.data.status == 1) {
-    //       app.globalData.seatOrder = res.data.data;
-    //       that.setData({
-    //         orderNum: res.data.data.orderNum
-    //       })
-    //       var date = that.data.date + "  " + that.data.nowlist.startTime2 + "-" + that.data.nowlist.endTime2;
-    //       wx.showToast({
-    //         title: '正在预定座位...',
-    //         icon: 'loading',
-    //         duration: 2000,
-    //         mask: true,
-    //         success: function(res) {
-    //           setTimeout(function() {
-    //             wx.redirectTo({
-    //               url: '../orderForm/orderForm?date=' + date,
-    //             })
-    //           }, 500)
-    //         },
-    //         fail: function(res) {},
-    //         complete: function(res) {},
-    //       })
-
-    //     }
-    //      else {
-    //       wx.showModal({
-    //         title: '选座失败',
-    //         content:'锁座失败，请重新选座',
-    //         showCancel: true
-    //       })
-    //     }
-    //     that.setData({
-    //       isClick: false
-    //     })
-    //   }
-    // })
   },
   change: function() {
     wx.navigateBack({})
