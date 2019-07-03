@@ -476,6 +476,9 @@ Page({
   },
   start: function() {
     var that = this;
+    that.setData({
+      movieList: app.globalData.movieList
+    })
     var type = that.data.sendtype;
     var isOk = that.data.isOk;
     app.globalData.type2address = that.data.detailStr;

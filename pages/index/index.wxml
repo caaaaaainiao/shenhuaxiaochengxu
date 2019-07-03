@@ -13,9 +13,6 @@
   <view class='content'>
     <view class='userimage'>
       <image src='{{wxInfo.avatarUrl}}' mode='aspectFill'></image>
-      <!-- <view wx:if="{{onLoad}}" bindtouchstart='tologin' class='noUser'> <image src='/images/imgurl.png' class='moren' wx:if="{{userInfo.mobilePhone==null||userInfo.mobilePhone==''}}">
-      </image>
-      </view> -->
     </view>
     <view class='bottom'>
       <view class='messages'>

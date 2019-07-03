@@ -291,7 +291,7 @@ Page({
             }, 1000)
           }else{
             wx.showToast({
-              title: '没有此手机号或重复注册!',
+              title: res.data.ErrorMessage,
               duration: 1000,
               icon: 'none',
               mask: true

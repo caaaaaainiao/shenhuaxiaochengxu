@@ -733,7 +733,6 @@ Page({
                   that.setData({
                     userInfo: e.data.data
                   })
-                  //that.getPlace();
                   util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
                     var memberCard = [];
                     var status = [];
@@ -794,10 +793,10 @@ Page({
               })
             }
             if (e.data.Status != 'Success') {
-              // wx.showModal({
-              //   title: '登录失败',
-              //   content: e.data.message, //请先登录
-              // })
+              wx.showModal({
+                title: '登录失败',
+                content: e.data.message, //请先登录
+              })
               return;
             }
 
@@ -863,12 +862,6 @@ Page({
         wx.hideTabBar() //隐藏栏
       }
     })
-    // wx.getStorage({
-    //   key: 'loginInfo',
-    //   success: function (res) {
-    //     app.globalData.openId = res.data.openID
-    //   },
-    // })
     that.getMovie(app.globalData.cinemacode);
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
@@ -1024,15 +1017,6 @@ Page({
       data: '',
     })
     wx.showTabBar()
-  },
-  tologin: function () {
-    var that = this;
-    if (!that.data.userInfo || !that.data.userInfo.mobile || that.data.userInfo.mobile == "") {
-      wx.navigateTo({
-        url: '../login/login', //none
-      })
-    }
-
   },
   getAccesstoken: function () {
     wx.request({
