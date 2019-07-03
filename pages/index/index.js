@@ -218,6 +218,7 @@ Page({
       var timestamp1 = new Date().getTime()
       var that = this;
       util.getQueryFilmSession(cinemaNo, function (res) {
+        console.log(res)
         // that.setData({
         //   movieList: res
         // })
@@ -959,7 +960,7 @@ Page({
   },
   onShareAppMessage: function () {
     return {
-      title: '神画电影',
+      title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
