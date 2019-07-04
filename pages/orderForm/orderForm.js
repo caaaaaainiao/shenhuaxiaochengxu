@@ -799,6 +799,7 @@ Page({
     }
 
   },
+  // 会员卡密码确认
   pay2: function () {
     wx.showLoading({
       title: '加载中',
@@ -838,6 +839,8 @@ Page({
       LockOrderCode: that.data.orderCode, //锁座订单号(编码)
       LocalOrderCode: null, //卖品本地订单号
       CouponsCode: that.data.couponsCode, // 优惠券编码
+      CardNo: that.data.cardNo, // 会员卡号
+      CardPassword: that.data.password, // 会员卡密码
       CouponsCode2: null,
       PayAmount: that.data.allPrice, //影票支付金额
       GoodsPayAmount: 0, //卖品支付金额
