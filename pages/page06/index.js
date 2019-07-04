@@ -280,6 +280,12 @@ Page({
                   }
                 }
               })
+            } 
+            else {
+              wx.showModal({
+                title: '开卡失败',
+                content: res.data.ErrorMessage,
+              })
             }
           },
           fail(res) {

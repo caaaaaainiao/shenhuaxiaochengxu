@@ -144,6 +144,9 @@ Page({
       RuleCode: ruleCode,
       LevelCode: levelCode,
     };
+    // 获取当前时间戳
+    let timeStamp = Date.parse(new Date());
+    console.log(timeStamp)
     wx.request({
       url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount,
       method: 'GET',
@@ -152,8 +155,6 @@ Page({
       },
       success: function (res) {
         // 微信支付接口
-        console.log(res)
-        console.log(data)
         wx.requestPayment({
           timeStamp: res.data.data.timeStamp,
           nonceStr: res.data.data.nonceStr,
@@ -212,6 +213,17 @@ Page({
                         url: '../page05/index',
                       })
                     }, 1000)
+                  }
+                  // 充值失败
+                  else {
+                    wx.showModal({
+                      title: '充值失败',
+                      content: res.data.ErrorMessage,
+                    })
+                    // 自动退款
+                    // wx.request({
+                    //   url: app.globalData.url + ,
+                    // })
                   }
                 }
               })
