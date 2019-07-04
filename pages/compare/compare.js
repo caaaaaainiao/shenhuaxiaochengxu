@@ -62,7 +62,6 @@ Page({
     wx.getStorage({
       key: 'movieList',
       success: function (res) {
-  
         that.setData({
           moviesList: res.data
           })
@@ -221,8 +220,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        var comparePrices = res.data.data.sessionDate[0].session
         console.log(res)
+        var comparePrices = res.data.data.sessionDate[0].session
         that.setData({
           moviesListDate: res.data.data,
           comparePrices: comparePrices,

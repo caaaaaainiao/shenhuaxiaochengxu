@@ -839,14 +839,11 @@ Page({
       LocalOrderCode: null, //卖品本地订单号
       CouponsCode: that.data.couponsCode, // 优惠券编码
       CouponsCode2: null,
-      CardNo: that.data.cardNo, //会员卡号
-      CardPassword: that.data.password, //会员卡密码
       PayAmount: that.data.allPrice, //影票支付金额
       GoodsPayAmount: 0, //卖品支付金额
       SessionCode: that.data.sessionCode, //放映计划编码
       FilmCode: app.globalData.movieId, //影片编码
       TicketNum: that.data.count, //票数
-      LevelCode: that.data.levelCode, //会员卡等级编码
       SessionTime: app.globalData.moviesListDate.sessionTime, //排期时间
       ScreenType: app.globalData.moviesListDate.screenType, //影厅类型
       ListingPrice: app.globalData.moviesListDate.listingPrice, //挂牌价
