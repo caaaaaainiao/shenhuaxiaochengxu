@@ -16,7 +16,7 @@
   <view class='check'></view>
   <view class='movieDetail'>
     <view class='movieName'>{{moviesList[swiperIndex].name}}</view>
-    <view class='movieMessage'>{{moviesList[swiperIndex].duration}}分钟 | {{moviesList[swiperIndex].type}} | {{moviesList[swiperIndex].cast}}
+    <view class='movieMessage'>{{moviesList[swiperIndex].duration}}分钟 | {{moviesList[swiperIndex].type}} 
     </view>
   </view>
   <scroll-view scroll-x class='dates'>
