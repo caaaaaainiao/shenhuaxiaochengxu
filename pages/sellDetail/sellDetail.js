@@ -39,13 +39,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log(options)
+    console.log(options)
     app.globalData.isReady = 1
     wx.showLoading({
       title: '加载中',
     })
     this.setData({
-      type: options.type
+      type: options.type,
+      isReady:1
     })
     app.globalData.optionstype = options.type
     util.clearCart(null);

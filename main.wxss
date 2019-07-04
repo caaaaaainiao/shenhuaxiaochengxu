@@ -524,5 +524,3 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before { content: ""; -we
 .page10 .operate .total .txt1 { font-size: 28rpx; }
 
 .page10 .operate .total .btn { width: 260rpx; }
-
-/* 为方便后续配合，请尽量不要修改此文件。 QQ: 215611388 */
