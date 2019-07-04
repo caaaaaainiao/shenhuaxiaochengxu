@@ -32,7 +32,7 @@ Page({
       createOrderUrl: app.globalData.url + '/Api/Goods/CreateGoodsOrder'
     },
     showReady: false,
-    isReady: 0,
+    isReady: 1,
   },
 
   /**
@@ -40,13 +40,13 @@ Page({
    */
   onLoad: function(options) {
     console.log(options)
-    app.globalData.isReady = 0
+    app.globalData.isReady = 1
     wx.showLoading({
       title: '加载中',
     })
     this.setData({
       type: options.type,
-      isReady:0
+      isReady:1
     })
     app.globalData.optionstype = options.type
     util.clearCart(null);
