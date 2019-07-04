@@ -62,7 +62,7 @@ Page({
       url:app.globalData.url+'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         that.setData({
           logo: res.data.data.cinemas[0].businessPic,
           concinemaname: res.data.data.cinemas[0].businessName,
@@ -218,10 +218,7 @@ Page({
       var timestamp1 = new Date().getTime()
       var that = this;
       util.getQueryFilmSession(cinemaNo, function (res) {
-        console.log(res)
-        // that.setData({
-        //   movieList: res
-        // })
+        // console.log(res)
         wx.hideLoading()
         for (var x in res) { // 影片的预售和购票排序
           res[x].jian = res[x].time - timestamp1
@@ -230,7 +227,6 @@ Page({
         that.setData({
           movieList: res
         })
-        console.log(res)
         app.globalData.sellMovielist = that.data.movieList
 
       });

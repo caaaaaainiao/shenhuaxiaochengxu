@@ -21,11 +21,6 @@
   </view>
   <scroll-view scroll-x class='dates'>
     <block wx:for="{{moviesListDate.sessionDate}}" wx:for-item="date" wx:key="date">
-      <!-- <view data-index='{{index}}' class='date'>{{date.startDate}} {{index}}</view> -->
-      <!-- <view class='date select'>10-28 今天</view>
-      <view class='date'>10-29 明天</view>
-      <view class='date'>10-30 后天</view> -->
-      <!-- <view>{{date.sessionDate}}</view> -->
       <view class='date {{select == index?"select":""}}' data-index="{{index}}" data-text="{{date.sessionDate}}" bindtap='dayChange'>{{date.sessionDate}}</view>
     </block>
   </scroll-view>
@@ -51,10 +46,6 @@
               <text>￥</text>
               <text class='num'>{{session.salePrice}}</text>
             </view>
-            <!-- <view class='memberPrice'>
-              <text>￥</text>
-              <text class='num'>19</text>
-            </view> -->
           </view>
           <view class='session_bottom'>
             <image src="/images/more.png"></image>

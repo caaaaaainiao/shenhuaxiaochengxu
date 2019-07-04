@@ -48,7 +48,7 @@ App({
     url:"https://ik.legendpicture.com",
     // url:"https://xc.80piao.com:8443",
     // url: "http://192.168.1.219:8080",
-    // url: "http://192.168.1.232:8080",
+    // url: "http://192.168.1.2:8080",
     SocketUrl: "wss://ik.legendpicture.com",
     // SocketUrl: "wss://xc.80piao.com:8443",
     goodsList:null,
