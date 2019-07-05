@@ -269,22 +269,17 @@ Page({
   },
   ask: function(e) { //查询场次
     var that = this;
-    var movieid = e.currentTarget.dataset.id;
-    var moviename = e.currentTarget.dataset.name;
-    var nowtime = new Date().getTime();
+    var id = e.currentTarget.dataset.id;
+    var name = e.currentTarget.dataset.name;
     var index = e.currentTarget.dataset.index;
-    app.globalData.orderaddname = moviename
-    var beginmovieList = that.data.movieList[index].session
-    for (var i = 0; i < that.data.movieList.length; i++) {
-      that.data.movieList[i].foodcheck = false;
+    for (var i = 0; i < that.data.typeMovie.length; i++) {
+      that.data.typeMovie[i].foodcheck = false;
     }
-    that.data.movieList[index].foodcheck = true;
+    that.data.typeMovie[index].foodcheck = true;
+    app.globalData.sellhallname = that.data.typeMovie[index].screenName
     that.setData({
-      step: 2,
-      beginmovieList: beginmovieList,
-      detailStr: moviename + ",",
-      moviename: moviename,
-      movieList: that.data.movieList
+      typeMovie:that.data.typeMovie,
+      isOk:true
     })
   },
   manage: function(data) { //影片排片数据处理
@@ -365,58 +360,7 @@ Page({
     that.setData({
       timeList: timearr
     })
-  },
-  setTime: function(e) { //设置场次，获取影厅
-    var that = this;
-    var time = e.currentTarget.dataset.time;
-    var index = e.currentTarget.dataset.index;
-    var hallList = [];
-    var screenname = that.data.beginmovieList[index].screenName
-    app.globalData.selltimename = time
-    that.setData({
-      screenname: screenname
-    })
-    var beginmovieList = that.data.beginmovieList
-    for (var i = 0; i < beginmovieList.length; i++) {
-      beginmovieList[i].foodcheck = false;
-    }
-    beginmovieList[index].foodcheck = true;
-    that.setData({
-      step: 3,
-      detailStr: that.data.detailStr + time + ",",
-      beginmovieList: beginmovieList
-    })
-  },
-  setHall: function(e) { //选择影厅
-    var that = this;
-    var hall = e.currentTarget.dataset.hall;
-    var index = e.currentTarget.dataset.index;
-    app.globalData.sellhallname = hall
-    console.log(that.data.screenname)
-    that.setData({
-      isOk: true,
-      detailStr: that.data.detailStr + hall,
-    })
-  },
-  back: function() {
-    var that = this;
-    var step = that.data.step;
-    if (step == 2) {
-      that.setData({
-        step: 1,
-        detailStr: "",
-        isOk: false
-      })
-    } else if (step == 3) {
-      var detailArr = that.data.detailStr.split(",");
-
-      that.setData({
-        step: 2,
-        detailStr: detailArr[0] + ",",
-        isOk: false
-      })
-    }
-  },
+  }, 
   // 获取用户位置，请求影院列表
   getPlace: function() {
     var that = this;
@@ -525,6 +469,16 @@ Page({
           }
         })
       } else {
+        wx.request({
+          url: app.globalData.url + '/Api/Screen/QueryScreens' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode,
+          method:'GET',
+          success:function(res){
+            console.log(res.data.data.screen)
+            that.setData({
+              typeMovie: res.data.data.screen
+            })
+          }
+        })
         that.setData({
           startChoose: true
         })

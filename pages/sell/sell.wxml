@@ -56,37 +56,14 @@
     <view class='checkcontent'>
       <image src='/images/icon.png' class='check_icon'></image>
       <image src='/images/close.png' class='close' bindtap='close'></image>
-      <view class='back' wx:if="{{step>1}}" bindtap="back">上一步</view>
       <view class='checktext'>{{detailStr}}
-        <text wx:if="{{step == 1}}">影片，场次，影厅</text>
-        <text wx:elif="{{step == 2}}">场次，影厅</text>
-        <text wx:elif="{{step == 3&&!isOk}}">影厅</text>
+        <text >选择影厅</text>
       </view>
       <view class='checkbox'>
-        <view class='checktitle' wx:if="{{step == 1}}">选择影片:</view>
-        <view class='checktitle' wx:elif="{{step == 2}}">选择场次:</view>
-        <view class='checktitle' wx:elif="{{step == 3}}">选择影厅:</view>
-        <view class='checkoptions' wx:if="{{step == 1}}">
-          <block wx:for="{{movieList}}" wx:for-item="movie" wx:key="movie">
-            <view class='option {{movie.foodcheck?"checkedoption":""}}' bindtap="ask" data-id="{{movie.id}}" data-name="{{movie.name}}" data-index="{{index}}">{{movie.name}}</view>
+        <view class='checkoptions' >
+          <block wx:for="{{typeMovie}}" wx:for-item="movie" wx:key="movie">
+            <view class='option {{movie.foodcheck?"checkedoption":""}}' bindtap="ask" data-id="{{movie.screenId}}" data-name="{{movie.screenName}}" data-index="{{index}}">{{movie.screenName}}</view>
           </block>
-        </view>
-         <view class='checkoptions' wx:if="{{step == 2}}">
-          <block wx:for="{{beginmovieList}}" wx:for-item="time" wx:key="time">
-            <view class='option {{time.foodcheck?"checkedoption":""}}' bindtap='setTime' data-time="{{time.beginTime}}" data-index='{{index}}'>{{time.beginTime}}</view>
-          </block>
-        </view>
-         <view class='checkoptions' wx:if="{{step == 3}}">
-          <!-- <block wx:for="{{beginmovieList}}" wx:for-item="hall" wx:key="hall"> -->
-            <view class='option {{isOk?"checkedoption":""}}' bindtap='setHall' data-hall="{{screenname}}" data-index="{{index}}">{{screenname}}</view>
-          <!-- </block> -->
-        </view>
-        <view class='checkstep'>
-          <view class='step {{step>0?"onstep":""}}'>1</view>
-          <text></text>
-          <view class='step {{step>1?"onstep":""}}'>2</view>
-          <text></text>
-          <view class='step {{step>2?"onstep":""}}'>3</view>
         </view>
       </view>
       <view class='checkTip'>为不打扰其他观众观看影片，餐品仅送至您的影厅门口 请您在收到取餐通知后前来领取 </view>

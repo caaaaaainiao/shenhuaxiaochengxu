@@ -244,14 +244,6 @@
   width: 100%;
   border-top: 1rpx solid #DDDDDD;
 }
-.checktitle{
-  font-size: 30rpx;
-  color: #312927;
-  line-height: 1;
-  padding-left: 38rpx;
-  margin-top: 34rpx;
-  margin-bottom: 53rpx;
-}
 .checkoptions{
  padding-left: 60rpx;
  padding-right: 10rpx;
@@ -278,35 +270,6 @@
   border: none;
   color: #fff;
 }
-.checkstep{
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 42rpx;
-}
-.step{
-  width: 24rpx;
-  height: 24rpx;
-  line-height: 24rpx;
-  font-size: 18rpx;
-  color: #fff;
-  border-radius: 50%;
-  background: #DDDDDD;
-  text-align: center;
-
-}
-.checkstep text{
-  display: inline-block;
-  width: 24rpx;
-  height: 4rpx;
-  background: #DDDDDD;
-  border-radius: 2rpx;
-  margin: 0 15rpx;
-}
-.onstep{
-  background: #E04F2E;
-}
 .checkTip{
   width: 100%;
   padding: 0 82rpx;
@@ -327,13 +290,4 @@
 .checkall{
   background: #E04F2E;
   color: #fff;
-}
-.back{
-  font-size: 26rpx;
-  color: #E04F2E;
-  line-height: 1;
-  position: absolute;
-  top: 30rpx;
-  left: 25rpx;
-  z-index: 9;
 }

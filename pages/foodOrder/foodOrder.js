@@ -51,7 +51,7 @@ Page({
     var nowtime = new Date();
     let endtime = new Date(nowtime.getTime() + 1000 * 60);
     let endday = util.formatTime2(endtime);
-    var deliveryAddress = app.globalData.selltimename + '' + app.globalData.orderaddname + '[' + app.globalData.sellhallname + ']'
+    var deliveryAddress = app.globalData.sellhallname 
     console.log(app.globalData.isReady)
     wx.request({
       url: app.globalData.url + '/Api/Goods/CreateGoodsOrder',
