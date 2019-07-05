@@ -533,9 +533,10 @@ Page({
         } 
     })
   },
-  change: function() {
-    wx.navigateBack({})
-  },
+  // 暂时不要更换场次按钮
+  // change: function() {
+  //   wx.navigateBack({})
+  // },
   /**
    * 生命周期函数--监听页面显示
    */

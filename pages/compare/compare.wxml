@@ -35,9 +35,10 @@
         </view>
         <view class='address'>
           <view class='session_top'>
+          <view style='line-height:40rpx;margin-top:10%;'>
             <text class='movie_type'>{{session.screenName}}</text>
           </view>
-          <text class='session_bottom'>{{session.screenName}}</text>
+          </view>
         </view>
         <view class='price'>
           <view class='session_top'>

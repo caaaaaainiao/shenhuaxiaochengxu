@@ -145,8 +145,6 @@ Page({
       LevelCode: levelCode,
     };
     // 获取当前时间戳
-    let timeStamp = Date.parse(new Date());
-    console.log(timeStamp)
     wx.request({
       url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount + '/' + data.CardNo,
       method: 'GET',
@@ -154,6 +152,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         // 微信支付接口
         wx.requestPayment({
           timeStamp: res.data.data.timeStamp,
@@ -162,6 +161,7 @@ Page({
           signType: res.data.data.signType,
           paySign: res.data.data.paySign,
           success(res) {
+            console.log(res)
             if (res.errMsg == "requestPayment:ok") {
               // var NewTime = util.formatTimeDays(new Date())
               // wx.request({
