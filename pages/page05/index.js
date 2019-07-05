@@ -131,7 +131,7 @@ Page({
     let username = that.data.userName;
     let password = that.data.passWord;
     let levelCode = that.data.levelcode
-    var data = {
+    let data = {
       Username: username,
       Password: password,
       CinemaCode: cinemaCode,
@@ -148,7 +148,7 @@ Page({
     let timeStamp = Date.parse(new Date());
     console.log(timeStamp)
     wx.request({
-      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount,
+      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount + '/' + data.CardNo,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -163,70 +163,48 @@ Page({
           paySign: res.data.data.paySign,
           success(res) {
             if (res.errMsg == "requestPayment:ok") {
-              wx.request({
-                url: app.globalData.url + '/Api/Member/CardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.ChargeType + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount,
-                method: 'GET',
-                header: {
-                  'content-type': 'application/json' // 默认值
-                },
-                success: function (res) {
-                  if (res.data.Status == "Success") {
-                   var NewTime =  util.formatTimeDays(new Date())
-                    wx.request({
-                      url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-                      data: {
-                        "touser": app.globalData.openId,
-                        "template_id": "0fX3l3wFmEOdVmUzLr9jABMqjORBWkjDkxNEYI1MCx4",
-                        "form_id": that.data.formids,
-                        "data": {
-                          "keyword1": {
-                            "value": that.data.cardno
-                          },
-                          "keyword2": {
-                            "value": NewTime.NowDataYear
-                          },
-                          "keyword3": {
-                            "value": that.data.price
-                          },
-                          "keyword4": {
-                            "value": that.data.levelnames
-                          }
-                        }
-                      },
-                      method: "POST",
-                      header: {
-                        'content-type': 'application/json' // 默认值
-                      },
-                      success: function (res) {
-                        console.log(res)
-                        // app.usermessage.access_token = res.data.access_token
-                      }
-                    })
-                    wx.showToast({
-                      title: '充值成功！',
-                      icon: 'none',
-                      duration: 2000
-                    });
-                    that.setData({ showAlertExchange2: !that.data.showAlertExchange2 })
-                    setTimeout(function () {
-                      wx.redirectTo({
-                        url: '../page05/index',
-                      })
-                    }, 1000)
-                  }
-                  // 充值失败
-                  else {
-                    wx.showModal({
-                      title: '充值失败',
-                      content: res.data.ErrorMessage,
-                    })
-                    // 自动退款
-                    // wx.request({
-                    //   url: app.globalData.url + ,
-                    // })
-                  }
-                }
-              })
+              // var NewTime = util.formatTimeDays(new Date())
+              // wx.request({
+              //   url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
+              //   data: {
+              //     "touser": app.globalData.openId,
+              //     "template_id": "0fX3l3wFmEOdVmUzLr9jABMqjORBWkjDkxNEYI1MCx4",
+              //     "form_id": that.data.formids,
+              //     "data": {
+              //       "keyword1": {
+              //         "value": that.data.cardno
+              //       },
+              //       "keyword2": {
+              //         "value": NewTime.NowDataYear
+              //       },
+              //       "keyword3": {
+              //         "value": that.data.price
+              //       },
+              //       "keyword4": {
+              //         "value": that.data.levelnames
+              //       }
+              //     }
+              //   },
+              //   method: "POST",
+              //   header: {
+              //     'content-type': 'application/json' // 默认值
+              //   },
+              //   success: function (res) {
+              //     console.log(res)
+              //     // app.usermessage.access_token = res.data.access_token
+              //   }
+              // })
+              wx.showToast({
+                title: '充值成功！',
+                icon: 'none',
+                duration: 2000
+              });
+              that.setData({ showAlertExchange2: !that.data.showAlertExchange2 })
+              setTimeout(function () {
+                wx.redirectTo({
+                  url: '../page05/index',
+                })
+              }, 1000)
             }
           },
           fail(res) {
