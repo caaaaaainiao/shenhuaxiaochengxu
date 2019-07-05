@@ -81,7 +81,7 @@ Page({
     var a = app.globalData.openId
     console.log(a)
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a + '/' + 1,
+      url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
