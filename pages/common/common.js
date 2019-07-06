@@ -220,6 +220,7 @@ Page({
     userInfo.nickName = name;
     that.setData({
       nickName: name,
+      userInfo: userInfo,
     })  
     that.change();
   },
@@ -230,6 +231,7 @@ Page({
       phone: e.detail.value,
       mobilePhone: e.detail.value,
     });
+    app.globalData.userInfo.mobilePhone = that.data.mobilePhone
     that.change(); 
   }
 })

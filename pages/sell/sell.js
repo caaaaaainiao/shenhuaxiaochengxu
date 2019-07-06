@@ -38,7 +38,6 @@ Page({
         that.setData({
           userInfom: res.data.userInfo
         })
-        // console.log(that.data.userInfo)
       },
     })
     util.getcinemaList(function(res) {
@@ -111,6 +110,16 @@ Page({
   onShow: function() {
     // console.log(app.globalData.areaList)
     // console.log(app.globalData.lookcinemaname)
+    wx.getStorage({
+      key: 'accredit',
+      success: function (res) {
+        // console.log(res)
+        that.setData({
+          userInfom: res.data.userInfo
+        })
+        // console.log(that.data.userInfo)
+      },
+    })
     if (app.globalData.lookcinemaname == undefined) {
       app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
     }
