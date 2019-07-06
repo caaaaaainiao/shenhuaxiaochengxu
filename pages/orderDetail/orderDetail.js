@@ -174,9 +174,6 @@ Page({
         PrintNo: that.data.printNo,
         VerifyCode: that.data.verifyCode,
       };
-      if (app.globalData.cinemaList.cinemaType == "辰星") {
-        data.PrintNo = that.data.oldPrintNo;
-      }
       wx.request({
         url: app.globalData.url + '/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.PrintNo + '/' + data.VerifyCode,
         method: "GET",
