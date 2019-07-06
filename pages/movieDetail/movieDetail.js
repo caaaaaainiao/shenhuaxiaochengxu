@@ -13,7 +13,7 @@ Page({
     movie:null,
     canTap:"1",
     comments:null,
-    watchRecord:"1"
+    watchRecord:"1",
   },
 
   /**
@@ -55,14 +55,10 @@ Page({
     if (movie.stagePhoto6 != null) {
       juzhaoList.push(movie.stagePhoto6)
     }
-    console.log(juzhaoList)
-
     that.setData({
       movie : movie,
       juzhaoList: juzhaoList
     })
-    console.log(that.data.movie)
-    // console.log(nameList)
     that.manage(event);
     // console.log(app.globalData)
     var nowtime = new Date().getTime();
@@ -77,14 +73,13 @@ Page({
       },
       success: function (res) {
         // console.log(res)
-        // console.log(res.data.data)
         for (var i in res.data.data.film) { 
           if (res.data.data.film[i].filmImage == movie.image){
                that.setData({
-                 isWant : 1
+                 isWant : 1,
+                 isLooked : 1,
                })
           }
-          // console.log(app.globalData.userInfo)
         }
       }
     })
@@ -220,13 +215,13 @@ Page({
     }
     // console.log(that.data.watchRecord)
     wx.request({
-      url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.watchRecord,
+      url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isLooked,
       method: "GET",
       header: { 'content-type': 'application/json' },
       success: function (res) {
         // console.log(res);
         that.setData({
-          watchRecord: '1'
+          watchRecord: '1',
         })
       }
     })

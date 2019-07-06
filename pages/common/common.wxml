@@ -14,11 +14,11 @@
     <input class='name' value='{{nickName}}' bindblur='nameChange'></input>
     <image src='/images/gray_more.png' class='right'></image>
   </view>
-  <view class='option2'>
+  <!-- <view class='option2'>
     <text>手机号</text>
     <input class='name' value='{{phone}}' bindblur='phoneChange'></input>
     <image src='/images/gray_more.png' class='right'></image>
-  </view>
+  </view> -->
   <view class='option2'>
     <text>性别</text>
     <picker bindchange="bindSexChange" value="{{sex}}" range="{{sexArr}}">

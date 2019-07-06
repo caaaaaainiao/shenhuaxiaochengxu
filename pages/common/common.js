@@ -9,7 +9,7 @@ Page({
   data: {
     sexArr:["男","女"],
     userInfo:null,
-    phone: null,
+    // phone: null,
   },
 
   /**
@@ -31,13 +31,13 @@ Page({
         console.log(res)
         if (res.data.Status == "Success") {
           that.setData({
-            phone: res.data.data.mobilePhone,
+            // phone: res.data.data.mobilePhone,
             sex: res.data.data.sex,
             nickName: res.data.data.nickName,
             headUrl: res.data.data.headUrl,
             birthday: res.data.data.birthday,
           })
-          that.data.userInfo.mobilePhone = res.data.data.mobilePhone;
+          // that.data.userInfo.mobilePhone = res.data.data.mobilePhone;
           that.data.userInfo.nickName = res.data.data.nickName;
           that.data.userInfo.headlmgUrl = res.data.data.headUrl;
           that.data.userInfo.sex = res.data.data.sex;
@@ -190,7 +190,7 @@ Page({
         nickName: that.data.nickName,
         sex: that.data.sex,
         birthday: that.data.birthday,
-        mobilePhone: that.data.phone,
+        // mobilePhone: that.data.phone,
       },
       method: "POST",
       header: {
@@ -224,14 +224,14 @@ Page({
     })  
     that.change();
   },
-  phoneChange: function (e) {
-    var that = this;
-    var mobilePhone = that.data.userInfo.mobilePhone;
-    that.setData({
-      phone: e.detail.value,
-      mobilePhone: e.detail.value,
-    });
-    app.globalData.userInfo.mobilePhone = that.data.mobilePhone
-    that.change(); 
-  }
+  // phoneChange: function (e) {
+  //   var that = this;
+  //   var mobilePhone = that.data.userInfo.mobilePhone;
+  //   that.setData({
+  //     phone: e.detail.value,
+  //     mobilePhone: e.detail.value,
+  //   });
+  //   app.globalData.userInfo.mobilePhone = that.data.mobilePhone
+  //   that.change(); 
+  // }
 })

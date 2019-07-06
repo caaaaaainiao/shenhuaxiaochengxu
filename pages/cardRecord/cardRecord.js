@@ -85,9 +85,7 @@ Page({
       success: function (res) {
         if (res.data.Status == 'Success' && res.data.data) {
           let result = res.data.data;
-          console.log(result)
           for (let i = 0; i < result.length; i ++) {
-            console.log(result[i])
             let cardNo = "result[" + i + "].cardNo";
             let chargeTime = "result[" + i + "].chargeTime";
             let rechargeAmount = "result[" + i + "].rechargeAmount";
@@ -100,7 +98,6 @@ Page({
             })
           }
         }
-        // return;
         wx.hideLoading()
       }
     })

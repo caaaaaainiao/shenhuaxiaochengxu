@@ -1551,9 +1551,18 @@ Page({
   // 查看会员协议
   cinemaAgreement: function() {
     let that = this;
-    that.setData({
-      cinemaAgreement: true,
-    })
+    console.log(app.globalData.cinemaList.cinemaAgreement)
+    if (app.globalData.cinemaList.cinemaAgreement) {
+      that.setData({
+        cinemaAgreement: true,
+        agreement: app.globalData.cinemaList.cinemaAgreement,
+      })
+    } else {
+      that.setData({
+        cinemaAgreement: true,
+        agreement: '暂无协议',
+      })
+    }
   },
     // 关闭会员协议
   closeCinemaAgreement: function() {

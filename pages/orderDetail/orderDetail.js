@@ -77,18 +77,18 @@ Page({
             showTime: showTime,
             ticketCollectionUrl: ticketCollectionUrl,
           })
-          if (app.globalData.cinemaList.cinemaType == "辰星") {
-            let printNo = that.data.order.printNo.slice(8);
-            that.setData({
-              oldPrintNo: that.data.order.printNo, //退票码
-              printNo: printNo, // 取票码
-            })
-          }
-          else {
+          // if (app.globalData.cinemaList.cinemaType == "辰星") {
+          //   let printNo = that.data.order.printNo.slice(8);
+          //   that.setData({
+          //     oldPrintNo: that.data.order.printNo, //退票码
+          //     printNo: printNo, // 取票码
+          //   })
+          // }
+          // else {
             that.setData({
               printNo: that.data.order.printNo,
             })
-          }
+          // }
         }
       }
     })

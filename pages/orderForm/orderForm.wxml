@@ -166,8 +166,9 @@
   <!-- 会员服务协议 -->
   <view class='black2' wx:if="{{cinemaAgreement}}">
     <view class='add2'>
-      <view class='input2' style='height:160rpx;padding-right:30rpx;'>dhioashfosajfklsajkd</view>
-      <view class='submit2' bindtap='closeCinemaAgreement'>确 定</view>
+    <image class='close2' src='/images/close.png' bindtap='closeCinemaAgreement'></image>
+    <view class='input2' style='height:200rpx;padding-right:30rpx;font-size:28rpx;overflow:scroll;'>{{agreement}}     </view>
+      <!-- <view class='submit2' bindtap='closeCinemaAgreement'>确 定</view> -->
     </view>
   </view>
 

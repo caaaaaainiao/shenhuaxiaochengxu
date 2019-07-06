@@ -146,7 +146,7 @@ Page({
     };
     // 获取当前时间戳
     wx.request({
-      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount + '/' + data.CardNo,
+      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount + '/' + data.CardNo + '/' + data.Password,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
