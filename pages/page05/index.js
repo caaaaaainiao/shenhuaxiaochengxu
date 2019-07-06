@@ -163,42 +163,6 @@ Page({
           success(res) {
             console.log(res)
             if (res.errMsg == "requestPayment:ok") {
-              // var NewTime = util.formatTimeDays(new Date())
-              // wx.request({
-              //   url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-              //   data: {
-              //     "touser": app.globalData.openId,
-              //     "template_id": "0fX3l3wFmEOdVmUzLr9jABMqjORBWkjDkxNEYI1MCx4",
-              //     "form_id": that.data.formids,
-              //     "data": {
-              //       "keyword1": {
-              //         "value": that.data.cardno
-              //       },
-              //       "keyword2": {
-              //         "value": NewTime.NowDataYear
-              //       },
-              //       "keyword3": {
-              //         "value": that.data.price
-              //       },
-              //       "keyword4": {
-              //         "value": that.data.levelnames
-              //       }
-              //     }
-              //   },
-              //   method: "POST",
-              //   header: {
-              //     'content-type': 'application/json' // 默认值
-              //   },
-              //   success: function (res) {
-              //     console.log(res)
-              //     // app.usermessage.access_token = res.data.access_token
-              //   }
-              // })
-              wx.showToast({
-                title: '充值成功！',
-                icon: 'none',
-                duration: 2000
-              });
               that.setData({ showAlertExchange2: !that.data.showAlertExchange2 })
               setTimeout(function () {
                 wx.redirectTo({
@@ -432,6 +396,12 @@ Page({
       }
     })
     wx.setNavigationBarTitle({ title: '会员卡' });
+  },
+  // 跳转到会员卡记录页面
+  record: function () {
+    wx.navigateTo({
+      url: '../cardRecord/cardRecord',
+    })
   },
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },

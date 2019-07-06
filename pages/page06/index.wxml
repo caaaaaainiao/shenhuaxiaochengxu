@@ -32,11 +32,11 @@
 		</view>
 		<view class="item">
 			<image src="/images/icon-password.png" class="icon" mode="widthFix"></image>
-			<input password class="input" value="" bindinput="" bindblur="getPassword" placeholder="设置密码" placeholder-class="phColor"/>
+			<input type='number' password class="input" value="" bindinput="" bindblur="getPassword" placeholder="设置密码" placeholder-class="phColor"/>
 		</view>
 		<view class="item">
 			<image src="/images/icon-password.png" class="icon" mode="widthFix"></image>
-			<input password class="input" value="" bindinput="" bindblur="surePassword" placeholder="确认密码" placeholder-class="phColor"/>
+			<input type='number' password class="input" value="" bindinput="" bindblur="surePassword" placeholder="确认密码" placeholder-class="phColor"/>
 		</view>
 		<view class="item">
 			<image src="/images/icon-person.png" class="icon" mode="widthFix"></image>
@@ -44,7 +44,7 @@
 		</view>
     <view class="item" wx:if="{{isShow}}">
 			<image src="/images/icon-person.png" class="icon" mode="widthFix"></image>
-			<input class="input" value="" bindinput="" bindblur="getId" placeholder="输入身份证号码" placeholder-class="phColor"/>
+			<input type='number' class="input" value="" bindinput="" bindblur="getId" placeholder="输入身份证号码" placeholder-class="phColor"/>
 		</view>
 		<view class="item">
 			<image src="/images/icon-person.png" class="icon" mode="widthFix"></image>

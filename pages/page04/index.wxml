@@ -10,10 +10,10 @@
     </view>
     <view class="form">
       <view class="item">
-        <input placeholder="输入您的会员卡号/手机号" class="input" value="{{inputNum}}" bindinput="getNum" bindblur="btnBlurInput" placeholder-class="phColor" />
+        <input type='number' placeholder="输入您的会员卡号/手机号" class="input" value="{{inputNum}}" bindinput="getNum" bindblur="btnBlurInput" placeholder-class="phColor" />
       </view>
       <view class="item">
-        <input placeholder="输入您的会员卡密码" class="input" value="{{inputPass}}" bindinput="" bindblur="getPass" placeholder-class="phColor" />
+        <input type='number' placeholder="输入您的会员卡密码" class="input" value="{{inputPass}}" bindinput="" bindblur="getPass" placeholder-class="phColor" />
       </view>
       <!-- <view class="item">
 				<picker bindchange="bindPickerChange999" value="{{index999}}" range="{{array999}}"><view class="picker gray">{{array999[index999]}}</view></picker>

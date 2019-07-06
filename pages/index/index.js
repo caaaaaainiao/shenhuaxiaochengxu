@@ -7,10 +7,10 @@ Page({
     FlimList: [],
     FilmCodes: [],
     list: null,
-    moviearea: null, //当前影院信息
+    moviearea: '', //当前影院信息
     movieList: null, //当前城市影院列表
     userInfo: null, //个人信息
-    currentCity: null, //当前所在城市
+    currentCity: '', //当前所在城市
     isFirst: false,
     cinemaList: null, //影院列表
     isChoose: false, //选择影院

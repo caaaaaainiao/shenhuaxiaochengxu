@@ -5,7 +5,7 @@
 			<view class="txt1">{{username}}</view>
 			<view class="txt2">积分：{{score}}</view>
 		</view>
-		<!-- <navigator class="btn-record" url="">充值记录</navigator> -->
+		<view class='record' bindtap='record' style='color:white'>充值记录</view>
 	</view>
 
 	<view class="list" id="list">
@@ -22,25 +22,8 @@
 			<button class="btns" data-num='{{card.num}}' data-levelName='{{card.levelName}}' bindtap="btnShowExchange2" hover-class="none" data-code="{{card.levelCode}}" data-cardNo="{{card.num}}" data-pass="{{card.pass}}">立即充值</button>
     </view>
 	</view>
-  	<!-- <swiper class="list" style="height:345rpx">
-    <block wx:for="{{status}}" wx:for-item="card" wx:key="card" style='position:relative' wx:if="{{show==0}}">
-    <swiper-item>
-      <image src="../../images/card-bg.png" class="card" mode="widthFix"></image>
-      <view class="number">NO：{{card.num}}</view>
-      <view class="center">
-				<view class="txt1">{{card.levelName}}</view>
-				<view class="txt2">余额：{{card.balance}}¥</view>
-			</view>
-      <button class="btn-delete" bindtap="btnDelete" data-cardno="{{card.num}}" data-pass="{{card.pass}}" hover-class="none">
-				<image src="/images/btn51.png" class="icon" mode="widthFix"></image>
-			</button>
-			<button class="btns" bindtap="btnShowExchange2" hover-class="none" data-code="{{card.levelCode}}" data-cardNo="{{card.num}}" data-pass="{{card.pass}}">立即充值</button>
-    </swiper-item>
-    </block>
-	</swiper> -->
 
 	<view class="fixed-operate">
-    <!-- <button class="btn btn-red" bindtap="clear" hover-class="none">清除缓存</button> -->
 		<view class="btns" bindtap='login'>＋绑定/注册 更多其他类型会员卡</view>
 	</view>
 </view>

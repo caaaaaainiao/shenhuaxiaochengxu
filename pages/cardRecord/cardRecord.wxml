@@ -3,15 +3,17 @@
 <scroll-view class='container' scroll-y="true" bindscrolltolower="ask" wx:if="{{result.length>0}}">
   <view class='line'></view>
   <block wx:for="{{result}}" wx:for-item="record" wx:key="record">
-    <view class='record' wx:if="{{record.rechargeStatus == 1}}">
+    <view class='record' wx:if="{{record.chargeStatus == 1}}">
+      <view class='cardno'>卡号:{{record.cardNo}}</view>
       <view class='status'>充值成功</view>
-      <view class='time'>{{record.payFinishTime2}}</view>
-      <view class='money'>+{{record.rechargeMoney}} 元</view>
+      <view class='time'>{{record.chargeTime}}</view>
+      <view class='money'>{{record.rechargeAmount}} 元</view>
     </view>
-    <view class='record' wx:elif="{{record.rechargeStatus == 0}}">
-      <view class='status'>充值失败-{{record.refundStatus}}</view>
-      <view class='time'>{{record.payFinishTime2}}</view>
-      <view class='money2'>+{{record.rechargeMoney}} 元</view>
+    <view class='record' wx:elif="{{record.chargeStatus == 0}}">
+      <view class='cardno'>卡号:{{record.cardNo}}</view>
+      <view class='status'>充值失败</view>
+      <view class='time'>{{record.chargeTime}}</view>
+      <view class='money2'>{{record.rechargeAmount}} 元</view>
     </view>
   </block>
 </scroll-view>

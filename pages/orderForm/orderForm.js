@@ -1547,5 +1547,19 @@ Page({
         }, 1000)
       }
     })
-  }
+  },
+  // 查看会员协议
+  cinemaAgreement: function() {
+    let that = this;
+    that.setData({
+      cinemaAgreement: true,
+    })
+  },
+    // 关闭会员协议
+  closeCinemaAgreement: function() {
+    let that = this;
+    that.setData({
+      cinemaAgreement: false,
+    })
+  },
 })

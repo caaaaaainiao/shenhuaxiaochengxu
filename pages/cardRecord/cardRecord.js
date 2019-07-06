@@ -73,39 +73,35 @@ Page({
   },
   ask: function () {
     var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('cardRechargeList', nowtime);
-    var pageNo = that.data.pageNo;
     wx.showLoading({
       title: '加载中',
     })
     wx.request({
-      url: app.globalData.url + '/api/shMember/cardRechargeList',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        cardNum: app.globalData.userInfo.dxInsiderInfo.cardNumber,
-        pageNo: pageNo,
-        pageSize: that.data.pageSize,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
+      url: app.globalData.url + '/Api/Member/CardChargeRecord' + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.mobilePhone,
+      method: "GET",
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        'content-type': 'application/json'
       },
       success: function (res) {
-        // console.log(res)
+        if (res.data.Status == 'Success' && res.data.data) {
+          let result = res.data.data;
+          console.log(result)
+          for (let i = 0; i < result.length; i ++) {
+            console.log(result[i])
+            let cardNo = "result[" + i + "].cardNo";
+            let chargeTime = "result[" + i + "].chargeTime";
+            let rechargeAmount = "result[" + i + "].rechargeAmount";
+            let chargeStatus = "result[" + i + "].chargeStatus";
+            that.setData({
+              [cardNo]: result[i].cardNo,
+              [chargeTime]: result[i].chargeTime,
+              [rechargeAmount]: result[i].rechargeAmount,
+              [chargeStatus]: result[i].chargeStatus,
+            })
+          }
+        }
         // return;
         wx.hideLoading()
-        var result = that.addJson(that.data.result, res.data.data);
-        pageNo++;
-        for (var i = 0; i < result.length; i++) {
-          result[i].payFinishTime2 = result[i].payFinishTime.substring(0, 10)
-        }
-        that.setData({
-          result: result,
-          pageNo: pageNo
-        })
       }
     })
   },

@@ -15,6 +15,13 @@
   color: #312927;
   line-height: 1;
   position: absolute;
+  top: 45rpx;
+  right: 150rpx;
+}
+.cardno{
+  font-size: 26rpx;
+  color: #312927;
+  position: absolute;
   top: 30rpx;
   left: 40rpx;
 }

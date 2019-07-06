@@ -119,7 +119,7 @@
     <view> 2. 由于影院系统不稳定等因素,存在出票失败的情况,会进行退款</view>
     <view> 3. 购票成功后, 会收到取票短信</view>
     <view> 4. 下单即代表你同意
-      <text>《会员服务协议》</text>
+      <text bindtap='cinemaAgreement'>《会员服务协议》</text>
     </view>
   </view>
   <view class='bottom'>
@@ -162,6 +162,15 @@
       <view class='submit2' bindtap='closeMessageshow'>确 定</view>
     </view>
   </view>
+
+  <!-- 会员服务协议 -->
+  <view class='black2' wx:if="{{cinemaAgreement}}">
+    <view class='add2'>
+      <view class='input2' style='height:160rpx;padding-right:30rpx;'>dhioashfosajfklsajkd</view>
+      <view class='submit2' bindtap='closeCinemaAgreement'>确 定</view>
+    </view>
+  </view>
+
   <!-- 选择电影票优惠券 -->
 
   <view class='chooseCoupon' wx:if="{{chooseType==1}}">
