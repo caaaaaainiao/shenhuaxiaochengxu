@@ -13,7 +13,7 @@ Page({
     movie:null,
     canTap:"1",
     comments:null,
-    watchRecord:"0"
+    watchRecord:"1"
   },
 
   /**
@@ -202,24 +202,34 @@ Page({
       url: '../compare/compare?id='+id,
     })
   },
-  looked:function(){
+  looked:function(){  // 看过按钮
     var that = this;
-    if(that.data.watchRecord == 0){
-      wx.showModal({
-        title: '',
-        content: '您还没有看过该影片哦',
+    let apiuser = util.getAPIUserData(null);
+    if (that.data.watchRecord == '1') {
+      that.setData({
+        watchRecord: '0',
       })
-    }else{
-      if(that.data.commentRecord == 0){
-        wx.navigateTo({
-          url: '../commentmovie/commentmovie?movieId='+that.data.movie.id,
-        })
-      }else{
-        wx.showModal({
-          title: '',
-          content: '您已经评论过该影片哦',
+    if (that.data.isLooked == '1') {
+      that.setData({
+        isLooked: '0',
+      })
+    } else {
+      that.setData({
+        isLooked: '1',
+      })
+    }
+    // console.log(that.data.watchRecord)
+    wx.request({
+      url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.watchRecord,
+      method: "GET",
+      header: { 'content-type': 'application/json' },
+      success: function (res) {
+        // console.log(res);
+        that.setData({
+          watchRecord: '1'
         })
       }
+    })
     }
   }
 
