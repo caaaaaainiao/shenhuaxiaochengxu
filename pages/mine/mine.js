@@ -26,7 +26,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    console.log(app.globalData)
+    // console.log(app.globalData)
     let data = {
       UserName: app.usermessage.Username,
       Password: app.usermessage.Password,
@@ -42,7 +42,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        if (res.data.Status == "Success" ) {
+        // console.log(res)
+        if (res.data.Status == "Success" && res.data.data.images) {
           that.setData({
             picture: res.data.data.images[0].image,
           })
@@ -69,7 +70,7 @@ Page({
           })
         }
       }
-    })
+    });
     wx.getStorage({
       key: 'accredit',
       success: function(res) {
@@ -92,15 +93,23 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  a:function(){
-    var that = this
+  onShow: function() {
+    var that = this;
+    wx.getStorage({
+      key: 'accredit',
+      success: function (res) {
+        that.setData({
+          userInfo: res.data.userInfo
+        })
+      },
+    });
     let data = {
       UserName: app.usermessage.Username,
       Password: app.usermessage.Password,
       CinemaCode: app.globalData.cinemacode,
-      GradeCode: "06",
       OpenID: app.globalData.openId,
     };
+    // 读取资源数量
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUserResourceNumber' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
       method: "GET",
@@ -115,26 +124,12 @@ Page({
             giftCount: res.data.data.giftCount,
             goodsCount: res.data.data.goodsCount,
             ticketCount: res.data.data.ticketCount,
+            wantedFilmCount: res.data.data.wantedFilmCount,
+            lookedFilmCount: res.data.data.lookedFilmCount,
           })
         }
       }
-    })
-  },
-  onShow: function() {
-    var that = this;
-    that.a()
-    wx.getStorage({
-      key: 'accredit',
-      success: function (res) {
-        that.setData({
-          userInfo: res.data.userInfo
-        })
-      },
-    })
-    // this.setData({
-    //   userInfo: app.globalData.userInfo
-    // })
-    // this.ask();
+    });
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
