@@ -173,9 +173,10 @@ Page({
         CinemaCode: that.data.cinemaCode,
         PrintNo: that.data.printNo,
         VerifyCode: that.data.verifyCode,
+        OrderCode: that.data.orderNum,
       };
       wx.request({
-        url: app.globalData.url + '/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.PrintNo + '/' + data.VerifyCode,
+        url: app.globalData.url + '/Api/Order/RefundTicket' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
         method: "GET",
         header: {
           'content-type': 'application/json' // 默认值
@@ -186,7 +187,6 @@ Page({
           that.setData({
             retreat: false,
           })
-
           if (res.data.Status == "Success") {
             wx.request({
               url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
