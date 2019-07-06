@@ -48,6 +48,9 @@ Page({
         duration: 3000
       })
     }
+    this.setData({
+      surePassword: e.detail.value,
+    })
   },
   getName: function (e) {
     this.setData({ name: e.detail.value })
@@ -89,6 +92,11 @@ Page({
         // 性别
         Sex: that.data.index002
       };
+      console.log(that.data.password)
+      console.log(that.data.surePassword)
+    if (that.data.password != that.data.surePassword) {
+      return;
+    }
       var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
     if (that.data.phone == '' || that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
         wx.showToast({

@@ -94,7 +94,7 @@
   color: #fff;
   position: absolute;
   left: 0;
-  bottom: 220rpx;
+  bottom: 200rpx;
   text-align: center;
 }
 .movietime{
@@ -104,7 +104,7 @@
   color: #fff;
   position: absolute;
   left: 0;
-  bottom: 175rpx;
+  bottom: 160rpx;
   text-align: center;
 }
 .roomin{
