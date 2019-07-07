@@ -30,7 +30,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(app.globalData)
+    // console.log(app.globalData)
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
@@ -221,13 +221,12 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        // console.log(res)
+        console.log(res)
         var comparePrices = res.data.data.sessionDate[0].session
-        // 获取当前时间戳
-        let timeStr = Date.parse(new Date());
+        var nowTime = parseInt(new Date().getTime());// 获取当前时间戳
         for (let i = comparePrices.length - 1; i >= 0; i --) { // 循环排期时间  倒序进行判断
-          let sessionTime = Date.parse(new Date(comparePrices[i].sessionTime)); // 获取排期时间戳
-          if (sessionTime < timeStr) { // 比较两个时间戳大小 判断排期时间是否已过期
+          let sessionTime = new Date(comparePrices[i].sessionTime.replace(/-/g, '/')).getTime();// 获取排期时间戳
+          if (sessionTime < nowTime) { // 比较两个时间戳大小 判断排期时间是否已过期
             // 如果当前时间比排期时间大  那么排期已过期  把过期的排期删除
             comparePrices.splice(i, 1);
           }

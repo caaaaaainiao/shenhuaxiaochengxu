@@ -70,50 +70,50 @@ Page({
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var cinemaType = app.globalData.cinemaList.cinemaType;
+    var data = {
+      Username: that.data.userName,
+      Password: that.data.passWord,
+      CinemaCode: cinemaCode,
+      OpenID: that.data.openId,
+      // 会员卡密码
+      CardPassword: that.data.password,
+      // 等级编号
+      LevelCode: that.data.id,
+      // 规则编码
+      RuleCode: that.data.ruleCode,
+      // 初始金额
+      InitialAmount: that.data.credit,
+      // 用户名
+      CardUserName: that.data.name,
+      // 手机号
+      MobilePhone: that.data.phone,
+      // 身份证号
+      IDNumber: that.data.cardId,
+      // 性别
+      Sex: that.data.index002
+    };
+    var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+    if (that.data.phone == '' || that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
+      wx.showToast({
+        title: '请填写必要信息！',
+        icon: 'none',
+        duration: 3000
+      })
+    } else if (!Num.test(that.data.phone)) {
+      wx.showToast({
+        title: '手机号码错误',
+        icon: 'none',
+        duration: 3000
+      })
+    }
+    if (that.data.password != that.data.surePassword) {
+      return;
+    }
     wx.showModal({
       title: '是否立即开卡',
       content: '请确保填入的信息准确无误',
       success(res) {
-        if (res.confirm) {
-          var data = {
-            Username: that.data.userName,
-            Password: that.data.passWord,
-            CinemaCode: cinemaCode,
-            OpenID: that.data.openId,
-            // 会员卡密码
-            CardPassword: that.data.password,
-            // 等级编号
-            LevelCode: that.data.id,
-            // 规则编码
-            RuleCode: that.data.ruleCode,
-            // 初始金额
-            InitialAmount: that.data.credit,
-            // 用户名
-            CardUserName: that.data.name,
-            // 手机号
-            MobilePhone: that.data.phone,
-            // 身份证号
-            IDNumber: that.data.cardId,
-            // 性别
-            Sex: that.data.index002
-          };
-          var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
-          if (that.data.phone == '' || that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
-            wx.showToast({
-              title: '请填写必要信息！',
-              icon: 'none',
-              duration: 3000
-            })
-          } else if (!Num.test(that.data.phone)) {
-            wx.showToast({
-              title: '手机号码错误',
-              icon: 'none',
-              duration: 3000
-            })
-          } 
-          if (that.data.password != that.data.surePassword) {
-            return;
-          }
+        if (res.confirm) { // 点击确认则开卡
           if (cinemaType == "辰星" || cinemaType == "粤科") {
             // 判断售票系统进行数据请求
             wx.request({

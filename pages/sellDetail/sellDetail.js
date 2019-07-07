@@ -204,14 +204,18 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    if (app.globalData.lookcinemaname == undefined) {
-      app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
-    }
-    if (app.globalData.lookcinemaadd == undefined) {
-      app.globalData.lookcinemaadd = app.globalData.areaList[0].address
-    }
+    // if (app.globalData.lookcinemaname == undefined) {
+    //   app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
+    // }
+    // if (app.globalData.lookcinemaadd == undefined) {
+    //   app.globalData.lookcinemaadd = app.globalData.areaList[0].address
+    // }
     var lookcinemaname = app.globalData.lookcinemaname
     var lookcinemaadd = app.globalData.lookcinemaadd
+    console.log(lookcinemaname)
+    console.log(lookcinemaadd)
+    console.log(app.globalData.areaList[0].cinemaName)
+    console.log(app.globalData.areaList[0].address)
     this.setData({
       lookcinemaname: lookcinemaname,
       lookcinemaadd: lookcinemaadd

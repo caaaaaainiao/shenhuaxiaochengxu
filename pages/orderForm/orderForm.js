@@ -251,7 +251,6 @@ Page({
   },
   leftTime: function () {
     var that = this;
-    console.log(that.data.autoUnlockDatetime)
     that.setData({
       timer: setInterval(function () {
         var nowTime = parseInt(new Date().getTime());
