@@ -496,35 +496,35 @@ Page({
     }
   },
   countMovie: function() {
-    var movieList = app.globalData.sellMovielist;
-    var now = new Date();
-    var year = now.getFullYear();
-    var month = now.getMonth() + 1;
-    var day = now.getDate();
-    var that = this;
-    if (month < 10) {
-      month = "0" + month;
-    }
-    if (day < 10) {
-      day = "0" + day;
-    }
-    var today = year + "-" + month + "-" + day;
-    for (var i = 0; i < movieList.length; i++) {
-      for (var j = 0; j < movieList[i].session.length; j++) {
-        if (movieList[i].session[j].startTime.substring(0, 10) != today) {
-          movieList[i].session.splice(0, 1);
-          j--;
-        }
-      }
-    }
-    for (var g = 0; g < movieList.length; g++) {
-      if (movieList[g].session.length == 0) {
-        movieList.splice(g, 1);
-        g--;
-      }
-    }
-    that.setData({
-      movieList: movieList
-    })
+    // var movieList = app.globalData.sellMovielist;
+    // var now = new Date();
+    // var year = now.getFullYear();
+    // var month = now.getMonth() + 1;
+    // var day = now.getDate();
+    // var that = this;
+    // if (month < 10) {
+    //   month = "0" + month;
+    // }
+    // if (day < 10) {
+    //   day = "0" + day;
+    // }
+    // var today = year + "-" + month + "-" + day;
+    // for (var i = 0; i < movieList.length; i++) {
+    //   for (var j = 0; j < movieList[i].session.length; j++) {
+    //     if (movieList[i].session[j].startTime.substring(0, 10) != today) {
+    //       movieList[i].session.splice(0, 1);
+    //       j--;
+    //     }
+    //   }
+    // }
+    // for (var g = 0; g < movieList.length; g++) {
+    //   if (movieList[g].session.length == 0) {
+    //     movieList.splice(g, 1);
+    //     g--;
+    //   }
+    // }
+    // that.setData({
+    //   movieList: movieList
+    // })
   }
 })
