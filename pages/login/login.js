@@ -30,8 +30,6 @@ Page({
       url: app.globalData.url +'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method:'GET',
       success:function(res){
-        console.log(res)
-        console.log(res.data.data.cinemas[0])
         that.setData({
           logo: res.data.data.cinemas[0].businessPic
         })
@@ -163,19 +161,11 @@ Page({
       success: function (res) {
         // console.log(res.data.data.mobilePhone)//用户注册的手机号码
         wx.hideLoading()
+        console.log(res)
         if (res.data.Status == "Success") {
-          // 获取优惠券弹窗信息
-          wx.request({
-            url: app.globalData.url + '/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + '01',
-            method: "GET",
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
               wx.getStorage({
                 key: 'loginInfo',
                 success: function(e) {
-                  console.log(e)
                   var userInfo = e.data;
                   userInfo.mobilePhone = that.data.phone;
                   wx.setStorage({
@@ -188,21 +178,18 @@ Page({
                 }
               })
               app.globalData.phone = that.data.phone
-              console.log(res.data.data.images)
-              if (res.data.data.images == null) {
+           if (res.data.data.linkUrl == '') {
                 wx.switchTab({
                   url: '../index/index',
                 })
               }
               else {
-                let image = res.data.data.images[0].image;
+             let image = res.data.data.linkUrl;
                 that.setData({
                   image: image,
                   modalHidden: false,
                 });
               }
-            }
-          })
         } else {
           wx.showToast({
             title: res.data.ErrorMessage,
@@ -266,7 +253,6 @@ Page({
           mobilePhone: phone
         },
         success: function (res) {
-          console.log(res)
           if (res.data.Status == "Success") {
             //倒计时
             that.setData({
