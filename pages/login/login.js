@@ -166,7 +166,7 @@ Page({
         if (res.data.Status == "Success") {
           // 获取优惠券弹窗信息
           wx.request({
-            url: app.globalData.url + '/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + '07',
+            url: app.globalData.url + '/Api/Activity/QueryActivitys' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + '01',
             method: "GET",
             header: {
               'content-type': 'application/json' // 默认值

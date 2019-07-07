@@ -31,7 +31,7 @@ Page({
       UserName: app.usermessage.Username,
       Password: app.usermessage.Password,
       CinemaCode: app.globalData.cinemacode,
-      GradeCode: "06",
+      GradeCode: "02",
       OpenID: app.globalData.openId,
     };
     // 读取页面背景图片
