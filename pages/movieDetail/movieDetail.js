@@ -7,8 +7,8 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isWant:false,
-    isLooked:false,
+    isWant: '0', //想看的电影所需参数
+    isLooked: '3', // 看过电影所需参数
     isAll:false,
     movie:null,
     canTap:"1",
@@ -65,6 +65,7 @@ Page({
     let apiuser = util.getAPIUserData(null);
     var a = app.globalData.openId
     // console.log(a)
+    // 查询用户想看的电影
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a ,
       method: "GET",
@@ -73,17 +74,35 @@ Page({
       },
       success: function (res) {
         // console.log(res)
+        // 判断当前选择的电影是否和请求中的数据一致  若为一致  则为想看电影
         for (var i in res.data.data.film) { 
           if (res.data.data.film[i].filmImage == movie.image){
                that.setData({
                  isWant : 1,
-                 isLooked : 1,
                })
           }
         }
       }
     })
-    
+    // 查询用户看过的电影
+    wx.request({
+      url: app.globalData.url + '/Api/User/QueryUserLookedFilms' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a,
+      method: "GET",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        // console.log(res)
+         // 判断当前选择的电影是否和请求中的数据一致  若为一致  则为看过的电影
+        for (var i in res.data.data.film) {
+          if (res.data.data.film[i].filmImage == movie.image) {
+            that.setData({
+              isLooked: 2,
+            })
+          }
+        }
+      }
+    })
   },
 
   /**
@@ -171,7 +190,7 @@ Page({
           isWant: 0
         })
       }
-      
+      // 更新想看的电影 iswant为0时 不想看  为1时 想看
       wx.request({
         url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isWant,
         method: "GET",
@@ -204,13 +223,13 @@ Page({
       that.setData({
         watchRecord: '0',
       })
-    if (that.data.isLooked == '1') {
+    if (that.data.isLooked == '2') {
       that.setData({
-        isLooked: '0',
+        isLooked: '3',
       })
     } else {
       that.setData({
-        isLooked: '1',
+        isLooked: '2',
       })
     }
     // console.log(that.data.watchRecord)

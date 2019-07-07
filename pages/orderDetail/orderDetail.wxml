@@ -95,7 +95,7 @@
   <!-- 确认退票 -->
   <view class='black' wx:if="{{retreat}}" catchtouchmove='true'>
     <view class='black_content'>
-        <view class='text'>退票将收取{{refundFee}}元服务费</view>
+        <view class='text'>微信支付退票将收取{{refundFee}}元服务费</view>
         <view class='cancel' catchtouchstart='cancel'>不退了</view>
         <view class='sure' catchtouchstart='refund'>继续退票</view>
     </view>

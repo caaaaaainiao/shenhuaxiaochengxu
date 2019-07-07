@@ -25,17 +25,17 @@
       <image src='/images/wantSee2.png'></image>
       <text>想看</text>
     </view>
-    <view wx:else bindtap='wantSee'>
+    <view wx:else="{{isWant == 1}}" bindtap='wantSee'>
       <image src='/images/wantSee.png'></image>
       <text>想看</text>
     </view>
-    <view wx:if="{{isLooked == 0}}" class='gray' bindtap='looked'>
+    <view wx:if="{{isLooked == 3}}" class='gray' bindtap='looked'>
       <image src='/images/iswrite2.png'></image>
       <text>看过</text>
     </view>
-    <view wx:else  bindtap='looked'>
+    <view wx:else="{{isLooked == 2}}"  bindtap='looked'>
       <image src='/images/iswrite.png'></image>
-      <text>已评</text>
+      <text>看过</text>
     </view>
   </view>
   <view class='{{isAll?"describe2":"describe"}}'>
