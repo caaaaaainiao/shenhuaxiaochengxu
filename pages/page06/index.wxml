@@ -62,10 +62,10 @@
 	<view class="operate">
 		<view class="agree">
 			<checkbox value="" checked="checked"/>
-			我已阅读并同意 <navigator class="red" url=""> 《会员卡协议》</navigator>
+      我已阅读并同意 <navigator class="red" bindtap='cinemaAgreement'> 《会员卡协议》</navigator>
 		</view>
 		<view class="total">
-			<view class="left">总价: 
+			<view class="left">开卡需支付: 
       <text class="red" wx:if="{{cinematype==0}}">0</text><text class="red" wx:else>{{credit}}</text>
       </view>
 			<button class="btn btn-red" bindtap="btnShowExchange2" hover-class="none">立即开卡</button>
@@ -73,7 +73,13 @@
 	</view>
 </view>
 
-
+<!-- 会员服务协议 -->
+  <view style='width: 100%;height: 100%;background: rgba(0,0,0,.5);position: fixed;top: 0;left: 0;z-index: 99;'wx:if="{{cinemaAgreement}}">
+    <view style='width: 100%;height: 560rpx;background: #fff;padding-top: 100rpx;border-radius: 16rpx 16rpx 0 0;  position: absolute;left: 0;bottom: 0;'>
+    <image style='width: 40rpx;height: 40rpx;position: absolute;top: 20rpx;right: 20rpx;'src='/images/close.png' bindtap='closeCinemaAgreement'></image>
+    <view style='width: 540rpx;background: #EEEEEE;margin: 0 auto 160rpx;padding-left: 30rpx;border-radius: 16rpx;height:200rpx;padding-right:30rpx;font-size:28rpx;overflow:scroll;'>{{agreement}}</view>
+  </view>
+</view>
 <!-- 会员卡充值弹窗   -->
 <block wx:if="{{showAlertExchange2}}">
 	<view class="alert alert-exchange">

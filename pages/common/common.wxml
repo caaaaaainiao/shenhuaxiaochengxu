@@ -5,7 +5,7 @@
   <view class='line'></view>
   <view class='option'>
     <text>头像</text>
-    <image src='{{headUrl}}' class='pic' bindtap='imgChange'></image>
+    <image src='{{headUrl}}' class='pic' bindtap='imgChange' mode='aspectFill'></image>
     <image src='/images/gray_more.png' class='right'></image>
   </view>
   <view class='option2'>

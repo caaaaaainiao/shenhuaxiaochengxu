@@ -1,11 +1,11 @@
 <view class="wrap page05">
 	<view class="panel" style="background-color:RGB(224,79,46)">
-		<image src="{{face}}" class="icon" mode="widthFix"></image>
+		<image src="{{face}}" class="icon"  mode='aspectFill'></image>
 		<view class="r">
 			<view class="txt1">{{username}}</view>
 			<view class="txt2">积分：{{score}}</view>
 		</view>
-		<view class='record' bindtap='record' style='color:white'>充值记录</view>
+		<view class='record' bindtap='record' style='color:white;border:1px solid white;width: 150rpx;height: 50rpx;line-height: 48rpx; text-align: center;border-radius:40rpx;'>充值记录</view>
 	</view>
 
 	<view class="list" id="list">

@@ -91,6 +91,9 @@ Page({
     var time = e.currentTarget.dataset.time;
     var credit = e.currentTarget.dataset.price;
     var rule = e.currentTarget.dataset.rule;
+    if (!text) {
+      text = '';
+    }
     wx.navigateTo({
       url: '../page06/index?id=' + id + '&openId=' + app.globalData.userInfo.openID + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit + '&ruleCode=' + rule,
     })
@@ -139,17 +142,28 @@ Page({
               var str = memberCardLevel[i].ruleDescription;
               if (str != null) {
                 var newDescription = str.replace(/，/g, "，\n")
+                if (!memberCardLevel[i].ruleDescription) {
+                  memberCardLevel[i].ruleDescription = '';
+                }
+                if (!memberCardLevel[i].ruleName) {
+                  memberCardLevel[i].ruleName = '';
+                }
                 that.setData({
                   [levelName]: memberCardLevel[i].levelName,
                   [levelCode]: memberCardLevel[i].levelCode,
                   [ruleName]: memberCardLevel[i].ruleName,
                   [ruleDescription]: newDescription,
-                  // [effectiveDays]: memberCardLevel[i].effectiveDays,
                   [credit]: memberCardLevel[i].credit,
                   [ruleCode]: memberCardLevel[i].ruleCode,
                   [image]: memberCardLevel[i].memberCardImage,
                 })
               } else {
+                if (!memberCardLevel[i].ruleDescription) {
+                  memberCardLevel[i].ruleDescription = '';
+                }
+                if (!memberCardLevel[i].ruleName) {
+                  memberCardLevel[i].ruleName = '';
+                }
                 that.setData({
                   [levelName]: memberCardLevel[i].levelName,
                   [levelCode]: memberCardLevel[i].levelCode,
@@ -221,6 +235,12 @@ Page({
           var str = memberCardLevel[i].ruleDescription;
           if (str != null) {
             var newDescription = str.replace(/，/g, "，\n")
+            if (!memberCardLevel[i].ruleDescription) {
+              memberCardLevel[i].ruleDescription = '';
+            }
+            if (!memberCardLevel[i].ruleName) {
+              memberCardLevel[i].ruleName = '';
+            }
             that.setData({
               [levelName]: memberCardLevel[i].levelName,
               [levelCode]: memberCardLevel[i].levelCode,
@@ -232,6 +252,12 @@ Page({
               [image]: memberCardLevel[i].memberCardImage,
             })
           } else {
+            if (!memberCardLevel[i].ruleDescription) {
+              memberCardLevel[i].ruleDescription = '';
+            }
+            if (!memberCardLevel[i].ruleName) {
+              memberCardLevel[i].ruleName = '';
+            }
             that.setData({
               [levelName]: memberCardLevel[i].levelName,
               [levelCode]: memberCardLevel[i].levelCode,
@@ -428,6 +454,12 @@ Page({
               var str = memberCardLevel[i].ruleDescription;
               if (str != null) {
                 var newDescription = str.replace(/，/g, "，\n")
+                if (!memberCardLevel[i].ruleDescription) {
+                  memberCardLevel[i].ruleDescription = '';
+                }
+                if (!memberCardLevel[i].ruleName) {
+                  memberCardLevel[i].ruleName = '';
+                }
                 that.setData({
                   [levelName]: memberCardLevel[i].levelName,
                   [levelCode]: memberCardLevel[i].levelCode,
@@ -439,6 +471,12 @@ Page({
                   [image]: memberCardLevel[i].memberCardImage,
                 })
               } else {
+                if (!memberCardLevel[i].ruleDescription) {
+                  memberCardLevel[i].ruleDescription = '';
+                }
+                if (!memberCardLevel[i].ruleName) {
+                  memberCardLevel[i].ruleName = '';
+                }
                 that.setData({
                   [levelName]: memberCardLevel[i].levelName,
                   [levelCode]: memberCardLevel[i].levelCode,

@@ -70,111 +70,120 @@ Page({
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var cinemaType = app.globalData.cinemaList.cinemaType;
-    var data = {
-        Username: that.data.userName,
-        Password: that.data.passWord,
-        CinemaCode: cinemaCode,
-        OpenID: that.data.openId,
-        // 会员卡密码
-        CardPassword: that.data.password,
-        // 等级编号
-        LevelCode: that.data.id,
-        // 规则编码
-        RuleCode: that.data.ruleCode,
-        // 初始金额
-        InitialAmount: that.data.credit,
-        // 用户名
-        CardUserName: that.data.name,
-        // 手机号
-        MobilePhone: that.data.phone,
-        // 身份证号
-        IDNumber: that.data.cardId,
-        // 性别
-        Sex: that.data.index002
-      };
-      console.log(that.data.password)
-      console.log(that.data.surePassword)
-    if (that.data.password != that.data.surePassword) {
-      return;
-    }
-      var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
-    if (that.data.phone == '' || that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
-        wx.showToast({
-          title: '请填写必要信息！',
-          icon: 'none',
-          duration: 3000
-        })
-    } else if (!Num.test(that.data.phone)) {
-        wx.showToast({
-          title: '手机号码错误',
-          icon: 'none',
-          duration: 3000
-        })
-    } else if (cinemaType == "辰星" || cinemaType == "粤科") {
-      // 判断售票系统进行数据请求
-      wx.request({
-        url: app.globalData.url + '/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
-        method: 'GET',
-        header: {
-          'content-type': 'application/json' // 默认值
-        },
-        success: function (res) {
-          if (res.data.Status == 'Success') {
-            if (res.data.Status == "Success") {
-              wx.showToast({
-                title: '开卡成功！',
-                icon: 'none',
-                duration: 2000
-              });
-              wx.redirectTo({
-                url: '../page05/index',
-              })
-            }
-          } else if (res.data.Status == 'Failure') {
+    wx.showModal({
+      title: '是否立即开卡',
+      content: '请确保填入的信息准确无误',
+      success(res) {
+        if (res.confirm) {
+          var data = {
+            Username: that.data.userName,
+            Password: that.data.passWord,
+            CinemaCode: cinemaCode,
+            OpenID: that.data.openId,
+            // 会员卡密码
+            CardPassword: that.data.password,
+            // 等级编号
+            LevelCode: that.data.id,
+            // 规则编码
+            RuleCode: that.data.ruleCode,
+            // 初始金额
+            InitialAmount: that.data.credit,
+            // 用户名
+            CardUserName: that.data.name,
+            // 手机号
+            MobilePhone: that.data.phone,
+            // 身份证号
+            IDNumber: that.data.cardId,
+            // 性别
+            Sex: that.data.index002
+          };
+          var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+          if (that.data.phone == '' || that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
             wx.showToast({
-              title: res.data.ErrorMessage,
+              title: '请填写必要信息！',
               icon: 'none',
               duration: 3000
             })
+          } else if (!Num.test(that.data.phone)) {
+            wx.showToast({
+              title: '手机号码错误',
+              icon: 'none',
+              duration: 3000
+            })
+          } 
+          if (that.data.password != that.data.surePassword) {
+            return;
           }
-        }
-      })
-      }
-    else if (cinemaType == "电影1905" || cinemaType == "满天星"){
-      // 此售票系统需进行充值  调取多个接口
-        that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
-        wx.request({
-          url: app.globalData.url + '/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
-          method: 'GET',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            console.log(res);
-            if (res.data.Status == 'Success') {
-              var levelRule = res.data.data;
-              var rule = levelRule.rule;
-              for (var i = 0; i < rule.length; i++) {
-                var credit = "rule[" + i + "].credit";
-                var ruleCode = "rule[" + i + "].ruleCode";
-                var givenAmount = "rule[" + i + "].givenAmount"
-                that.setData({
-                  levelName: levelRule.levelName,
-                  [credit]: rule[i].credit,
-                  [ruleCode]: rule[i].ruleCode,
-                  [givenAmount]: rule[i].givenAmount
-                })
+          if (cinemaType == "辰星" || cinemaType == "粤科") {
+            // 判断售票系统进行数据请求
+            wx.request({
+              url: app.globalData.url + '/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                if (res.data.Status == 'Success') {
+                  if (res.data.Status == "Success") {
+                    wx.showToast({
+                      title: '开卡成功！',
+                      icon: 'none',
+                      duration: 2000
+                    });
+                    wx.redirectTo({
+                      url: '../page05/index',
+                    })
+                  }
+                } else if (res.data.Status == 'Failure') {
+                  wx.showToast({
+                    title: res.data.ErrorMessage,
+                    icon: 'none',
+                    duration: 3000
+                  })
+                }
               }
-            } else if (res.data.Status == 'Failure') {
-              wx.showToast({
-                title: res.data.ErrorMessage,
-                icon: 'none',
-                duration: 3000
-              })
-            }
-          },
-        })
+            })
+          }
+          else if (cinemaType == "电影1905" || cinemaType == "满天星") {
+            // 此售票系统需进行充值  调取多个接口
+            that.setData({ showAlertExchange2: !that.data.showAlertExchange2 });
+            wx.request({
+              url: app.globalData.url + '/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res);
+                if (res.data.Status == 'Success') {
+                  var levelRule = res.data.data;
+                  var rule = levelRule.rule;
+                  for (var i = 0; i < rule.length; i++) {
+                    var credit = "rule[" + i + "].credit";
+                    var ruleCode = "rule[" + i + "].ruleCode";
+                    var givenAmount = "rule[" + i + "].givenAmount"
+                    that.setData({
+                      levelName: levelRule.levelName,
+                      [credit]: rule[i].credit,
+                      [ruleCode]: rule[i].ruleCode,
+                      [givenAmount]: rule[i].givenAmount
+                    })
+                  }
+                } else if (res.data.Status == 'Failure') {
+                  wx.showToast({
+                    title: res.data.ErrorMessage,
+                    icon: 'none',
+                    duration: 3000
+                  })
+                }
+              },
+            })
+          }
+        } else if (res.cancel) {
+          return
+        }
       }
+    })
   },
   closeShow: function () {
     this.setData({ showAlertExchange2: !this.data.showAlertExchange2 })
@@ -351,6 +360,28 @@ Page({
       ruleCode: options.ruleCode
     })
     wx.setNavigationBarTitle({ title: '会员卡' });
+  },
+  // 查看会员协议
+  cinemaAgreement: function () {
+    let that = this;
+    if (app.globalData.cinemaList.cinemaAgreement) {
+      that.setData({
+        cinemaAgreement: true,
+        agreement: app.globalData.cinemaList.cinemaAgreement,
+      })
+    } else {
+      that.setData({
+        cinemaAgreement: true,
+        agreement: '暂无协议',
+      })
+    }
+  },
+  // 关闭会员协议
+  closeCinemaAgreement: function () {
+    let that = this;
+    that.setData({
+      cinemaAgreement: false,
+    })
   },
   // 生命周期函数--监听页面初次渲染完成
   onReady: function () { },
