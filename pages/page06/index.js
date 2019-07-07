@@ -27,9 +27,6 @@ Page({
     cinematype: 1,
   },
   //  获取页面用户输入信息
-  getPhone: function (e) {
-    this.setData({ phone: e.detail.value })
-  },
   getPassword: function (e) {
     this.setData({ password: e.detail.value })
     if (e.detail.value == '') {
@@ -337,6 +334,10 @@ Page({
     var movieName = app.globalData.moviearea;
     var userName = app.usermessage.Username;
     var passWord = app.usermessage.Password;
+    // 设置手机号码默认为注册的号码  防止恶意开卡
+    that.setData({
+      phone: app.globalData.userInfo.mobilePhone,
+    })
     if (app.globalData.cinemaList.cinemaType == '满天星') {
       that.setData({
         isShow: true,

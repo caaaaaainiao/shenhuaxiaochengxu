@@ -1,6 +1,6 @@
 //获取应用实例
 const app = getApp()
-// let _this;
+// let _this;=
 Page({
   // 页面的初始数据
   data: {
@@ -220,9 +220,15 @@ Page({
           }
         }
         console.log(memberCardLevel)
-        that.setData({
-          backgroundImage: memberCardLevel[0].memberCardImage,
-        })
+        if (memberCardLevel.length > '0') {
+          that.setData({
+            backgroundImage: memberCardLevel[0].memberCardImage,
+          })
+        } else {
+          that.setData({
+            backgroundImage: res.data.data.level[0].memberCardImage,
+          })
+        }
         for (var i = 0; i < memberCardLevel.length; i++) {
           var levelName = "memberCardLevel[" + i + "].levelName";
           var levelCode = "memberCardLevel[" + i + "].levelCode";

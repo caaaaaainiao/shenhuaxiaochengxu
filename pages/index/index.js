@@ -96,6 +96,7 @@ Page({
     })
     //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等 监听页面加载
     util.getCity(function (res, userLat, userLng) {
+      console.log(res)
       var cinemas = res;
       var recent = []
       if (userLat && userLng) {
@@ -196,6 +197,9 @@ Page({
       that.setData({
         moviearea: recent
       })
+      // console.log(cinemaList)
+      app.globalData.lookcinemaname = cinemaList.cinemaName;
+      app.globalData.lookcinemaadd = cinemaList.address;
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
       that.setData({
@@ -227,7 +231,6 @@ Page({
           movieList: res
         })
         app.globalData.sellMovielist = that.data.movieList
-
       });
     }
   },
