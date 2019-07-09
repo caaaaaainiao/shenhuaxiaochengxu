@@ -909,6 +909,7 @@ Page({
             var first = userCardList.sort(function (a, b) {
               return a.balance < b.balance
             })[0];
+            console.log(first)
             if (first.score == null) {
               first.score = 0
             }

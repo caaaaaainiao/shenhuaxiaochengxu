@@ -21,7 +21,25 @@
     <text>元</text>
     <text class='money'>{{filters.toFix(totalPrice)}}</text>
   </view>
-  <view class='option' wx:if="{{merOrder.merTicket.couponPrice}}" bindtap='chooseCoupon'>
+     <view class='payoption'>
+      <view class='membercardpay' bindtap='cardway'>
+      <image src='/images/membercardpay.png' class='payimg'></image>
+      会员卡支付
+      <text>元</text>
+      <text class='money'>{{filters.toFix(totalPrice)}}</text>
+      <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==2}}"></image>
+      <image src='/images/unselect.png' class='selectimg' wx:else></image>
+      </view>
+      <view class='wxpay' bindtap='wxway'>
+      <image src='/images/wxpay.png' class='payimg'></image>
+      微信支付
+      <text>元</text>
+      <text class='money'>{{filters.toFix(totalPrice)}}</text>
+      <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==1}}"></image>
+      <image src='/images/unselect.png' class='selectimg' wx:else></image>
+      </view>
+    </view>
+      <view class='option' wx:if="{{merOrder.merTicket.couponPrice}}" bindtap='chooseCoupon'>
     小食优惠券
     <image src='/images/gray_more.png'></image>
     <text>-{{merOrder.merTicket.couponPrice}}元</text>
@@ -66,7 +84,7 @@
     <view> 2. 由于影院系统不稳定等因素,存在出票失败的情况,会进行退款</view>
     <view> 3. 购票成功后, 会收到取票短信</view>
     <view> 4. 下单即代表你同意
-      <text>《会员服务协议》</text>
+      <text bindtap='cinemaAgreement'>《会员服务协议》</text>
     </view>
   </view>
   <view class='bottom'>
@@ -86,22 +104,22 @@
   </view>
   <view class='btn' bindtap='choosePay'>立即支付</view>
   <!-- 选择支付方式 -->
-  <view class='black' wx:if="{{showBlack}}">
-    <view class='checkarea'>
-      <view class='close' bindtap='close'>
+  <!-- <view class='black' wx:if="{{showBlack}}"> -->
+    <!-- <view class='checkarea'> -->
+      <!-- <view class='close' bindtap='close'>
         <image src='/images/close.png'></image>
-      </view>
-      <view class='checktitle'>支付方式</view>
-      <view class='way' bindtap='wxPay'>
+      </view> -->
+      <!-- <view class='checktitle'>支付方式</view> -->
+      <!-- <view class='way' bindtap='wxPay'>
         <image src='/images/wx.png'></image>
         <text>微信支付</text>
-      </view>
-      <view class='way' bindtap='showM'>
+      </view> -->
+      <!-- <view class='way' bindtap='showM'>
         <image src='/images/ka.png'></image>
         <text>会员卡支付</text>
-      </view>
-    </view>
-  </view>
+      </view> -->
+    <!-- </view> -->
+  <!-- </view> -->
   <!-- 会员卡密码 -->
   <view class='black2' wx:if="{{showM}}">
     <view class='add2'>
