@@ -69,10 +69,11 @@ Page({
         isReady: app.globalData.isReady
       },
       success: function(res) {
-        console.log(res)
-        console.log(res.data.order.orderCode)
-        var ordercode = res.data.order.orderCode
-        app.globalData.ordercode = ordercode
+        // console.log(res)
+        // console.log(res.data.order.orderCode)
+        that.setData({
+          ordercode: res.data.order.orderCode
+        })
       }
     })
     util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
@@ -919,7 +920,7 @@ Page({
   wxway: function () {
     let that = this;
     wx.request({ //查询优惠券
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '1' + '/' + null + '/' + app.globalData.ordercode,
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '1' + '/' + null + '/' + that.data.ordercode,
       success: function (res) {
         console.log(res)
         var goodTicket = res.data.data.couponsList
@@ -956,7 +957,7 @@ Page({
   cardway: function () {
     let that = this;
     wx.request({ //查询优惠券
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + app.globalData.ordercode,
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + that.data.ordercode,
       success: function (res) {
         console.log(res)
         var goodTicket = res.data.data.couponsList
