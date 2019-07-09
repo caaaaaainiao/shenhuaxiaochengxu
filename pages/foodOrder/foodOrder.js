@@ -69,6 +69,7 @@ Page({
         isReady: app.globalData.isReady
       },
       success: function(res) {
+        console.log(res)
         if (res.data.Status == "Success"){
           // console.log(res)
           // console.log(res.data.order.orderCode)
@@ -78,8 +79,8 @@ Page({
         }
       else{
           wx.showModal({
-            title: res.ErrorMessage,
-            content: '',
+            title: '创建订单失败',
+            content: res.data.ErrorMessage + '请重新选择商品',
           })
       }
 
