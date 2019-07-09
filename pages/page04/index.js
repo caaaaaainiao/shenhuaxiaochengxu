@@ -301,7 +301,6 @@ Page({
       MobilePhone: that.data.inputNum
     };
     if (cinemaType == "辰星") {
-      console.log(cinemaType)
       wx.request({
         // 会员卡号
         url: app.globalData.url + '/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
@@ -334,7 +333,6 @@ Page({
         }
       })
     } else if (cinemaType == "电影1905") {
-      console.log(cinemaType)
       if (Num.test(that.data.inputNum)) {
         // 手机号返回会员卡号进行选择绑定
         wx.request({
@@ -390,7 +388,6 @@ Page({
         })
       }
     } else if (cinemaType == "粤科" || cinemaType == "满天星") {
-      console.log(cinemaType);
       if (Num.test(that.data.inputNum)) {
         // 手机号返回会员卡号进行选择绑定
         wx.request({
