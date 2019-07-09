@@ -258,7 +258,7 @@ Page({
       }
       //查询订单
       wx.request({
-        url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + 'MiniProgram' + '/' + "6BF477EBCC446F54E6512AFC0E976C41" + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
+        url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + 'MiniProgram' + '/' + "6BF477EBCC446F54E6512AFC0E976C41" + '/' + app.globalData.cinemacode + '/' + that.data.ordercode,
         method: "GET",
         success: function (res) {
           console.log(res)
@@ -281,7 +281,7 @@ Page({
               showReady: false
             })
             //确认订单的参数(微信)
-            let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
+            let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
             let queryobj = app.globalData.queryobj
 
             if (queryobj && queryobj.list) {
@@ -315,7 +315,7 @@ Page({
               data: {
                 userName: "MiniProgram",
                 password: "6BF477EBCC446F54E6512AFC0E976C41",
-                orderCode: app.globalData.ordercode,
+                orderCode: that.data.ordercode,
                 cinemaCode: app.globalData.cinemacode,
                 couponsCode: that.data.merOrder.merTicket.conponCode,
                 reductionPrice: that.data.merOrder.merTicket.couponPrice,
@@ -345,7 +345,7 @@ Page({
 
                         if (e.data.Status == 'Failure') {
                           wx.request({
-                            url: app.globalData.url + '/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode,
+                            url: app.globalData.url + '/Api/Goods/RefundPayment' + '/' + 'MiniProgram' + '/' + '6BF477EBCC446F54E6512AFC0E976C41' + '/' + app.globalData.cinemacode + '/' + that.data.ordercode,
                             method: "GET",
                             header: {
                               "Content-Type": "application/json"
@@ -674,7 +674,7 @@ Page({
       Password: app.usermessage.Password, // 密码
       CinemaCode: app.globalData.cinemacode, //影院编码
       LockOrderCode: null,
-      LocalOrderCode: app.globalData.ordercode, //卖品本地订单号
+      LocalOrderCode: that.data.ordercode, //卖品本地订单号
       CardNo: that.data.cardNo, //会员卡号
       CardPassword: that.data.password, //会员卡密码
       PayAmount: 0,
@@ -697,7 +697,7 @@ Page({
             tradeNo: res.data.tradeNo
           })
           //确认订单的参数(会员卡)
-          let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.Password + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
+          let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.Password + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
           let mpobj = app.globalData.queryobj
 
           if (mpobj && mpobj.list) {
@@ -796,7 +796,7 @@ Page({
     } else if (that.data.cinemaType == '粤科') {
       console.log(that.data.cardNo)
       //确认订单的参数(会员卡)
-      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
+      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
       let mpobj = app.globalData.queryobj
 
       if (mpobj && mpobj.list) {
@@ -819,7 +819,7 @@ Page({
       mpXml += ' </goodsList></SubmitGoodsOrder>';
       app.globalData.mpXml = mpXml
       wx.request({
-        url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
         method: "GET",
         success: function (res) {
           console.log(res)
@@ -840,7 +840,7 @@ Page({
     } else if (that.data.cinemaType == '电影1905') {
       console.log(that.data.cardNo)
       //确认订单的参数(会员卡)
-      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + app.globalData.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
+      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
       let mpobj = app.globalData.queryobj
 
       if (mpobj && mpobj.list) {
@@ -863,7 +863,7 @@ Page({
       mpXml += ' </goodsList></SubmitGoodsOrder>';
       app.globalData.mpXml = mpXml
       wx.request({
-        url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
         method: "GET",
         success: function (res) {
           console.log(res)
