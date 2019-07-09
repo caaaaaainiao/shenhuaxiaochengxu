@@ -379,6 +379,7 @@ const getAPIUserData=callback=>{
     AppId: 'wxb491affbeb262f2f ', // 国购
     // AppId: 'wx1baa1fc8240ef183', // 高美
     // AppId: 'wx8eafe6ec48aa323f', // 越幕
+    // AppId: 'wxa20eeb5bde481333', // 智泉
   };
   wx.setStorage({
     key: 'APIUSER',
