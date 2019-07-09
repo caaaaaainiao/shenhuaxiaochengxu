@@ -73,36 +73,6 @@ Page({
         console.log(res.data.order.orderCode)
         var ordercode = res.data.order.orderCode
         app.globalData.ordercode = ordercode
-        wx.request({ //查询优惠券
-          url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + ordercode,
-          success: function(res) {
-            console.log(res)
-            var goodTicket = res.data.data.couponsList
-            if (goodTicket[0].reductionPrice) {
-              var merOrder = {
-                merTicket: {
-                  conponId: goodTicket[0].couponsCode,
-                  conponCode: goodTicket[0].couponsCode,
-                  couponPrice: goodTicket[0].reductionPrice
-                },
-                merTicketList: goodTicket
-              };
-              if (merOrder == null) {
-                let merTicket = {
-                  conponId: null,
-                  conponCode: null,
-                  couponPrice: 0
-                }
-                merOrder = merTicket
-                return merOrder
-              }
-              console.log(merOrder);
-              that.setData({
-                merOrder: merOrder
-              })
-            }
-          }
-        })
       }
     })
     util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
@@ -948,6 +918,36 @@ Page({
   },
   wxway: function () {
     let that = this;
+    wx.request({ //查询优惠券
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '1' + '/' + null + '/' + app.globalData.ordercode,
+      success: function (res) {
+        console.log(res)
+        var goodTicket = res.data.data.couponsList
+        if (goodTicket[0].reductionPrice) {
+          var merOrder = {
+            merTicket: {
+              conponId: goodTicket[0].couponsCode,
+              conponCode: goodTicket[0].couponsCode,
+              couponPrice: goodTicket[0].reductionPrice
+            },
+            merTicketList: goodTicket
+          };
+          if (merOrder == null) {
+            let merTicket = {
+              conponId: null,
+              conponCode: null,
+              couponPrice: 0
+            }
+            merOrder = merTicket
+            return merOrder
+          }
+          console.log(merOrder);
+          that.setData({
+            merOrder: merOrder
+          })
+        }
+      }
+    })
     that.setData({
       payway: 1,
       disPrice: that.data.totalPrice - that.data.merOrder.merTicket.couponPrice
@@ -955,6 +955,36 @@ Page({
   },
   cardway: function () {
     let that = this;
+    wx.request({ //查询优惠券
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + app.globalData.ordercode,
+      success: function (res) {
+        console.log(res)
+        var goodTicket = res.data.data.couponsList
+        if (goodTicket[0].reductionPrice) {
+          var merOrder = {
+            merTicket: {
+              conponId: goodTicket[0].couponsCode,
+              conponCode: goodTicket[0].couponsCode,
+              couponPrice: goodTicket[0].reductionPrice
+            },
+            merTicketList: goodTicket
+          };
+          if (merOrder == null) {
+            let merTicket = {
+              conponId: null,
+              conponCode: null,
+              couponPrice: 0
+            }
+            merOrder = merTicket
+            return merOrder
+          }
+          console.log(merOrder);
+          that.setData({
+            merOrder: merOrder
+          })
+        }
+      }
+    })
     that.setData({
       payway: 2,
       disPrice: that.data.totalPrice - that.data.merOrder.merTicket.couponPrice
