@@ -955,14 +955,15 @@ Page({
           }
           console.log(merOrder);
           that.setData({
-            merOrder: merOrder
+            merOrder: merOrder,
+            disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
           })
         }
       }
     })
     that.setData({
       payway: 1,
-      disPrice: that.data.totalPrice - that.data.merOrder.merTicket.couponPrice
+      
     });
   },
   cardway: function () {
@@ -992,14 +993,15 @@ Page({
           }
           console.log(merOrder);
           that.setData({
-            merOrder: merOrder
+            merOrder: merOrder,
+            disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
           })
         }
       }
     })
     that.setData({
       payway: 2,
-      disPrice: that.data.totalPrice - that.data.merOrder.merTicket.couponPrice
+    
     });
   },
   // 查看会员协议
