@@ -73,7 +73,6 @@ Page({
   },
   createGoodsOrder: function() {
     let that = this;
-    //创建订单
     if (that.data.type == 1) {
       that.setData({
         showReady: true
