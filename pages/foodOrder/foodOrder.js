@@ -69,11 +69,21 @@ Page({
         isReady: app.globalData.isReady
       },
       success: function(res) {
-        // console.log(res)
-        // console.log(res.data.order.orderCode)
-        that.setData({
-          ordercode: res.data.order.orderCode
-        })
+        if (res.data.Status == "Success"){
+          // console.log(res)
+          // console.log(res.data.order.orderCode)
+          that.setData({
+            ordercode: res.data.order.orderCode
+          })
+        }
+      else{
+          wx.showModal({
+            title: res.ErrorMessage,
+            content: '',
+          })
+      }
+
+     
       }
     })
     util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
