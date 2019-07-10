@@ -46,7 +46,8 @@ Page({
     show: '',
     face: '',
     userCardList: '',
-    levelnames : ''
+    levelnames : '',
+    isShow: true, // 绑定按钮是否显示
   },
   btnShowExchange: function (e) {
     let that = this;
@@ -315,6 +316,10 @@ Page({
             url: '../page04/index',
           })
         } else {
+          console.log(res.data.data.memberCard)
+          that.setData({
+            isShow: false,
+          })
           var memberCard = [];
           var status = [];
           var userCardList = [];
@@ -378,7 +383,6 @@ Page({
           // 计算余额最多的会员卡
           var first = status.sort(function (a, b) { return a.balance < b.balance })[0];
           first.cinemaCode = that.data.cinemaCode;
-          var cardList = []
           if (first.score == null) {
             first.score = 0
           }
