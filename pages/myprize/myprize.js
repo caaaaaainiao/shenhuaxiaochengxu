@@ -87,8 +87,8 @@ Page({
       data: {
         "userName": "MiniProgram",
         "password": "6BF477EBCC446F54E6512AFC0E976C41",
-        "cinemaCode": "33097601",
-        "openID": "o9gGQ4nuoKAZq1Xjp_N3iu3bmpZs"
+        "cinemaCode": app.globalData.cinemacode,
+        "openID": app.globalData.openId
       },
       method: "Post",
       header: {

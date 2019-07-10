@@ -316,7 +316,7 @@ Page({
             url: '../page04/index',
           })
         } else {
-          console.log(res.data.data.memberCard)
+          // console.log(res.data.data.memberCard)
           that.setData({
             isShow: false,
           })
