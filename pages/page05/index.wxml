@@ -24,7 +24,7 @@
 	</view>
 
 	<view class="fixed-operate">
-		<view class="btns" bindtap='login'>＋绑定/注册 更多其他类型会员卡</view>
+		<view class="btns" bindtap='login' wx:if='{{isShow}}'>＋绑定/注册 更多其他类型会员卡</view>
 	</view>
 </view>
 <!-- 会员卡充值弹窗   -->
