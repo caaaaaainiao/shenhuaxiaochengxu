@@ -210,7 +210,7 @@ Page({
       wx.getStorage({
         key: 'loginInfo',
         success: function(res) {
-          if (res.data.mobilePhone) {
+          if (res.data.mobilePhone && res.data.isRegister == '1') {
             wx.navigateTo({
               url: '../page04/index', //跳转到影片列表
             })
@@ -230,7 +230,7 @@ Page({
       wx.getStorage({
         key: 'loginInfo',
         success: function(res) {
-          if (res.data.mobilePhone) {
+          if (res.data.mobilePhone && res.data.isRegister == '1') {
             wx.navigateTo({
               url: '../page05/index', //跳转到影片列表
             })
@@ -440,7 +440,7 @@ Page({
       wx.getStorage({
         key: 'loginInfo',
         success: function(res) {
-          if (res.data.mobilePhone) {
+          if (res.data.mobilePhone && res.data.isRegister == '1') {
             wx.navigateTo({
               url: '../sellDetail/sellDetail?type=' + type,
             })
@@ -461,7 +461,7 @@ Page({
         wx.getStorage({
           key: 'loginInfo',
           success: function(res) {
-            if (res.data.mobilePhone) {
+            if (res.data.mobilePhone && res.data.isRegister == '1') {
               wx.navigateTo({
                 url: '../sellDetail/sellDetail?type=' + type,
               })

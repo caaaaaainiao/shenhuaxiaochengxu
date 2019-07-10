@@ -163,18 +163,19 @@ Page({
         wx.hideLoading()
         console.log(res)
         if (res.data.Status == "Success") {
-              wx.getStorage({
-                key: 'loginInfo',
-                success: function(e) {
-                  var userInfo = e.data;
-                  userInfo.mobilePhone = that.data.phone;
-                  wx.setStorage({
-                    key: 'loginInfo',
-                    data: userInfo,
-                  })
+              wx.request({
+                url: app.globalData.url + '/Api/User/QueryUser' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
+                method: "GET",
+                header: {
+                  "Content-Type": "application/json"
                 },
-                fail:function(res){
-                  console.log(res)
+                success: function (res) {
+                  if (res.data.Status == 'Success') {
+                    wx.setStorage({
+                      key: 'loginInfo',
+                      data: res.data.data,
+                    })
+                  }
                 }
               })
               app.globalData.phone = that.data.phone

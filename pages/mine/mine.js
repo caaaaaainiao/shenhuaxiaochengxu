@@ -174,7 +174,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.mobilePhone) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../myticket/myticket',
           })
@@ -194,7 +194,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.mobilePhone) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../myfood/myfood',
           })
@@ -220,7 +220,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.mobilePhone) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../mycoupon/mycoupon',
           })
@@ -240,7 +240,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.mobilePhone) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../myprize/myprize',
           })
@@ -260,7 +260,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.mobilePhone) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../common/common',
           })
@@ -280,7 +280,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.mobilePhone) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../hotActivity/hotActivity',
           })
@@ -300,7 +300,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.mobilePhone) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../seenMovie/seenMovie',
           })
@@ -320,7 +320,7 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
-        if (res.data.mobilePhone) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../wantsee/wantsee',
           })
@@ -342,7 +342,7 @@ Page({
         wx.getStorage({
           key: 'loginInfo',
           success: function (res) {
-            if (res.data.mobilePhone) {
+            if (res.data.mobilePhone && res.data.isRegister == '1') {
               wx.navigateTo({
                 url: '../page04/index',
               })
@@ -362,7 +362,7 @@ Page({
         wx.getStorage({
           key: 'loginInfo',
           success: function (res) {
-            if (res.data.mobilePhone) {
+            if (res.data.mobilePhone && res.data.isRegister == '1') {
               wx.navigateTo({
                 url: '../page05/index',
               })
@@ -474,7 +474,7 @@ Page({
         wx.getStorage({
           key: 'loginInfo',
           success: function (res) {
-            if (res.data.mobilePhone) {
+            if (res.data.mobilePhone && res.data.isRegister == '1') {
               wx.navigateTo({
                 url: '../acivityUrl/acivityUrl',
               })
@@ -499,7 +499,7 @@ Page({
           wx.getStorage({
             key: 'loginInfo',
             success: function (res) {
-              if (res.data.mobilePhone) {
+              if (res.data.mobilePhone && res.data.isRegister == '1') {
                 wx.navigateTo({
                   url: '../movieDetail/movieDetail',
                 })
