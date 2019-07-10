@@ -88,7 +88,7 @@ Page({
         "userName": "MiniProgram",
         "password": "6BF477EBCC446F54E6512AFC0E976C41",
         "cinemaCode": app.globalData.cinemacode,
-        "openID": app.globalData.openId
+        "openID": app.globalData.userInfo.mobilePhone
       },
       method: "Post",
       header: {
