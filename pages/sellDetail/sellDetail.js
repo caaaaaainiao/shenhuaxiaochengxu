@@ -453,6 +453,7 @@ Page({
       allGoodTypeList: tempList,
       goodsList: goodsList
     });
+    console.log(that.data.allGoodTypeList)
   },
   getBanner: function() { //获取轮播图
     var that = this;
@@ -503,6 +504,11 @@ Page({
 
         if (goodList[i].buyNum < goodList[i].stockCount) {
           goodList[i].buyNum += 1;
+        }
+        else{
+          wx.showModal({
+            title: '库存不足'
+          })
         }
 
         util.updategoodList(goodList[i]);

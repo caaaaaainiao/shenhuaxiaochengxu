@@ -42,6 +42,16 @@ Page({
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     var contentHeight = windowHeight - 279;
     console.log(app.globalData)
+    wx.request({
+      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      method:'GET',
+      success:function(res){
+        console.log(res)
+        that.setData({
+          roll:res.data.data.roll
+        })
+      }
+    })
     // wx.getStorage({
     //   key: 'loginlnfo',
     //   success: function(res) {
