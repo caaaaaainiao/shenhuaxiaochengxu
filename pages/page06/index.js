@@ -328,7 +328,6 @@ Page({
   },
   // 生命周期函数--监听页面加载
   onLoad: function (options) {
-    console.log(options)
     var that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var movieName = app.globalData.moviearea;
@@ -348,18 +347,33 @@ Page({
         cinematype: 0,
       })
     }
-    that.setData({
-      id: options.id,
-      openId: options.openId,
-      movieName: movieName,
-      levelName: options.name,
-      ruleDescription: options.text,
-      effectiveDays: options.time,
-      credit: options.credit,
-      userName: userName,
-      passWord: passWord,
-      ruleCode: options.ruleCode
-    })
+    if (options.credit) {
+      that.setData({
+        id: options.id,
+        openId: options.openId,
+        movieName: movieName,
+        levelName: options.name,
+        ruleDescription: options.text,
+        effectiveDays: options.time,
+        credit: options.credit,
+        userName: userName,
+        passWord: passWord,
+        ruleCode: options.ruleCode
+      })
+    } else {
+      that.setData({
+        id: options.id,
+        openId: options.openId,
+        movieName: movieName,
+        levelName: options.name,
+        ruleDescription: options.text,
+        effectiveDays: options.time,
+        credit: 0,
+        userName: userName,
+        passWord: passWord,
+        ruleCode: options.ruleCode
+      })
+    }
     wx.setNavigationBarTitle({ title: '会员卡' });
   },
   // 查看会员协议

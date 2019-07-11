@@ -147,7 +147,6 @@ Page({
           })
           // 获取会员卡折扣
           if (first) {
-            if (app.globalData.cinemaList.cinemaType != '电影1905') { // 非1905
               wx.request({
                 url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + first.cardNo + '/' + null + '/' + first.levelCode + '/' + app.globalData.moviesListDate.screenType + '/' + that.data.orderCode,
                 method: 'GET',
@@ -182,7 +181,7 @@ Page({
                         memberCardPrice: price,
                         allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
-                    } else if (app.globalData.cinemaList.cinemaType == '满天星') {
+                    } else if (app.globalData.cinemaList.cinemaType == '满天星' || app.globalData.cinemaList.cinemaType == '电影1905') {
                       let price;
                       if (res.data.card.price == '0') {
                         price = parseFloat(that.data.price).toFixed(2);
@@ -193,12 +192,11 @@ Page({
                         memberCardPrice: price,
                         allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
-                    }
+                    } 
                     console.log(that.data.allPrice)
                   }
                 }
               })
-            }
           }
         }
       });
@@ -247,7 +245,70 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    let that = this;
+    setTimeout(function () {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+        if (res.data.Status == 'Success' && res.data.data.memberCard) { // 如果有会员卡
+          var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+          that.setData({
+            card: first,
+          })
+          // 获取会员卡折扣
+          if (first) {
+            wx.request({
+              url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + first.cardNo + '/' + null + '/' + first.levelCode + '/' + app.globalData.moviesListDate.screenType + '/' + that.data.orderCode,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res);
+                let reductionPrice = that.data.reductionPrice;
+                let refreshments = that.data.refreshments;
+                if (res.data.Status == 'Success') {
+                  if (app.globalData.cinemaList.cinemaType == '辰星') {
+                    let price;
+                    if (res.data.card.price == '0') {
+                      price = parseFloat(that.data.price).toFixed(2);
+                    } else {
+                      price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
+                    }
+                    that.setData({
+                      memberCardPrice: price,
+                      allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                    })
+                  } else if (app.globalData.cinemaList.cinemaType == '粤科') {
+                    let price;
+                    if (res.data.card.discountType == '1') {
+                      price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
+                    }
+                    if (!res.data.card.price) {
+                      price = parseFloat(that.data.price).toFixed(2)
+                    }
+                    that.setData({
+                      memberCardPrice: price,
+                      allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                    })
+                  } else if (app.globalData.cinemaList.cinemaType == '满天星' || app.globalData.cinemaList.cinemaType == '电影1905') {
+                    let price;
+                    if (res.data.card.price == '0') {
+                      price = parseFloat(that.data.price).toFixed(2);
+                    } else {
+                      price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
+                    }
+                    that.setData({
+                      memberCardPrice: price,
+                      allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                    })
+                  }
+                  console.log(that.data.allPrice)
+                }
+              }
+            })
+          }
+        }
+      });
+    }, 500)
   },
   leftTime: function () {
     var that = this;

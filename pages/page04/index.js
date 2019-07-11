@@ -94,6 +94,9 @@ Page({
     if (!text) {
       text = '';
     }
+    if (!credit) {
+      credit = 0;
+    }
     wx.navigateTo({
       url: '../page06/index?id=' + id + '&openId=' + app.globalData.userInfo.openID + '&name=' + name + '&text=' + text + '&time=' + time + '&credit=' + credit + '&ruleCode=' + rule,
     })
