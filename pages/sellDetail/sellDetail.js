@@ -505,6 +505,11 @@ Page({
         if (goodList[i].buyNum < goodList[i].stockCount) {
           goodList[i].buyNum += 1;
         }
+        else{
+          wx.showModal({
+            title: '库存不足'
+          })
+        }
 
         util.updategoodList(goodList[i]);
 

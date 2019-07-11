@@ -2,11 +2,11 @@
 <!-- <text>pages/mycoupon/mycoupon.wxml</text> -->
 <!-- 我的优惠券 -->
 <scroll-view class='container' scroll-y="true" >
-  <view class='header'>
+  <!-- <view class='header'>
   <text bindtap='back' class='back' wx:if="{{isShow}}" style='float: left; margin-left: 30rpx; color: #E04F2E;'>返回首页</text>
-  共{{couponCount}}张有效券
+  共{{couponCount}}张有效券 -->
     <!-- <text class='addCoupon' bindtap='addCoupon'>+ 添加优惠券</text> -->
-  </view>
+  <!-- </view> -->
   <view wx:if="{{result.length>0}}">
     <block wx:for="{{result}}" wx:for-item="coupon" wx:key="coupon">
       <view class='coupon {{coupon.status==2?"":"past" }}{{coupon.status==3?"":"past" }}' catchtap='toDetail' data-id='{{coupon.id}}' data-index='{{index}}'>
