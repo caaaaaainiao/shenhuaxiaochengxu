@@ -70,6 +70,7 @@ Page({
         that.setData({
           userInfo: res.data,
         })
+        console.log(that.data.userInfo)
         // console.log(res.data)
         // var SocketUrl = "wss://ik.legendpicture.com"
         var SocketUrl = app.globalData.SocketUrl;

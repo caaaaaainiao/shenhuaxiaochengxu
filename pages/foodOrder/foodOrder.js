@@ -935,7 +935,53 @@ Page({
       success: function (res) {
         console.log(res)
         var goodTicket = res.data.data.couponsList
-        if (goodTicket[0].reductionPrice) {
+        console.log(goodTicket)
+        if (goodTicket.length>0) {
+          console.log(1)
+          var merOrder = {
+            merTicket: {
+              conponId: goodTicket[0].couponsCode,
+              conponCode: goodTicket[0].couponsCode,
+              couponPrice: goodTicket[0].reductionPrice
+            },
+            merTicketList: goodTicket
+          };
+          if (merOrder == null) {
+            console.log(2)
+            let merTicket = {
+              conponId: null,
+              conponCode: null,
+              couponPrice: 0
+            }
+            merOrder = merTicket
+            return merOrder
+          }
+          console.log(merOrder);
+          that.setData({
+            merOrder: merOrder,
+            disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
+          })
+        }
+        else{
+          that.setData({
+            disPrice: that.data.totalPrice
+          })
+        }
+      }
+    })
+    that.setData({
+      payway: 1,
+      
+    });
+  },
+  cardway: function () {
+    let that = this;
+    wx.request({ //查询优惠券
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + that.data.ordercode,
+      success: function (res) {
+        console.log(res)
+        var goodTicket = res.data.data.couponsList
+        if (goodTicket.length>0) {
           var merOrder = {
             merTicket: {
               conponId: goodTicket[0].couponsCode,
@@ -959,42 +1005,9 @@ Page({
             disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
           })
         }
-      }
-    })
-    that.setData({
-      payway: 1,
-      
-    });
-  },
-  cardway: function () {
-    let that = this;
-    wx.request({ //查询优惠券
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + that.data.ordercode,
-      success: function (res) {
-        console.log(res)
-        var goodTicket = res.data.data.couponsList
-        if (goodTicket[0].reductionPrice) {
-          var merOrder = {
-            merTicket: {
-              conponId: goodTicket[0].couponsCode,
-              conponCode: goodTicket[0].couponsCode,
-              couponPrice: goodTicket[0].reductionPrice
-            },
-            merTicketList: goodTicket
-          };
-          if (merOrder == null) {
-            let merTicket = {
-              conponId: null,
-              conponCode: null,
-              couponPrice: 0
-            }
-            merOrder = merTicket
-            return merOrder
-          }
-          console.log(merOrder);
+        else{
           that.setData({
-            merOrder: merOrder,
-            disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
+            disPrice: that.data.totalPrice
           })
         }
       }
