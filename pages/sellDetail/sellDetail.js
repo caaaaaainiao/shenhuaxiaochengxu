@@ -453,6 +453,7 @@ Page({
       allGoodTypeList: tempList,
       goodsList: goodsList
     });
+    console.log(that.data.allGoodTypeList)
   },
   getBanner: function() { //获取轮播图
     var that = this;

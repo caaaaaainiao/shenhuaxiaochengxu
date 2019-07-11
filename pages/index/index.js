@@ -36,6 +36,24 @@ Page({
   },
   onLoad: function (options) {
     this.getAccesstoken()
+    util.getQueryFilmSession('36100291', function (res) {
+      var timestamp1 = new Date().getTime()
+      // console.log(res)
+      // that.setData({
+      //   movieList: res
+      // })
+      // console.log(that.data.movieList)
+      for (var x in res) { // 影片的预售和购票排序
+        res[x].jian = res[x].time - timestamp1
+      }
+
+      res.sort(that.compare("jian"));
+      // console.log(res)
+      app.globalData.movieList = res
+      that.setData({
+        movieList: res
+      })
+    })
     wx.getStorage({
       key: 'accredit',
       success: function(res) { //key所对应的内容
@@ -226,10 +244,14 @@ Page({
         for (var x in res) { // 影片的预售和购票排序
           res[x].jian = res[x].time - timestamp1
         }
+
+        res.sort(that.compare("jian"));
+        // console.log(res)
         app.globalData.movieList = res
         that.setData({
           movieList: res
         })
+        // console.log(that.data.movieList)
         app.globalData.sellMovielist = that.data.movieList
       });
     }
@@ -271,7 +293,6 @@ Page({
               })
               // console.log(that.data.cinemaList)
               app.globalData.cinemaList = list; //设置全局电影列表
-              // that.getMovies();
               return;
             }
           },
@@ -284,7 +305,6 @@ Page({
               })
               // console.log(that.data.cinemaList)
               app.globalData.cinemaList = list;
-              // that.getMovies();
               wx.setStorage({
                 key: "areaNo", //无区域
                 data: '0'
@@ -352,7 +372,6 @@ Page({
                       key: "areaNo",
                       data: '0'
                     })
-                    // that.getMovies();
                   }
                 }
 
