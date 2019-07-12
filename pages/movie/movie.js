@@ -26,7 +26,7 @@ Page({
       url: app.globalData.url+'/Api/Activity/QueryActivitys/' + 'MiniProgram/' +'6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode +'/04',
       method:'GET',
       success: function (res) {
-        console.log(res.data.data)
+        // console.log(res.data.data)
         that.setData({
           picture: res.data.data.images
         })
@@ -167,7 +167,7 @@ Page({
         "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function (res) {
-        console.log(res.data);
+        // console.log(res.data);
         wx.hideLoading()
         // that.data.FlimList.push(res)
         that.setData({

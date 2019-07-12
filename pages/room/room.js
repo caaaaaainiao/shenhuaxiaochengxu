@@ -45,10 +45,18 @@ Page({
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method:'GET',
-      success:function(res){
-        console.log(res)
-        that.setData({
-          roll:res.data.data.roll
+      success:function(e){
+        console.log(e)
+        wx.getStorage({
+          key: 'loginInfo',
+          success: function (res) {
+            res.data.roll = e.data.data.roll
+            console.log(res)
+            wx.setStorage({
+              key: 'loginInfo',
+              data: res.data,
+            })
+          }
         })
       }
     })
