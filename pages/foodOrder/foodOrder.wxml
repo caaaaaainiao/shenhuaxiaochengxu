@@ -39,7 +39,7 @@
       <image src='/images/unselect.png' class='selectimg' wx:else></image>
       </view>
     </view>
-      <view class='option' wx:if="{{merOrder.merTicket.couponPrice}}" bindtap='chooseCoupon'>
+      <view class='option' wx:if="{{goodTicket.length>0}}" bindtap='chooseCoupon'>
     小食优惠券
     <image src='/images/gray_more.png'></image>
     <text>-{{merOrder.merTicket.couponPrice}}元</text>

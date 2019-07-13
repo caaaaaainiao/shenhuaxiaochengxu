@@ -134,7 +134,7 @@ Page({
       }
     xml += '</goodsList></CreateGoodsOrder>';
     // console.log(xml);
-    console.log('点击跳转')
+    // console.log('点击跳转')
     app.globalData.xml = xml
 
 
@@ -385,7 +385,7 @@ Page({
         "Content-Type": "application/json"
       },
       success: function(res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.data.typeCount > 0) {
           //类型筛选商品                         
           that.setData({
@@ -454,7 +454,7 @@ Page({
       allGoodTypeList: tempList,
       goodsList: goodsList
     });
-    console.log(that.data.allGoodTypeList)
+    // console.log(that.data.allGoodTypeList)
   },
   getBanner: function() { //获取轮播图
     var that = this;

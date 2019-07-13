@@ -120,7 +120,7 @@ Page({
         newList[i].repetition = true;
       }
     }
-      console.log(that.data.merOrder)
+      // console.log(that.data.merOrder)
       that.setData({
         goodsList: newList,
         totalPrice: totalPrice,
@@ -934,40 +934,43 @@ Page({
     wx.request({ //查询优惠券
       url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '1' + '/' + null + '/' + that.data.ordercode,
       success: function (res) {
-        console.log(that.data.ordercode)
+        // console.log(that.data.ordercode)
         console.log(res)
-        var goodTicket = res.data.data.couponsList
-        console.log(goodTicket)
-        if (goodTicket.length>0) {
-          console.log(1)
-          var merOrder = {
-            merTicket: {
-              conponId: goodTicket[0].couponsCode,
-              conponCode: goodTicket[0].couponsCode,
-              couponPrice: goodTicket[0].reductionPrice
-            },
-            merTicketList: goodTicket
-          };
-          if (merOrder == null) {
-            console.log(2)
-            let merTicket = {
-              conponId: null,
-              conponCode: null,
-              couponPrice: 0
+        if (res.data.Status == 'Success') {
+          var goodTicket = res.data.data.couponsList
+          console.log(goodTicket)
+          that.setData({
+            goodTicket: goodTicket,
+          })
+          if (goodTicket.length > 0) {
+            var merOrder = {
+              merTicket: {
+                conponId: goodTicket[0].couponsCode,
+                conponCode: goodTicket[0].couponsCode,
+                couponPrice: goodTicket[0].reductionPrice
+              },
+              merTicketList: goodTicket
+            };
+            if (merOrder == null) {
+              let merTicket = {
+                conponId: null,
+                conponCode: null,
+                couponPrice: 0
+              }
+              merOrder = merTicket
+              return merOrder
             }
-            merOrder = merTicket
-            return merOrder
+            console.log(merOrder);
+            that.setData({
+              merOrder: merOrder,
+              disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
+            })
           }
-          console.log(merOrder);
-          that.setData({
-            merOrder: merOrder,
-            disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
-          })
-        }
-        else{
-          that.setData({
-            disPrice: that.data.totalPrice
-          })
+          else {
+            that.setData({
+              disPrice: that.data.totalPrice
+            })
+          }
         }
       }
     })
@@ -982,35 +985,40 @@ Page({
       url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + that.data.ordercode,
       success: function (res) {
         console.log(res)
-        var goodTicket = res.data.data.couponsList
-        if (goodTicket.length>0) {
-          var merOrder = {
-            merTicket: {
-              conponId: goodTicket[0].couponsCode,
-              conponCode: goodTicket[0].couponsCode,
-              couponPrice: goodTicket[0].reductionPrice
-            },
-            merTicketList: goodTicket
-          };
-          if (merOrder == null) {
-            let merTicket = {
-              conponId: null,
-              conponCode: null,
-              couponPrice: 0
+        if (res.data.Status == 'Success') {
+          var goodTicket = res.data.data.couponsList
+          that.setData({
+            goodTicket: goodTicket,
+          })
+          if (goodTicket.length > 0) {
+            var merOrder = {
+              merTicket: {
+                conponId: goodTicket[0].couponsCode,
+                conponCode: goodTicket[0].couponsCode,
+                couponPrice: goodTicket[0].reductionPrice
+              },
+              merTicketList: goodTicket
+            };
+            if (merOrder == null) {
+              let merTicket = {
+                conponId: null,
+                conponCode: null,
+                couponPrice: 0
+              }
+              merOrder = merTicket
+              return merOrder
             }
-            merOrder = merTicket
-            return merOrder
+            console.log(merOrder);
+            that.setData({
+              merOrder: merOrder,
+              disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
+            })
           }
-          console.log(merOrder);
-          that.setData({
-            merOrder: merOrder,
-            disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
-          })
-        }
-        else{
-          that.setData({
-            disPrice: that.data.totalPrice
-          })
+          else {
+            that.setData({
+              disPrice: that.data.totalPrice
+            })
+          }
         }
       }
     })
