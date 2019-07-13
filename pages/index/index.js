@@ -466,7 +466,7 @@ Page({
   },
   // 比价购票
   buy: function (e) {
-
+    console.log(e)
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
     wx.setStorage({
       key: 'movieList',

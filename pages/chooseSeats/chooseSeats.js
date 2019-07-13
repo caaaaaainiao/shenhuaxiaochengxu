@@ -163,7 +163,7 @@ Page({
    */
   onReady: function() {
     wx.setNavigationBarTitle({
-      title: app.globalData.movieList[app.globalData.movieIndex].name //页面标题
+      title: app.globalData.filmName //页面标题
     })
     // console.log(app.globalData)
     // console.log("app" + app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode)

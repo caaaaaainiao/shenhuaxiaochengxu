@@ -23,12 +23,12 @@ App({
   usermessage: {
     Username: "MiniProgram",
     Password: "6BF477EBCC446F54E6512AFC0E976C41",
-    AppId: 'wx1baa1fc8240ef183', // 高美
-    // AppId: 'wxb491affbeb262f2f', // 国购
+    // AppId: 'wx1baa1fc8240ef183', // 高美
+    AppId: 'wxb491affbeb262f2f', // 国购
     // AppId: 'wx8eafe6ec48aa323f', // 越幕
     // AppId: 'wxa20eeb5bde481333', // 智泉
-    secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
-    // secret: '0e050ba2d7338a77d0988a3c5716f813', // 国购
+    // secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
+    secret: '0e050ba2d7338a77d0988a3c5716f813', // 国购
     // secret: '6b5276609738d408c1640e37460a64e6', // 越幕
     // secret: 'eff0e90de960e6cae166368c54de0b5f', // 智泉
     access_token : ''
@@ -49,9 +49,8 @@ App({
     list:null,
     url:"https://ik.legendpicture.com",
     // url:"https://xc.80piao.com:8443",
-    // url: "http://192.168.1.208:8080",
-    // url: "http://192.168.1.219:8080",
-    // url: "http://192.168.43.231:8080",
+    // url: "http://192.168.1.179:8080",
+    // url: "http://192.168.1.177:8080",
     SocketUrl: "wss://ik.legendpicture.com",
     // SocketUrl: "wss://192.168.43.231:8080",
     goodsList:null,

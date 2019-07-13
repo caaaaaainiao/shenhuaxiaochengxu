@@ -286,9 +286,7 @@ Page({
   onReady: function () { },
   //  绑定会员卡
   querenbangding: function () {
-    // 获取全局变量 判断售票系统
     let that = this;
-    var cinemaType = app.globalData.cinemaList.cinemaType;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var openID = app.globalData.userInfo.openID;
     var userName = that.data.Username;
@@ -303,7 +301,6 @@ Page({
       CardPassword: that.data.inputPass,
       MobilePhone: that.data.inputNum
     };
-    if (cinemaType == "辰星") {
       wx.request({
         // 会员卡号
         url: app.globalData.url + '/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
@@ -335,86 +332,6 @@ Page({
           }
         }
       })
-    } else if (cinemaType == "电影1905") {
-      if (Num.test(that.data.inputNum)) {
-        // 手机号返回会员卡号进行选择绑定
-        wx.request({
-          url: app.globalData.url + '/Api/Member/GetMemberCardByMobile' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
-          method: 'GET',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            console.log(res)
-            var memberPhones = [];
-            // console.log(res.data.data)
-            for (var i = 0; i < res.data.data.cards.cardNo.length; i++) {
-              memberPhones.push(res.data.data.cards.cardNo[i]);
-              var cardNo = "memberPhones[" + i + "]";
-              that.setData({
-                [cardNo]: res.data.data.cards.cardNo[i],
-                isShow: true
-              })
-            };
-          },
-        })
-      } 
-      else {
-        wx.request({
-          // 会员卡号输入密码直接绑定
-          url: app.globalData.url + '/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
-          method: 'GET',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            if (res.data.Status == "Success") {
-              var cinemaCode = res.data.cinemaCode;
-              var cardNo = res.data.card.cardNo;
-              var cardPassword = res.data.card.cardPassword;
-              var phone = res.data.card.mobilePhone;
-              var userName = data.Username;
-              var passWord = data.Password;
-              var openID = data.OpenID
-              wx.navigateTo({
-                url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord + '&Phone=' + phone + '&OpenID=' + openID
-              })
-            }
-            else if (res.data.Status == 'Failure') {
-              wx.showToast({
-                title: res.data.ErrorMessage,
-                icon: 'none',
-                duration: 3000
-              })
-            }
-          }
-        })
-      }
-    } else if (cinemaType == "粤科" || cinemaType == "满天星") {
-      if (Num.test(that.data.inputNum)) {
-        // 手机号返回会员卡号进行选择绑定
-        wx.request({
-          url: app.globalData.url + '/Api/Member/QueryMemberCardByPhone' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.MobilePhone,
-          method: 'GET',
-          header: {
-            'content-type': 'application/json' // 默认值
-          },
-          success: function (res) {
-            console.log(res)
-            var memberPhones = [];
-            // console.log(res.data.data)
-            for (var i = 0; i < res.data.data.memberPhones.length; i++) {
-              memberPhones.push(res.data.data.memberPhones[i].cardNo);
-              var cardNo = "memberPhones[" + i + "]";
-              that.setData({
-                [cardNo]: res.data.data.memberPhones[i].cardNo,
-                isShow: true
-              })
-            };
-          },
-        })
-      } 
-    }
   },
   // 跳转到会员卡类别
   zhuce: function (e) {

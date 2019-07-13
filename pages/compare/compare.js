@@ -44,15 +44,11 @@ Page({
       swiperIndex: app.globalData.movieIndex
     })
     this.swiperIndex = this.data.swiperIndex
-    // console.log(this.swiperIndex)
-    // console.log(app.globalData)
     this.moviesList = app.globalData.moviearea
-    // console.log(app.globalData.moviearea)
     that.setData({
       movieId: app.globalData.movieId,
       moviearea: app.globalData.moviearea,
       cinemaNo: app.globalData.cinemaNo,
-      // moviesList: app.globalData.movieList,
       swiperIndex: app.globalData.movieIndex
     })
     that.getStorageMovieList()
@@ -221,7 +217,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         var comparePrices = res.data.data.sessionDate[0].session
         var nowTime = parseInt(new Date().getTime());// 获取当前时间戳
         for (let i = comparePrices.length - 1; i >= 0; i --) { // 循环排期时间  倒序进行判断
@@ -231,12 +227,12 @@ Page({
             comparePrices.splice(i, 1);
           }
         }
-        console.log(comparePrices)
+        // console.log(comparePrices)
         that.setData({
           moviesListDate: res.data.data,
           comparePrices: comparePrices,
         })
-        console.log(that.data.moviesListDate)
+        // console.log(that.data.moviesListDate)
       }
     })
     that.setData({
@@ -244,8 +240,9 @@ Page({
     })
   },
   buy: function(e) {
-    console.log(e)
+    // console.log(e)
     var that = this;
+    app.globalData.filmName = that.data.moviesListDate.filmName
     var i = that.data.select;
     var index = e.currentTarget.dataset.index
     var sessionDate = that.data.moviesListDate.sessionDate[i].sessionDate
@@ -257,7 +254,7 @@ Page({
     var filmType = that.data.moviesListDate.filmType;
     var salePrice = that.data.moviesListDate.sessionDate[i].session[index].salePrice;
     app.globalData.moviesListDate = that.data.moviesListDate.sessionDate[i].session[index];
-    console.log(that.data.moviesListDate.sessionDate[i])
+    // console.log(that.data.moviesListDate.sessionDate[i])
     wx.navigateTo({
       url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&salePrice=' + salePrice + '&&endtime=' + endtime,
     })

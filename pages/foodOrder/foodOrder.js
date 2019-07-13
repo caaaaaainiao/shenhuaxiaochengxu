@@ -930,9 +930,11 @@ Page({
   },
   wxway: function () {
     let that = this;
+    console.log(that.data.ordercode)
     wx.request({ //查询优惠券
       url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '1' + '/' + null + '/' + that.data.ordercode,
       success: function (res) {
+        console.log(that.data.ordercode)
         console.log(res)
         var goodTicket = res.data.data.couponsList
         console.log(goodTicket)
