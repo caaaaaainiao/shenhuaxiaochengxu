@@ -54,9 +54,9 @@ Page({
         wx.hideTabBar() //隐藏栏
       }
     })
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     var that = this;
     wx.request({
       url:app.globalData.url+'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
@@ -96,7 +96,7 @@ Page({
     })
     //  小程序进入 检查授权信息 登录 历史位置影院列表 引导等 监听页面加载
     util.getCity(function (res, userLat, userLng) {
-      console.log(res)
+      // console.log(res)
       var cinemas = res;
       var recent = []
       if (userLat && userLng) {
@@ -113,11 +113,6 @@ Page({
           app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
           util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
             var timestamp1 = new Date().getTime()
-            // console.log(res)
-            // that.setData({
-            //   movieList: res
-            // })
-            // console.log(that.data.movieList)
             for (var x in res) { // 影片的预售和购票排序
               res[x].jian = res[x].time - timestamp1
             }
@@ -572,7 +567,7 @@ Page({
     })
     util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
       var timestamp1 = new Date().getTime()
-      // console.log(res)
+      console.log(res)
       // that.setData({
       //   movieList: res
       // })
@@ -635,7 +630,7 @@ Page({
     this.showCity();
   },
   getUserInfo: function (e) { //获取用户信息
-    // console.log(e)
+    console.log(e)
     var that = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
       wx.showToast({
