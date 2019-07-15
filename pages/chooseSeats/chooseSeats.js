@@ -430,7 +430,7 @@ Page({
     let reg = /[\u4e00-\u9fa5]/g;
     let today = that.data.sessionDate.replace(reg, "").split('-');
     wx.showModal({
-      title: '您购买的是' + app.globalData.moviearea + today[0] + '月' + today[1] + '日的电影',
+      title: '您购买的是' + today[0] + '月' + today[1] + '日的电影',
       content: app.globalData.cinemaList.ticketHint,
       success(res) {
         if (res.cancel) {

@@ -745,64 +745,58 @@ Page({
           success: function (e) {
             console.log(e)
             //个人信息
-            that.setData({
-              onLoad: true
-            })
-            if (e.data.data) {
-              wx.setStorage({
-                key: 'loginInfo',
-                data: e.data.data,
-                success: function () {
-                  // console.log(e)
-                  app.globalData.openId = e.data.data.openID;
-                  app.globalData.userInfo = e.data.data;
-                  that.setData({
-                    userInfo: e.data.data
-                  })
-                  util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
-                    var memberCard = [];
-                    var status = [];
-                    if (res.data.Status == "Failure") {
-                      that.setData({
-                        memberCardScore: '---',
-                        memberCardBalance: '---'
-                      })
-                    } else if (res.data.data.memberCard == null) {
-                      that.setData({
-                        memberCardScore: '---',
-                        memberCardBalance: '---'
-                      })
-                    } else {
-                      var memberCard = res.data.data.memberCard;
-                      for (var i = 0; i < memberCard.length; i++) {
-                        if (memberCard[i].status == 1) {
-                          status.push(memberCard[i]);
-                        }
-                      }
-                      // 计算余额最多的会员卡
-                      var first = memberCard.sort(function (a, b) {
-                        return a.balance < b.balance
-                      })[0];
-                      if (first.score == null) {
-                        first.score = 0
-                      }
-                      that.setData({
-                        memberCardBalance: first.balance,
-                        memberCardScore: first.score
-                      })
-                    }
-                  })
-
-                }
-              })
-            } else {
-              // wx.showToast({
-              //   title: '登录失败',
-              //   icon: 'loading',
-              //   duration: 2000
-              // })
-            }
             if (e.data.Status == 'Success') {
+              that.setData({
+                onLoad: true
+              })
+              if (e.data.data) {
+                wx.setStorage({
+                  key: 'loginInfo',
+                  data: e.data.data,
+                  success: function () {
+                    // console.log(e)
+                    app.globalData.openId = e.data.data.openID;
+                    app.globalData.userInfo = e.data.data;
+                    that.setData({
+                      userInfo: e.data.data
+                    })
+                    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+                      var memberCard = [];
+                      var status = [];
+                      if (res.data.Status == "Failure") {
+                        that.setData({
+                          memberCardScore: '---',
+                          memberCardBalance: '---'
+                        })
+                      } else if (res.data.data.memberCard == null) {
+                        that.setData({
+                          memberCardScore: '---',
+                          memberCardBalance: '---'
+                        })
+                      } else {
+                        var memberCard = res.data.data.memberCard;
+                        for (var i = 0; i < memberCard.length; i++) {
+                          if (memberCard[i].status == 1) {
+                            status.push(memberCard[i]);
+                          }
+                        }
+                        // 计算余额最多的会员卡
+                        var first = memberCard.sort(function (a, b) {
+                          return a.balance < b.balance
+                        })[0];
+                        if (first.score == null) {
+                          first.score = 0
+                        }
+                        that.setData({
+                          memberCardBalance: first.balance,
+                          memberCardScore: first.score
+                        })
+                      }
+                    })
+
+                  }
+                })
+              }
               wx.request({
                 url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + e.data.data.cinemaCode + '/' + e.data.data.openID,
                 method: "GET",
@@ -817,16 +811,19 @@ Page({
                   }
                 }
               })
-            }
-            if (e.data.Status != 'Success') {
-              wx.showModal({
-                title: '登录失败',
-                content: e.data.message, //请先登录
+            } 
+            else {
+              wx.showToast({
+                title: '授权失败',
+                icon: 'none',
+                duration: 2000,
+                success () {
+                    that.setData({
+                      shouquan: true
+                    })
+                }
               })
-              return;
             }
-
-
             //是否第一次进入 引导
             wx.getStorage({
               key: 'firstUse',

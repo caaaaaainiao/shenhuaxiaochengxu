@@ -86,16 +86,30 @@ Page({
         if (res.data.Status == 'Success' && res.data.data) {
           let result = res.data.data;
           for (let i = 0; i < result.length; i ++) {
-            let cardNo = "result[" + i + "].cardNo";
-            let chargeTime = "result[" + i + "].chargeTime";
-            let rechargeAmount = "result[" + i + "].rechargeAmount";
-            let chargeStatus = "result[" + i + "].chargeStatus";
-            that.setData({
-              [cardNo]: result[i].cardNo,
-              [chargeTime]: result[i].chargeTime,
-              [rechargeAmount]: result[i].rechargeAmount,
-              [chargeStatus]: result[i].chargeStatus,
-            })
+            if (result[i].chargeTime) {
+              let cardNo = "result[" + i + "].cardNo";
+              let chargeTime = "result[" + i + "].chargeTime";
+              let rechargeAmount = "result[" + i + "].rechargeAmount";
+              let chargeStatus = "result[" + i + "].chargeStatus";
+              that.setData({
+                [cardNo]: result[i].cardNo,
+                [chargeTime]: result[i].chargeTime,
+                [rechargeAmount]: result[i].rechargeAmount,
+                [chargeStatus]: result[i].chargeStatus,
+              })
+            } else {
+              result[i].chargeTime = '';
+              let cardNo = "result[" + i + "].cardNo";
+              let chargeTime = "result[" + i + "].chargeTime";
+              let rechargeAmount = "result[" + i + "].rechargeAmount";
+              let chargeStatus = "result[" + i + "].chargeStatus";
+              that.setData({
+                [cardNo]: result[i].cardNo,
+                [chargeTime]: result[i].chargeTime,
+                [rechargeAmount]: result[i].rechargeAmount,
+                [chargeStatus]: result[i].chargeStatus,
+              })
+            }
           }
         }
         wx.hideLoading()
