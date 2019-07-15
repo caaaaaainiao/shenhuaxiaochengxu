@@ -330,8 +330,15 @@
       var userName = app.usermessage.Username;
       var passWord = app.usermessage.Password;
       // 设置手机号码默认为注册的号码  防止恶意开卡
+      wx.getStorage({
+        key: 'loginInfo',
+        success: function(res) {
+          that.setData({
+            phone: app.globalData.userInfo.mobilePhone,
+          })
+        },
+      })
       that.setData({
-        phone: app.globalData.userInfo.mobilePhone,
         cinemaName: app.globalData.cinemaList.cinemaName,
       })
       if (app.globalData.cinemaList.cinemaType == '满天星') {
