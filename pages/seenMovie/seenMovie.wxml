@@ -9,7 +9,7 @@
       <view class='name'>{{movie.filmName}}</view>
       <view class='time'>{{movie.publishDate}}</view>
       <view class='comment' wx:if="{{movie.commentFlag == 1}}">{{movie.commentContent}}</view>
-      <view class='btn' data-id="{{movie.movieId}}" wx:else bindtap='comment'></view>
+      <!-- <view class='btn' data-id="{{movie.movieId}}" wx:else bindtap='comment'></view> -->
     </view>
   </block>
 </scroll-view>
