@@ -54,6 +54,7 @@ Page({
     var deliveryAddress = app.globalData.sellhallname 
     // console.log(app.globalData.isReady)
     // console.log(deliveryAddress)
+    console.log(that.data.userMessage)
     wx.request({
       url: app.globalData.url + '/Api/Goods/CreateGoodsOrder',
       method: "POST",
@@ -173,6 +174,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+    console.log(this.data.userMessage)
     this.setData({
       userInfo: app.globalData.userInfo
     })
@@ -599,7 +601,8 @@ Page({
   },
   setMessage: function(e) {
     var userMessage = e.detail.value;
-    this.setData({
+    var that = this
+    that.setData({
       userMessage: userMessage
     })
   },
