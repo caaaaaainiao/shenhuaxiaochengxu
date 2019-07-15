@@ -27,7 +27,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-    // console.log(app.globalData.movieList)
+    console.log(app.globalData.movieList)
     var that = this;
     var movie = app.globalData.movieList[app.globalData.movieIndex];
     // console.log(movie)
@@ -205,6 +205,8 @@ Page({
     } 
   },
   toCompare:function(){
+    console.log(app.globalData.movieList)
+    console.log(app.globalData.movieIndex)
     app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
     wx.navigateTo({
       url: '../compare/compare',

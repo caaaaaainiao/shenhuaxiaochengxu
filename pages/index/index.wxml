@@ -32,7 +32,7 @@
       <view class='moviesBox'>
         <scroll-view class='movies' scroll-y="true">
           <block wx:for="{{movieList}}" wx:for-item="movie" wx:key="movie">
-            <view class='movie' bindtap='toDetails' data-index="{{index}}">
+            <view class='movie' bindtap='toDetails' data-id='{{movie.code}}' data-index="{{index}}">
               <image class='moviePic' src='{{movie.image}}'></image>
 
               <block wx:if='{{movie.name}}'>

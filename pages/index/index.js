@@ -246,7 +246,7 @@ Page({
         that.setData({
           movieList: res
         })
-        // console.log(that.data.movieList)
+        console.log(that.data.movieList)
         app.globalData.sellMovielist = that.data.movieList
       });
     }
@@ -435,9 +435,14 @@ Page({
   // 影片详情
   toDetails: function (e) {
     // console.log("details")
+    app.globalData.movieId = e.currentTarget.dataset.id
     app.globalData.movieIndex = e.currentTarget.dataset.index;
-    // console.log(e)
+    console.log(e)
     // console.log(app)
+    wx.setStorage({
+      key: 'movieList',
+      data: app.globalData.movieList,
+    })
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
