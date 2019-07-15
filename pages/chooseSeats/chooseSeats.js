@@ -60,6 +60,7 @@ Page({
     seats: '',
     // isEmpty: 'empty',
     rows: '',
+    rownum:[]
   },
 
   /**
@@ -139,9 +140,11 @@ Page({
           rows: seats,
           scale:scale
         })
+        that.setRowNum();
       }
     })
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+   
   },
 
   /**
@@ -264,7 +267,23 @@ Page({
       seats: maps,
       scale: scale
     })
-
+   
+  },
+  setRowNum:function(){
+    var that = this;
+    var seats = that.data.seats;
+    var rownums = that.data.rownum;
+    for(var i = 0;i < seats.length;i++){
+      if (seats[i] && seats[i].rowNum){
+        var rownum = seats[i].rowNum;
+        rownums[i]=rownum;
+      } else {
+        rownums[i] = "";
+      }
+    }
+    that.setData({
+      rownum:rownums
+    })
   },
   choose: function(e) { //选座
     var that = this;

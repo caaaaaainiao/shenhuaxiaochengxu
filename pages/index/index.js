@@ -35,7 +35,8 @@ Page({
     console.log('form发生了submit事件，携带数据为：', e.detail.value)
   },
   onLoad: function (options) {
-    this.getAccesstoken()
+    var that = this;
+    that.getAccesstoken();
     wx.getStorage({
       key: 'accredit',
       success: function(res) { //key所对应的内容
@@ -432,9 +433,7 @@ Page({
     this.setData({
       isFirst: false
     })
-    wx.showTabBar({
-
-    })
+    wx.showTabBar({ })
     wx.setStorage({
       key: "firstUse",
       data: "点过了"

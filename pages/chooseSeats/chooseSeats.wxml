@@ -30,8 +30,8 @@
   </view>
   <view class='seatArea'>
     <view class='rownum' style='transform:translateY(-50%) scale({{scale}});margin-top:{{translateY}}px;'>
-      <block wx:for="{{seats}}" wx:for-item="rownum" wx:key="rownum">
-        <view class='num'>{{index+1}}</view>
+      <block wx:for="{{rownum}}" wx:for-item="number" wx:key="number">
+        <view class='num'>{{number}}</view>
       </block>
     </view>
     <view class='seats' style=' transform:translate({{translateX}}px,{{translateY}}px) scale({{scale}})' bindtouchstart="touchstart" catchtouchmove="touchmove" catchtouchend="touchend">
