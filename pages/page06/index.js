@@ -330,6 +330,7 @@
       var userName = app.usermessage.Username;
       var passWord = app.usermessage.Password;
       // 设置手机号码默认为注册的号码  防止恶意开卡
+      console.log(app.globalData.userInfo)
       that.setData({
         phone: app.globalData.userInfo.mobilePhone,
         cinemaName: app.globalData.cinemaList.cinemaName,
