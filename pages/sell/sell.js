@@ -129,39 +129,54 @@ Page({
     })
     var that = this;
     // 调用全局函数设置余额以及积分
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
-      var memberCard = [];
-      var status = [];
-      if (res.data.Status == "Failure") {
-        that.setData({
-          memberCardScore: '---',
-          memberCardBalance: '---'
-        })
-      } else if (res.data.data.memberCard == null) {
-        that.setData({
-          memberCardScore: '---',
-          memberCardBalance: '---'
-        })
-      } else {
-        var memberCard = res.data.data.memberCard;
-        for (var i = 0; i < memberCard.length; i++) {
-          if (memberCard[i].status == 1) {
-            status.push(memberCard[i]);
+    if (app.globalData.cinemacode && app.globalData.openId) {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+        var memberCard = [];
+        var status = [];
+        let userCardList = [];
+        if (res.data.Status == "Failure") {
+          that.setData({
+            memberCardScore: '---',
+            memberCardBalance: '---'
+          })
+        } else if (res.data.data.memberCard == null) {
+          that.setData({
+            memberCardScore: '---',
+            memberCardBalance: '---'
+          })
+        } else {
+          var memberCard = res.data.data.memberCard;
+          for (var i = 0; i < memberCard.length; i++) {
+            if (memberCard[i].status == 1) {
+              status.push(memberCard[i]);
+            }
           }
+          // console.log(status)
+          for (let i = 0; i < status.length; i++) {
+            util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, status[i].cardNo, status[i].cardPassword, function (res) {
+              userCardList.push(res);
+              that.setData({
+                userCardList: userCardList
+              })
+            })
+          }
+          // 计算余额最多的会员卡
+          setTimeout(function () {
+            var first = userCardList.sort(function (a, b) {
+              return a.balance < b.balance
+            })[0];
+            console.log(first)
+            if (first.score == null) {
+              first.score = 0
+            }
+            that.setData({
+              memberCardBalance: first.balance,
+              memberCardScore: first.score
+            })
+          }, 1000)
         }
-        // 计算余额最多的会员卡
-        var first = memberCard.sort(function(a, b) {
-          return a.balance < b.balance
-        })[0];
-        if (first.score == null) {
-          first.score = 0
-        }
-        that.setData({
-          memberCardBalance: first.balance,
-          memberCardScore: first.score
-        })
-      }
-    });
+      });
+    }
     wx.setNavigationBarTitle({
       title: app.globalData.cinemaList.cinemaName
     });

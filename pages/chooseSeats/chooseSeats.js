@@ -143,18 +143,25 @@ Page({
     let day = new Date().getDate();
     let reg = /[\u4e00-\u9fa5]/g;
     let today = options.sessionDate.replace(reg, "").split('-');
-    // console.log(app.globalData)
-    if (today[0] == month && today[1] == day) {
+    // if (today[0] == month && today[1] == day) {
       wx.showModal({
-        title: '您当前所处' + app.globalData.moviearea,
+        title: '您购买的是' + app.globalData.moviearea + today[0] + '月' + today[1] + '日的电影',
         content: app.globalData.cinemaList.ticketHint,
+        success (res) {
+          if (res.cancel) {
+            wx.navigateBack({
+              delta: 1
+            })
+          }
+        }
       })
-    } else {
-      wx.showModal({
-        title: '您现在选的是' + today[0] + '月' + today[1] + '日的票',
-        content: '请仔细核对',
-      })
-    }
+    // }
+    //  else {
+    //   wx.showModal({
+    //     title: '您现在选的是' + today[0] + '月' + today[1] + '日的票',
+    //     content: '请仔细核对',
+    //   })
+    // }
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
