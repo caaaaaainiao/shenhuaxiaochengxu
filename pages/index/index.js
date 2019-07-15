@@ -218,6 +218,11 @@ Page({
       app.globalData.lookcinemaadd = cinemaList.address;
       app.globalData.moviearea = recent;
       app.globalData.cinemaList = cinemaList;
+      if (cinemaList && cinemaList.beforeStartTime) {
+        app.globalData.beforeStartTime = cinemaList.beforeStartTime
+      } else {
+        app.globalData.beforeStartTime = 0;
+      }
       that.setData({
         offerDescription: cinemaList.offerDescription,
       })
