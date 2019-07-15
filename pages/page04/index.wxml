@@ -13,7 +13,7 @@
         <input type='number' placeholder="输入您的会员卡号" class="input" value="{{inputNum}}" bindinput="getNum" bindblur="btnBlurInput" placeholder-class="phColor" />
       </view>
       <view class="item">
-        <input type='number' placeholder="输入您的会员卡密码" class="input" value="{{inputPass}}" bindinput="" bindblur="getPass" placeholder-class="phColor" />
+        <input type='number' password placeholder="输入您的会员卡密码" class="input" value="{{inputPass}}" bindinput="" bindblur="getPass" placeholder-class="phColor" />
       </view>
       <!-- <view class="item">
 				<picker bindchange="bindPickerChange999" value="{{index999}}" range="{{array999}}"><view class="picker gray">{{array999[index999]}}</view></picker>
@@ -53,7 +53,7 @@
               <text class="tag">{{level.levelName}}</text>
             </view>
             <view class="txt2">
-              <text class='p'>{{level.ruleDescription}}</text>
+              <!-- <text class='p'>{{level.ruleDescription}}</text> -->
             </view>
             <!-- <view class="txt3">有效期:{{level.effectiveDays}}</view> -->
           </view>

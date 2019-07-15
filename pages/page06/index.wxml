@@ -1,28 +1,21 @@
 <view class="wrap page06">
-	<view class="panel">
+	<!-- <view class="panel">
 		<view class="box">
 			<view class="left">
 				<view class="txt1">{{movieName}}</view>
 				<view class="txt2"><text class="tag">{{levelName}}</text></view>
 				<view class="txt3">
           <text class='p'>{{ruleDescription}}</text>
-					<!-- <view class="p">包月看电影。</view>
-					<view class="p">有效期内每部影片可观影1次。</view>
-					<view class="p">同一部影片不可重复购买。</view>
-					<view class="p">开卡日起30天内有效。</view> -->
 				</view>
 			</view>
-			<!-- <text class="time">有效期:{{effectiveDays}}</text> -->
+			<text class="time">有效期:{{effectiveDays}}</text>
 			<image src="/images/vip.png" class="vip" mode="widthFix"></image>
 		</view>
-	</view>
+	</view> -->
 	<view class="rule">
 		<view class="txt1">办卡须知</view>
 		<view class="txt2">
       <text class='p'>{{ruleDescription}}</text>
-			<!-- <view class="p">1.本卡为电影月卡，包月看电影，89元/月。</view>
-			<view class="p">2.开卡后30天内有效。</view>
-			<view class="p">3.有效期内，影城在映影片，每部可观影1次，不可重复观影。</view> -->
 		</view>
 	</view>
 	<view class="form">

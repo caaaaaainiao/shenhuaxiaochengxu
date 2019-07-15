@@ -98,45 +98,6 @@ Page({
       sessionCode: options.sessionCode,
       seatCouponList: app.globalData.ticketCoupons, // 优惠券列表
     });
-    // 获取优惠券
-    // wx.request({
-    //   url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.orderCode,
-    //   method: "GET",
-    //   header: {
-    //     'content-type': 'application/json' // 默认值
-    //   },
-    //   success: function (res) {
-    //     console.log(res)
-    //     if (res.data.Status == 'Success') {
-    //       that.setData({
-    //         seatCouponList: res.data.data.couponsList,
-    //       });
-    //       if (that.data.seatCouponList && that.data.seatCouponList.length > 0) { // 如果有优惠券
-    //         that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
-    //         that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
-    //         that.setData({
-    //           ticketRealPrice: Number(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
-    //           couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
-    //           reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
-    //         })
-    //         let allPrice = Number(options.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
-    //         that.setData({
-    //           allPrice: parseFloat(allPrice).toFixed(2),
-    //         })
-    //       } else {
-    //         let allPrice = Number(options.price) + Number(that.data.refreshments);
-    //         that.setData({
-    //           allPrice: parseFloat(allPrice).toFixed(2),
-    //         })
-    //       }
-    //     } else {
-    //       let allPrice = Number(options.price) + Number(that.data.refreshments);
-    //       that.setData({
-    //         allPrice: parseFloat(allPrice).toFixed(2),
-    //       })
-    //     }
-    //   }
-    // })
     // 获取会员卡信息
     setTimeout(function(){
       util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
@@ -167,7 +128,7 @@ Page({
                       }
                       that.setData({
                         memberCardPrice: price,
-                        allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                        // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
                     } else if (app.globalData.cinemaList.cinemaType == '粤科') {
                       let price;
@@ -179,7 +140,7 @@ Page({
                       }
                       that.setData({
                         memberCardPrice: price,
-                        allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                        // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
                     } else if (app.globalData.cinemaList.cinemaType == '满天星' || app.globalData.cinemaList.cinemaType == '电影1905') {
                       let price;
@@ -190,7 +151,7 @@ Page({
                       }
                       that.setData({
                         memberCardPrice: price,
-                        allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                        // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
                     } 
                     console.log(that.data.allPrice)
@@ -275,7 +236,7 @@ Page({
                     }
                     that.setData({
                       memberCardPrice: price,
-                      allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                      // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                     })
                   } else if (app.globalData.cinemaList.cinemaType == '粤科') {
                     let price;
@@ -287,7 +248,7 @@ Page({
                     }
                     that.setData({
                       memberCardPrice: price,
-                      allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                      // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                     })
                   } else if (app.globalData.cinemaList.cinemaType == '满天星' || app.globalData.cinemaList.cinemaType == '电影1905') {
                     let price;
@@ -298,7 +259,7 @@ Page({
                     }
                     that.setData({
                       memberCardPrice: price,
-                      allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
+                      // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                     })
                   }
                   console.log(that.data.allPrice)

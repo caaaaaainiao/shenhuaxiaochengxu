@@ -242,25 +242,30 @@ Page({
                 icon: 'none',
                 duration: 3000
               });
-              // 读取已绑定的会员卡判断是否还有会员卡绑定跳转到相应页面
-              wx.request({
-                url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
-                method: 'GET',
-                header: {
-                  'content-type': 'application/json' // 默认值
-                },
-                success: function (res) {
-                  if (res.data.data.memberPhoneCount == null) {
-                    wx.redirectTo({
+              setTimeout(function(){
+                wx.redirectTo({
                       url: '../page04/index',
                     })
-                  } else {
-                    wx.redirectTo({
-                      url: '../page05/index',
-                    })
-                  }
-                }
-              })
+              },1000)
+              // // 读取已绑定的会员卡判断是否还有会员卡绑定跳转到相应页面
+              // wx.request({
+              //   url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
+              //   method: 'GET',
+              //   header: {
+              //     'content-type': 'application/json' // 默认值
+              //   },
+              //   success: function (res) {
+              //     if (res.data.data.memberPhoneCount == null) {
+              //       wx.redirectTo({
+              //         url: '../page04/index',
+              //       })
+              //     } else {
+              //       wx.redirectTo({
+              //         url: '../page05/index',
+              //       })
+              //     }
+              //   }
+              // })
             }
           })
         }
