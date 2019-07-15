@@ -44,7 +44,7 @@ Page({
       swiperIndex: app.globalData.movieIndex
     })
     this.swiperIndex = this.data.swiperIndex
-    this.moviesList = app.globalData.moviearea
+    // this.moviesList = app.globalData.moviearea
     that.setData({
       movieId: app.globalData.movieId,
       moviearea: app.globalData.moviearea,
