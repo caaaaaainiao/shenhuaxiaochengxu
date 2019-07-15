@@ -30,7 +30,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log(app.globalData)
+    // console.log(app.globalData.beforeStartTime)
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
@@ -220,6 +220,9 @@ Page({
         // console.log(res)
         var comparePrices = res.data.data.sessionDate[0].session
         var nowTime = parseInt(new Date().getTime());// 获取当前时间戳
+        // 获取影院设置的限制购票时间
+        let beforeStartTime = Number(app.globalData.beforeStartTime);
+        // 将限制购票时间加上当前时间与影片开场时间作对比
         for (let i = comparePrices.length - 1; i >= 0; i --) { // 循环排期时间  倒序进行判断
           let sessionTime = new Date(comparePrices[i].sessionTime.replace(/-/g, '/')).getTime();// 获取排期时间戳
           if (sessionTime < nowTime) { // 比较两个时间戳大小 判断排期时间是否已过期
