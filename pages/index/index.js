@@ -439,7 +439,7 @@ Page({
   toDetails: function (e) {
     // console.log("details")
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
-    app.globalData.movieId = e.currentTarget.dataset.id
+    // app.globalData.movieId = e.currentTarget.dataset.id
     app.globalData.movieIndex = e.currentTarget.dataset.index;
     console.log(e)
     // console.log(app)
@@ -476,7 +476,7 @@ Page({
       key: 'movieList',
       data: app.globalData.movieList,
     })
-    app.globalData.movieId = e.currentTarget.dataset.id;
+    // app.globalData.movieId = e.currentTarget.dataset.id;
     app.globalData.movieIndex = e.currentTarget.dataset.index;
     wx.getStorage({
       key: 'loginInfo',
