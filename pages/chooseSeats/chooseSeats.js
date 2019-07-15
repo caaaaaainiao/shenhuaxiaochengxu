@@ -67,10 +67,12 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    // console.log(options)
     that.setData({
       screenCode: options.screenCode,
       featureAppNo: options.sessionCode,
       location: app.globalData.moviearea,
+      sessionDate: options.sessionDate,
       date: options.sessionDate,
       startTime2: options.time,
       movieDimensional: options.filmType,
@@ -139,29 +141,6 @@ Page({
         })
       }
     })
-    let month = new Date().getMonth() + 1;
-    let day = new Date().getDate();
-    let reg = /[\u4e00-\u9fa5]/g;
-    let today = options.sessionDate.replace(reg, "").split('-');
-    // if (today[0] == month && today[1] == day) {
-      wx.showModal({
-        title: '您购买的是' + app.globalData.moviearea + today[0] + '月' + today[1] + '日的电影',
-        content: app.globalData.cinemaList.ticketHint,
-        success (res) {
-          if (res.cancel) {
-            wx.navigateBack({
-              delta: 1
-            })
-          }
-        }
-      })
-    // }
-    //  else {
-    //   wx.showModal({
-    //     title: '您现在选的是' + today[0] + '月' + today[1] + '日的票',
-    //     content: '请仔细核对',
-    //   })
-    // }
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
   },
 
@@ -426,117 +405,133 @@ Page({
     // }
   },
   sureSeat: function() {
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('countOrderPrice', nowtime);
-    var appData = app.globalData;
-    var seatarr = "";
-    var seatNumber = "";
-    var ticketNum = that.data.seatArr.length;
-    var ticketOriginPrice = that.data.price;
-
-    if (that.data.seatArr.length == 0) {
-      wx.showModal({
-        title: '',
-        content: '还没选座位哦',
-      })
-      return;
-    }
-    if (!that.data.isClick) {
-      that.setData({
-        isClick: true
-      })
-    } else {
-      return;
-    }
-    // wx.showLoading()
-    for (var i = 0; i < that.data.seatArr.length; i++) {
-      seatarr += that.data.seatArr[i] + ","
-      seatNumber += that.data.seatNumber[i] + ","
-    }
-    seatarr = seatarr.substring(0, seatarr.length - 1);
-    seatNumber = seatNumber.substring(0, seatNumber.length - 1);
-    var activityId = that.data.activityId;
-    if (activityId == null) {
-      activityId = "";
-    }
-    var newNum = that.data.seatNumber.toString();
-    let xml = '<LockSeat>' + 
-                '<CinemaCode>' + app.globalData.cinemacode + '</CinemaCode>' +
-                '<Order>' +
-                '<Count>' + that.data.seatNum + '</Count>' +
-                '<PayType>' + '0' + '</PayType>';
-
-    for (let i = 0; i < that.data.seatNum; i ++) {
-      let newNum = that.data.seatNumber[i].toString();
-      xml += '<Seat>' ;
-      xml += '<AddFee>' + app.globalData.moviesListDate.addFee + '</AddFee>';
-      xml += '<CinemaAllowance>' + app.globalData.moviesListDate.cinemaAllowance + '</CinemaAllowance>';
-      xml += '<Fee>' + app.globalData.moviesListDate.ticketFee + '</Fee>';
-      xml += '<Price>' + that.data.salePrice + '</Price>';
-      xml += '<SeatCode>' + newNum + '</SeatCode>';
-      xml += '</Seat>';
-    }
-    xml += '<SessionCode>' + that.data.featureAppNo + '</SessionCode>';
-    xml += '</Order>';
-    xml += '</LockSeat>';
-    wx.request({
-      url: app.globalData.url + '/Api/Order/LockSeat',
-      data: {
-        userName: app.usermessage.Username,
-        password: app.usermessage.Password,
-        openID: app.globalData.openId,
-        queryXml: xml,               
-      },
-      method: "POST",
-      header: {
-        // "content-Type": "application/x-www-form-urlencoded"
-        'content-type': 'application/json' // 默认值
-      },
-      success: function (res) {
-        console.log(res)
-        if (res.data.Status == "Success") {
-          // console.log(that.data)
-          // console.log(app.globalData)
-          var order = res.data.order;
-          var date = that.data.date + ' ' + that.data.startTime2 + '-' + that.data.endtime;
-          var screenName = that.data.screenName;
-          var autoUnlockDatetime = order.autoUnlockDatetime;
-          var count = order.count;
-          var seat = that.data.seatArr;
-          var orderCode = order.orderCode;
-          var sessionCode = order.sessionCode;
-          var title = app.globalData.movieList[app.globalData.movieIndex].name;
-          var price = that.data.totalPrice;
-          app.globalData.seat = order.seat;
-          wx.hideLoading();
-          wx.showToast({
-            title: '正在预定座位...',
-            icon: 'loading',
-            duration: 2000,
-            mask: true,
-            success: function (res) {
-              setTimeout(function () {
-                wx.redirectTo({
-                  url: '../orderForm/orderForm?date=' + date + '&&screenName=' + screenName + '&&autoUnlockDatetime=' + autoUnlockDatetime + '&&count=' + count + '&&seat=' + seat + '&&orderCode=' + orderCode + '&&sessionCode=' + sessionCode + '&&title=' + title + '&&price=' + price,
-                })
-              }, 500)
-            },
-            fail: function (res) { },
-            complete: function (res) { },
+    let that = this;
+    let month = new Date().getMonth() + 1;
+    let day = new Date().getDate();
+    let reg = /[\u4e00-\u9fa5]/g;
+    let today = that.data.sessionDate.replace(reg, "").split('-');
+    wx.showModal({
+      title: '您购买的是' + app.globalData.moviearea + today[0] + '月' + today[1] + '日的电影',
+      content: app.globalData.cinemaList.ticketHint,
+      success(res) {
+        if (res.cancel) {
+          wx.navigateBack({
+            delta: 1
           })
         } else {
-          wx.showToast({
-            title: '选座失败，请选择其他场次',
-            content: res.data.ErrorMessage,
-            icon: 'none',
-            duration: 3000
-          });
+          var nowtime = new Date().getTime();
+          var sign = app.createMD5('countOrderPrice', nowtime);
+          var appData = app.globalData;
+          var seatarr = "";
+          var seatNumber = "";
+          var ticketNum = that.data.seatArr.length;
+          var ticketOriginPrice = that.data.price;
+
+          if (that.data.seatArr.length == 0) {
+            wx.showModal({
+              title: '',
+              content: '还没选座位哦',
+            })
+            return;
+          }
+          if (!that.data.isClick) {
+            that.setData({
+              isClick: true
+            })
+          } else {
+            return;
+          }
+          // wx.showLoading()
+          for (var i = 0; i < that.data.seatArr.length; i++) {
+            seatarr += that.data.seatArr[i] + ","
+            seatNumber += that.data.seatNumber[i] + ","
+          }
+          seatarr = seatarr.substring(0, seatarr.length - 1);
+          seatNumber = seatNumber.substring(0, seatNumber.length - 1);
+          var activityId = that.data.activityId;
+          if (activityId == null) {
+            activityId = "";
+          }
+          var newNum = that.data.seatNumber.toString();
+          let xml = '<LockSeat>' +
+            '<CinemaCode>' + app.globalData.cinemacode + '</CinemaCode>' +
+            '<Order>' +
+            '<Count>' + that.data.seatNum + '</Count>' +
+            '<PayType>' + '0' + '</PayType>';
+
+          for (let i = 0; i < that.data.seatNum; i++) {
+            let newNum = that.data.seatNumber[i].toString();
+            xml += '<Seat>';
+            xml += '<AddFee>' + app.globalData.moviesListDate.addFee + '</AddFee>';
+            xml += '<CinemaAllowance>' + app.globalData.moviesListDate.cinemaAllowance + '</CinemaAllowance>';
+            xml += '<Fee>' + app.globalData.moviesListDate.ticketFee + '</Fee>';
+            xml += '<Price>' + that.data.salePrice + '</Price>';
+            xml += '<SeatCode>' + newNum + '</SeatCode>';
+            xml += '</Seat>';
+          }
+          xml += '<SessionCode>' + that.data.featureAppNo + '</SessionCode>';
+          xml += '</Order>';
+          xml += '</LockSeat>';
+          wx.request({
+            url: app.globalData.url + '/Api/Order/LockSeat',
+            data: {
+              userName: app.usermessage.Username,
+              password: app.usermessage.Password,
+              openID: app.globalData.openId,
+              queryXml: xml,
+            },
+            method: "POST",
+            header: {
+              // "content-Type": "application/x-www-form-urlencoded"
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              console.log(res)
+              if (res.data.Status == "Success") {
+                // console.log(that.data)
+                // console.log(app.globalData)
+                var order = res.data.order;
+                var date = that.data.date + ' ' + that.data.startTime2 + '-' + that.data.endtime;
+                var screenName = that.data.screenName;
+                var autoUnlockDatetime = order.autoUnlockDatetime;
+                var count = order.count;
+                var seat = that.data.seatArr;
+                var orderCode = order.orderCode;
+                var sessionCode = order.sessionCode;
+                var title = app.globalData.movieList[app.globalData.movieIndex].name;
+                var price = that.data.totalPrice;
+                app.globalData.seat = order.seat;
+                wx.hideLoading();
+                wx.showToast({
+                  title: '正在预定座位...',
+                  icon: 'loading',
+                  duration: 2000,
+                  mask: true,
+                  success: function (res) {
+                    setTimeout(function () {
+                      wx.redirectTo({
+                        url: '../orderForm/orderForm?date=' + date + '&&screenName=' + screenName + '&&autoUnlockDatetime=' + autoUnlockDatetime + '&&count=' + count + '&&seat=' + seat + '&&orderCode=' + orderCode + '&&sessionCode=' + sessionCode + '&&title=' + title + '&&price=' + price,
+                      })
+                    }, 500)
+                  },
+                  fail: function (res) { },
+                  complete: function (res) { },
+                })
+              } else {
+                wx.showToast({
+                  title: '选座失败，请选择其他场次',
+                  content: res.data.ErrorMessage,
+                  icon: 'none',
+                  duration: 3000
+                });
+              }
+              that.setData({
+                isClick: false
+              })
+            }
+          })
         }
-        that.setData({
-          isClick: false
-        })
-        } 
+      }
     })
   },
   // 暂时不要更换场次按钮
