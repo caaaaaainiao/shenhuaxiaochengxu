@@ -218,11 +218,12 @@ Page({
       },
       success: function (res) {
         // console.log(res)
-        var comparePrices = res.data.data.sessionDate[0].session
-        var nowTime = parseInt(new Date().getTime());// 获取当前时间戳
+        var comparePrices = res.data.data.sessionDate[0].session;
         // 获取影院设置的限制购票时间
-        let beforeStartTime = Number(app.globalData.beforeStartTime);
+        let beforeStartTime = Number(app.globalData.beforeStartTime) * 60 * 1000;
         // 将限制购票时间加上当前时间与影片开场时间作对比
+        let nowTime = parseInt(new Date().getTime()) + beforeStartTime;
+        console.log(nowTime)
         for (let i = comparePrices.length - 1; i >= 0; i --) { // 循环排期时间  倒序进行判断
           let sessionTime = new Date(comparePrices[i].sessionTime.replace(/-/g, '/')).getTime();// 获取排期时间戳
           if (sessionTime < nowTime) { // 比较两个时间戳大小 判断排期时间是否已过期
