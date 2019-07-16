@@ -24,6 +24,7 @@ Page({
     overRefundTime: null, // 距离开场前可退票时间(分钟)
     showTime: null, // 开场时间
     seatBol : false ,
+    canTui:true
   },
 
   /**
@@ -63,6 +64,7 @@ Page({
           let order = res.data.data;
           let realAmount = Math.floor(res.data.data.realAmount * 100) / 100;
           let seat = res.data.data.seat;
+          let printNo = res.data.data.printNo;
           let cinemaCode = res.data.data.cinemaCode;
           let verifyCode = res.data.data.verifyCode;
           let showTime = res.data.data.showTime;
@@ -73,22 +75,20 @@ Page({
             seat: seat,
             cinemaCode: cinemaCode,
             verifyCode: verifyCode,
-            // orderPayType: orderPayType, // 支付类型
+            printNo: printNo,
             showTime: showTime,
             ticketCollectionUrl: ticketCollectionUrl,
           })
-          // if (app.globalData.cinemaList.cinemaType == "辰星") {
-          //   let printNo = that.data.order.printNo.slice(8);
-          //   that.setData({
-          //     oldPrintNo: that.data.order.printNo, //退票码
-          //     printNo: printNo, // 取票码
-          //   })
-          // }
-          // else {
-            that.setData({
-              printNo: that.data.order.printNo,
+          // 获取影片开场时间与当前时间比较
+          let beginTime = new Date(showTime.substring(0, 19).replace(/-/g, '/')).getTime();
+          console.log(beginTime)
+          let nowTime = new Date().getTime();
+          console.log(nowTime)
+          if (nowTime >= beginTime) { // 如果当前时间比开场时间晚
+            that.setData({ //设置一个开关canTui
+              canTui:false
             })
-          // }
+          }
         }
       }
     })
@@ -255,10 +255,18 @@ Page({
     console.log(e.detail.formId)
   },
   refundbtn:function(){
-    this.setData({
-      retreat: true,
-      seatBol : true
-    })
+    let that=this
+    if(that.data.canTui==true){
+      this.setData({
+        retreat: true,
+        seatBol: true
+      })
+    }
+    else{
+      wx.showModal({
+        title: '已过开场时间 不能退票',
+      })
+    }
   },
   syn: function () {
     var that = this;

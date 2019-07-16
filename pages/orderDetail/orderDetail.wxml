@@ -75,7 +75,7 @@
         <view class='storename'>实付金额</view>
         <view class='money'>{{realAmount}}元</view>
         <view class='descripe'>订单号：{{order.orderCode}}</view>
-        <view class='descripe'>购买时间：{{order.payTime}}</view>
+        <view class='descripe' wx:if="{{order.payTime}}">购买时间：{{order.payTime}}</view>
         <view class='descripe'>手机号：{{order.mobilePhone}}</view>
       </view>
       <view class='address' style=' border: none;'>
