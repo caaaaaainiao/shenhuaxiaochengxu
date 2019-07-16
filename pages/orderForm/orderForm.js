@@ -760,7 +760,7 @@ Page({
                           userName: data.UserName,
                           password: data.Password,
                           openID: order.openID,
-                          // queryXml: xml,
+                          queryXml: xml,
                         },
                         method: "POST",
                         header: {
