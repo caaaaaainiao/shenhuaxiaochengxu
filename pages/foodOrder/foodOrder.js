@@ -52,9 +52,9 @@ Page({
     let endtime = new Date(nowtime.getTime() + 1000 * 60);
     let endday = util.formatTime2(endtime);
     var deliveryAddress = app.globalData.sellhallname 
-    // console.log(app.globalData.isReady)
-    // console.log(deliveryAddress)
-    // console.log(that.data.userMessage)
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: app.globalData.url + '/Api/Goods/CreateGoodsOrder',
       method: "POST",
@@ -71,6 +71,7 @@ Page({
       },
       success: function(res) {
         console.log(res)
+        wx.hideLoading()
         if (res.data.Status == "Success"){
           // console.log(res)
           // console.log(res.data.order.orderCode)
@@ -174,7 +175,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    // console.log(this.data.userMessage)
     this.setData({
       userInfo: app.globalData.userInfo
     })
@@ -251,9 +251,6 @@ Page({
   choosePay: function() {
     // this.formSubmit()
     var that = this
-    // this.setData({
-    //   showBlack: true
-    // })
     if(that.data.payway == 1){
       if (that.data.canClick != 1) {
         return;

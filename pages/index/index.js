@@ -814,7 +814,7 @@ Page({
             } 
             else {
               wx.showToast({
-                title: '授权失败',
+                title: '授权失败，请重新授权',
                 icon: 'none',
                 duration: 2000,
                 success () {

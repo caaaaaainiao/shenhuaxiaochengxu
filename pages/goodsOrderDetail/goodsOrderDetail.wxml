@@ -50,6 +50,7 @@
         <view class='descripe'>系统订单号：{{order.orderCode}}</view>
         <view class='descripe'>购买时间：{{order.created}}</view>
         <view class='descripe'>手机号：{{order.mobilePhone}}</view>
+        <view class='descripe'>备注：{{order.deliveryMark}}</view>
       </view>
       <view class='address' style=' border: none;'>
         <view class='storename'>观影须知</view>
