@@ -51,7 +51,7 @@
     {{ticketName}}
     <image src='/images/gray_more.png'></image>
     <text wx:if="{{seatCoupon == null}}">去选择</text>
-    <text wx:else>-{{ticketRealPrice}}元</text>
+    <text wx:else>-{{merOrder.merTicket.couponPrice}}元</text>
   </view>
   <view class='gray_line'></view>
   <!-- <block wx:if="{{comboList.length > 0}}">
@@ -101,7 +101,7 @@
     </view>
   </view>
   <view class='gray_line'></view>
-  <view class='phone' bindtap='messageshow'>
+  <!-- <view class='phone' bindtap='messageshow'>
     <view class='phonetext'>备注</view>
     <view class='tip' wx:if="{{userMessage.length>0}}">{{userMessage}}</view>
     <view class='tip' wx:else>如有特殊需求请填写备注</view>
@@ -109,7 +109,7 @@
       编辑
       <image src='/images/gray_more.png'></image>
     </view>
-  </view>
+  </view> -->
   <view class='gray_line'></view>
   <view class='option'>
     购票须知
@@ -175,12 +175,11 @@
 
   <view class='chooseCoupon' wx:if="{{chooseType==1}}">
     <block wx:for="{{seatCouponList}}" wx:for-item="seatCoupons" wx:key="seatCoupons">
-    <view class='canUse' bindtap='setSeatCoupon' data-id='{{seatCoupons.couponsCode}}' data-index="{{index}}">
+    <view class='canUse' bindtap='setSeatCoupon' data-id='{{seatCoupons.couponsCode}}' data-code='{{seatCoupons.couponsCode}}' data-couponPrice='{{seatCoupons.reductionPrice}}' data-index="{{index}}">
       <view class='couponMoney'>￥{{seatCoupons.reductionPrice}}</view>
        <view class='couponLimit'>{{seatCoupons.couponsName}}</view>
        <!-- <view class='couponTime'>有效期 {{seatCoupons.expireDate}}</view> -->
-       <image src='/images/gou.png' class='couponStatus1' wx:if="{{seatCoupons.couponsCode==seatCoupon.couponsCode}}"></image>
-      <image src='/images/gou.png' class='couponStatus1' wx:elif="{{seatCoupons.couponsCode==couponsCode}}"></image>
+       <image src='/images/gou.png' class='couponStatus1' wx:if="{{seatCoupons.couponsCode==merOrder.merTicket.counponId}}"></image>
        <view class='couponStatus2' wx:else></view>
     </view>
     </block> 

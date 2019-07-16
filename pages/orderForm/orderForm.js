@@ -154,7 +154,7 @@ Page({
                         // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
                     } 
-                    console.log(that.data.allPrice)
+                    // console.log(that.data.allPrice)
                   }
                 }
               })
@@ -262,7 +262,6 @@ Page({
                       // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                     })
                   }
-                  console.log(that.data.allPrice)
                 }
               }
             })
@@ -397,7 +396,6 @@ Page({
       return;
     } else {
       let card = that.data.card;
-      console.log(card)
       if (card) {
         that.setData({
           cardNo: card.cardNo,
@@ -405,7 +403,6 @@ Page({
         })
       }
     }
-    console.log(that.data)
     // 获取优惠券
     wx.request({
       url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.cardNo + '/' + that.data.orderCode,
@@ -416,18 +413,37 @@ Page({
       success: function (res) {
         console.log(res)
         if (res.data.Status == 'Success') {
+          let seatCouponList = res.data.data.couponsList;
           that.setData({
-            seatCouponList: res.data.data.couponsList,
+            seatCouponList: seatCouponList,
           });
-          if (that.data.seatCouponList && that.data.seatCouponList.length > 0) { // 如果有优惠券
-            that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
-            that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
+          if (seatCouponList && seatCouponList.length > 0) { // 如果有优惠券
+            let merOrder = {  // 声明一个新的对象用来存放第一张优惠券一级优惠券列表
+              merTicket: {
+                counponId: seatCouponList[0].couponsCode,
+                couponCode: seatCouponList[0].couponsCode,
+                couponPrice: seatCouponList[0].reductionPrice
+              },
+              merTicketList: seatCouponList
+            };
+            if (!merOrder) {
+              let merTicket = {
+                counponId: null,
+                couponCode: null,
+                couponPrice: 0
+              }
+              merOrder = merTicket
+              return merOrder
+            }
+            that.data.priceArr.push(merOrder.merTicket.couponPrice)
+            that.data.codeArr.push(merOrder.merTicket.couponCode);
             that.setData({
-              ticketRealPrice: Number(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
-              couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
-              reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
+              merOrder: merOrder, // 首张优惠券+优惠券列表
+              ticketRealPrice: Number(merOrder.merTicket.couponPrice), // 优惠券价格
+              couponsCode: merOrder.merTicket.couponCode, // 优惠券编码
+              reductionPrice: merOrder.merTicket.couponPrice, // 优惠券价格
             })
-            let allPrice = Number(that.data.memberCardPrice) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
+            let allPrice = Number(that.data.memberCardPrice) - Number(merOrder.merTicket.couponPrice) + Number(that.data.refreshments);
             that.setData({
               allPrice: parseFloat(allPrice).toFixed(2),
             })
@@ -462,18 +478,37 @@ Page({
       success: function (res) {
         console.log(res)
         if (res.data.Status == 'Success') {
+          let seatCouponList = res.data.data.couponsList;
           that.setData({
-            seatCouponList: res.data.data.couponsList,
+            seatCouponList: seatCouponList,
           });
-          if (that.data.seatCouponList && that.data.seatCouponList.length > 0) { // 如果有优惠券
-            that.data.priceArr.push(that.data.seatCouponList[0].reductionPrice);
-            that.data.codeArr.push(that.data.seatCouponList[0].couponsCode);
+          if (seatCouponList && seatCouponList.length > 0) { // 如果有优惠券
+            let merOrder = {  // 声明一个新的对象用来存放第一张优惠券一级优惠券列表
+              merTicket: {
+                counponId: seatCouponList[0].couponsCode,
+                couponCode: seatCouponList[0].couponsCode,
+                couponPrice: seatCouponList[0].reductionPrice
+              },
+              merTicketList: seatCouponList
+            };
+            if (!merOrder) {
+              let merTicket = {
+                counponId: null,
+                couponCode: null,
+                couponPrice: 0
+              }
+              merOrder = merTicket
+              return merOrder
+            }
+            that.data.priceArr.push(merOrder.merTicket.couponPrice)
+            that.data.codeArr.push(merOrder.merTicket.couponCode);
             that.setData({
-              ticketRealPrice: Number(that.data.seatCouponList[0].reductionPrice), // 优惠券价格
-              couponsCode: that.data.seatCouponList[0].couponsCode, // 优惠券编码
-              reductionPrice: that.data.seatCouponList[0].reductionPrice, // 优惠券价格
+              merOrder: merOrder, // 首张优惠券+优惠券列表
+              ticketRealPrice: Number(merOrder.merTicket.couponPrice), // 优惠券价格
+              couponsCode: merOrder.merTicket.couponCode, // 优惠券编码
+              reductionPrice: merOrder.merTicket.couponPrice, // 优惠券价格
             })
-            let allPrice = Number(that.data.price) - Number(that.data.reductionPrice) + Number(that.data.refreshments);
+            let allPrice = Number(that.data.price) - Number(merOrder.merTicket.couponPrice) + Number(that.data.refreshments);
             that.setData({
               allPrice: parseFloat(allPrice).toFixed(2),
             })
@@ -725,7 +760,7 @@ Page({
                           userName: data.UserName,
                           password: data.Password,
                           openID: order.openID,
-                          queryXml: xml,
+                          // queryXml: xml,
                         },
                         method: "POST",
                         header: {
@@ -1393,58 +1428,70 @@ Page({
       chooseType: 2
     })
   },
+  // 选择优惠券
   setSeatCoupon: function (e) {
+    console.log(e)
     let that = this;
+    let merOrder = that.data.merOrder;
     let id = e.currentTarget.dataset.id;
-    let priceArr = [];
-    let codeArr = [];
-    for (let i = 0; i < that.data.seatCouponList.length; i++) {
-      if (that.data.seatCouponList[i].couponsCode == id) {
-        that.setData({
-          seatCoupon: that.data.seatCouponList[i]
-        })
-      }
-    }
-    console.log(that.data.seatCoupon)
-    let price = that.data.price; // 影票总价
+    let code = e.currentTarget.dataset.code;
+    let ticketPrice = e.currentTarget.dataset.couponprice; // 优惠券价格
+    let price = that.data.price; // 影票原价
     let refreshments = that.data.refreshments; // 卖品总价
-    let seatCouponPrice = that.data.seatCoupon.reductionPrice; // 优惠券金额
-    if (that.data.seatCoupon.couonsType == '2') { // 兑换券
-      seatCouponPrice = price;
-      priceArr.push(seatCouponPrice);
-      codeArr.push(that.data.seatCoupon.couponsCode);
-      price = (that.data.beginTicket) - (seatCouponPrice);
+    if (merOrder) {
+      merOrder.merTicket.couponCode = code;
+      merOrder.merTicket.counponId = id;
+      merOrder.merTicket.couponPrice = ticketPrice;
       that.setData({
-        couponsCode: that.data.seatCoupon.couponsCode,
-        reductionPrice: that.data.seatCoupon.reductionPrice,
-        ticketRealPrice: (that.data.price) / (that.data.count),  /* 减免金额 */
-        allPrice: parseFloat(price + refreshments).toFixed(2),
-        priceArr: priceArr,
-        codeArr: codeArr,
+        merTicketId: id,
+        merOrder: merOrder
       })
-      that.setData({
-        ticketName: '电影票兑换券'
-      })
-    } else { // 代金券
-      priceArr.push(seatCouponPrice);
-      codeArr.push(that.data.seatCoupon.couponsCode);
-      if (that.data.payway == '2') { // 会员卡支付
-        price = Number(that.data.memberCardPrice) - Number(seatCouponPrice); // 会员价减去优惠券价格
-        price = parseFloat(price * 100) / 100;
-      } else {
-        price = Number(that.data.beginTicket) - Number(seatCouponPrice);// 影票原价减去优惠券价格
-        price = parseFloat(price * 100) / 100;
-      }
-      that.setData({
-        couponsCode: that.data.seatCoupon.couponsCode,
-        reductionPrice: that.data.seatCoupon.reductionPrice, // 优惠券价格
-        ticketRealPrice: seatCouponPrice, // 减免金额
-        // price: price,
-        allPrice: parseFloat(price + refreshments).toFixed(2),
-        priceArr: priceArr,
-        codeArr: codeArr,
-      })
-    };
+      console.log(that.data.merOrder.merTicket)
+    }
+    // 代金券
+    if (that.data.payway == '2') { // 会员卡支付
+      price = Number(that.data.memberCardPrice) - Number(ticketPrice); // 会员价减去优惠券价格
+      price = parseFloat(price * 100) / 100;
+    } else { // 微信支付
+      price = Number(that.data.beginTicket) - Number(ticketPrice);// 影票原价减去优惠券价格
+      price = parseFloat(price * 100) / 100;
+    }
+    console.log(that.data.beginTicket)
+    console.log(ticketPrice)
+    that.setData({
+      couponsCode: that.data.merOrder.merTicket.couponCode,
+      reductionPrice: that.data.merOrder.merTicket.couponPrice, // 优惠券价格
+      ticketRealPrice: ticketPrice, // 减免金额
+      allPrice: parseFloat(price + refreshments).toFixed(2),
+    })
+    // for (let i = 0; i < that.data.seatCouponList.length; i++) {
+    //   if (that.data.seatCouponList[i].couponsCode == id) {
+    //     that.setData({
+    //       seatCoupon: that.data.seatCouponList[i]
+    //     })
+    //   }
+    // }
+    // console.log(that.data.seatCoupon)
+    // let price = that.data.price; // 影票总价
+    // let refreshments = that.data.refreshments; // 卖品总价
+    // let seatCouponPrice = that.data.seatCoupon.reductionPrice; // 优惠券金额
+    // if (that.data.seatCoupon.couonsType == '2') { // 兑换券
+    //   seatCouponPrice = price;
+    //   priceArr.push(seatCouponPrice);
+    //   codeArr.push(that.data.seatCoupon.couponsCode);
+    //   price = (that.data.beginTicket) - (seatCouponPrice);
+    //   that.setData({
+    //     couponsCode: that.data.seatCoupon.couponsCode,
+    //     reductionPrice: that.data.seatCoupon.reductionPrice,
+    //     ticketRealPrice: (that.data.price) / (that.data.count),  /* 减免金额 */
+    //     allPrice: parseFloat(price + refreshments).toFixed(2),
+    //     priceArr: priceArr,
+    //     codeArr: codeArr,
+    //   })
+    //   that.setData({
+    //     ticketName: '电影票兑换券'
+    //   })
+    // }
   },
   setFoodCoupon: function (e) {
     var that = this;
