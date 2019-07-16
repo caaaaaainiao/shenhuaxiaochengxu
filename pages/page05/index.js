@@ -145,9 +145,9 @@ Page({
       RuleCode: ruleCode,
       LevelCode: levelCode,
     };
-    // 获取当前时间戳
+    // 获取当前时间戳 会员卡充值
     wx.request({
-      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount + '/' + data.CardNo + '/' + data.Password,
+      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount + '/' + data.CardNo + '/' + data.CardPassword,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
