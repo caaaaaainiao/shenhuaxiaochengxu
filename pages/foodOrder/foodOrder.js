@@ -84,9 +84,7 @@ Page({
             title: '创建订单失败',
             content: res.data.ErrorMessage + '请重新选择商品',
           })
-      }
-
-     
+      }     
       }
     })
     util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
