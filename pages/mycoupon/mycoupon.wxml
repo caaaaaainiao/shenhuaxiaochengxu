@@ -14,8 +14,8 @@
         <image src='/images/couponicon3.png' class='icon' wx:elif="{{coupon.reductionType == 2}}"></image>
         <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.reductionType == 3}}"></image>
         <view class='name'>{{coupon.title}}</view>
-        <view class='scope' wx:if='{{coupon.cinemaName != null}}'>适用于{{coupon.cinemaName}}</view>
-         <view class='scope' wx:elif='{{coupon.cinemaName == null}}'>全店通用</view>
+        <!-- <view class='scope' wx:if='{{coupon.cinemaName != null}}'>适用于{{coupon.cinemaName}}</view>
+         <view class='scope' wx:elif='{{coupon.cinemaName == null}}'>全店通用</view> -->
         <view class='time'>有效期至：{{coupon.expireDate}}</view>
         <view class='right'>
           <view class='money' wx:if="{{coupon.couonsType==2}}">
