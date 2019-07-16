@@ -180,6 +180,7 @@
        <view class='couponLimit'>{{seatCoupons.couponsName}}</view>
        <!-- <view class='couponTime'>有效期 {{seatCoupons.expireDate}}</view> -->
        <image src='/images/gou.png' class='couponStatus1' wx:if="{{seatCoupons.couponsCode==seatCoupon.couponsCode}}"></image>
+      <image src='/images/gou.png' class='couponStatus1' wx:elif="{{seatCoupons.couponsCode==couponsCode}}"></image>
        <view class='couponStatus2' wx:else></view>
     </view>
     </block> 

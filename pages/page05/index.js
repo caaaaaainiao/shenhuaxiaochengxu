@@ -231,7 +231,7 @@ Page({
       success: function (res) {
         if (res.confirm == true) {
           wx.request({
-            url: app.globalData.url + '/Api/Member/MemberCardUnbind' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword,
+            url: app.globalData.url + '/Api/Member/MemberCardUnbind' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.OpenID,
             method: 'GET',
             header: {
               'content-type': 'application/json' // 默认值
@@ -315,6 +315,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         // wx.hideLoading()
         if (res.data.data.memberCard == null) {
           wx.navigateTo({
@@ -341,6 +342,7 @@ Page({
           // 循环绑定会员卡调用方法请求到最新的余额以及积分
           for (let i = 0; i < status.length; i++) {
             getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res) {
+              console.log(res)
               userCardList.push(res);
               that.setData({
                 userCardList: userCardList
