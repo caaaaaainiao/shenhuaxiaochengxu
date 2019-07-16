@@ -167,7 +167,7 @@ Page({
         "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function (res) {
-        // console.log(res.data);
+        console.log(res)
         wx.hideLoading()
         // that.data.FlimList.push(res)
         that.setData({
