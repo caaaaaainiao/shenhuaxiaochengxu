@@ -218,11 +218,63 @@ Page({
     var name = e.detail.value;
     var userInfo = that.data.userInfo;
     userInfo.nickName = name;
+    app.globalData.nameChange=true
     that.setData({
       nickName: name,
       userInfo: userInfo,
     })  
-    that.change();
+    var nowtime = new Date().getTime();
+    var userInfo = that.data.userInfo;
+    if (userInfo.birthday == null) {
+      userInfo.birthday = ""
+    }
+    wx.showLoading({
+      title: '加载中',
+    })
+    wx.request({
+      url: app.globalData.url + '/Api/User/UpdateUserInfo',
+      data: {
+        userName: app.usermessage.Username,
+        password: app.usermessage.Password,
+        openID: app.globalData.userInfo.openID,
+        headUrl: that.data.headUrl,
+        nickName: that.data.nickName,
+        sex: that.data.sex,
+        birthday: that.data.birthday,
+        // mobilePhone: that.data.phone,
+      },
+      method: "POST",
+      header: {
+        "Content-Type": "application/json"
+      },
+      success: function (res) {
+        // console.log(res)
+        if (res.data.Status != 'Success') {
+          wx.showModal({
+            title: '修改失败',
+          })
+        } else {
+          wx.setStorage({
+            key: 'loginInfo',
+            data: that.data.userInfo,
+          })
+          app.globalData.userInfo = that.data.userInfo;
+          wx.getStorage({
+            key: 'accredit',
+            success: function (res) {
+              res.data.userInfo.nickName = that.data.userInfo.nickName
+              var oRes = res
+              console.log(oRes)
+              wx.setStorage({
+                key: 'accredit',
+                data: res.data,
+              })
+            },
+          })
+        }
+        wx.hideLoading();
+      }
+    })
   },
   // phoneChange: function (e) {
   //   var that = this;
