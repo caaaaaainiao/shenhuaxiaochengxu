@@ -129,7 +129,6 @@
                 },
                 success: function(res) {
                   if (res.data.Status == 'Success') {
-                    if (res.data.Status == "Success") {
                       wx.showToast({
                         title: '开卡成功！',
                         icon: 'none',
@@ -138,7 +137,6 @@
                       wx.redirectTo({
                         url: '../page05/index',
                       })
-                    }
                   } else if (res.data.Status == 'Failure') {
                     wx.showToast({
                       title: res.data.ErrorMessage,

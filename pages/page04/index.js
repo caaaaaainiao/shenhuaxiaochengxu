@@ -318,7 +318,7 @@ Page({
             var userName = data.Username;
             var passWord = data.Password;
             var openID = data.OpenID
-            wx.navigateTo({
+            wx.redirectTo({
               url: '../page05/index?CinemaCode=' + cinemaCode + '&CardNo=' + cardNo + '&CardPassword=' + cardPassword + '&Username=' + userName + '&PassWord=' + passWord + '&Phone=' + phone + '&OpenID=' + openID
             })
           }
