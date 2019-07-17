@@ -10,9 +10,6 @@
       </swiper-item>
     </block>
   </swiper>
-  <view class='location'>
-    <text>{{lookcinemaname}}</text>
-  </view>
   <view class='content {{isScroll?"contentscroll":""}}'>
     <scroll-view class='foodclass' scroll-y>
       <block wx:for="{{goodTypeList}}" wx:for-item="goodstitle" wx:key="goodstitle">

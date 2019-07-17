@@ -54,7 +54,7 @@ App({
     // url: "http://192.168.1.179:8080",
     // url: "http://192.168.1.177:8080",
     SocketUrl: "wss://ik.legendpicture.com",
-    // SocketUrl: "wss://192.168.43.231:8080",
+    // SocketUrl: "wss://192.168.1.177:8080",
     goodsList:null,
     type2address:"",
     sellfeatureAppNo:"",

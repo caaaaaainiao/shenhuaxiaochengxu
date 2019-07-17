@@ -142,7 +142,7 @@
   left: 53rpx; 
 }
 .option_num{
-  width: 30rpx;
+  width: 50rpx;
   height: 30rpx;
   background: #E04F2E;
   font-size: 20rpx;

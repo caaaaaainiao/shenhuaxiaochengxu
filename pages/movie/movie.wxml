@@ -11,12 +11,7 @@
         </swiper-item>
       </block>
     </swiper>
-    <!-- 轮播图 -->
-    <!-- 显示地址 -->
-    <view class='location'>
-      <text>{{lookcinemaname}}</text>
-    </view>
-    <!-- 显示地址 -->   
+    <!-- 轮播图 --> 
   </view>
 
   <view class='list' wx:if="{{MovieList.length>0}}">

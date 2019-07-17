@@ -28,7 +28,8 @@
       </view>
       <view class='option' bindtap='myCoupon'>
         <image class='option_pic' src='/images/mine_yhq.png'></image>
-        <view class='option_num' wx:if="{{couponsCount > 0}}">{{couponsCount}}</view>
+        <view class='option_num' wx:if="{{couponsCount > 0 &&couponsCount<=99}}">{{couponsCount}}</view>
+        <view class='option_num' wx:elif="{{couponsCount > 99}}">99+</view>
         <view class='option_title'>优惠券</view>
       </view>
       <view class='option' bindtap='myPrize'>
