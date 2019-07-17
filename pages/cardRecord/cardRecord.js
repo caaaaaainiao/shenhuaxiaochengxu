@@ -77,7 +77,7 @@ Page({
       title: '加载中',
     })
     wx.request({
-      url: app.globalData.url + '/Api/Member/CardChargeRecord' + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.mobilePhone,
+      url: app.globalData.url + '/Api/Member/CardChargeRecord' + '/' + app.globalData.userInfo.openID + '/' + app.globalData.card[0].cardNo,
       method: "GET",
       header: {
         'content-type': 'application/json'

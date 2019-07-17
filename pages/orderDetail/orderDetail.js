@@ -81,9 +81,7 @@ Page({
           })
           // 获取影片开场时间与当前时间比较
           let beginTime = new Date(showTime.substring(0, 19).replace(/-/g, '/')).getTime();
-          console.log(beginTime)
           let nowTime = new Date().getTime();
-          console.log(nowTime)
           if (nowTime >= beginTime) { // 如果当前时间比开场时间晚
             that.setData({ //设置一个开关canTui
               canTui:false
