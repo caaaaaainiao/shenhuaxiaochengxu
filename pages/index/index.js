@@ -55,7 +55,7 @@ Page({
         wx.hideTabBar() //隐藏栏
       },
       complete:function(res){
-        console.log(res)
+        // console.log(res)
       }
     })
     // wx.showLoading({
@@ -867,6 +867,27 @@ Page({
    */
   onShow: function () {
     var that = this;
+    wx.getStorage({
+      key: 'accredit',
+      success: function (res) { //key所对应的内容
+        // console.log(res)
+        that.setData({
+          wxInfo: res.data.userInfo, //用户信息
+          userInfoDetail: res.data.userInfoDetail
+        })
+        app.globalData.getUsename = that.data.wxInfo.nickName
+        app.globalData.getAvatarUrl = that.data.wxInfo.avatarUrl
+      },
+      fail: function (res) {
+        that.setData({
+          shouquan: true
+        })
+        wx.hideTabBar() //隐藏栏
+      },
+      complete: function (res) {
+        // console.log(res)
+      }
+    })
     that.getMovie(app.globalData.cinemacode);
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
