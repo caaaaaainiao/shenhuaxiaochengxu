@@ -258,7 +258,7 @@
       }
       console.log(data)
       wx.request({
-        url: app.globalData.url + '/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount,
+        url: app.globalData.url + '/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.CardPassword,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
