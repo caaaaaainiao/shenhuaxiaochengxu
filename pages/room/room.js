@@ -548,14 +548,9 @@ Page({
     this.setData({
       timer : setInterval(function () {
         var nowTimeData = new Date()
-        var nowTime = '0001-01-01' + ' ' + nowTimeData.getHours() + ':' + nowTimeData.getMinutes() + ':' + nowTimeData.getSeconds()
-        var ThisTime = '0001-01-01' + ' ' + that.data.movie.startTime
+        var nowTime = '0001-01-01' + ' ' + nowTimeData.getHours() + ':' + nowTimeData.getMinutes() + ':' + nowTimeData.getSeconds() // 当前时间
+        var ThisTime = '0001-01-01' + ' ' + that.data.movie.startTime // 影片开始时间
         var newTime = new Date(ThisTime.replace(/-/g, '/')).getTime() - new Date(nowTime.replace(/-/g, '/')).getTime() + 40 * 1000 * 60
-        // console.log(newTime)
-        // var timerData = parseInt(newTime / 1000 / 60) + ':' + parseInt(newTime / 1000 % 60)
-        // console.log(timerData)
-        // var nowTime = parseInt(new Date().getTime() / 1000);
-        // var leftTime = parseInt(that.data.leftTime/1000) - nowTime;
         var str = "";
         var minute = parseInt(newTime / 1000 / 60)
         var second = parseInt(newTime / 1000 % 60)

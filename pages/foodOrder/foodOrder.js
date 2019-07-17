@@ -135,8 +135,8 @@ Page({
         });
       }
     });
-    if (app.globalData.userInfo && (app.globalData.userInfo.mobilePhone != null || app.globalData.userInfo.mobilePhone != "")) {
-      util.getMemberCardByPhone(app.globalData.cinemacode, app.globalData.userInfo.mobilePhone, function(res) {
+    if (app.globalData.userInfo && (that.data.phone != null || that.data.phone != "")) {
+      util.getMemberCardByPhone(app.globalData.cinemacode, that.data.phone, function(res) {
 
         app.globalData.userInfo.dxInsiderInfo = res;
 
@@ -174,7 +174,8 @@ Page({
    */
   onShow: function() {
     this.setData({
-      userInfo: app.globalData.userInfo
+      userInfo: app.globalData.userInfo,
+      phone: app.globalData.userInfo.mobilePhone,
     })
     wx.setNavigationBarTitle({
       title: app.globalData.cinemaList.cinemaName
@@ -246,9 +247,18 @@ Page({
     wx.showLoading()
     var nowtime = new Date().getTime();
   },
+  // 获取手机号
+  getPhone: function (e) {
+    let that = this;
+    let phone = e.detail.value;
+    that.setData({
+      phone: phone,
+    })
+  },
   choosePay: function() {
     // this.formSubmit()
     var that = this
+    console.log(that.data.phone)
     if(that.data.payway == 1){
       if (that.data.canClick != 1) {
         return;
@@ -278,7 +288,7 @@ Page({
               showReady: false
             })
             //确认订单的参数(微信)
-            let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><deliveryMark>' + that.data.userMessage+'</deliveryMark><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
+            let queryXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + that.data.phone + '</mobilePhone><deliveryMark>' + that.data.userMessage+'</deliveryMark><cardNo></cardNo><cardPassword></cardPassword><paySeqNo></paySeqNo><goodsList>'
             let queryobj = app.globalData.queryobj
 
             if (queryobj && queryobj.list) {
@@ -397,7 +407,7 @@ Page({
 
 
       // wx.hideLoading()
-      if (app.globalData.userInfo.mobilePhone.length != 11) {
+      if (that.data.phone.length != 11) {
         wx.showToast({
           title: '手机格式不正确',
           icon: 'loading',
@@ -694,10 +704,15 @@ Page({
           that.setData({
             tradeNo: res.data.tradeNo
           })
-          //确认订单的参数(会员卡)
-          let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><deliveryMark>' + that.data.userMessage +'</deliveryMark><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.Password + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
+          let mpXml
+          if (that.data.cinemaType == '满天星') {
+            mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + that.data.phone + '</mobilePhone><deliveryMark>' + that.data.userMessage + '</deliveryMark><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.Password + '</cardPassword><paySeqNo>' + res.data.tradeNo + '</paySeqNo><goodsList>'
+          } else {
+            //确认订单的参数(会员卡)
+            mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + that.data.phone + '</mobilePhone><deliveryMark>' + that.data.userMessage + '</deliveryMark><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.Password + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
+          }
+          console.log(mpXml)
           let mpobj = app.globalData.queryobj
-
           if (mpobj && mpobj.list) {
             for (var i = 0; i < mpobj.list.length; i++) {
               let items = mpobj.list[i];
@@ -711,7 +726,6 @@ Page({
               } else {
                 mpXml += '<goodsChannelFee>0</goodsChannelFee>';
               }
-
               mpXml += '</goods>';
             }
           }
@@ -794,7 +808,7 @@ Page({
     } else if (that.data.cinemaType == '粤科') {
       console.log(that.data.cardNo)
       //确认订单的参数(会员卡)
-      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><deliveryMark>' + that.data.userMessage +'</deliveryMark><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
+      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + that.data.phone + '</mobilePhone><deliveryMark>' + that.data.userMessage +'</deliveryMark><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
       let mpobj = app.globalData.queryobj
 
       if (mpobj && mpobj.list) {
@@ -817,7 +831,7 @@ Page({
       mpXml += ' </goodsList></SubmitGoodsOrder>';
       app.globalData.mpXml = mpXml
       wx.request({
-        url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
         method: "GET",
         success: function (res) {
           console.log(res)
@@ -838,7 +852,7 @@ Page({
     } else if (that.data.cinemaType == '电影1905') {
       console.log(that.data.cardNo)
       //确认订单的参数(会员卡)
-      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + app.globalData.phonenum + '</mobilePhone><deliveryMark>' + that.data.userMessage +'</deliveryMark><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
+      let mpXml = '<SubmitGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><orderCode>' + that.data.ordercode + '</orderCode><mobilePhone>' + that.data.phone + '</mobilePhone><deliveryMark>' + that.data.userMessage +'</deliveryMark><cardNo>' + that.data.cardNo + '</cardNo><cardPassword>' + data.CardPassword + '</cardPassword><paySeqNo></paySeqNo><goodsList>'
       let mpobj = app.globalData.queryobj
 
       if (mpobj && mpobj.list) {
@@ -861,7 +875,7 @@ Page({
       mpXml += ' </goodsList></SubmitGoodsOrder>';
       app.globalData.mpXml = mpXml
       wx.request({
-        url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + app.globalData.phonenum + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
         method: "GET",
         success: function (res) {
           console.log(res)

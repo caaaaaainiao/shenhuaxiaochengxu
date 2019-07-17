@@ -61,7 +61,7 @@
     <view class='phonetext'>手机号</view>
     <view class='tip'>购票成功后，会收到取票码短信</view>
     <view class='phonenum'>
-      <input value='{{userInfo.mobilePhone}}' type='number' />
+      <input value='{{phone}}' bindblur='getPhone' type='number' />
       <image src='/images/gray_more.png'></image>
     </view>
   </view>
