@@ -70,7 +70,7 @@
       </view>
     </block>
   </view>
-  <view class='pay' style='background-image:url(/images/compar-bottom.png)' bindtap='sureSeat'>￥{{totalPrice !=null?totalPrice:"0"}}
+  <view class='pay' bindtap='sureSeat'>￥{{totalPrice !=null?totalPrice:"0"}}
     <text>确认选座</text>
   </view>
 </view>

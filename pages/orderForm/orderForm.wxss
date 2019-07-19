@@ -378,6 +378,7 @@
   bottom: 0;
   left: 0;
   z-index: 9;
+   background: linear-gradient(to right, #DA4E7B, #2177B9);
   /* background:linear-gradient(-84deg,rgba(224,79,46,1),rgba(224,117,46,1)); */
 }
 .black{
