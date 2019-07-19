@@ -57,7 +57,10 @@
                   
               </block>
                 <block wx:else>
-                  <text class='moviePeople'>暂无</text>
+                  <view class='moviePeopletxt' >
+                    <text class='moviePeople'>暂无</text>
+                  </view>
+                  
                 </block>
 
               <view class='label'>
@@ -79,7 +82,6 @@
         </view>
       </view>
     </view>
-
   </view>
   <!-- 选择城市 -->
   <view class='choosearea' wx:if="{{isChoose}}">

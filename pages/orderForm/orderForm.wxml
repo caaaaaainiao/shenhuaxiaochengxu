@@ -33,8 +33,10 @@
       <view class='membercardpay' bindtap='cardway'>
       <image src='/images/membercardpay.png' class='payimg'></image>
       会员卡支付
-      <text>元</text>
-      <text class='money'>{{memberCardPrice}}</text>
+      <text wx:if="{{card}}">元</text>
+      <text wx:else></text>
+      <text class='money'wx:if="{{card}}">{{memberCardPrice}}</text>
+      <text class='money'wx:else style="margin-right:50rpx">未绑定</text>
       <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==2}}"></image>
       <image src='/images/unselect.png' class='selectimg' wx:else></image>
       </view>

@@ -460,24 +460,12 @@ const getQueryFilmSession = (cinemaNo,callback)=>{
 }
 const getCity=(callback)=>{
   let key = 'city';
-  // if (wx.getStorageSync(key) != "") {
-  //   wx.getStorage({
-  //     key: key,
-  //     success: function (res) {
-  //       callback && callback(res.data);
-  //       return res.data;
-  //     }
-  //   })
-  //   return;
-  // }
-
   wx.getLocation({
     type: 'wgs84',
     success: function (res) {
       var userLat = res.latitude;
       var userLng = res.longitude;
       let apiuser = getAPIUserData(null);
-
       wx.request({
         url: app.globalData.url+'/Api/Cinema/QueryCinemas/' + apiuser.UserName + '/' + apiuser.Password + '/' + apiuser.AppId,
         method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
@@ -490,6 +478,22 @@ const getCity=(callback)=>{
         }
       });
     },
+    fail:function(){
+      var userLat = "30.27415";
+      var userLng = "120.15515";
+      let apiuser = getAPIUserData(null);
+      wx.request({
+        url: app.globalData.url + '/Api/Cinema/QueryCinemas/' + apiuser.UserName + '/' + apiuser.Password + '/' + apiuser.AppId,
+        method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          callback && callback(res.data.data.cinemas, userLat, userLng);
+          return res.data;
+        }
+      });
+    }
   });
 }
 const getMemberCardByPhone = (cinemaNo, mobilePhone, callback) => {
