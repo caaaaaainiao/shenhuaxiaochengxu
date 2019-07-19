@@ -36,11 +36,11 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
-    that.getAccesstoken();
+    // that.getAccesstoken();
     wx.getStorage({
       key: 'accredit',
       success: function(res) { //key所对应的内容
-        // console.log(res)
+        console.log(res)
         that.setData({
           wxInfo: res.data.userInfo, //用户信息
           userInfoDetail: res.data.userInfoDetail
@@ -554,6 +554,7 @@ Page({
     }
   },
   chooseCinema: function (e) { //选择影院
+    wx.showTabBar({});
     console.log(e)
     // console.log(app.globalData.cinemaList)
     app.globalData.lookcinemaadd = e.currentTarget.dataset.address;
@@ -637,9 +638,10 @@ Page({
     }, 100);
   },
   startChoose: function () {
+    wx.hideTabBar({});
     this.setData({
       isChoose: true
-    })
+    });
     this.showCity();
   },
   getUserInfo: function (e) { //获取用户信息
@@ -1053,8 +1055,11 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        // console.log(res.data.access_token)
+        console.log(res.data.access_token)
         app.usermessage.access_token = res.data.access_token
+      },
+      fail:function(res){
+        console.log(res)
       }
     })
   }

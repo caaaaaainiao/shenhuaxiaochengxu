@@ -550,11 +550,11 @@ Page({
         var nowTimeData = new Date()
         var nowTime = '0001-01-01' + ' ' + nowTimeData.getHours() + ':' + nowTimeData.getMinutes() + ':' + nowTimeData.getSeconds() // 当前时间
         var ThisTime = '0001-01-01' + ' ' + that.data.movie.startTime // 影片开始时间
-        var newTime = new Date(ThisTime.replace(/-/g, '/')).getTime() - new Date(nowTime.replace(/-/g, '/')).getTime() + 40 * 1000 * 60
+        var newTime = new Date(ThisTime.replace(/-/g, '/')).getTime() - new Date(nowTime.replace(/-/g, '/')).getTime() + 30 * 1000 * 60
         var str = "";
         var minute = parseInt(newTime / 1000 / 60)
         var second = parseInt(newTime / 1000 % 60)
-        if (minute > 41){
+        if (minute > 61){
           clearInterval(that.data.timer)
           wx.showToast({
             title: '房间未开启',
@@ -598,30 +598,6 @@ Page({
     })
     
   },
-  // getTime:function(){
-  //   var that = this;
-  //   var nowtime = new Date().getTime();
-  //   var sign = app.createMD5('getTimestamp', nowtime);
-  //   wx.request({
-  //     url: app.globalData.url + '/api/chatRoom/getTimestamp',
-  //     data: {
-  //       roomName: that.data.movie.roomName,
-  //       timeStamp: nowtime,
-  //       mac: sign
-  //     },
-  //     method: "POST",
-  //     header: {
-  //       "Content-Type": "application/x-www-form-urlencoded"
-  //     },
-  //     success: function (res) {
-  //       // console.log(res)
-  //       that.setData({
-  //         leftTime: res.data.data.timestamp
-  //       })
-  //       that.leftTime();
-  //     }
-  //   })
-  // },
   reline:function(){
     var that = this;
     wx.showLoading({
@@ -640,8 +616,6 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function(res) {
-
-        // var SocketUrl = "wss://ik.legendpicture.com"
         var SocketUrl = app.globalData.SocketUrl
         wx.connectSocket({ //建立连接
           url: SocketUrl + '/webSocket/chat/' + res.data.roll + '/' + that.data.movie.roomName + '/' + res.data.mobilePhone,

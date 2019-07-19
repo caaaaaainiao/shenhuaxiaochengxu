@@ -48,6 +48,10 @@ Page({
   onLoad: function(options) {
     var that = this;
     //todo: 创建订单
+    that.setData({
+      userInfo: app.globalData.userInfo,
+      phone: app.globalData.userInfo.mobilePhone,
+    })
     var nowtime = new Date();
     let endtime = new Date(nowtime.getTime() + 1000 * 60);
     let endday = util.formatTime2(endtime);

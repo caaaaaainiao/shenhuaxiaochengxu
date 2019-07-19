@@ -67,6 +67,9 @@ Page({
   onLoad: function (options) {
     var that = this;
     // 查询手机号
+    wx.showLoading({
+      title: '加载中',
+    })
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method: "GET",
@@ -102,6 +105,7 @@ Page({
     setTimeout(function(){
       util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
         if (res.data.Status == 'Success' && res.data.data.memberCard) { // 如果有会员卡
+          wx.hideLoading();
           var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
           that.setData({
             card: first,
@@ -154,11 +158,12 @@ Page({
                         // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
                       })
                     } 
-                    // console.log(that.data.allPrice)
                   }
                 }
               })
           }
+        } else {
+          wx.hideLoading();
         }
       });
     },500)
