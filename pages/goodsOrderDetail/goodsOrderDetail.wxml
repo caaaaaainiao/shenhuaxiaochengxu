@@ -3,7 +3,7 @@
 <wxs module="filters" src="../../utils/fixed.wxs"></wxs>
 <!-- 影票订单详情 -->
 <view class='container'>
-  <image src='/images/bannerbg.jpg' class='bg'></image>
+  <image src='/images/bannerbg.png' class='bg'></image>
   <view class='content'>
     <view class='foodewm top'>
       <view class='title'>取小食</view>

@@ -115,9 +115,9 @@
         </view>
       <view class='f_goodsPrice'>      
         <view class='min_plus1'>
-          <image src='/images/minuscart.png' data-index="{{index}}" data-id="{{item.goodsId}}" bindtap='minus'></image>
+          <image src='/images/minus.png' data-index="{{index}}" data-id="{{item.goodsId}}" bindtap='minus'></image>
           <text>{{item.buyNum}}</text>
-          <image src='/images/pluscart.png' data-index="{{index}}" data-id="{{item.goodsId}}" bindtap='add'></image>
+          <image src='/images/add.png' data-index="{{index}}" data-id="{{item.goodsId}}" bindtap='add'></image>
         </view>
       </view>
     </view>

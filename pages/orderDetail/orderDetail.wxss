@@ -4,7 +4,7 @@
   height: 100%;
   position: relative;
   /* overflow: hidden; */
-  background: #F89E03;
+  background: #DA4E7B;
 }
 .bg{
   width: 100%;
@@ -267,8 +267,8 @@
   line-height: 68rpx;
   text-align: center;
   font-size: 24rpx;
-  color: #E04F2E;
-  border: 1rpx solid #E04F2E;
+  color: #DA4E7B;
+  border: 1rpx solid #DA4E7B;
   border-radius: 35rpx;
   position: absolute;
   bottom: 54rpx;

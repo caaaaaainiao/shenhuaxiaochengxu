@@ -19,7 +19,7 @@
 .result{
   line-height: 1;
   font-size: 36rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   text-align: center;
   margin-bottom: 30rpx;
 }
@@ -37,10 +37,10 @@
   width: 270rpx;
   height: 80rpx;
   font-size: 26rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   text-align: center;
   line-height: 78rpx;
-  border: 1rpx solid #E04F2E;
+  border: 1rpx solid #DA4E7B;
   border-radius: 40rpx;
   margin: 0 auto 70rpx;
 }

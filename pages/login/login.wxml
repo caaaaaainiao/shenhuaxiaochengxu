@@ -15,7 +15,6 @@
     <image class='film' src='/images/film.png'></image>
     <view hidden="{{!modalHidden}}"  class='signIn' bindtap='login'>
       <image src='/images/btn_bg.png'></image>
-      <text>注 册</text>
     </view>
 </view>
 <!-- 优惠券弹窗 -->

@@ -23,7 +23,7 @@
   top: 0;
   height: 80rpx;
   display: inline-block;
-  color: #E04F2E;
+  color: #DA4E7B;
 }
 .coupon{
   width: 100%;
@@ -76,7 +76,7 @@
   position: absolute;
   right: 0;
   top: 20rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   border-left: 1rpx solid #DDDDDD;
 }
 .money{
@@ -96,7 +96,7 @@
 .buy{
   width: 83rpx;
   height: 48rpx;
-  border: 2rpx solid #E04F2E;
+  border: 2rpx solid #DA4E7B;
   text-align: center;
   line-height: 46rpx;
   border-radius: 24rpx;
@@ -179,7 +179,7 @@
   font-size: 30rpx;
   color: #fff;
   text-align: center;
-  background: #E04F2E;
+  background: #DA4E7B;
   margin: auto;
   border-radius: 40rpx;
 }

@@ -102,7 +102,7 @@
       <text>{{waitActivity.reduceMoney}}元</text>
     </view>
   </view>
-  <view class='btn' bindtap='choosePay'>立即支付</view>
+  <view class='btn' style='background-image:url(/images/compar-bottom.png)' bindtap='choosePay'>立即支付</view>
   <!-- 会员卡密码 -->
   <view class='black2' wx:if="{{showM}}">
     <view class='add2'>

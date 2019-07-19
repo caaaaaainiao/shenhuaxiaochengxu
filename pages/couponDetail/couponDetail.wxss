@@ -45,7 +45,7 @@
 }
 .money{
   font-size: 24rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   line-height: 1;
   position: absolute;
   bottom: 46rpx;

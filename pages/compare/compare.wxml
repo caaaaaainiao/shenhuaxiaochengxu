@@ -1,7 +1,7 @@
 <!--pages/compare/compare.wxml-->
 <!-- <text>pages/compare/compare.wxml</text> -->
 <view class='container'>
-  <image src='/images/comparebg.jpg' class='bannerbg'></image>
+  <image src='/images/bannerbg1.png' class='bannerbg'></image>
   <view class='location'>
     <image src='/images/location.png'></image>
     <text>{{moviearea}}</text>

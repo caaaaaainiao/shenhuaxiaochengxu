@@ -67,7 +67,7 @@
   line-height: 36rpx;
   position: absolute;
   left: 170rpx;
-  top: 207rpx;
+  top: 188rpx;
   overflow: hidden;
 }
 /* .btn{

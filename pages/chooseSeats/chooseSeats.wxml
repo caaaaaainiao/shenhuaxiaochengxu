@@ -8,19 +8,19 @@
   </view>
   <view class='explain'>
     <view>
-      <image src='https://app.legendpicture.com/upload/seat/seat2.png'></image>
+      <image src='/images/seat1.png'></image>
       <text>已选</text>
     </view>
     <view>
-      <image src='https://app.legendpicture.com/upload/seat/seat1.png'></image>
+      <image src='/images/seat2.png'></image>
       <text>已售</text>
     </view>
     <view>
-      <image src='https://app.legendpicture.com/upload/seat/seat3.png'></image>
+      <image src='/images/seat3.png'></image>
       <text>可选</text>
     </view>
     <view>
-      <image src='https://app.legendpicture.com/upload/seat/seat4.png' style='width:66rpx;height:33rpx;'></image>
+      <image src='/images/seat4.png' style='width:66rpx;height:33rpx;'></image>
       <text>情侣座</text>
     </view>
   </view>
@@ -70,7 +70,7 @@
       </view>
     </block>
   </view>
-  <view class='pay' bindtap='sureSeat'>￥{{totalPrice !=null?totalPrice:"0"}}
+  <view class='pay' style='background-image:url(/images/compar-bottom.png)' bindtap='sureSeat'>￥{{totalPrice !=null?totalPrice:"0"}}
     <text>确认选座</text>
   </view>
 </view>

@@ -555,6 +555,7 @@ Page({
   },
   chooseCinema: function (e) { //选择影院
     console.log(e)
+    wx.showTabBar({})
     // console.log(app.globalData.cinemaList)
     app.globalData.lookcinemaadd = e.currentTarget.dataset.address;
     // app.globalData.lookcinemaadd = e._relatedInfo.anchorTargetText
@@ -640,6 +641,7 @@ Page({
     this.setData({
       isChoose: true
     })
+    wx.hideTabBar({})
     this.showCity();
   },
   getUserInfo: function (e) { //获取用户信息

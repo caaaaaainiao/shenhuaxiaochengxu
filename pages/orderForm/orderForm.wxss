@@ -119,7 +119,7 @@
   margin-top: 24rpx;
 }
 .option text,.payoption text{
-  color: #E04F2E;
+  color: #DA4E7B;
   font-size: 26rpx;
   float: right;
   margin-right: 50rpx;
@@ -161,7 +161,7 @@
   justify-content: center;
   align-items: center;
   font-size: 24rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   border-bottom: 1rpx solid #DCDCDC;
 }
 .detailclass text{
@@ -337,7 +337,7 @@
   padding: 0 40rpx;
 }
 .price text{
-  color: #E04F2D;
+  color: #DA4E7B;
 }
 .left{
   float: left;
@@ -364,7 +364,7 @@
   float: left;
 }
 .buy text{
-  color:#E04F2D; 
+  color:#DA4E7B; 
 }
 .btn{
   width:750rpx;
@@ -378,7 +378,7 @@
   bottom: 0;
   left: 0;
   z-index: 9;
-  background:linear-gradient(-84deg,rgba(224,79,46,1),rgba(224,117,46,1));
+  /* background:linear-gradient(-84deg,rgba(224,79,46,1),rgba(224,117,46,1)); */
 }
 .black{
   width: 100%;
@@ -510,7 +510,7 @@
   font-size: 30rpx;
   color: #fff;
   text-align: center;
-  background: #E04F2E;
+  background: #DA4E7B;
   margin: auto;
   border-radius: 40rpx;
 }
@@ -538,7 +538,7 @@
   height: 120rpx;
   line-height: 120rpx;
   font-size: 48rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   text-align: center;
   position: absolute;
   top: 0;
@@ -580,7 +580,7 @@
   width: 100%;
   height: 98rpx;
   line-height: 98rpx;
-  background:linear-gradient(-84deg,rgba(224,79,46,1),rgba(224,117,46,1));
+  /* background:linear-gradient(-84deg,rgba(224,79,46,1),rgba(224,117,46,1)); */
   font-size: 30rpx;
   color: #fff;
   text-align: center;

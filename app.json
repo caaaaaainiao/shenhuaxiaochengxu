@@ -38,14 +38,14 @@
     "pages/openCard/openCard"
   ],
   "window": {
-    "backgroundColor": "#E04F2E",
+    "backgroundColor": "rgba(33, 119, 185, 1)",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#E04F2E",
+    "navigationBarBackgroundColor": "#2177B9",
     "navigationBarTitleText": "",
     "navigationBarTextStyle": "white"
   },
   "tabBar": {
-    "selectedColor": "#EC6700",
+    "selectedColor": "#DA4E7B",
     "backgroundColor": "#fff",
     "borderStyle": "black",
     "list": [

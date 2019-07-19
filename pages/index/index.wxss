@@ -53,7 +53,7 @@
 
 .bannerbg {
   width: 100%;
-  height: 1206rpx;
+  height: 470rpx;
   position: absolute;
   top: 0;
   left: 0;
@@ -177,7 +177,7 @@
   line-height: 1;
   text-align: center;
   font-size: 20rpx;
-  color: #e04f2d;
+  color: #DA4E7B;
   position: absolute;
   bottom: 18rpx;
   left: 0;
@@ -283,8 +283,8 @@ margin-left: 10rpx
   height: 26rpx;
   line-height: 26rpx;
   box-sizing: border-box;
-  border: 1rpx solid #e04f2d;
-  color: #e04f2d;
+  border: 1rpx solid #DA4E7B;
+  color: #DA4E7B;
   font-size: 20rpx;
   padding: 0 5rpx;
   margin-right: 10rpx;
@@ -397,13 +397,12 @@ margin-left: 10rpx
 }
 
 .city .selectCity {
-  background: #e04f2e;
-  border: none;
-  color: #fff;
+  color: #DA4E7B;
+  border-color: #DA4E7B
 }
 
 .selectCinema {
-  color: #e04f2e;
+  color: #DA4E7B;
 }
 
 .container2 {
@@ -440,7 +439,7 @@ margin-left: 10rpx
 
 .getUserInfo image {
   width: 100%;
-  height: 100%;
+  height: 85rpx;
 }
 
 .getLocation {

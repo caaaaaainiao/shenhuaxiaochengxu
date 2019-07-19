@@ -2,7 +2,7 @@
 <!-- <text>pages/sell/sell.wxml</text> -->
 <!--index.wxml-->
 <view class="container">
-  <image class='bannerbg' src='/images/bannerbg.jpg'></image>
+  <image class='bannerbg' src='/images/bannerbg1.png'></image>
   <view class='content'>
     <view class='userimage'>
       <image src='{{userInfom.avatarUrl}}' mode='aspectFill'></image>

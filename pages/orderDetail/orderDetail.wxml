@@ -2,7 +2,7 @@
 <!-- <text>pages/orderDetail/orderDetail.wxml</text> -->
 <!-- 影票订单详情 -->
 <view class='container'>
-  <image src='/images/bannerbg.jpg' class='bg'></image>
+  <image src='/images/bannerbg.png' class='bg'></image>
   <view class='content' style='height:{{height}}'>
     <view>
       <view class='movie'>

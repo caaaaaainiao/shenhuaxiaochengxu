@@ -63,19 +63,12 @@
   color: #E04F2E;
   border-left: 1rpx solid #DDDDDD;
 }
-/* .status{
-  width: 100rpx;
-  height: 49rpx;
-  position: absolute;
-  right: 46rpx;
-  top: 77rpx;
-} */
 .status{
-  width: 177rpx;
-  height: 91rpx;
+  width: 118rpx;
+  height: 57rpx;
   position: absolute;
-  right: 0;
-  bottom: 20rpx;
+  right:32rpx;
+  bottom: 73rpx;
   z-index: 9;
 }
 /* 弹出层 */
@@ -141,4 +134,19 @@
   color:#888888;
   text-align: center;
   line-height: 1;
+}
+.closePrize{
+  width: 50rpx;
+  height: 50rpx;
+  position: absolute;
+  left: -15rpx;
+  top: -65rpx
+}
+.hexiao{
+  width: 120rpx;
+  height: 57rpx;
+  position: absolute;
+  right:10rpx;
+  bottom: 5rpx;
+  z-index: 9;
 }

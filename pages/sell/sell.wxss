@@ -8,7 +8,7 @@
 }
 .bannerbg{
   width: 100%;
-  height: 1206rpx;
+  height: 470rpx;
   position: absolute;
   top: 0;
   left: 0;
@@ -108,7 +108,7 @@
   height: 40rpx;
   line-height: 40rpx;
   font-size: 22rpx;
-  color: #E04F2D;
+  color: #DA4E7B;
   text-align: center;
   margin-bottom: 85rpx;
 }
@@ -158,7 +158,7 @@
 .selectarea{
   width: 30rpx;
   height: 30rpx;
-  border: 1rpx solid #E04F2E;
+  border: 1rpx solid #DA4E7B;
   border-radius: 50%;
   margin: auto;
   position: relative;
@@ -267,7 +267,7 @@
   /* float: left; */
 }
 .checkedoption{
-  background: #E04F2E;
+  background: #DA4E7B;
   border: none;
   color: #fff;
 }
@@ -275,7 +275,7 @@
   width: 100%;
   padding: 0 82rpx;
   font-size: 24rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   line-height: 36rpx;
   margin-bottom: 26rpx;
 }
@@ -289,6 +289,7 @@
   color: #AAAAAA;
 }
 .checkall{
-  background: #E04F2E;
+  /* background: #DA4E7B; */
+  background: linear-gradient(to right,rgba(218, 78, 123, 0.6),rgba(33, 119, 185, 1));
   color: #fff;
 }

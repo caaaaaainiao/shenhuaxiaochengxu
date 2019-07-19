@@ -55,12 +55,12 @@ page{
   height: 50rpx;
   line-height:50rpx;
   font-size:22rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   padding: 0 10rpx;
   position: absolute;
   right: 0;
   bottom: 12rpx;
-  border: 1rpx solid #E04F2E;
+  border: 1rpx solid #DA4E7B;
   border-radius: 25rpx;
 }
 .film{
@@ -83,7 +83,7 @@ page{
 }
 .signIn image{
   width: 100%;
-  height: 100%;
+  height: 85rpx;
   position: absolute;
   top: 0;
   left: 0;

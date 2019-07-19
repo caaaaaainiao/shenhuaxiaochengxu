@@ -30,7 +30,7 @@ Page({
     console.log(app.globalData.movieList)
     var that = this;
     var movie = app.globalData.movieList[app.globalData.movieIndex];
-    // console.log(movie)
+    console.log(movie)
     var event = movie;
     // console.log(event)
     if (movie.introduction==null){

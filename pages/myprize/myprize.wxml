@@ -18,19 +18,24 @@
       <view class='name'>{{prize.giftName}}</view>
       <!-- <view class='scope'>全店通用，请至前台领取</view> -->
       <view class='time'>有效期至：{{prize.expireDate}}</view>
-      <!-- <view class='right' >
-        <image src='/images/status2.png' class='status'></image>
-      </view> -->
+      <view class='right' bindtap="lingqu" >
+        <image src='/images/status.png' class='status'></image>
+      </view>
       <image src='/images/conponStatus.png' wx:if="{{prize.status == 1}}" class='status'></image>
     </view>
   </block>
-  <!-- <view class='white'>
+  <view class='white' wx:if='{{iskey}}'>
     <view class='charge'>
       此奖品一经核销即视为已领取。为保障您的权益，请至前台，由工作人员核销并兑奖。
-      <view class='chargebtn'></view>
-      <view class='close'></view>
+      <view class='chargebtn'>
+          <image wx:if='{{ishide}}' bindtap="hexiao" class="hexiao" src="/images/hexiao.png"></image>
+          <image wx:if='{{isshow}}' class="hexiao" src="/images/yifafang.png"></image>
+      </view>
+      <view class='close'>
+          <image bindtap="close" class="closePrize" src="/images/closePrize.png"></image>
+      </view>
     </view>
-  </view> -->
+  </view>
 </scroll-view>
 <view class='empty' wx:else>
   <image src='/images/empty4.png'></image>

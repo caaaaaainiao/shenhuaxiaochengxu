@@ -10,6 +10,8 @@ Page({
     result: null,
     pageNo: 1,
     pageSize: 10,
+    iskey:false,
+    ishide:true
   },
 
   /**
@@ -73,6 +75,25 @@ Page({
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
+  },
+  lingqu:function(){
+      var that=this;
+      that.setData({
+        iskey:true
+      })
+  },
+  close:function(){
+      var that=this;
+      that.setData({
+        iskey:false
+      })
+  },
+  hexiao:function(){
+      var that=this;
+      that.setData({
+        isshow:true,
+        ishide:false
+      })
   },
   ask: function () {
     var that = this;

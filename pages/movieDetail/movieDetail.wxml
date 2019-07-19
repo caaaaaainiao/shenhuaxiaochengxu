@@ -109,5 +109,5 @@
       <view class='control' style='margin-bottom:20rpx;border:none;' bindtap='toComments'>全部{{comments[0].leftNum}}条观众影评</view>
     </view>
   </view>
-  <view class='btn' bindtap='toCompare'>选座购票</view>
+  <view class='btn' style='background-image:url(/images/compar-bottom.png)' bindtap='toCompare'>选座购票</view>
 </view>

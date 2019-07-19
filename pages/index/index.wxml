@@ -5,7 +5,7 @@
     <view class='firstbox'></view>
   </view>
 
-  <image class='bannerbg' src='/images/bannerbg.jpg'></image>
+  <image class='bannerbg' src='/images/bannerbg1.png'></image>
   <view class='location' bindtap='startChoose'>
     <image src='/images/location.png'></image>
     <text>{{moviearea}}</text>

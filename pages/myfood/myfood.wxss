@@ -75,7 +75,7 @@
 .shi{
   width: 50rpx;
   height: 50rpx;
-  background: #2eace0;
+  background: #2177B9;
   font-size: 30rpx;
   color: #fff;
   line-height: 48rpx;

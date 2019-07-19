@@ -65,7 +65,7 @@
 .zuo{
   width: 50rpx;
   height: 50rpx;
-  background: #E04F2E;
+  background: #DA4E7B;
   font-size: 30rpx;
   color: #fff;
   line-height: 48rpx;
