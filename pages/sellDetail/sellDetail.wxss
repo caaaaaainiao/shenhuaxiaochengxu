@@ -63,7 +63,7 @@
 
 .contentscroll{
   padding-top: 70rpx;
-  background: #DA4E7B;
+  background: #2177B9;
 }
 .foodclass {
   width: 150rpx;

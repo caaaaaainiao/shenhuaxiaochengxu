@@ -2,7 +2,7 @@
 <!-- <text>pages/sell/sell.wxml</text> -->
 <!--index.wxml-->
 <view class="container">
-  <image class='bannerbg' src='/images/bannerbg1.png'></image>
+  <image class='bannerbg' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/bannerbg1.png'></image>
   <view class='content'>
     <view class='userimage'>
       <image src='{{userInfom.avatarUrl}}' mode='aspectFill'></image>
@@ -27,7 +27,7 @@
       <view class='foodtype'>取餐方式</view>
       <view class='types'>
         <view class='foodtype1' bindtap='chooseType' data-type="1">
-          <image src='/images/type1.png' class='type'></image>
+          <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/type1.png' class='type'></image>
           <view class='typetext'>柜台自取</view>
           <view class='selectarea'>
             <block wx:if="{{sendtype == 1}}">
@@ -36,7 +36,7 @@
           </view>
         </view>
         <view class='foodtype2' bindtap='chooseType' data-type="2">
-          <image src='/images/type2.png' class='type'></image>
+          <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/type2.png' class='type'></image>
           <view class='typetext'>送至影厅门口</view>
           <view class='selectarea'>
             <block wx:if="{{sendtype == 2}}">

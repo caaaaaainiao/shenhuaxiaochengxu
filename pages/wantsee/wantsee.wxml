@@ -18,6 +18,6 @@
   </block>
 </scroll-view>
 <view class='empty' wx:else>
-  <image src='/images/empty1.png'></image>
+  <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/empty1.png'></image>
   <view class='emptytext'>亲，没有想看电影哦～</view>
 </view>

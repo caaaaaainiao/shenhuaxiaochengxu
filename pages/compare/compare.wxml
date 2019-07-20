@@ -1,7 +1,7 @@
 <!--pages/compare/compare.wxml-->
 <!-- <text>pages/compare/compare.wxml</text> -->
 <view class='container'>
-  <image src='/images/bannerbg1.png' class='bannerbg'></image>
+  <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/bannerbg1.png' class='bannerbg'></image>
   <view class='location'>
     <image src='/images/location.png'></image>
     <text>{{moviearea}}</text>
@@ -44,7 +44,6 @@
         </view>
         <view class='price'>
           <view class='session_top'>
-            <!-- <image src='/images/applogo.png'></image> -->
             <view class='minPrice'>
               <text>￥</text>
               <text class='num'>{{session.salePrice}}</text>
@@ -65,7 +64,6 @@
             <view class='others'>
               <!-- 就在这里 -->
               <view class='store'>
-                <!-- <image src='/images/applogo.png' wx:if="{{comparePrices.typeCode==0}}"></image> -->
                 <image src='/images/rmlogo.png' wx:if="{{comparePrices.typeCode==46}}"></image>
                 <image src='/images/mylogo.png' wx:elif="{{comparePrices.typeCode==36}}"></image>
                 <image src='/images/tpplogo.png' wx:elif="{{comparePrices.typeCode==49}}"></image>
@@ -89,7 +87,7 @@
   </view>
   <block wx:else>
     <view class='empty'>
-      <image src='/images/empty1.png'></image>
+      <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/empty1.png'></image>
       <view class='emptytext' wx:if="{{isLoading}}">加载中~</view>
       <view class='emptytext' wx:else>亲，没有电影放映哦～</view>
     </view>
@@ -103,13 +101,13 @@
   </view>
   <!-- 其他平台提示 -->
    <view class='tip' wx:if="{{buyNum == 0}}" bindtap='hideTip'>
-    <image src='/images/tipmy.jpg'></image>
+    <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/tipmy.jpg'></image>
   </view>
   <view class='tip' wx:if="{{buyNum == 1}}" bindtap='hideTip'>
-    <image src='/images/tipbdrm.jpg'></image>
+    <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/tipbdrm.jpg'></image>
   </view>
   <view class='tip' wx:if="{{buyNum == 2}}" bindtap='hideTip'>
-    <image src='/images/tiptpp.jpg'></image>
+    <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/tiptpp.jpg'></image>
   </view>
   <view class='fixed'>第三方渠道票价仅作比价参考，可能部分价格会存在误差。</view>
 </view>

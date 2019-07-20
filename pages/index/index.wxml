@@ -1,11 +1,11 @@
 <!-- 首页 -->
 <view class="container">
   <view class='first' bindtap='removeBlack' wx:if="{{isFirst&&moviearea}}">
-    <image src='/images/firstTip.png' class='firstTip'></image>
+    <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/firstTip.png' class='firstTip'></image>
     <view class='firstbox'></view>
   </view>
 
-  <image class='bannerbg' src='/images/bannerbg1.png'></image>
+  <image class='bannerbg' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/bannerbg1.png'></image>
   <view class='location' bindtap='startChoose'>
     <image src='/images/location.png'></image>
     <text>{{moviearea}}</text>
@@ -91,7 +91,7 @@
       </block>
     </view>
     <block wx:for="{{cinemaList}}" wx:for-item="area" wx:key="area">
-      <view class='option' data-index='{{index}}' data-cinemaName='{{area.cinemaName}}' data-cinemaCode='{{area.cinemaCode}}' bindtap='chooseCinema' data-address='{{area.address}}'>
+      <view class='option' data-index='{{index}}' data-cinemaName='{{area.cinemaName}}' data-cinemaCode='{{area.cinemaCode}}' data-isSnackDistribution='{{area.isSnackDistribution}}' bindtap='chooseCinema' data-address='{{area.address}}'>
 
         <view class='choosename {{area.cinemaName ==moviearea.cinemaName?"selectCinema":""}}'>{{area.cinemaName}}</view>
         <view class='chooseArea'>{{area.address}}</view>

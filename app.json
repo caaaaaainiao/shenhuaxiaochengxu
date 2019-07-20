@@ -1,6 +1,5 @@
 {
   "pages": [
-    "pages/mycard/mycard",
     "pages/index/index",
     "pages/sell/sell",
     "pages/mine/mine",
@@ -36,7 +35,8 @@
     "pages/page04/index",
     "pages/page05/index",
     "pages/page06/index",
-    "pages/openCard/openCard"
+    "pages/openCard/openCard",
+    "pages/mycard/mycard"
   ],
   "window": {
     "backgroundColor": "rgba(33, 119, 185, 1)",

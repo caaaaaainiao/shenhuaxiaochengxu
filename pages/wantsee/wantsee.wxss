@@ -70,15 +70,6 @@
   top: 188rpx;
   overflow: hidden;
 }
-/* .btn{
-  width: 182rpx;
-  height: 92rpx;
-  background: url() no-repeat;
-  background-size: cover;
-  position: absolute;
-  right: -16rpx;
-  bottom: 7rpx;
-} */
 .empty{
   width: 100%;
   height: 100%;

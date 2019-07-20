@@ -66,6 +66,8 @@ Page({
       url:app.globalData.url+'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
       success: function (res) {
+        // console.log(res)
+        app.globalData.isSnackDistribution = res.data.data.cinemas[0].isSnackDistribution
         that.setData({
           logo: res.data.data.cinemas[0].businessPic,
           concinemaname: res.data.data.cinemas[0].businessName,
@@ -555,8 +557,9 @@ Page({
   },
   chooseCinema: function (e) { //选择影院
     wx.showTabBar({});
-    console.log(e)
+    // console.log(e)
     wx.showTabBar({})
+    app.globalData.isSnackDistribution = e.currentTarget.dataset.address.isSnackDistribution
     // console.log(app.globalData.cinemaList)
     app.globalData.lookcinemaadd = e.currentTarget.dataset.address;
     // app.globalData.lookcinemaadd = e._relatedInfo.anchorTargetText

@@ -70,7 +70,7 @@
 .btn{
   width: 182rpx;
   height: 92rpx;
-  background: url('https://app.legendpicture.com/upload/seat/btn_comment.png') no-repeat;
+  /* background: url('https://app.legendpicture.com/upload/seat/btn_comment.png') no-repeat; */
   background-size: cover;
   position: absolute;
   right: -16rpx;

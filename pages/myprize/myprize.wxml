@@ -2,7 +2,9 @@
 <!-- <text>pages/myprize/myprize.wxml</text> -->
 <!-- 我的奖品 -->
 <scroll-view class='container' scroll-y="true" wx:if="{{result.length > 0}}">
-  <view class='line'></view>
+  <view class='line'>
+       <view class="back" bindtap="back">返回</view>  
+  </view>
   <!-- <view class='prize'>
     <image class='icon' src=''></image>
     <view class='name'>小杯可乐一杯</view>
@@ -18,8 +20,9 @@
       <view class='name'>{{prize.giftName}}</view>
       <!-- <view class='scope'>全店通用，请至前台领取</view> -->
       <view class='time'>有效期至：{{prize.expireDate}}</view>
-      <view class='right' bindtap="lingqu" >
-        <image src='/images/status.png' class='status'></image>
+      <view class='right' bindtap="lingqu" data-id='{{prize.giftId}}' >
+        <image wx:if='{{prize.giftStatus==1}}' src='/images/status.png' class='status'></image>
+        <image wx:if='{{prize.giftStatus==2}}' src='/images/yifafang.png' class='status'></image>
       </view>
       <image src='/images/conponStatus.png' wx:if="{{prize.status == 1}}" class='status'></image>
     </view>
@@ -38,6 +41,6 @@
   </view>
 </scroll-view>
 <view class='empty' wx:else>
-  <image src='/images/empty4.png'></image>
+  <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/empty4.png'></image>
   <view class='emptytext'>亲，没有奖品哦～</view>
 </view>

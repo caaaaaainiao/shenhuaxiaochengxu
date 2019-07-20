@@ -24,6 +24,6 @@
   </block>
 </scroll-view>
 <view class='empty' wx:else>
-  <image src='/images/empty2.png'></image>
+  <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/empty2.png'></image>
   <view class='emptytext'>亲，没有餐饮哦～</view>
 </view>

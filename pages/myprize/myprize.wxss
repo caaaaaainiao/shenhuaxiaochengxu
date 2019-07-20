@@ -7,7 +7,7 @@
 }
 .line{
   width: 100%;
-  height: 30rpx;
+  height: 50rpx;
 }
 .prize{
   width:750rpx;
@@ -99,7 +99,6 @@
 .chargebtn{
   width: 150rpx;
   height: 60rpx;
-  background: url() no-repeat;
   background-size: cover;
   position: absolute;
   left: 192rpx;
@@ -108,7 +107,6 @@
 .close{
   width: 48rpx;
   height: 121rpx;
-  background: url() no-repeat;
   background-size: cover;
   position: absolute;
   right: 5rpx;
@@ -149,4 +147,8 @@
   right:10rpx;
   bottom: 5rpx;
   z-index: 9;
+}
+.back{
+  width: 150rpx;
+  height: 50rpx;
 }

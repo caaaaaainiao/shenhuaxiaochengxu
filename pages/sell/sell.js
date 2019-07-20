@@ -28,6 +28,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    console.log(app.globalData.isSnackDistribution)
     app.globalData.phonenum = app.globalData.userInfo.mobilePhone
     // 读取缓存  设置影院信息
     that.countMovie()
@@ -471,7 +472,7 @@ Page({
           })
         }
       })
-    } else if (type == 2) {
+    } else if (type == 2 && app.globalData.isSnackDistribution == '是') {
       if (isOk) {
         wx.getStorage({
           key: 'loginInfo',
@@ -509,6 +510,12 @@ Page({
         wx.hideTabBar()
       }
     }
+    else{
+      wx.showModal({
+        title: '暂不支持送餐服务',
+      })
+    }
+
   },
   countMovie: function() {
     // var movieList = app.globalData.sellMovielist;

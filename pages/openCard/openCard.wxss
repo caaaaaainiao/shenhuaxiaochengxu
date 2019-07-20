@@ -89,7 +89,7 @@ picker{
 .btn{
   width:540rpx;
   height:80rpx;
-  background:url("https://app.legendpicture.com/upload/seat/btnbg.png") no-repeat;
+  /* background:url("https://app.legendpicture.com/upload/seat/btnbg.png") no-repeat; */
   background-size:cover;
   margin:200rpx auto 0;
   font-size:30rpx;
