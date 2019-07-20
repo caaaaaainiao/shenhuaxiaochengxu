@@ -4,7 +4,7 @@
 <wxs module="filters" src="../../utils/fixed.wxs"></wxs>
 <view class='container'>
   <view class='header'>
-    <image class='bg' src='/images/orderbg.png'></image>
+    <image class='bg' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/orderbg.png'></image>
     <view class='moviename'>
       <text>{{movieName}}</text>{{count}}张</view>
     <view class='time header_p'>{{date}}</view>
@@ -185,7 +185,7 @@
        <view class='couponStatus2' wx:else></view>
     </view>
     </block> 
-    <view class='checkok' style="background-image:url(/images/compar-bottom.png)" bindtap='closeChoose'>选好了</view>
+    <view class='checkok' bindtap='closeChoose'>选好了</view>
   </view>
 
   <!-- 选择小食优惠券 -->

@@ -66,7 +66,7 @@
     </view>
   </view>
   <view class='showGift' wx:if="{{showGift}}">
-    <image class='red' src='/images/red.png' data-id='{{prizeId}}' bindtap='tapRed'></image>
+    <image class='red' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/red.png' data-id='{{prizeId}}' bindtap='tapRed'></image>
     <image class='closeGift' src='/images/closeGift.png' bindtap='closeGift'></image>
   </view>
   <view class='giftnum' wx:if="{{showGift2&&userInfo.roll==2}}" data-id='{{prizeId}}'>

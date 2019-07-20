@@ -139,7 +139,7 @@
   min-width: 100rpx;
   height: 50rpx;
   line-height: 50rpx;
-  background: #E04F2E;
+  background: #DA4E7B;
   font-size: 24rpx;
   color: #fff;
   padding-left: 75rpx;
@@ -289,7 +289,7 @@
 .giftNum{
   width: 37rpx;
   height: 37rpx;
-  background: #FF1B03;
+  background: #DA4E7B;
   position: absolute;
   top: 0;
   right: 0;
@@ -381,10 +381,10 @@
   height: 100%;
 }
 .roll2{
-  background: #48acf0;
+  background: #2177B9;
 }
 .self{
-  background: #98e165;
+  background: #CA5E81;
 }
 .time{
   width:150rpx;
@@ -395,7 +395,7 @@
   top: 20rpx;
   right: 0;
   font-size: 22rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   text-align: center;
   line-height: 48rpx;
 }

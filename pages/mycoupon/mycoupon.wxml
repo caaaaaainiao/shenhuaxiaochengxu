@@ -41,7 +41,7 @@
   </view>
 
   <view class='empty' wx:else>
-    <image src='/images/empty3.png'></image>
+    <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/empty3.png'></image>
     <view class='emptytext'>亲，没有优惠券哦～</view>
   </view>
   <!-- 添加券 -->

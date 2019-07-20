@@ -8,11 +8,11 @@
   </view>
   <view class='explain'>
     <view>
-      <image src='/images/seat1.png'></image>
+      <image src='/images/seat2.png'></image>
       <text>已选</text>
     </view>
     <view>
-      <image src='/images/seat2.png'></image>
+      <image src='/images/seat1.png'></image>
       <text>已售</text>
     </view>
     <view>
@@ -26,7 +26,7 @@
   </view>
   <view class='room' style='transform:translate({{translateX}}px)'>
     <text>{{screenName}}</text>
-    <image src='/images/seatbanner.png'></image>
+    <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/seatbanner.png'></image>
   </view>
   <view class='seatArea'>
     <view class='rownum' style='transform:translateY(-50%) scale({{scale}});margin-top:{{translateY}}px;'>

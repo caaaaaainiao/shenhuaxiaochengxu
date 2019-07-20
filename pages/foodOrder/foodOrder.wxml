@@ -12,7 +12,7 @@
       <view class='foodprice'>
         <text wx:if="{{good.standardPrice!=null}}">￥{{filters.toFix(good.standardPrice)}}</text>￥{{filters.toFix(good.settlePrice)}}</view>
       <view class='foodnum '>
-        <text>{{good.buyNum}}</text>
+        <text>x{{good.buyNum}}</text>
       </view>
     </view>
   </block>

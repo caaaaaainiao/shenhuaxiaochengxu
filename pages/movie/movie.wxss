@@ -110,7 +110,7 @@
 .roomin{
   width: 120rpx;
   height: 50rpx;
-  background: #E04F2D;
+  background: #DA4E7B;
   font-size: 24rpx;
   color: #fff;
   line-height: 50rpx;

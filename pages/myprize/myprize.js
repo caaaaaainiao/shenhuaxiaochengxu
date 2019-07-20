@@ -11,7 +11,7 @@ Page({
     pageNo: 1,
     pageSize: 10,
     iskey:false,
-    ishide:true
+    ishide:true,
   },
 
   /**
@@ -76,10 +76,13 @@ Page({
       path: '/pages/index/index'
     }
   },
-  lingqu:function(){
+  lingqu:function(e){
       var that=this;
+      console.log(e)
+    var prizeid = e.currentTarget.dataset.id
       that.setData({
-        iskey:true
+        iskey:true,
+        prizeid: prizeid
       })
   },
   close:function(){
@@ -88,12 +91,30 @@ Page({
         iskey:false
       })
   },
+  back:function(){
+        wx.reLaunch({
+          url: '../mine/mine',
+        })
+  },
   hexiao:function(){
       var that=this;
-      that.setData({
-        isshow:true,
-        ishide:false
+      wx.request({
+        url: app.globalData.url+'/Api/User/ReviseGift/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/'+that.data.prizeid,
+        method:'GET',
+        success:function(res){
+            console.log(res)
+          if (res.data.Status == "Success"){
+            that.setData({
+              isshow: true,
+              ishide: false
+            })
+            wx.reLaunch({
+              url: '../myprize/myprize'+that.data.isshow
+            })
+            }
+        }
       })
+    
   },
   ask: function () {
     var that = this;

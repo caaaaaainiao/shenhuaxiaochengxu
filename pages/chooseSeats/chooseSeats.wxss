@@ -87,7 +87,6 @@
   text-align: center;
   margin: 0 auto 30rpx;
   position: relative;
-  /* background: url("http://192.168.1.65:8080/webapps/sh/seatbanner.png") */
 }
 
 .room image {
@@ -152,7 +151,7 @@
   width: 58rpx;
   height: 56rpx;
   margin-right: 8rpx;
-  background:url(http://wx.80piao.com:83/images/seat3.png) no-repeat;
+  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seat1.png) no-repeat;
   background-size: 100% 100%;
   /* float: left; */
   display: inline-block;
@@ -172,7 +171,7 @@
 }
 
 .available {
-  background:url(http://wx.80piao.com:83/images/seat1.png) no-repeat;
+  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatselect.png) no-repeat;
   background-size: 100% 100%;
 }
 
@@ -180,7 +179,7 @@
   width: 62rpx;
   height: 55rpx;
   margin-right: 0;
-  background:url(http://wx.80piao.com:83/images/seatleft.png) no-repeat;
+  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatleft.png) no-repeat;
   background-size: 100% 100%;
 }
 
@@ -188,18 +187,18 @@
   width: 62rpx;
   height: 55rpx;
   margin-right: 0;
-  background:url(http://wx.80piao.com:83/images/seat2.png) no-repeat;
+  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seat1.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatRight {
   width: 62rpx;
   height: 55rpx;
-  background:url(http://wx.80piao.com:83/images/seatright.png) no-repeat;
+  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatright.png) no-repeat;
   background-size: 100% 100%;
 }
 
 .selled{
-  background:url(http://wx.80piao.com:83/images/seat3.png) no-repeat;
+  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/selled.png) no-repeat;
   background-size: 100% 100%;
 }
 
@@ -207,31 +206,31 @@
   visibility: hidden;
 }
 .seatLeft.sell{
-  background: url(https://app.legendpicture.com/upload/seat/seatleftsell.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatleftsell.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatMiddle.sell{
-  background: url(https://app.legendpicture.com/upload/seat/seatmiddleselect.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatmiddleselect.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatRight.sell{
-  background: url(http://wx.80piao.com:83/images/seatrightsell.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatrightsell.png) no-repeat;
   background-size: 100% 100%;
 }
 .seat.select{
-  background: url(http://wx.80piao.com:83/images/seat2.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatselect.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatLeft.select{
-  background: url(http://wx.80piao.com:83/images/seatleftselect.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatleftselect.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatMiddle.select{
-  background: url(https://app.legendpicture.com/upload/seat/seat2.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatselect.png) no-repeat;
   background-size: 100% 100%;
 }
 .seatRight.select{
-  background: url(http://wx.80piao.com:83/images/seatrightselect.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatrightselect.png) no-repeat;
   background-size: 100% 100%;
 }
 .tickets{
@@ -243,7 +242,7 @@
 .ticket{
   width: 154rpx;
   height: 78rpx;
-  background: url(https://app.legendpicture.com/upload/seat/ticket.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/ticket.png) no-repeat;
   background-size: cover;
   float: left;
   margin-right: 24rpx;

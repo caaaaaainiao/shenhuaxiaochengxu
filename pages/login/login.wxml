@@ -12,7 +12,7 @@
         <view class='getYzm' bindtap='sendYzm'>{{yzmText}}</view>
       </view>
     </view>
-    <image class='film' src='/images/film.png'></image>
+    <image class='film' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/film.png'></image>
     <view hidden="{{!modalHidden}}"  class='signIn' bindtap='login'>
       <image src='/images/btn_bg.png'></image>
     </view>
