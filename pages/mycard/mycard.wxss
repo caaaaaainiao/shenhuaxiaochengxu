@@ -106,7 +106,7 @@
   color: #888888;
 }
 .chosed{
-  color: #B4282D;
+  color: #DA4E7B;
 }
 .progress{
   width: 200rpx;
@@ -152,8 +152,8 @@
   margin-right: 0;
 }
 .select{
-  color: #E04F2E;
-  border: 2rpx solid #E04F2E;
+  color: #DA4E7B;
+  border: 2rpx solid #DA4E7B;
 }
 swiper{
   height: 550rpx;
@@ -172,7 +172,7 @@ swiper{
 }
 .tip{
   width: 520rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   font-size: 22rpx;
   line-height: 30rpx;
   margin: 100rpx auto 85rpx;
@@ -187,10 +187,10 @@ swiper{
   width: 540rpx;
   height: 80rpx;
   font-size: 30rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   text-align: center;
   line-height: 80rpx;
-  border: 2rpx solid rgba(224,79,46,1);
+  border: 2rpx solid #DA4E7B;
   border-radius: 40rpx;
   margin: auto;
 }
@@ -198,7 +198,7 @@ swiper{
   width: 100%;
   line-height: 30rpx;
   font-size: 24rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   text-align: center;
   margin-bottom: 100rpx;
 }
@@ -209,8 +209,8 @@ swiper{
   text-align: center;
   margin-top: 30rpx;
   margin-left: 105rpx;
-  color: #E04F2E;
+  color: #DA4E7B;
   font-size: 22rpx;
-  border:2rpx solid rgba(224,79,46,1);
+  border:2rpx solid #DA4E7B;
   border-radius: 40rpx;
 }
