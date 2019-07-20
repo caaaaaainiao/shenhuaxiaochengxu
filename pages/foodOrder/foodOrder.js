@@ -462,7 +462,7 @@ Page({
           success: function (res) {
             if (res.confirm) {
               wx.navigateTo({
-                url: '../page04/index',
+                url: '../mycard/mycard',
               })
             }
           }
@@ -521,7 +521,7 @@ Page({
         success: function(res) {
           if (res.confirm) {
             wx.navigateTo({
-              url: '../page04/index',
+              url: '../mycard/mycard',
             })
           }
         }

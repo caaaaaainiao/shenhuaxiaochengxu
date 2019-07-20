@@ -393,7 +393,7 @@ Page({
         success: function (res) {
           if (res.confirm) {
             wx.navigateTo({
-              url: '../page04/index',
+              url: '../mycard/mycar',
             })
           }
         }
@@ -1383,7 +1383,7 @@ Page({
         success: function (res) {
           if (res.confirm) {
             wx.navigateTo({
-              url: '../page04/index',
+              url: '../mycard/mycard',
             })
           }
         }

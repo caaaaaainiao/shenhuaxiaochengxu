@@ -3,7 +3,7 @@
 <view class='container'>
   <view class='option'>
     <image src='/images/ocphone.png' class='icon'></image>
-    <view class='title'>{{userInfo.mobile}}</view>
+    <view class='title'>{{userInfo.mobilePhone}}</view>
   </view>
   <view class='option'>
     <image src='/images/ocmm.png' class='icon'></image>
@@ -13,32 +13,76 @@
     <image src='/images/ocmm.png' class='icon'></image>
     <input type='password' placeholder='确认密码' placeholder-style='color:#888888;' bindinput='surePassword'></input>
   </view>
+  <view class="option" wx:if="{{isShow}}">
+    <image src="/images/icon-person.png" class="icon" mode="widthFix"></image>
+    <input type='number' value="" bindinput="" bindblur="getId" placeholder="输入身份证号码" placeholder-class="phColor"/>
+  </view>
   <view class='option'>
     <image src='/images/ocname.png' class='icon'></image>
     <input type='text' placeholder='输入姓名' placeholder-style='color:#888888;' bindinput='setName'></input>
   </view>
   <view class='option'>
-    <image src='/images/ocname.png' class='icon'></image>
-     <picker mode="date" value="{{birthday}}"  bindchange="setBirthday">
-      <text class='text'>{{birthday?birthday:"选择生日"}}</text>
-    </picker>
-    <!-- <input type='text' placeholder='选择生日' placeholder-style='color:#888888;' bindinput='setBirthday'></input> -->
-  </view>
-  <view class='option'>
     <image src='/images/ocsex.png' class='icon'></image>
     <view class='title'>选择性别</view>
     <view class='sexbox'>
-      <view class='sex' data-sex="0" bindtap='setSex'>
-        <view class='radio' wx:if="{{sex == '1'}}"></view>
+      <view class='sex' data-sex="1" bindtap='setSex'>
+        <view class='radio' wx:if="{{sex == '2'}}"></view>
         <image src='/images/ocxuan.png' class='radio2' wx:else></image>
         <view class='text'>男</view>
       </view>
-      <view class='sex' data-sex="1" bindtap='setSex'>
-        <view class='radio' wx:if="{{sex == '0'}}"></view>
+      <view class='sex' data-sex="2" bindtap='setSex'>
+        <view class='radio' wx:if="{{sex == '1'}}"></view>
         <image src='/images/ocxuan.png' class='radio2' wx:else></image>
         <view class='text'>女</view>
       </view>
     </view>
   </view>
+  <view class='option'>
+    <image src='/images/birthday.png' class='icon'></image>
+     <picker mode="date" value="{{birthday}}"  bindchange="setBirthday">
+      <text class='text'>{{birthday?birthday:"选择生日"}}</text>
+    </picker>
+  </view>
+	<view class="operate" style="padding: 0 60rpx;margin-top: 10rpx; font-size: 13px">
+		<view class="agree" style="background-color: #fff;height: 80rpx;display: flex;align-items: center;justify-content: space-between;flex-wrap: wrap;box-sizing: border-box;">
+      <image src="/images/selected.png" class="selected"></image>
+      我已阅读并同意 <navigator bindtap='cinemaAgreement' style="color: #ca1818;height: auto;width: auto;display: block;flex: 1;">《会员卡协议》</navigator>
+		</view>
+	</view>
+  <view class="money">
+    开通会员卡需充值:
+    <text style="color:#DA4E7B;">{{credit}}</text>
+  </view>
   <view class='btn' bindtap='open'>开卡</view>
+
+<!-- 会员卡充值弹窗   -->
+<block wx:if="{{showAlertExchange2}}">
+	<view class="alert alert-exchange">
+		<view class="over-close" bindtap="closeShow"></view>
+		<view class="box-bottom">
+			<view class="title">{{levelName}}：{{cardno}}</view>
+			<view class="choose">
+				<block wx:for="{{rule}}" wx:key="item" wx:for-item="item" wx:for-index="index">
+					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-price="{{item.credit}}" data-rule="{{item.ruleCode}}" hover-class="none">
+						{{item.credit}}
+						<view class="tips" wx:if="{{item.givenAmount>0?true:false}}">赠送{{item.givenAmount}}元</view>
+					</button>
+				</block>
+			</view>
+     <form report-submit='true'  bindsubmit='formSubmit'>
+			<view class="operate">
+      	<button formType="submit" class="btn btn-red" bindtap="pay" hover-class="none">确认充值</button>
+			</view>
+     </form>
+		</view>
+	</view>
+</block>
+
+  <!-- 会员服务协议 -->
+  <view style='width: 100%;height: 100%;background: rgba(0,0,0,.5);position: fixed;top: 0;left: 0;z-index: 99;'wx:if="{{cinemaAgreement}}">
+    <view style='width: 100%;height: 560rpx;background: #fff;padding-top: 100rpx;border-radius: 16rpx 16rpx 0 0;  position: absolute;left: 0;bottom: 0;'>
+      <image style='width: 40rpx;height: 40rpx;position: absolute;top: 20rpx;right: 20rpx;'src='/images/close.png' bindtap='closeCinemaAgreement'></image>
+      <view style='width: 540rpx;background: #EEEEEE;margin: 0 auto 160rpx;padding-left: 30rpx;border-radius: 16rpx;height:200rpx;padding-right:30rpx;font-size:28rpx;overflow:scroll;'>{{agreement}}</view>
+    </view>
+  </view>
 </view>

@@ -9,15 +9,6 @@ Page({
   data: {
     isMember:true,
     type:1,//1 充值 2解绑
-    money:[
-      { money: 100, select: false },
-      { money: 200, select: false },
-      { money: 300, select: false },
-      { money: 400, select: false },
-      { money: 500, select: false },
-      { money: 800, select: false },
-      // { money: 1000, select: false }
-    ],
     swiperIndex:"0",
     userInfo:null,
     phone:null,
@@ -25,7 +16,8 @@ Page({
     cardmm:"",
     index:-1,
     orderNumber:0,
-    activity:[]
+    activity:[],
+    isShow: true
   },
 
   /**
@@ -34,13 +26,81 @@ Page({
   onLoad: function (options) {
     var that = this;
     that.setData({
-      userInfo:app.globalData.userInfo
+      openId: app.globalData.openId,
+      cinemaCode: app.globalData.cinemacode,
+      userName: app.usermessage.Username,
+      passWord: app.usermessage.Password,
     })
-    // console.log(app.globalData.userInfo)
-    if (that.data.userInfo.dxInsiderInfo != null){
-      that.syn();
-      that.activity();
+    var data = {
+      Username: that.data.userName,
+      PassWord: that.data.passWord,
+      OpenID: that.data.openId,
+      CinemaCode: that.data.cinemaCode
     }
+    // 读取已绑定的会员卡
+    wx.request({
+      url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + data.OpenID,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        // 如果有已经绑定的会员卡
+        if (res.data.data.memberCard && res.data.data.memberCard.length > 0) {
+          that.setData({
+            card: res.data.data.memberCard[0]
+          });
+          app.globalData.card = res.data.data.memberCard[0];
+          let levelCode = res.data.data.memberCard[0].levelCode;
+          // 读取绑定的会员卡的充值规则
+          wx.request({
+            url: app.globalData.url + '/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode + '/' + levelCode,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              console.log(res)
+              if (res.data.Status == 'Success') {
+                let rule = res.data.data.rule;
+                for (let i = 0; i < rule.length; i ++) {
+                  rule[i]['select'] = 0;
+                  var credit = "rule[" + i + "].credit";
+                  var ruleCode = "rule[" + i + "].ruleCode";
+                  var givenAmount = "rule[" + i + "].givenAmount"
+                  that.setData({
+                    [credit]: rule[i].credit,
+                    [ruleCode]: rule[i].ruleCode,
+                    [givenAmount]: rule[i].givenAmount
+                  })
+                }
+                that.setData({
+                  rule: rule,
+                })
+              }
+            }
+          })
+        }
+      }
+    });
+    // 获取线上可开会员卡信息
+    wx.request({
+      url: app.globalData.url + '/Api/Member/QueryMemberCardLevel' + '/' + data.Username + '/' + data.PassWord + '/' + data.CinemaCode,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        // 如果没有开卡规则 则隐藏开卡按钮
+        if (res.data.Status != 'Success' || !res.data.data || !res.data.data.level || res.data.data.level.length < 1) {
+          that.setData({
+            isShow: false,
+          })
+        }
+      }
+    })
+    wx.setNavigationBarTitle({ title: '会员卡' });
   },
 
   /**
@@ -122,132 +182,91 @@ Page({
       })
     }
   },
-  // blur:function(e){
-  //   this.setData({
-  //     phone:e.detail.value
-  //   })
-  // },
+  // 获取手机号码
   onInput:function(e){
     this.setData({
       cardnum:e.detail.value
     })
   },
+  // 获取密码
   onInput2: function (e) {
     this.setData({
       cardmm: e.detail.value
     })
   },
+  // 绑定会员卡
   bang:function(){
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('bindcard', nowtime);
+    wx.showLoading({
+      title: '绑定中',
+    })
+    let that = this;
+    var cinemaCode = app.globalData.cinemaList.cinemaCode;
+    var openID = app.globalData.userInfo.openID;
+    var userName = that.data.userName;
+    var passWord = that.data.passWord;
+    var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
+    var data = {
+      Username: userName,
+      Password: passWord,
+      CinemaCode: cinemaCode,
+      OpenID: openID,
+      CardNo: that.data.cardnum,
+      CardPassword: that.data.cardmm,
+    };
     wx.request({
-      url: app.globalData.url + '/api/shAppuser/bindcard',
-      data: {
-        pwd: that.data.cardmm,
-        card:that.data.cardnum,
-        appUserId:app.globalData.userInfo.id,
-        cinemaCode:app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
+      // 会员卡号
+      url: app.globalData.url + '/Api/Member/LoginCard' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardNo + '/' + data.CardPassword,
+      method: 'GET',
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        // console.log(res)
-        if(res.data.status == 1){
+        console.log(res);
+        wx.hideLoading();
+        if (res.data.Status == "Success") {
+          var cinemaCode = res.data.cinemaCode;
+          var cardNo = res.data.card.cardNo;
+          var cardPassword = res.data.card.cardPassword;
+          var phone = res.data.card.mobilePhone;
+          var userName = data.Username;
+          var passWord = data.Password;
+          var openID = data.OpenID;
           wx.showToast({
             title: '绑定成功',
-            duration:2000,
-            icon:"loading"
+            duration: 2000,
+            icon: "loading"
           })
-          // setTimeout(function(){
-          //   wx.reLaunch({
-          //     url: '/pages/index/index'
-          //   })
-          // },1000)
-          var userInfo = res.data.data;
-          that.setData({
-            userInfo: userInfo
+          wx.redirectTo({
+            url: '../mycard/mycard',
           })
-          app.globalData.userInfo = userInfo;
-          that.activity();
-        }else{
-          wx.showModal({
-            title:'',
-            content: res.data.message
+        }
+        else {
+          wx.showToast({
+            title: res.data.ErrorMessage,
+            icon: 'none',
+            duration: 3000
           })
         }
       }
     })
   },
-  syn: function () {
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('userCard', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/shAppuser/userCard',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        if (res.data.status == 1) {
-          var userInfo = res.data.data;
-          that.setData({
-            userInfo: userInfo
-          })
-          app.globalData.userInfo = userInfo;
-        } else {
-          wx.showModal({
-            title: '',
-            content: res.data.message
-          })
-        }
-      }
-    })
-  },
+  // 选择充值金额
   chooseMoney:function(e){
     var that = this;
     var index = e.currentTarget.dataset.index;
-    var money = that.data.money;
-    for(var i = 0;i < money.length;i++){
-      money[i].select = false;
+    var rule = that.data.rule;
+    for (var i = 0; i < rule.length;i++){
+      rule[i].select = 0;
     }
-    for (var i = 0; i < that.data.activity.length; i++) {
-      var ruleName = that.data.activity[i].ruleName.substring(5, that.data.activity[i].ruleName.length)
-      if (ruleName ==money[index].money) {
-        that.setData({
-          activityText: that.data.activity[i].ruleGroupRemark
-        })
-        break;
-      }else{
-        that.setData({
-          activityText: ""
-        })
-      }
-    }
-    money[index].select = true;
+    rule[index].select = 1;
     that.setData({
-      money:money,
-      index:index,
+      rule: rule,
+      index: index,
     })
   },
+  // 充值
   recharge:function(){
     var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('minipay', nowtime);
-    var rechargeMoney = that.data.money[that.data.index].money;
-    // var realPrice = app.globalData.cinemaList[app.globalData.cinemaNo].rechargeDisconut * rechargeMoney;
     if (that.data.index == -1){
       wx.showModal({
         title: '',
@@ -255,79 +274,79 @@ Page({
         showCancel: true,
       })
       return;
-    }
-    var ruleId = "";
-    var ruleName = "";
-    for(var i = 0;i < that.data.activity.length;i++){
-      if (that.data.activity[i].ruleName.indexOf(rechargeMoney)>0){
-        var name = that.data.activity[i].ruleName.substring(5, that.data.activity[i].ruleName.length);
-        if (name == rechargeMoney){
-          ruleId = that.data.activity[i].ruleId;
-          ruleName = that.data.activity[i].ruleName;
-        }   
-        // console.log(that.data.activity[i].ruleGroupRemark)
-      }
-    }
+    };
+    // 选择充值的金额
+    var rechargeMoney = that.data.rule[that.data.index].credit;
     wx.showLoading({
       title: '加载中..',
       mask:true
-    })
+    });
+    // 筛选出选中的金额的充值规则
+    for (let i = 0; i < that.data.rule.length; i ++) {
+      if (that.data.rule[i].select == 1) {
+        that.setData({
+          selectRule: that.data.rule[i],
+        })
+      }
+    }
+    let card = app.globalData.card;
+    // 预支付
     wx.request({
-      url: app.globalData.url + '/api/shCardRecharge/minipay',
-      data: {
-        appUserId: app.globalData.userInfo.id,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        cardNum: that.data.userInfo.dxInsiderInfo.cardNumber,
-        rechargeMoney: rechargeMoney,
-        app:"2",
-        realPrice: rechargeMoney,
-        ruleName: ruleName,
-        ruleId: ruleId,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
+      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + app.globalData.userInfo.openID + '/' + card.levelCode + '/' + that.data.selectRule.ruleCode + '/' + that.data.selectRule.credit + '/' + card.cardNo + '/' + card.cardPassword,
+      method: 'GET',
       header: {
-        "Content-Type": "application/x-www-form-urlencoded"
+        'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        // console.log(res)
         wx.hideLoading();
-        if (res.data.status == 1) {
-          that.setData({
-            orderNumber: res.data.data.orderNumber
-          })
+        if (res.data.Status == 'Success') {
+          // 微信支付接口
           wx.requestPayment({
             timeStamp: res.data.data.timeStamp,
             nonceStr: res.data.data.nonceStr,
-            package: res.data.data.package,
+            package: res.data.data.packages,
             signType: res.data.data.signType,
             paySign: res.data.data.paySign,
-            success: function (res) {
-              wx.showToast({
-                title: '支付成功',
-                mask: true,
-                duration: 2000
-              })
-            //  console.log(res)
-              that.syn();
+            success(res) {
+              console.log(res)
+              if (res.errMsg == "requestPayment:ok") {
+                // 获取远程售票系统会员卡积分余额
+                wx.request({
+                  url: app.globalData.url + '/Api/Member/QueryCard' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + card.cardNo + '/' + card.cardPassword,
+                  method: 'GET',
+                  header: {
+                    'content-type': 'application/json' // 默认值
+                  },
+                  success: function (res) {
+                    console.log(res)
+                    if (res.data.Status == 'Success') {
+                      that.setData({
+                        card: res.data.card,
+                      })
+                    }
+                  }
+                })
+                // setTimeout(function () {
+                //   wx.redirectTo({
+                //     url: '../mycard/mycard',
+                //   })
+                // }, 1000)
+              }
             },
-            fail: function (res) {
-              wx.showModal({
-                title: '充值失败',
-                // content: 充值失败
-              })
+            fail(res) {
+              wx.hideLoading();
+              wx.showToast({
+                title: res.err_desc,
+                icon: 'none',
+                duration: 3000
+              });
             }
-          })
-        } else {
-          wx.showModal({
-            title: '',
-            content: res.data.message
           })
         }
       }
     })
   },
+  // 解绑
   untying:function(){
     var that = this;
     wx.showModal({
@@ -335,35 +354,31 @@ Page({
       content: '是否解绑会员卡',
       success:function(res){
         if(res.confirm){         
-          var nowtime = new Date().getTime();
-          var sign = app.createMD5('untyingCard', nowtime);
           wx.request({
-            url: app.globalData.url + '/api/shAppuser/untyingCard',
-            data: {
-              appUserId: that.data.userInfo.id,
-              card: that.data.userInfo.dxInsiderInfo.cardNumber,
-              timeStamp: nowtime,
-              mac: sign
-            },
-            method: "POST",
+            url: app.globalData.url + '/Api/Member/MemberCardUnbind' + '/' + that.data.userName + '/' + that.data.passWord + '/' + that.data.cinemaCode + '/' + that.data.card.cardNo + '/' + that.data.openId,
+            method: 'GET',
             header: {
-              "Content-Type": "application/x-www-form-urlencoded"
+              'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              // console.log(res)
-              if (res.data.status == 1) {
-                var userInfo = res.data.data;
-                that.setData({
-                  userInfo: userInfo,
-                  swiperIndex: "0",
-                  type: 1
-                })
-                app.globalData.userInfo = userInfo;
+              console.log(res)
+              if (res.data.Status == 'Success') {
+                wx.showToast({
+                  title: '解绑成功！',
+                  icon: 'none',
+                  duration: 3000
+                });
+                setTimeout(function () {
+                  wx.redirectTo({
+                    url: '../mycard/mycard',
+                  })
+                }, 1000)
               } else {
-                wx.showModal({
-                  title: '',
-                  content: res.data.message
-                })
+                wx.showToast({
+                  title: '解绑失败' + res.data.ErrorMessage,
+                  icon: 'none',
+                  duration: 3000
+                });
               }
             }
           })
@@ -371,35 +386,13 @@ Page({
       }
     })
   },
-  activity: function () {//获取活动
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('queryActivity', nowtime);
-    wx.request({
-      url: app.globalData.url + '/api/cardOrder/queryActivity',
-      data: {
-        cardNum: app.globalData.userInfo.dxInsiderInfo.cardNumber,
-        cinemaCode: app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode,
-        timeStamp: nowtime,
-        mac: sign
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/x-www-form-urlencoded"
-      },
-      success: function (res) {
-        // console.log(res)
-        that.setData({
-          activity:res.data.data
-        })
-      }
-    })
-  },
+  // 查看充值记录
   record:function(){
     wx.navigateTo({
       url: '../cardRecord/cardRecord',
     })
   },
+  // 开卡
   openCard:function(){
     wx.navigateTo({
       url: '../openCard/openCard',

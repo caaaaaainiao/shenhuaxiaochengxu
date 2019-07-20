@@ -337,50 +337,24 @@ Page({
     })
   },
   toMycard: function() {
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
-      if (res.data.data.memberPhoneCount == 0) {
-        wx.getStorage({
-          key: 'loginInfo',
-          success: function (res) {
-            if (res.data.mobilePhone && res.data.isRegister == '1') {
-              wx.navigateTo({
-                url: '../page04/index',
-              })
-            } else {
-              wx.navigateTo({
-                url: '../login/login'
-              })
-            }
-          }, fail: function () {
-            wx.reLaunch({
-              url: '../login/login',
-            })
-          }
-        })
-      }
-      else {
-        wx.getStorage({
-          key: 'loginInfo',
-          success: function (res) {
-            if (res.data.mobilePhone && res.data.isRegister == '1') {
-              wx.navigateTo({
-                url: '../page05/index',
-              })
-            } else {
-              wx.navigateTo({
-                url: '../login/login'
-              })
-            }
-          }, fail: function () {
-            wx.reLaunch({
-              url: '../login/login',
-            })
-          }
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        if (res.data.mobilePhone && res.data.isRegister == '1') {
+          wx.navigateTo({
+            url: '../mycard/mycard',
+          })
+        } else {
+          wx.navigateTo({
+            url: '../login/login'
+          })
+        }
+      }, fail: function () {
+        wx.reLaunch({
+          url: '../login/login',
         })
       }
     })
-      
-    
   },
   ask: function() {
     var that = this;

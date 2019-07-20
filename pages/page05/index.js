@@ -145,7 +145,7 @@ Page({
       RuleCode: ruleCode,
       LevelCode: levelCode,
     };
-    // 获取当前时间戳 会员卡充值
+    // 会员卡充值
     wx.request({
       url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.ChargeAmount + '/' + data.CardNo + '/' + data.CardPassword,
       method: 'GET',
@@ -247,35 +247,10 @@ Page({
                       url: '../page04/index',
                     })
               },1000)
-              // // 读取已绑定的会员卡判断是否还有会员卡绑定跳转到相应页面
-              // wx.request({
-              //   url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID,
-              //   method: 'GET',
-              //   header: {
-              //     'content-type': 'application/json' // 默认值
-              //   },
-              //   success: function (res) {
-              //     if (res.data.data.memberPhoneCount == null) {
-              //       wx.redirectTo({
-              //         url: '../page04/index',
-              //       })
-              //     } else {
-              //       wx.redirectTo({
-              //         url: '../page05/index',
-              //       })
-              //     }
-              //   }
-              // })
             }
           })
         }
       },
-      // fail: function (res) {
-
-      // },
-      // complete: function (res) {
-
-      // }
     });
   },
 
@@ -342,7 +317,7 @@ Page({
           // 循环绑定会员卡调用方法请求到最新的余额以及积分
           for (let i = 0; i < status.length; i++) {
             getCallBack(data.Username, data.PassWord, data.CinemaCode, status[i].cardNo, status[i].cardPassword, function (res) {
-              console.log(res)
+              // console.log(res)
               userCardList.push(res);
               that.setData({
                 userCardList: userCardList
@@ -352,7 +327,7 @@ Page({
           // 设置计时器解决request异步问题
           setTimeout(function () {
             var card = that.data.userCardList;
-            console.log(card)
+            // console.log(card)
             if (card) {
               for (let i = 0; i < card.length; i++) {
                 for (let j = 0; j < status.length; j++) {

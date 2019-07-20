@@ -3,15 +3,15 @@
 <!-- 会员卡 -->
 <view class='container'>
   <view class='header'>
-    <image src='/images/cardbg.png' class='card'></image>
-    <view class='cardnumber'>No.
-      <text>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.cardNumber:"- - -"}}</text>
+    <image src='/images/newcard.png' class='card'></image>
+    <view class='cardnumber' style="color:white">No.
+      <text>{{card?card.cardNo:"- - -"}}</text>
     </view>
-    <view class='balance'>余额：
-      <text>{{userInfo.dxInsiderInfo?userInfo.dxInsiderInfo.balance:"- - -"}}</text>
+    <view class='balance' style="color:white">余额：
+      <text>{{card?card.balance:"- - -"}}</text>
     </view>
   </view>
-  <view wx:if="{{userInfo.dxInsiderInfo!=null}}">
+  <view wx:if="{{card}}">
     <view class='control'>
       <view class='record' bindtap='record'>充值记录 <image src='/images/in.png'></image></view>
       <view class='style {{type == 1?"chosed":""}}' bindtap='changeTap' data-type='1'>充值</view>
@@ -23,8 +23,9 @@
     <swiper duration="200" current="{{swiperIndex}}" bindchange='swiperChange'>
       <swiper-item>
         <view class='money'>
-          <block wx:for="{{money}}" wx:for-item="sum" wx:key="sum">
-            <view class='sum {{sum.select?"select":""}}' data-index="{{index}}" bindtap='chooseMoney'>{{sum.money}}</view>
+          <block wx:for="{{rule}}" wx:for-item="sum" wx:key="sum">
+            <view class='sum {{sum.select == 1?"select":""}}' data-index="{{index}}" bindtap='chooseMoney'>{{sum.credit}}</view>
+          <!-- <view class="tips" wx:if="{{sum.givenAmount>0?true:false}}">赠送{{sum.givenAmount}}元</view> -->
           </block>
         </view>
         <view wx:if="{{activityText.length > 0}}" class="activityText">{{activityText}}</view>
@@ -45,7 +46,7 @@
       <input placeholder-style='color:#888;' placeholder='输入您的会员卡密码' type='password' bindinput="onInput2"></input>
     </view>
     <view class='bang' bindtap='bang'>绑 定 会 员 卡</view>
-    <view class='openCard' bindtap='openCard'>没有会员卡？在线开通，立享多重观影福利！</view>
+    <view class='openCard' bindtap='openCard' wx:if="{{isShow}}">没有会员卡？在线开通，立享多重观影福利！</view>
   </view>
 
 </view>

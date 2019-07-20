@@ -128,6 +128,7 @@
                   'content-type': 'application/json' // 默认值
                 },
                 success: function(res) {
+                  return
                   if (res.data.Status == 'Success') {
                       wx.showToast({
                         title: '开卡成功！',

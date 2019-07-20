@@ -1,17 +1,4 @@
 <view class="wrap page06" style='background:white'>
-	<!-- <view class="panel">
-		<view class="box">
-			<view class="left">
-				<view class="txt1">{{movieName}}</view>
-				<view class="txt2"><text class="tag">{{levelName}}</text></view>
-				<view class="txt3">
-          <text class='p'>{{ruleDescription}}</text>
-				</view>
-			</view>
-			<text class="time">有效期:{{effectiveDays}}</text>
-			<image src="/images/vip.png" class="vip" mode="widthFix"></image>
-		</view>
-	</view> -->
 	<view class="rule">
 		<view class="txt1">办卡须知</view>
 		<view class="txt2">

@@ -195,14 +195,6 @@ Page({
     wx.setNavigationBarTitle({
       title: '会员卡'
     });
-    wx.getStorage({
-      key: 'sjhm',
-      success: function(res) {
-        that.setData({
-          inputNum: res.data
-        })
-      },
-    })
     that.setData({
       Username: app.usermessage.Username,
       Password: app.usermessage.Password
