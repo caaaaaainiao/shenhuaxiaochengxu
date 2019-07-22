@@ -54,19 +54,23 @@ Page({
       success: function (res) {
         console.log(res)
         if (res.data.Status == 'Success' && res.data.data.level && res.data.data.level.length > 0) {
-          let level = res.data.data.level[0];
-          if (level.credit) {
-            that.setData({
-              levelCode: level.levelCode, // 等级编号
-              ruleCode: level.ruleCode, //  规则编码
-              credit: level.credit, // 初始金额
-            })
-          } else {
-            that.setData({
-              levelCode: level.levelCode, // 等级编号
-              ruleCode: level.ruleCode, //  规则编码
-              credit: 0, // 初始金额
-            })
+          for (let i = 0;i < res.data.data.level.length;i ++) {
+            if (res.data.data.level[i].isOnlineOpenCard == 1) {
+              let level = res.data.data.level[i];
+              if (level.credit) {
+                that.setData({
+                  levelCode: level.levelCode, // 等级编号
+                  ruleCode: level.ruleCode, //  规则编码
+                  credit: level.credit, // 初始金额
+                })
+              } else {
+                that.setData({
+                  levelCode: level.levelCode, // 等级编号
+                  ruleCode: level.ruleCode, //  规则编码
+                  credit: 0, // 初始金额
+                })
+              }
+            }
           }
         }
       }
