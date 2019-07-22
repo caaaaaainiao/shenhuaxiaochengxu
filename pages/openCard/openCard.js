@@ -208,15 +208,20 @@ Page({
       Sex: that.data.sex
     };
     var Num = /^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1})|(17[0-9]{1}))+\d{8})$/;
-    if (that.data.password == '' || that.data.name == '' || that.data.index002 == '') {
+    if (that.data.passward == '' || that.data.name == '' || that.data.index002 == '') {
       wx.showToast({
         title: '请填写必要信息！',
         icon: 'none',
-        duration: 3000
+        duration: 2000
       })
       return;
     }
-    if (that.data.password != that.data.surePassword) {
+    if (that.data.passward != that.data.passward2) {
+      wx.showToast({
+        title: '密码不一致！',
+        icon: 'none',
+        duration: 2000
+      })
       return;
     }
     wx.showModal({
