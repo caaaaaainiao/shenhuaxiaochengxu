@@ -280,4 +280,5 @@
   color: #fff;
   text-align: center;
   line-height: 98rpx;
+   background: linear-gradient(to right, #DA4E7B, #2177B9);
 }

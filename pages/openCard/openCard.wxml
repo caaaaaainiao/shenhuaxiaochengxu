@@ -46,7 +46,7 @@
 	<view class="operate" style="padding: 0 60rpx;margin-top: 10rpx; font-size: 13px">
 		<view class="agree" style="background-color: #fff;height: 80rpx;display: flex;align-items: center;justify-content: space-between;flex-wrap: wrap;box-sizing: border-box;">
       <image src="/images/selected.png" class="selected"></image>
-      我已阅读并同意 <navigator bindtap='cinemaAgreement' style="color: #ca1818;height: auto;width: auto;display: block;flex: 1;">《会员卡协议》</navigator>
+      我已阅读并同意 <navigator bindtap='cinemaAgreement' style="color: #DA4E7B;height: auto;width: auto;display: block;flex: 1;">《会员卡协议》</navigator>
 		</view>
 	</view>
   <view class="money">

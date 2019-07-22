@@ -235,7 +235,7 @@ Page({
           moviesListDate: res.data.data,
           comparePrices: comparePrices,
         })
-        // console.log(that.data.moviesListDate)
+        console.log(that.data.moviesListDate)
       }
     })
     that.setData({
