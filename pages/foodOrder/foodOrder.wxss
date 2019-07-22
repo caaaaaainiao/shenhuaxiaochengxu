@@ -553,7 +553,7 @@
   width: 100%;
   height: 98rpx;
   line-height: 98rpx;
-  background:linear-gradient(-84deg,rgba(224,79,46,1),rgba(224,117,46,1));
+  background: linear-gradient(to right, #DA4E7B, #2177B9);
   font-size: 30rpx;
   color: #fff;
   text-align: center;

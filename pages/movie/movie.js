@@ -39,6 +39,13 @@ Page({
       method: 'GET',
       success: function (e) {
         console.log(e)
+        let roll = e.data.data
+        console.log(roll)
+        wx.setStorage({
+          key: 'logininfo',
+          data: roll,
+        })
+
       }
     })
   },
@@ -78,9 +85,20 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    // this.setData({
-    //   userInfo: app.globalData.userInfo
-    // })
+    wx.request({
+      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      method: 'GET',
+      success: function (e) {
+        console.log(e)
+        let roll = e.data.data
+        console.log(roll)
+        wx.setStorage({
+          key: 'logininfo',
+          data: roll,
+        })
+
+      }
+    })
     if (app.globalData.lookcinemaname == undefined) {
       app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
     }
