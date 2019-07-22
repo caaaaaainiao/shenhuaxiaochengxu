@@ -291,11 +291,11 @@ margin-left: 10rpx
 }
 
 .check {
-  width: 181rpx;
-  height: 91rpx;
+  width: 155rpx;
+  height: 75rpx;
   position: absolute;
-  right: -14rpx;
-  top: 92rpx;
+  right: -5rpx;
+  top: 90rpx;
 }
 
 .location {
