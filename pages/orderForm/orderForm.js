@@ -393,7 +393,7 @@ Page({
         success: function (res) {
           if (res.confirm) {
             wx.navigateTo({
-              url: '../mycard/mycar',
+              url: '../mycard/mycard',
             })
           }
         }
