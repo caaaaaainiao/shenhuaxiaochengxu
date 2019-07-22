@@ -378,8 +378,8 @@ const getAPIUserData=callback=>{
     Password: '6BF477EBCC446F54E6512AFC0E976C41',
     // AppId: 'wxb491affbeb262f2f ', // 国购
     // AppId: 'wx1baa1fc8240ef183', // 高美
-    // AppId: 'wx8eafe6ec48aa323f', // 越幕
-    AppId: 'wxa20eeb5bde481333', // 智泉
+    AppId: 'wx8eafe6ec48aa323f', // 越幕
+    // AppId: 'wxa20eeb5bde481333', // 智泉
     // AppId: 'wx2069ef6c2d5b1880', // 美伦
   };
   wx.setStorage({
