@@ -35,7 +35,7 @@
             <view class='foodname'>
               {{item.goodsName}}
             </view>
-            <view class='foodprice'><text wx:if="{{item.standardPrice!=null}}">￥{{filters.toFix(item.standardPrice)}}</text>￥{{filters.toFix(item.settlePrice)}}</view>
+            <view class='foodprice'>￥{{filters.toFix(item.settlePrice)}}</view>
             <view class='foodnum {{item.buyNum>0?"width180":""}}'>
               <image src='/images/minus.png' class='minus' data-id="{{item.goodsId}}" bindtap='minus'></image>
               <image src='/images/add.png' class='add' data-id="{{item.goodsId}}" bindtap='add'></image>
