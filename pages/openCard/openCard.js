@@ -288,7 +288,7 @@ Page({
                           });
                           setTimeout(function () {
                             wx.redirectTo({
-                              url: '../page05/index',
+                              url: '../mycard/mycard',
                             })
                           }, 1000)
                         } else {
