@@ -92,11 +92,21 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         // 如果没有开卡规则 则隐藏开卡按钮
         if (res.data.Status != 'Success' || !res.data.data || !res.data.data.level || res.data.data.level.length < 1) {
           that.setData({
             isShow: false,
           })
+        } else { // 如果有开卡规则  获取卡背景图
+          for (let i = 0; i < res.data.data.level.length; i++) {
+            if (res.data.data.level[i].isOnlineOpenCard == 1 && res.data.data.level[i].memberCardImage) {
+              let level = res.data.data.level[i];
+              that.setData({
+                memberCardImage: level.memberCardImage,
+              })
+            }
+          }
         }
       }
     })

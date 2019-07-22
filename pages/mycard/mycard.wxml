@@ -3,7 +3,8 @@
 <!-- 会员卡 -->
 <view class='container'>
   <view class='header'>
-    <image src='/images/newcard.png' class='card'></image>
+    <image wx:if="{{memberCardImage}}" src="{{memberCardImage}}" class='card'></image>
+    <image wx:else src='/images/newcard.png' class='card'></image>
     <view class='cardnumber' style="color:white">No.
       <text>{{card?card.cardNo:"- - -"}}</text>
     </view>
