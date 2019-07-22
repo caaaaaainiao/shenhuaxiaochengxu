@@ -25,8 +25,10 @@
       <swiper-item>
         <view class='money'>
           <block wx:for="{{rule}}" wx:for-item="sum" wx:key="sum">
-            <view class='sum {{sum.select == 1?"select":""}}' data-index="{{index}}" bindtap='chooseMoney'>{{sum.credit}}</view>
-          <view class="tips" wx:if="{{sum.givenAmount>0?true:false}}">赠送{{sum.givenAmount}}元</view>
+            <view class='sum {{sum.select == 1?"select":""}}' data-index="{{index}}" bindtap='chooseMoney'>                     {{sum.credit}}
+            <view class="tips" wx:if="{{sum.givenAmount>0?true:false}}" data-index="{{index}}">
+              赠送{{sum.givenAmount}}元</view>
+            </view>
           </block>
         </view>
         <view wx:if="{{activityText.length > 0}}" class="activityText">{{activityText}}</view>
