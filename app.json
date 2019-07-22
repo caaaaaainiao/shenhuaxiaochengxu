@@ -32,9 +32,6 @@
     "pages/comments/comments",
     "pages/acivityUrl/acivityUrl",
     "pages/couponDetail/couponDetail",
-    "pages/page04/index",
-    "pages/page05/index",
-    "pages/page06/index",
     "pages/mycard/mycard",
     "pages/openCard/openCard"
   ],
