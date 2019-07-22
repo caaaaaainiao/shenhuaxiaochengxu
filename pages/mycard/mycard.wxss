@@ -151,6 +151,13 @@
 .sum:nth-child(4n){
   margin-right: 0;
 }
+
+.tips{
+  color: red;
+  font-size: 25rpx;
+  margin-top: -10rpx;
+}
+
 .select{
   color: #DA4E7B;
   border: 2rpx solid #DA4E7B;
