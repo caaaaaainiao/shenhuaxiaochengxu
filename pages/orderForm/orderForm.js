@@ -689,6 +689,7 @@ Page({
         "password": app.usermessage.Password,
         "cinemaCode": app.globalData.cinemacode,
         "orderCode": that.data.orderCode,
+        "mobiePhone": that.data.phone,
         "couponsCode": that.data.couponsCode,
         "reductionPrice": that.data.reductionPrice,
         "seats": json,
@@ -720,7 +721,6 @@ Page({
             },
             success: function (res) {
               wx.hideTabBar() //隐藏栏
-              console.log(res)
               // 微信支付
               if (res.data.Status == "Success") {
                 let order = res.data.data;
@@ -733,83 +733,16 @@ Page({
                   success(res) {
                     console.log(res);
                     if (res.errMsg == "requestPayment:ok") {
-                      wx.showLoading({
-                        title: '加载中',
-                      })
-                      let xml = '<SubmitOrder>' +
-                        '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
-                        '<Order>' +
-                        '<PaySeqNo></PaySeqNo>' +
-                        '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
-                        '<SessionCode>' + order.sessionCode + '</SessionCode>' +
-                        '<Count>' + order.ticketCount + '</Count>' +
-                        '<MobilePhone>' + that.data.phone + '</MobilePhone>';
-                      for (let i = 0; i < order.seats.length; i++) {
-                        let seatCode = order.seats[i].seatCode;
-                        let realprice = order.seats[i].salePrice;
-                        let price = order.seats[i].price;
-                        let fee = order.seats[i].fee;
-                        xml += '<Seat>';
-                        xml += '<SeatCode>' + seatCode + '</SeatCode>';
-                        xml += '<Price>' + price + '</Price>';
-                        xml += '<RealPrice>' + realprice + '</RealPrice>';
-                        xml += '<Fee>' + fee + '</Fee>';
-                        xml += '</Seat>';
-                      };
-                      xml += '</Order>';
-                      xml += '</SubmitOrder>';
-                      // 提交订单   
-                      wx.request({
-                        url: app.globalData.url + '/Api/Order/SubmitOrder',
-                        data: {
-                          userName: data.UserName,
-                          password: data.Password,
-                          openID: order.openID,
-                          queryXml: xml,
-                        },
-                        method: "POST",
-                        header: {
-                          'content-type': 'application/json' // 默认值
-                        },
-                        success: function (res) {
-                          wx.hideTabBar() //隐藏栏
-                          console.log(res)
-                          if (res.data.Status == "Success") {
-                            wx.showToast({
-                              title: '支付成功',
-                              mask: true,
-                              duration: 2000
-                            });
-                            that.setData({
-                              orderNum: res.data.order.orderCode, // 订单号
-                              printNo: res.data.order.printNo, // 出票号
-                              verifyCode: res.data.order.verifyCode, // 验证码
-                            })
-                            setTimeout(function () {
-                              wx.redirectTo({
-                                url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
-                              })
-                            }, 1000)
-                          } else { // 确认订单失败
-                            // 自动退款
-                            wx.request({
-                              url: app.globalData.url + '/Api/Order/RefundPayment' + '/' + data.UserName + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OrderCode,
-                              method: "GET",
-                              header: {
-                                'content-type': 'application/json' // 默认值
-                              },
-                              success: function (res) {
-                                console.log(res)
-                                wx.showToast({
-                                  title: '交易失败,已自动退款',
-                                  icon: 'none',
-                                  duration: 2000,
-                                })
-                              }
-                            })
-                          }
-                        }
-                      })
+                      wx.showToast({
+                        title: '支付成功！',
+                        icon: 'none',
+                        duration: 1000
+                      });
+                      setTimeout(function () {
+                        wx.redirectTo({
+                          url: '../myticket/myticket',
+                        })
+                      }, 1000)
                     }
                   },
                   fail(res) {
@@ -944,17 +877,11 @@ Page({
                         mask: true,
                         duration: 2000
                       });
-                      that.setData({
-                        orderNum: res.data.orderNo, // 订单号
-                        printNo: res.data.printNo, // 出票号
-                        verifyCode: res.data.verifyCode, // 验证码
-                      })
                       setTimeout(function () {
                         wx.redirectTo({
-                          url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
+                          url: '../myticket/myticket',
                         })
                       }, 1000)
-
                     } else { //支付失败
                       wx.showToast({
                         title: "订单确认失败",
@@ -968,7 +895,7 @@ Page({
               if (res.data.Status == "Success") {
                   // 会员卡支付
                 wx.request({
-                  url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2,
+                  url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2,
                   method: 'GET',
                   header: {
                      'content-type': 'application/json' // 默认值
@@ -977,140 +904,16 @@ Page({
                       wx.hideTabBar() //隐藏栏
                       console.log(res)
                       if (res.data.Status == "Success") {
-                        that.setData({
-                          tradeNo: res.data.tradeNo,
-                          deductAmount: res.data.deductAmount,
-                        })
-                        let xml = '<SubmitOrder>' +
-                          '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
-                          '<Order>' +
-                          '<PaySeqNo></PaySeqNo>' +
-                          '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
-                          '<SessionCode>' + order.sessionCode + '</SessionCode>' +
-                          '<Count>' + order.ticketCount + '</Count>' +
-                          '<MobilePhone>' + that.data.phone + '</MobilePhone>';
-                        for (let i = 0; i < order.seats.length; i++) {
-                          let seatCode = order.seats[i].seatCode;
-                          let realprice = order.seats[i].salePrice;
-                          let price = order.seats[i].price;
-                          let fee = order.seats[i].fee;
-                          xml += '<Seat>';
-                          xml += '<SeatCode>' + seatCode + '</SeatCode>';
-                          xml += '<Price>' + price + '</Price>';
-                          xml += '<RealPrice>' + realprice + '</RealPrice>';
-                          xml += '<Fee>' + fee + '</Fee>';
-                          xml += '</Seat>';
-                        };
-                        xml += '</Order>';
-                        xml += '</SubmitOrder>';
-                        // 提交订单   
-                        wx.request({
-                          url: app.globalData.url + '/Api/Order/SubmitOrder',
-                          data: {
-                            userName: data.Username,
-                            password: data.Password,
-                            openID: order.openID,
-                            queryXml: xml,
-                          },
-                          method: "POST",
-                          header: {
-                            'content-type': 'application/json' // 默认值
-                          },
-                          success: function (res) {
-                            console.log(res)
-                            if (res.data.Status == "Success") {
-                              wx.showToast({
-                                title: '支付成功',
-                                mask: true,
-                                duration: 2000
-                              });
-                              that.setData({
-                                orderNum: res.data.order.orderCode, // 订单号
-                                printNo: res.data.order.printNo, // 出票号
-                                verifyCode: res.data.order.verifyCode, // 验证码(退票使用)
-                              })
-                              var NewTime = util.formatTimeDays(new Date())
-                              wx.request({
-                                url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-                                data: {
-                                  "touser": app.globalData.openId,
-                                  "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
-                                  "form_id": that.data.formids,
-                                  "data": {
-                                    "keyword1": {
-                                      "value": that.data.cardNo
-                                    },
-                                    "keyword2": {
-                                      "value": app.globalData.lookcinemaname + '-' + that.data.hallName
-                                    },
-                                    "keyword3": {
-                                      "value": that.data.price
-                                    },
-                                    "keyword4": {
-                                      "value": that.data.movieName
-                                    },
-                                    "keyword5": {
-                                      "value": that.data.date
-                                    },
-                                    "keyword6": {
-                                      "value": that.data.seat
-                                    },
-                                    "keyword7": {
-                                      "value": that.data.price
-                                    },
-                                    "keyword8": {
-                                      "value": NewTime.NowDataYear
-                                    },
-                                    "keyword9": {
-                                      "value": res.data.printNo
-                                    }
-                                  }
-                                },
-                                method: "POST",
-                                header: {
-                                  'content-type': 'application/json' // 默认值
-                                },
-                                success: function (res) {
-                                  console.log(res)
-                                  // app.usermessage.access_token = res.data.access_token
-                                }
-                              })
-                              setTimeout(function () {
-                                wx.redirectTo({
-                                  url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
-                                })
-                              }, 1000)
-                            }
-                            else { //订单确认失败
-                              // 自动退款
-                              wx.request({
-                                url: app.globalData.url + '/Api/Member/CardPayBack' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.deductAmount,
-                                method: "GET",
-                                header: {
-                                  'content-type': 'application/json' // 默认值
-                                },
-                                success: function (res) {
-                                  wx.hideTabBar() //隐藏栏
-                                  console.log(res)
-                                  if (res.data.Status == "Success") {
-                                    wx.showToast({
-                                      title: '交易失败,已自动退款',
-                                      icon: 'none',
-                                      duration: 3000,
-                                    })
-                                  }
-                                  else {
-                                    wx.showToast({
-                                      title: '交易失败，联系工作人员退款',
-                                      icon: 'none',
-                                      duration: 3000,
-                                    })
-                                  }
-                                }
-                              })
-                            }
-                          }
-                        })
+                        wx.showToast({
+                          title: '交易成功',
+                          mask: true,
+                          duration: 2000
+                        });
+                        setTimeout(function () {
+                          wx.redirectTo({
+                            url: '../myticket/myticket',
+                          })
+                        }, 1000)
                       }
                       else { //支付失败
                         wx.showToast({
@@ -1140,17 +943,13 @@ Page({
                         mask: true,
                         duration: 2000
                       });
-                      that.setData({
-                        orderNum: res.data.orderNo, // 订单号
-                        printNo: res.data.printNo, // 出票号
-                        verifyCode: res.data.verifyCode, // 验证码
-                      })
                       setTimeout(function () {
                         wx.redirectTo({
-                          url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
+                          url: '../myticket/myticket',
                         })
                       }, 1000)
-                    } else {// 支付失败
+                    }
+                     else {// 支付失败
                       wx.showToast({
                         title: "订单确认失败",
                         icon: 'none',
@@ -1164,7 +963,7 @@ Page({
               if (res.data.Status == "Success") {
                 // 会员卡支付
                 wx.request({
-                  url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2,
+                  url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2,
                   method: 'GET',
                   header: {
                     'content-type': 'application/json' // 默认值
@@ -1173,140 +972,16 @@ Page({
                     wx.hideTabBar() //隐藏栏
                     console.log(res)
                     if (res.data.Status == "Success") {
-                      that.setData({
-                        tradeNo: res.data.tradeNo,
-                        deductAmount: res.data.deductAmount,
-                      })
-                      let xml = '<SubmitOrder>' +
-                        '<CinemaCode>' + order.cinemaCode + '</CinemaCode>' +
-                        '<Order>' +
-                        '<PaySeqNo>' + that.data.tradeNo + '</PaySeqNo>' +
-                        '<OrderCode>' + order.lockOrderCode + '</OrderCode>' +
-                        '<SessionCode>' + order.sessionCode + '</SessionCode>' +
-                        '<Count>' + order.ticketCount + '</Count>' +
-                        '<MobilePhone>' + that.data.phone + '</MobilePhone>';
-                      for (let i = 0; i < order.seats.length; i++) {
-                        let seatCode = order.seats[i].seatCode;
-                        let realprice = order.seats[i].salePrice;
-                        let price = order.seats[i].price;
-                        let fee = order.seats[i].fee;
-                        xml += '<Seat>';
-                        xml += '<SeatCode>' + seatCode + '</SeatCode>';
-                        xml += '<Price>' + price + '</Price>';
-                        xml += '<RealPrice>' + realprice + '</RealPrice>';
-                        xml += '<Fee>' + fee + '</Fee>';
-                        xml += '</Seat>';
-                      };
-                      xml += '</Order>';
-                      xml += '</SubmitOrder>';
-                      // 提交订单   
-                      wx.request({
-                        url: app.globalData.url + '/Api/Order/SubmitOrder',
-                        data: {
-                          userName: data.Username,
-                          password: data.Password,
-                          openID: order.openID,
-                          queryXml: xml,
-                        },
-                        method: "POST",
-                        header: {
-                          'content-type': 'application/json' // 默认值
-                        },
-                        success: function (res) {
-                          console.log(res)
-                          if (res.data.Status == "Success") {
-                            wx.showToast({
-                              title: '支付成功',
-                              mask: true,
-                              duration: 2000
-                            });
-                            that.setData({
-                              orderNum: res.data.order.orderCode, // 订单号
-                              printNo: res.data.order.printNo, // 出票号
-                              verifyCode: res.data.order.verifyCode, // 验证码(退票使用)
-                            })
-                            var NewTime = util.formatTimeDays(new Date())
-                            wx.request({
-                              url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
-                              data: {
-                                "touser": app.globalData.openId,
-                                "template_id": "NEcdrGB6eUWLEsFaXVQGCz_I_6WSgiywwCPmKfFW_YQ",
-                                "form_id": that.data.formids,
-                                "data": {
-                                  "keyword1": {
-                                    "value": that.data.cardNo
-                                  },
-                                  "keyword2": {
-                                    "value": app.globalData.lookcinemaname + '-' + that.data.hallName
-                                  },
-                                  "keyword3": {
-                                    "value": that.data.price
-                                  },
-                                  "keyword4": {
-                                    "value": that.data.movieName
-                                  },
-                                  "keyword5": {
-                                    "value": that.data.date
-                                  },
-                                  "keyword6": {
-                                    "value": that.data.seat
-                                  },
-                                  "keyword7": {
-                                    "value": that.data.price
-                                  },
-                                  "keyword8": {
-                                    "value": NewTime.NowDataYear
-                                  },
-                                  "keyword9": {
-                                    "value": res.data.printNo
-                                  }
-                                }
-                              },
-                              method: "POST",
-                              header: {
-                                'content-type': 'application/json' // 默认值
-                              },
-                              success: function (res) {
-                                console.log(res)
-                                // app.usermessage.access_token = res.data.access_token
-                              }
-                            })
-                            setTimeout(function () {
-                              wx.redirectTo({
-                                url: '../success/success?orderNum=' + that.data.orderNum + '&&movieName=' + that.data.movieName + '&&count=' + that.data.count + '&&printNo=' + that.data.printNo + '&&verifyCode=' + that.data.verifyCode + '&&date=' + that.data.date + '&&seat=' + that.data.seat + '&&nowTime=' + that.data.nowTime,
-                              })
-                            }, 1000)
-                          }
-                          else { //订单确认失败
-                            // 自动退款
-                            wx.request({
-                              url: app.globalData.url + '/Api/Member/CardPayBack' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.CardNo + '/' + data.CardPassword + '/' + that.data.tradeNo + '/' + that.data.deductAmount,
-                              method: "GET",
-                              header: {
-                                'content-type': 'application/json' // 默认值
-                              },
-                              success: function (res) {
-                                wx.hideTabBar() //隐藏栏
-                                console.log(res)
-                                if (res.data.Status == "Success") {
-                                  wx.showToast({
-                                    title: '交易失败,已自动退款',
-                                    icon: 'none',
-                                    duration: 3000,
-                                  })
-                                }
-                                else {
-                                  wx.showToast({
-                                    title: '交易失败，联系工作人员退款',
-                                    icon: 'none',
-                                    duration: 3000,
-                                  })
-                                }
-                              }
-                            })
-                          }
-                        }
-                      })
+                      wx.showToast({
+                        title: '交易成功',
+                        mask: true,
+                        duration: 2000
+                      });
+                      setTimeout(function () {
+                        wx.redirectTo({
+                          url: '../myticket/myticket',
+                        })
+                      }, 1000)
                     }
                     else { //支付失败
                       wx.showToast({

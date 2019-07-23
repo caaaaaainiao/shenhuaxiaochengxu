@@ -450,7 +450,8 @@ Page({
           })
         }
       })
-    } else if (type == 2 && app.globalData.isSnackDistribution == '是') {
+    }
+     else if (type == 2 && app.globalData.isSnackDistribution == '是') {
       if (isOk) {
         wx.getStorage({
           key: 'loginInfo',
