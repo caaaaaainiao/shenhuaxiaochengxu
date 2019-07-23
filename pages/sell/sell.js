@@ -488,7 +488,7 @@ Page({
         wx.hideTabBar()
       }
     }
-    else{
+    else if (type == 2 && app.globalData.isSnackDistribution == '否'){
       wx.showModal({
         title: '暂不支持送餐服务',
       })
