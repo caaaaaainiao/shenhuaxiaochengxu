@@ -30,8 +30,11 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log(app.globalData.beforeStartTime)
+    let that = this;
     wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    that.setData({
+      logo: app.globalData.businessPic,
+    })
   },
 
   /**
@@ -217,8 +220,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        // console.log(res)
         var comparePrices = res.data.data.sessionDate[0].session;
+        console.log(comparePrices)
         // 获取影院设置的限制购票时间
         let beforeStartTime = Number(app.globalData.beforeStartTime) * 60 * 1000;
         // 将限制购票时间加上当前时间与影片开场时间作对比
@@ -235,7 +238,7 @@ Page({
           moviesListDate: res.data.data,
           comparePrices: comparePrices,
         })
-        console.log(that.data.moviesListDate)
+        // console.log(that.data.moviesListDate)
       }
     })
     that.setData({
