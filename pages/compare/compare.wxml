@@ -64,16 +64,18 @@
             <view class='others'>
               <!-- 就在这里 -->
               <view class='store'>
+                <image src='{{logo}}' wx:if="{{comparePrices.typeCode==1}}"></image>
                 <image src='/images/rmlogo.png' wx:if="{{comparePrices.typeCode==46}}"></image>
                 <image src='/images/mylogo.png' wx:elif="{{comparePrices.typeCode==36}}"></image>
                 <image src='/images/tpplogo.png' wx:elif="{{comparePrices.typeCode==49}}"></image>
-                <!-- <text wx:if="{{comparePrices.typeCode==0}}">影城会员</text> -->
+                <text wx:if="{{comparePrices.typeCode==1}}">影城会员</text>
                 <text wx:if="{{comparePrices.typeCode==46}}">百度糯米</text>
                 <text wx:elif="{{comparePrices.typeCode==36}}">猫眼</text>
                 <text wx:elif="{{comparePrices.typeCode==49}}">淘票票</text>
                 <view class='nowPrice'>
                   <text>￥</text>
                   <text class='num'>{{comparePrices.settlePrice}}</text>
+                  <text wx:if="{{comparePrices.typeCode==1}}">起</text>
                 </view>
                 <view class='buy' data-index="{{index}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}"  data-code="{{session.qmmComparePrices[index].dataType}}" catchtap='buyMoer'>购票</view>
               </view>

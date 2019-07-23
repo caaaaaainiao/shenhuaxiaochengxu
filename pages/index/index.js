@@ -40,7 +40,6 @@ Page({
     wx.getStorage({
       key: 'accredit',
       success: function(res) { //key所对应的内容
-        console.log(res)
         that.setData({
           wxInfo: res.data.userInfo, //用户信息
           userInfoDetail: res.data.userInfoDetail
@@ -73,6 +72,8 @@ Page({
           concinemaname: res.data.data.cinemas[0].businessName,
           concont: res.data.data.cinemas[0].businessDesc
         })
+        // 设置全局影院图片
+        app.globalData.businessPic = res.data.data.cinemas[0].businessPic;
       }
     })
     var timestamp = new Date().getTime()
@@ -476,7 +477,6 @@ Page({
   },
   // 比价购票
   buy: function (e) {
-    console.log(e)
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
     wx.setStorage({
       key: 'movieList',
