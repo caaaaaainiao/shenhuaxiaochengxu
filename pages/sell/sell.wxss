@@ -171,9 +171,9 @@
   bottom: -5rpx;
 }
 .orderbtn{
-  width: 631rpx;
-  height: 119rpx;
-  margin-left: 60rpx;
+  width: 530rpx;
+  height: 80rpx;
+  margin-left: 108rpx;
 }
 .foodMessage{
   font-size: 26rpx;
