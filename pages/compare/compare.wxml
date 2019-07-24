@@ -1,7 +1,7 @@
 <!--pages/compare/compare.wxml-->
 <!-- <text>pages/compare/compare.wxml</text> -->
 <view class='container'>
-  <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/bannerbg1.png' class='bannerbg'></image>
+    <image class='bannerbg' src='/images/indexbanner.png'></image>
   <view class='location'>
     <image src='/images/location.png'></image>
     <text>{{moviearea}}</text>

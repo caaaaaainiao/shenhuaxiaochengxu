@@ -4,7 +4,7 @@
 <wxs module="filters" src="../../utils/fixed.wxs"></wxs>
 <view class='container'>
   <view class='header'>
-    <image class='bg' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/orderbg.png'></image>
+    <image class='bg' src='/images/indexbanner.png'></image>
     <view class='moviename'>
       <text>{{movieName}}</text>{{count}}张</view>
     <view class='time header_p'>{{date}}</view>
