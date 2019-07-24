@@ -689,7 +689,7 @@ Page({
         "password": app.usermessage.Password,
         "cinemaCode": app.globalData.cinemacode,
         "orderCode": that.data.orderCode,
-        "mobiePhone": that.data.phone,
+        "mobilePhone": that.data.phone,
         "couponsCode": that.data.couponsCode,
         "reductionPrice": that.data.reductionPrice,
         "seats": json,
