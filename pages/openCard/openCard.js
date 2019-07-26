@@ -280,11 +280,10 @@ Page({
                       signType: res.data.data.signType,
                       paySign: res.data.data.paySign,
                       success(res) {
-                        // 成功之后调取开卡接口
                         if (res.errMsg == "requestPayment:ok") {
                           wx.hideLoading();
                           wx.showToast({
-                            title: '开卡成功！',
+                            title: '支付成功！',
                             icon: 'none',
                             duration: 2000
                           });
