@@ -77,8 +77,8 @@ Page({
   },
   ask: function () {
     var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('userOrderList', nowtime);
+    // var nowtime = new Date().getTime();
+    // var sign = app.createMD5('userOrderList', nowtime);
     var pageNo = that.data.pageNo;
     console.log(app.globalData.openId)
     wx.request({

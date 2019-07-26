@@ -20,10 +20,10 @@
       <image src='/images/gray_more.png' class='more' wx:if="{{order.payStatus != 3}}"></image>
        <image src='/images/past.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.orderStatus==9}}"></image>
        <!-- 退票 -->
-       <image src='/images/past.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.orderStatus==12}}"></image>
+       <image src='/images/past.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.orderStatus==6}}"></image>
        <!-- 退票 -->
        <!-- <image src='/images/conponStatus.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.orderStatus==8}}"></image> -->
-       <image src='/images/got.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.PrintStatus==1 }}"></image>
+       <image src='/images/got.png' style='top:55rpx;rigiht:30rpx;' class='get' wx:if="{{order.PrintStatus==5 }}"></image>
        
     </view>
     <view class='food {{order. deliveryStatus==2?"past":""}}' wx:if="{{order.merOrder!=null}}">
