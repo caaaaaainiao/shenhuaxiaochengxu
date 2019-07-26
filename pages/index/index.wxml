@@ -91,7 +91,7 @@
       </block>
     </view>
     <block wx:for="{{cinemaList}}" wx:for-item="area" wx:key="area">
-      <view class='option' data-index='{{index}}' data-cinemaName='{{area.cinemaName}}' data-cinemaCode='{{area.cinemaCode}}' data-isSnackDistribution='{{area.isSnackDistribution}}' bindtap='chooseCinema' data-address='{{area.address}}'>
+      <view class='option' data-index='{{index}}' data-cinemaName='{{area.cinemaName}}' data-cinemaCode='{{area.cinemaCode}}' data-issnack='{{area.isSnackDistribution}}' bindtap='chooseCinema' data-address='{{area.address}}'>
 
         <view class='choosename {{area.cinemaName ==moviearea.cinemaName?"selectCinema":""}}'>{{area.cinemaName}}</view>
         <view class='chooseArea'>{{area.address}}</view>
