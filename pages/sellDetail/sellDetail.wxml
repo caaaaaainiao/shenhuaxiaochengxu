@@ -69,8 +69,8 @@
     </view>
   </view>
 
-   <view class='black2' wx:if='{{showReady}}'>
-    <view class='ready'>
+   <!-- <view class='black2' wx:if='{{showReady}}'> -->
+    <!-- <view class='ready'>
       <image src='/images/styleicon.png' class='styleicon'></image>
       <image src='/images/close5.png' class='close5' bindtap='chooseClose'></image>
       <view class='name'>{{lookcinemaname}}</view>
@@ -88,8 +88,8 @@
         <view class='textbottom'>(支付成功稍后凭取票码到前台取餐)</view>
       </view>
       <view class='chooseSure' bindtap='sureChoose'>确 定</view>
-    </view>
-  </view>
+    </view> -->
+  <!-- </view> -->
 </view>
 
  
