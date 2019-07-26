@@ -84,7 +84,7 @@
   width: 120rpx;
   height: 120rpx;
   position: absolute;
-  top: 93rpx;
+  top: 90rpx;
   left: 315rpx;
   background: #fff;
   padding: 6rpx;

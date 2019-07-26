@@ -492,8 +492,9 @@ Page({
       console.log(json)
       wx.sendSocketMessage({
         data: JSON.stringify(json),
-        success: function () {
-          // console.log('res')
+        success: function (res) {
+          console.log(res)
+          console.log('领取了')
 
         },
         fail: function () {

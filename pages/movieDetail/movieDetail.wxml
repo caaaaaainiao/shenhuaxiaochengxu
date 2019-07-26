@@ -42,19 +42,17 @@
     {{movie.introduction}}
   </view>
   <view class='control' bindtap='seeAll'>展开</view>
-  <view class='videos' wx:if="{{movie.trailer.length>0}}">
+  <!-- <view class='videos' wx:if="{{movie.trailer.length>0}}">
     <view class='title'>视频</view>
     <view class='videos_scroll'>
       <view class='videos_area'>
-        <!-- <block wx:for="{{movie.trailer}}" wx:for-item="video" wx:key="video"> -->
           <view class='video'>
             <video src='{{movie.trailer}}' controls='true'></video>
           </view>
-        <!-- </block> -->
       </view>
     </view>
     <view class='control'>视频数量1</view>
-  </view>
+  </view> -->
   <view class='actor'>
     <view class='title'>演职人员</view>
     <scroll-view class='actor_scroll' scroll-x="true">

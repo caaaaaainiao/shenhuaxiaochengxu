@@ -4,7 +4,7 @@
   <view class='line'></view>
   <block wx:for="{{result}}" wx:for-item="order" wx:key="order" >
     <view class='type {{order.deliveryStatus==2?"past":""}}' data-num="{{order.orderCode}}" data-type="{{order.deliveryStatus}}" bindtap='toDetail'>
-      <image src='/images/got.png' class='get'wx:if="{{order.status==10}}"></image>
+      <image src='/images/got.png' class='get'wx:if="{{order.status==2}}"></image>
       <!-- <image src='/images/sales.png' class='get'wx:if="{{order.deliveryStatus==8}}"></image> -->
       <view class='food'>
         <view class='left'>
