@@ -217,7 +217,7 @@ Page({
       that.setData({
         moviearea: recent
       })
-      // console.log(cinemaList)
+      console.log(cinemaList)
       app.globalData.lookcinemaname = cinemaList.cinemaName;
       app.globalData.lookcinemaadd = cinemaList.address;
       app.globalData.moviearea = recent;
@@ -519,9 +519,6 @@ Page({
     });
     // 获取存入缓存的数据开始渲染
     var show = [];
-    // console.log(this.cinemaList)
-    // console.log(app.globalData.areaList)
-    that.data.cinemaList = []
     for (let i = 0; i < app.globalData.areaList.length; i++) {
       if (crCity === app.globalData.areaList[i].city) {
         show.push(app.globalData.areaList[i]);
@@ -548,6 +545,7 @@ Page({
     let that = this;
     // 由距离远近进行排序 增加一个开关选择是否显示所有影院
     let cinemaList = app.globalData.areaList.sort(util.sortDistance("distance"));
+    console.log(cinemaList)
     if (that.data.all == true) {
       that.setData({
         cinemaList: cinemaList,
@@ -558,7 +556,7 @@ Page({
   chooseCinema: function (e) { //选择影院
     wx.showTabBar({});
     // console.log(e)
-    wx.showTabBar({})
+    console.log(e.currentTarget.dataset)
     app.globalData.isSnackDistribution = e.currentTarget.dataset.address.isSnackDistribution
     // console.log(app.globalData.cinemaList)
     app.globalData.lookcinemaadd = e.currentTarget.dataset.address;
