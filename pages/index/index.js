@@ -36,7 +36,6 @@ Page({
   },
   onLoad: function (options) {
     var that = this;
-    // that.getAccesstoken();
     wx.getStorage({
       key: 'accredit',
       success: function(res) { //key所对应的内容
@@ -52,21 +51,14 @@ Page({
           shouquan: true
         })
         wx.hideTabBar() //隐藏栏
-      },
-      complete:function(res){
-        // console.log(res)
       }
     })
-    // wx.showLoading({
-    //   title: '加载中',
-    // })
     var that = this;
     wx.request({
       url:app.globalData.url+'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
       success: function (res) {
         console.log(res)
-        app.globalData.isSnackDistribution = res.data.data.cinemas[0].isSnackDistribution
         that.setData({
           logo: res.data.data.cinemas[0].businessPic,
           concinemaname: res.data.data.cinemas[0].businessName,
@@ -117,6 +109,7 @@ Page({
           that.setData({
             soncinemas: cinemas
           })
+          app.globalData.isSnackDistribution = that.data.soncinemas[0].isSnackDistribution
           app.globalData.cinemacode = that.data.soncinemas[0].cinemaCode
           util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
             var timestamp1 = new Date().getTime()
@@ -533,11 +526,13 @@ Page({
       let address = "cinemaList[" + j + "].address";
       let distance = "cinemaList[" + j + "].distance";
       let cinemaCode = "cinemaList[" + j + "].cinemaCode";
+      let isSnackDistribution = "cinemaList[" + j + "].isSnackDistribution";
       that.setData({
         [name]: show[j].cinemaName,
         [address]: show[j].address,
         [distance]: show[j].distance,
-        [cinemaCode]: show[j].cinemaCode
+        [cinemaCode]: show[j].cinemaCode,
+        [isSnackDistribution]: show[j].isSnackDistribution,
       })
     };
   },
@@ -554,22 +549,18 @@ Page({
     }
   },
   chooseCinema: function (e) { //选择影院
+    var that = this
     wx.showTabBar({});
     // console.log(e)
-    console.log(e.currentTarget.dataset)
-    app.globalData.isSnackDistribution = e.currentTarget.dataset.address.isSnackDistribution
-    // console.log(app.globalData.cinemaList)
+    app.globalData.isSnackDistribution = e.currentTarget.dataset.issnack
     app.globalData.lookcinemaadd = e.currentTarget.dataset.address;
-    // app.globalData.lookcinemaadd = e._relatedInfo.anchorTargetText
     var cinemacode = e.currentTarget.dataset.cinemacode;
     app.globalData.lookcinemaname = e.currentTarget.dataset.cinemaname
-    // console.log(app.globalData.lookcinemaname)
     for (var i = 0; i < app.globalData.areaList.length; i++) {
       if (app.globalData.areaList[i].cinemaCode == cinemacode) {
         app.globalData.cinemaList = app.globalData.areaList[i]
       }
     }
-    var that = this
     app.globalData.cinemaNo = e.currentTarget.dataset.index;
     app.globalData.cinemacode = e.currentTarget.dataset.cinemacode;
     console.log(app.globalData.cinemacode)
