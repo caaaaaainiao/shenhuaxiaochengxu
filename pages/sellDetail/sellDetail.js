@@ -74,16 +74,17 @@ Page({
   },
   createGoodsOrder: function() {
     let that = this;
-    if (that.data.type == 1) {
-      that.setData({
-        showReady: true
-      })
-    } else if (that.data.type == 2) {
-      that.setData({
-        showReady: false
-      })
-      that.sureChoose()
-    }
+    that.sureChoose()
+    // if (that.data.type == 1) {
+    //   that.setData({
+    //     showReady: true
+    //   })
+    // } else if (that.data.type == 2) {
+    //   that.setData({
+    //     showReady: false
+    //   })
+     
+    // }
 
 
   },
