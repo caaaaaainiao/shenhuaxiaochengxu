@@ -236,7 +236,7 @@ Page({
             comparePrices.splice(i, 1);
           }
         }
-        // console.log(comparePrices)
+        // console.log(res.data.data)
         that.setData({
           moviesListDate: res.data.data,
           comparePrices: comparePrices,
@@ -387,8 +387,6 @@ Page({
           console.log(that.data.moviesListDate)
         }
       })
-
-      // moviesListDate
       // console.log(this.data.swiperIndex)
     }
   }

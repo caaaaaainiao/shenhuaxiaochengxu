@@ -126,10 +126,14 @@
   </view>
   <view class='bottom'>
     <view class='price'>
-      <view class='left' wx:if="{{seatOrder.price-seatOrder.disPrice>0}}">满减优惠
-        <text>-{{seatOrder.price-seatOrder.disPrice}}元</text>
+      <view class='left' wx:if="{{payway == 1 && thirdPayFee > 0}}">微信支付代售费
+        <text>{{thirdPayFee}}元</text>
       </view>
-      <view class='right'>应付
+      <view class='left' wx:if="{{payway == 2 && memberPayFee > 0}}">会员卡支付代售费
+        <text>{{memberPayFee}}元</text>
+      </view>
+      <view class='right'>
+        应付
         <text class='numpay'>{{allPrice}}</text>
         <text>元</text>
       </view>
