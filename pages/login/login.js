@@ -193,14 +193,11 @@ Page({
               }
         } else {
           wx.showToast({
-            title: res.data.ErrorMessage,
+            title: res.data.ErrorMessage,//修改报错
             icon: 'loading',
             image: '',
             duration: 2000,
             mask: true,
-            success: function (res) { },
-            fail: function (res) { },
-            complete: function (res) { },
           })
         }
       }

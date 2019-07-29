@@ -631,7 +631,7 @@ Page({
     }, 100);
   },
   startChoose: function () {
-    wx.hideTabBar({});
+    wx.hideTabBar();
     this.setData({
       isChoose: true
     })

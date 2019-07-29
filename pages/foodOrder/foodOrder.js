@@ -48,6 +48,15 @@ Page({
   onLoad: function(options) {
     var that = this;
     //todo: 创建订单
+  wx.getStorage({
+    key: 'cartObj',
+    success: function(res) {
+      console.log(res.data.list)
+      that.setData({
+        goodsList: res.data.list
+      })
+    },
+  })
     that.setData({
       userInfo: app.globalData.userInfo,
       phone: app.globalData.userInfo.mobilePhone,
@@ -97,38 +106,49 @@ Page({
       })
     })
     // console.log(app.globalData.queryXml)
-    let goodsList = wx.getStorageSync('toSubmitGoods');
-    if (!goodsList)
-      return;
-    goodsList = goodsList.data;
-    // util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function (goodsList){
-    var newList = [];
-    var totalPrice = 0;
+    wx.getStorage({
+      key: 'cartObj',
+      success: function (res) {
+        console.log(res.data.list)
+        that.setData({
+          goodsList: res.data.list
+        })
+        let goodsList = that.data.goodsList;
+        console.log(goodsList)
+        if (!goodsList)
+          return;
+        // goodsList = goodsList.data;
+        var newList = [];
+        var totalPrice = 0;
 
-    for (var i = 0; i < goodsList.length; i++) {
-      if (goodsList[i].buyNum > 0) {
-        newList.push(goodsList[i]);
-      }
-    }
-    var json2 = [];
-    var arr = [];
-    for (var i = 0; i < newList.length; i++) {
-      if (arr.indexOf(newList[i].goodsId) == -1) {
-        arr.push(newList[i].goodsId);
-        json2.push(newList[i])
-        if (newList[i].buyNum > 0) {
-          totalPrice += newList[i].buyNum * newList[i].settlePrice;
+        for (var i = 0; i < goodsList.length; i++) {
+          if (goodsList[i].buyNum > 0) {
+            newList.push(goodsList[i]);
+          }
         }
+        var json2 = [];
+        var arr = [];
+        for (var i = 0; i < newList.length; i++) {
+          if (arr.indexOf(newList[i].goodsId) == -1) {
+            arr.push(newList[i].goodsId);
+            json2.push(newList[i])
+            if (newList[i].buyNum > 0) {
+              totalPrice += newList[i].buyNum * newList[i].settlePrice;
+            }
 
-      } else {
-        newList[i].repetition = true;
-      }
-    }
-      // console.log(that.data.merOrder)
-      that.setData({
-        goodsList: newList,
-        totalPrice: totalPrice,
-      });
+          } else {
+            newList[i].repetition = true;
+          }
+        }
+        // console.log(that.data.merOrder)
+        that.setData({
+          goodsList: newList,
+          totalPrice: totalPrice,
+        });
+      },
+    })
+    // let goodsList = wx.getStorageSync('toSubmitGoods');
+   
 
     util.getcinemaList(function(res) {
       if (res) {

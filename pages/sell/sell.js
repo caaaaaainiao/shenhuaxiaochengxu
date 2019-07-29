@@ -55,10 +55,6 @@ Page({
     this.setData({
       userInfo: app.globalData.userInfo ? app.globalData.userInfo : {},
     })
-    // console.log(app.globalData)
-    // wx.hideTabBar({
-
-    // })
     // 调用全局函数设置余额以及积分
     util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
       var memberCard = [];

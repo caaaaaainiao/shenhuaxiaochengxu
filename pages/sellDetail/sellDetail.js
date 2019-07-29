@@ -39,12 +39,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log(options)
-    // console.log(app.globalData.sendtype)
     app.globalData.isReady = 1
-    wx.showLoading({
-      title: '加载中',
-    })
+    // wx.showLoading({
+    //   title: '加载中',
+    // })
     this.setData({
       type: options.type,
       isReady:1
@@ -83,10 +81,7 @@ Page({
     //   that.setData({
     //     showReady: false
     //   })
-     
     // }
-
-
   },
   sureChoose: function () {
     let that = this;
@@ -170,17 +165,8 @@ Page({
   onReady: function() {
 
     var that = this;
-    util.getcinemaList(function(res) {
-      if (res) {
-        that.setData({
-          cinemaList: res,
-          cinema: res[0],
-        });
-
-        that.getBanner();
-        that.getGoodTypes();
-      }
-    });
+    that.getBanner();
+    that.getGoodTypes();
     wx.getStorage({
       key: 'cinemaList',
       success: function(res) {
@@ -205,8 +191,6 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    // console.log(app.globalData.lookcinemaname)
-    // console.log(app.globalData.lookcinemaadd)
     if (app.globalData.lookcinemaname == undefined) {
       app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
     }
@@ -400,29 +384,39 @@ Page({
   },
   getGoods: function() { //获取卖品
     var that = this;
+    wx.request({
+      url: app.globalData.url +'/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode,
+      method:'GET',
+      success:function(res){
+    //  console.log(res.data.data.goods)
+        var goodsList = res.data.data.goods
+        let tempgoodsList = [];
+        wx.hideLoading()
+        // console.log(goodsList)
+        for (var i = 0; i < goodsList.length; i++) {
+          if (goodsList[i].goodsType == that.data.currenttype.typeCode) {
+            // goodsList[i].itemClass = {
+            //   name: that.data.currenttype.typeName
+            // }
+            if (!goodsList[i].buyNum) {
+              goodsList[i].buyNum = 0;
+            }
 
-    util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function(goodsList) {
-      let tempgoodsList = [];
-      wx.hideLoading()
-      for (var i = 0; i < goodsList.length; i++) {
-        if (goodsList[i].goodsType == that.data.currenttype.typeCode) {
-          // goodsList[i].itemClass = {
-          //   name: that.data.currenttype.typeName
-          // }
-          if (!goodsList[i].buyNum) {
-            goodsList[i].buyNum = 0;
+            tempgoodsList.push(goodsList[i]);
           }
-
-          tempgoodsList.push(goodsList[i]);
         }
+
+        that.groupGoodsTypeList(goodsList);
+
+        //所有商品列表
+        util.updategoodList(null, goodsList);
       }
+    })
 
-      that.groupGoodsTypeList(goodsList);
+    // util.getgoodList(that.data.UrlMap.goodsUrl + app.globalData.cinemacode, function(goodsList) {
 
-      //所有商品列表
-      util.updategoodList(null, goodsList);
 
-    });
+    // });
   },
   //分组汇总为一个商品列表集合
   groupGoodsTypeList: function(goodsList) {
@@ -621,7 +615,6 @@ Page({
       }
     }
     var nowtime = new Date().getTime();
-    var sign = app.createMD5('countMerchaniseOrderPrice', nowtime);
     wx.request({
       url: app.globalData.url + '/api/shOrder/countMerchaniseOrderPrice',
       data: {
