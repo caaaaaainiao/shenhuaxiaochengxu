@@ -83,11 +83,8 @@ Page({
         isReady: app.globalData.isReady
       },
       success: function(res) {
-        // console.log(res)
         wx.hideLoading()
         if (res.data.Status == "Success"){
-          // console.log(res)
-          // console.log(res.data.order.orderCode)
           that.setData({
             ordercode: res.data.order.orderCode
           })
@@ -105,7 +102,6 @@ Page({
         card: res.data.data.memberCard,
       })
     })
-    // console.log(app.globalData.queryXml)
     wx.getStorage({
       key: 'cartObj',
       success: function (res) {
@@ -117,7 +113,6 @@ Page({
         console.log(goodsList)
         if (!goodsList)
           return;
-        // goodsList = goodsList.data;
         var newList = [];
         var totalPrice = 0;
 
@@ -140,14 +135,12 @@ Page({
             newList[i].repetition = true;
           }
         }
-        // console.log(that.data.merOrder)
         that.setData({
           goodsList: newList,
           totalPrice: totalPrice,
         });
       },
     })
-    // let goodsList = wx.getStorageSync('toSubmitGoods');
    
 
     util.getcinemaList(function(res) {
