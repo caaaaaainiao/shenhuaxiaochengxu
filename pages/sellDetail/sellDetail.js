@@ -39,8 +39,8 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
-    console.log(app.globalData.sendtype)
+    // console.log(options)
+    // console.log(app.globalData.sendtype)
     app.globalData.isReady = 1
     wx.showLoading({
       title: '加载中',
@@ -205,8 +205,8 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    console.log(app.globalData.lookcinemaname)
-    console.log(app.globalData.lookcinemaadd)
+    // console.log(app.globalData.lookcinemaname)
+    // console.log(app.globalData.lookcinemaadd)
     if (app.globalData.lookcinemaname == undefined) {
       app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
     }

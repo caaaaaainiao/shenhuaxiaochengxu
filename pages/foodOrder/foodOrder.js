@@ -74,7 +74,7 @@ Page({
         isReady: app.globalData.isReady
       },
       success: function(res) {
-        console.log(res)
+        // console.log(res)
         wx.hideLoading()
         if (res.data.Status == "Success"){
           // console.log(res)

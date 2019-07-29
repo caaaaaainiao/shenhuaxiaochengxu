@@ -28,7 +28,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    console.log(app.globalData.isSnackDistribution)
+    // console.log(app.globalData.isSnackDistribution)
     app.globalData.phonenum = app.globalData.userInfo.mobilePhone
     // 读取缓存  设置影院信息
     that.countMovie()
@@ -166,7 +166,7 @@ Page({
             var first = userCardList.sort(function (a, b) {
               return a.balance < b.balance
             })[0];
-            console.log(first)
+            // console.log(first)
             if (first.score == null) {
               first.score = 0
             }
@@ -423,77 +423,92 @@ Page({
   },
   start: function() {
     var that = this;
-    that.setData({
-      movieList: app.globalData.movieList
-    })
-    var type = that.data.sendtype;
-    var isOk = that.data.isOk;
-    app.globalData.type2address = that.data.detailStr;
-    app.globalData.sellfeatureAppNo = that.data.sellfeatureAppNo;
-    if (type == 1) {
-      wx.getStorage({
-        key: 'loginInfo',
-        success: function(res) {
-          if (res.data.mobilePhone && res.data.isRegister == '1') {
-            wx.navigateTo({
-              url: '../sellDetail/sellDetail?type=' + type,
-            })
-          } else {
-            wx.navigateTo({
-              url: '../login/login'
+    wx.request({
+      url: app.globalData.url + '/Api/Goods/IsGoodsOrderFood' +'/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode,
+      method:'GET',
+      success:function(res){
+        // console.log(res)
+        if (res.data.isOrderFood == '1'){
+          that.setData({
+            movieList: app.globalData.movieList
+          })
+          var type = that.data.sendtype;
+          var isOk = that.data.isOk;
+          app.globalData.type2address = that.data.detailStr;
+          app.globalData.sellfeatureAppNo = that.data.sellfeatureAppNo;
+          if (type == 1) {
+            wx.getStorage({
+              key: 'loginInfo',
+              success: function (res) {
+                if (res.data.mobilePhone && res.data.isRegister == '1') {
+                  wx.navigateTo({
+                    url: '../sellDetail/sellDetail?type=' + type,
+                  })
+                } else {
+                  wx.navigateTo({
+                    url: '../login/login'
+                  })
+                }
+              },
+              fail: function () {
+                wx.reLaunch({
+                  url: '../login/login',
+                })
+              }
             })
           }
-        },
-        fail: function() {
-          wx.reLaunch({
-            url: '../login/login',
-          })
-        }
-      })
-    }
-     else if (type == 2 && app.globalData.isSnackDistribution == '是') {
-      if (isOk) {
-        wx.getStorage({
-          key: 'loginInfo',
-          success: function(res) {
-            if (res.data.mobilePhone && res.data.isRegister == '1') {
-              wx.navigateTo({
-                url: '../sellDetail/sellDetail?type=' + type,
+          else if (type == 2 && app.globalData.isSnackDistribution == '是') {
+            if (isOk) {
+              wx.getStorage({
+                key: 'loginInfo',
+                success: function (res) {
+                  if (res.data.mobilePhone && res.data.isRegister == '1') {
+                    wx.navigateTo({
+                      url: '../sellDetail/sellDetail?type=' + type,
+                    })
+                  } else {
+                    wx.navigateTo({
+                      url: '../login/login'
+                    })
+                  }
+                },
+                fail: function () {
+                  wx.reLaunch({
+                    url: '../login/login',
+                  })
+                }
               })
             } else {
-              wx.navigateTo({
-                url: '../login/login'
+              wx.request({
+                url: app.globalData.url + '/Api/Screen/QueryScreens' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode,
+                method: 'GET',
+                success: function (res) {
+                  console.log(res.data.data.screen)
+                  that.setData({
+                    typeMovie: res.data.data.screen
+                  })
+                }
               })
+              that.setData({
+                startChoose: true
+              })
+              wx.hideTabBar()
             }
-          },
-          fail: function() {
-            wx.reLaunch({
-              url: '../login/login',
+          }
+          else if (type == 2 && app.globalData.isSnackDistribution == '否') {
+            wx.showModal({
+              title: '暂不支持送餐服务',
             })
           }
-        })
-      } else {
-        wx.request({
-          url: app.globalData.url + '/Api/Screen/QueryScreens' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode,
-          method:'GET',
-          success:function(res){
-            console.log(res.data.data.screen)
-            that.setData({
-              typeMovie: res.data.data.screen
-            })
-          }
-        })
-        that.setData({
-          startChoose: true
-        })
-        wx.hideTabBar()
+
       }
-    }
-    else if (type == 2 && app.globalData.isSnackDistribution == '否'){
-      wx.showModal({
-        title: '暂不支持送餐服务',
-      })
-    }
+        else if (res.data.isOrderFood == '0'){
+              wx.showModal({
+                title: '该时间段暂不支持点餐'
+              })  
+      }
+      }
+    })
 
   },
   countMovie: function() {

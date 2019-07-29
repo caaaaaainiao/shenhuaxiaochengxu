@@ -521,7 +521,7 @@ const getMemberCardByPhone = (cinemaNo, mobilePhone, callback) => {
       'content-type': 'application/json' // 默认值
     },
     success: function (res) {
-      console.log(res)
+      // console.log(res)
       wx.hideLoading();
       var cardInfo = res.data.data;
 

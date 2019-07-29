@@ -77,7 +77,7 @@ Page({
         "Content-Type": "application/json"
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         that.setData({
           phone: res.data.data.mobilePhone,
         })
@@ -119,7 +119,7 @@ Page({
                   'content-type': 'application/json' // 默认值
                 },
                 success: function (res) {
-                  console.log(res);
+                  // console.log(res);
                   let reductionPrice = that.data.reductionPrice;
                   let refreshments = that.data.refreshments;
                   if (res.data.Status == 'Success') {
@@ -228,7 +228,7 @@ Page({
                 'content-type': 'application/json' // 默认值
               },
               success: function (res) {
-                console.log(res);
+                // console.log(res);
                 let reductionPrice = that.data.reductionPrice;
                 let refreshments = that.data.refreshments;
                 if (res.data.Status == 'Success') {

@@ -58,7 +58,7 @@ Page({
       url:app.globalData.url+'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         that.setData({
           logo: res.data.data.cinemas[0].businessPic,
           concinemaname: res.data.data.cinemas[0].businessName,
@@ -210,7 +210,7 @@ Page({
       that.setData({
         moviearea: recent
       })
-      console.log(cinemaList)
+      // console.log(cinemaList)
       app.globalData.lookcinemaname = cinemaList.cinemaName;
       app.globalData.lookcinemaadd = cinemaList.address;
       app.globalData.moviearea = recent;
@@ -251,7 +251,7 @@ Page({
         that.setData({
           movieList: res
         })
-        console.log(that.data.movieList)
+        // console.log(that.data.movieList)
         app.globalData.sellMovielist = that.data.movieList
       });
     }
@@ -638,7 +638,7 @@ Page({
     this.showCity();
   },
   getUserInfo: function (e) { //获取用户信息
-    console.log(e)
+    // console.log(e)
     var that = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
       wx.showToast({
@@ -738,7 +738,7 @@ Page({
             "Content-Type": "application/json"
           },
           success: function (e) {
-            console.log(e)
+            // console.log(e)
             //个人信息
             if (e.data.Status == 'Success') {
               that.setData({

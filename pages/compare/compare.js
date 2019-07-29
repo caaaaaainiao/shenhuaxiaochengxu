@@ -224,7 +224,7 @@ Page({
       },
       success: function (res) {
         var comparePrices = res.data.data.sessionDate[0].session;
-        console.log(comparePrices)
+        // console.log(comparePrices)
         // 获取影院设置的限制购票时间
         let beforeStartTime = Number(app.globalData.beforeStartTime) * 60 * 1000;
         // 将限制购票时间加上当前时间与影片开场时间作对比

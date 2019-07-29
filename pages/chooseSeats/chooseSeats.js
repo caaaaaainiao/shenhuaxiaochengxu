@@ -97,7 +97,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         var seats = res.data.data.rows;
         that.setData({
           seats: seats,
@@ -111,7 +111,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        console.log(res)
+        // console.log(res)
         var seat = res.data.sessionSeat.seat;
         var seats = that.data.seats;
         for (let i = 0; i < seats.length; i++) {
@@ -505,7 +505,7 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
-              console.log(res)
+              // console.log(res)
               if (res.data.Status == "Success") {
                 // console.log(that.data)
                 // console.log(app.globalData)
