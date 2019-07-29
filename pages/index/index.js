@@ -165,7 +165,7 @@ Page({
               success: function (res) { //key所对应的内容
                 // console.log(res)
 
-                that.wxLogin(); //获取信息函数
+                that.wxLogin();
               },
               fail: function (res) {
                 that.setData({
@@ -175,7 +175,7 @@ Page({
               }
             })
           }
-        }, 1000)
+        }, 500)
       }
       // 声明一个新数组 将市区添加到新数组内
       var arr = [];
