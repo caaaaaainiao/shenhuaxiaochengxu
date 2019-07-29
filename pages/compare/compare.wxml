@@ -61,11 +61,11 @@
               <!-- 就在这里 -->
               <view class='store'>
                 <image src='{{logo}}' wx:if="{{comparePrices.typeCode==1}}"></image>
-                <image src='/images/rmlogo.png' wx:if="{{comparePrices.typeCode==46}}"></image>
+                <image src='/images/rmlogo.png' wx:elif="{{comparePrices.typeCode==46}}"></image>
                 <image src='/images/mylogo.png' wx:elif="{{comparePrices.typeCode==36}}"></image>
                 <image src='/images/tpplogo.png' wx:elif="{{comparePrices.typeCode==49}}"></image>
                 <text wx:if="{{comparePrices.typeCode==1}}">影城会员</text>
-                <text wx:if="{{comparePrices.typeCode==46}}">百度糯米</text>
+                <text wx:elif="{{comparePrices.typeCode==46}}">百度糯米</text>
                 <text wx:elif="{{comparePrices.typeCode==36}}">猫眼</text>
                 <text wx:elif="{{comparePrices.typeCode==49}}">淘票票</text>
                 <view class='nowPrice'>
@@ -73,7 +73,7 @@
                   <text class='num'>{{comparePrices.settlePrice}}</text>
                   <text wx:if="{{comparePrices.typeCode==1}}">起</text>
                 </view>
-                <view class='buy' data-index="{{index}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}"  data-code="{{session.qmmComparePrices[index].dataType}}" catchtap='buyMoer'>购票</view>
+                <view class='buy' data-index="{{index}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-typeCode='{{comparePrices.typeCode}}' data-code="{{session.qmmComparePrices[index].dataType}}" catchtap='buyMoer'>购票</view>
               </view>
             </view>
           </block>
@@ -98,13 +98,13 @@
     </view>
   </view>
   <!-- 其他平台提示 -->
-   <view class='tip' wx:if="{{buyNum == 0}}" bindtap='hideTip'>
+   <view class='tip' wx:if="{{buyNum == 36}}" bindtap='hideTip'>
     <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/tipmy.jpg'></image>
   </view>
-  <view class='tip' wx:if="{{buyNum == 1}}" bindtap='hideTip'>
+  <view class='tip' wx:if="{{buyNum == 46}}" bindtap='hideTip'>
     <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/tipbdrm.jpg'></image>
   </view>
-  <view class='tip' wx:if="{{buyNum == 2}}" bindtap='hideTip'>
+  <view class='tip' wx:if="{{buyNum == 49}}" bindtap='hideTip'>
     <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/tiptpp.jpg'></image>
   </view>
   <view class='fixed'>第三方渠道票价仅作比价参考，可能部分价格会存在误差。</view>

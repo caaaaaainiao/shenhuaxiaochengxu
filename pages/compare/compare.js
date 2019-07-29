@@ -199,11 +199,14 @@ Page({
     app.globalData.screenPlanList = that.data.screenPlanList;
   },
   buyMoer : function(e){
-    
-    this.setData({
-      buyNum: e.target.dataset.index
+    let that = this;
+    // console.log(e.currentTarget.dataset.index)
+    that.setData({
+      buyNum: e.target.dataset.typecode
     })
-    console.log(this.data.buyNum)
+    if (e.target.dataset.typecode == 1) {
+      that.buy(e);
+    }
   },
   ask: function() { //请求数据
     var that = this;
@@ -250,7 +253,7 @@ Page({
     var that = this;
     app.globalData.filmName = that.data.moviesListDate.filmName
     var i = that.data.select;
-    var index = e.currentTarget.dataset.index
+    var index = that.data.selectedIndex;
     var sessionDate = that.data.moviesListDate.sessionDate[i].sessionDate
     var screenCode = e.currentTarget.dataset.screencode;
     var time = that.data.moviesListDate.sessionDate[i].session[index].beginTime;
@@ -260,7 +263,6 @@ Page({
     var filmType = that.data.moviesListDate.filmType;
     var salePrice = that.data.moviesListDate.sessionDate[i].session[index].salePrice;
     app.globalData.moviesListDate = that.data.moviesListDate.sessionDate[i].session[index];
-    // console.log(that.data.moviesListDate.sessionDate[i])
     wx.navigateTo({
       url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&salePrice=' + salePrice + '&&endtime=' + endtime,
     })
@@ -295,7 +297,6 @@ Page({
     } 
   },
   checkSession:function(e){//选择比价
-    // console.log(e.currentTarget.dataset.index)
     var that = this;
     // console.log(that.data.comparePrices)
     that.setData({
