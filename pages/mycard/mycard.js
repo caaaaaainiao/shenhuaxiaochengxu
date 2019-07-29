@@ -48,6 +48,9 @@ Page({
         console.log(res)
         // 如果有已经绑定的会员卡
         if (res.data.data.memberCard && res.data.data.memberCard.length > 0) {
+          if (!res.data.data.memberCard[0].balance || res.data.data.memberCard[0].balance == '') {
+            res.data.data.memberCard[0].balance = 0
+          }
           that.setData({
             card: res.data.data.memberCard[0]
           });

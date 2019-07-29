@@ -243,6 +243,15 @@ Page({
       })
       //发送请求获取验证码
       let apiuser = util.getAPIUserData(null);
+      if (!app.globalData.cinemacode || !app.globalData.userInfo.openID) {
+        wx.showToast({
+          title: '请删除小程序重新扫码或搜索进入',
+          duration: 1000,
+          icon: 'none',
+          mask: true
+        });
+        return;
+      }
       wx.request({
         url: app.globalData.url + '/Api/User/SendVerifyCode',
         method: "POST",
@@ -254,6 +263,7 @@ Page({
           mobilePhone: phone
         },
         success: function (res) {
+          console.log(res)
           if (res.data.Status == "Success") {
             //倒计时
             that.setData({

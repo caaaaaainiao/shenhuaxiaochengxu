@@ -105,65 +105,50 @@ Page({
     setTimeout(function(){
       util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
         if (res.data.Status == 'Success' && res.data.data.memberCard) { // 如果有会员卡
-          wx.hideLoading();
           var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
           that.setData({
             card: first,
           })
-          // 获取会员卡折扣
-          if (first) {
-              wx.request({
-                url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + first.cardNo + '/' + null + '/' + first.levelCode + '/' + app.globalData.moviesListDate.screenType + '/' + that.data.orderCode,
-                method: 'GET',
-                header: {
-                  'content-type': 'application/json' // 默认值
-                },
-                success: function (res) {
-                  // console.log(res);
-                  let reductionPrice = that.data.reductionPrice;
-                  let refreshments = that.data.refreshments;
-                  if (res.data.Status == 'Success') {
-                    if (app.globalData.cinemaList.cinemaType == '辰星') {
-                      let price;
-                      if (res.data.card.price == '0') {
-                        price = parseFloat(that.data.price).toFixed(2);
-                      } else {
-                        price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
-                      }
-                      that.setData({
-                        memberCardPrice: price,
-                        // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
-                      })
-                    } else if (app.globalData.cinemaList.cinemaType == '粤科') {
-                      let price;
-                      if (res.data.card.discountType == '1') {
-                        price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
-                      }
-                      if (!res.data.card.price) {
-                        price = parseFloat(that.data.price).toFixed(2)
-                      }
-                      that.setData({
-                        memberCardPrice: price,
-                        // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
-                      })
-                    } else if (app.globalData.cinemaList.cinemaType == '满天星' || app.globalData.cinemaList.cinemaType == '电影1905') {
-                      let price;
-                      if (res.data.card.price == '0') {
-                        price = parseFloat(that.data.price).toFixed(2);
-                      } else {
-                        price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
-                      }
-                      that.setData({
-                        memberCardPrice: price,
-                        // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
-                      })
-                    } 
-                  }
-                }
-              })
-          }
+          // 获取订单价格
+          wx.request({
+            url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode+ '/' + that.data.orderCode + '/' + first.cardNo,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              wx.hideLoading();
+              console.log(res)
+              if (res.data.Status == 'Success') {
+                that.setData({
+                  price: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格
+                  thirdPayFee: res.data.thirdPayFee, // 微信支付代售费
+                  memberCardPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
+                  memberPayFee: res.data.memberPayFee, // 会员卡支付代售费
+                })
+              }
+            }
+          })
         } else {
-          wx.hideLoading();
+          // 获取订单价格 没有会员卡传null
+          wx.request({
+            url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode+ '/' + that.data.orderCode + '/' + null,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              wx.hideLoading();
+              if (res.data.Status == 'Success') {
+                that.setData({
+                  price: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格
+                  thirdPayFee: res.data.thirdPayFee, // 微信支付代售费
+                  memberCardPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
+                  memberPayFee: res.data.memberPayFee, // 会员卡支付代售费
+                })
+              }
+            }
+          })
         }
       });
     },500)
@@ -208,10 +193,11 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面显示
+   * 生命周期函数--监听页面显示z
    */
   onShow: function () {
     let that = this;
+    // 获取会员卡信息
     setTimeout(function () {
       util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
         if (res.data.Status == 'Success' && res.data.data.memberCard) { // 如果有会员卡
@@ -219,58 +205,63 @@ Page({
           that.setData({
             card: first,
           })
-          // 获取会员卡折扣
-          if (first) {
-            wx.request({
-              url: app.globalData.url + '/Api/Member/QueryDiscount' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + first.cardNo + '/' + null + '/' + first.levelCode + '/' + app.globalData.moviesListDate.screenType + '/' + that.data.orderCode,
-              method: 'GET',
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
-              success: function (res) {
-                // console.log(res);
-                let reductionPrice = that.data.reductionPrice;
-                let refreshments = that.data.refreshments;
-                if (res.data.Status == 'Success') {
-                  if (app.globalData.cinemaList.cinemaType == '辰星') {
-                    let price;
-                    if (res.data.card.price == '0') {
-                      price = parseFloat(that.data.price).toFixed(2);
-                    } else {
-                      price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
-                    }
-                    that.setData({
-                      memberCardPrice: price,
-                      // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
-                    })
-                  } else if (app.globalData.cinemaList.cinemaType == '粤科') {
-                    let price;
-                    if (res.data.card.discountType == '1') {
-                      price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
-                    }
-                    if (!res.data.card.price) {
-                      price = parseFloat(that.data.price).toFixed(2)
-                    }
-                    that.setData({
-                      memberCardPrice: price,
-                      // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
-                    })
-                  } else if (app.globalData.cinemaList.cinemaType == '满天星' || app.globalData.cinemaList.cinemaType == '电影1905') {
-                    let price;
-                    if (res.data.card.price == '0') {
-                      price = parseFloat(that.data.price).toFixed(2);
-                    } else {
-                      price = parseFloat(res.data.card.price * that.data.count).toFixed(2);
-                    }
-                    that.setData({
-                      memberCardPrice: price,
-                      // allPrice: parseFloat(price - reductionPrice + refreshments).toFixed(2),
-                    })
-                  }
+          // 获取订单价格
+          wx.request({
+            url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.orderCode + '/' + first.cardNo,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              wx.hideLoading();
+              if (res.data.Status == 'Success') {
+                if (that.data.payway == 2) { // 如果选择了会员卡支付
+                  that.setData({
+                    price: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格
+                    thirdPayFee: res.data.thirdPayFee, // 微信支付代售费
+                    memberCardPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
+                    memberPayFee: res.data.memberPayFee, // 会员卡支付代售费
+                    allPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
+                  })
+                } else if (that.data.payway == 1) {
+                  that.setData({
+                    price: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格
+                    thirdPayFee: res.data.thirdPayFee, // 微信支付代售费
+                    memberCardPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
+                    memberPayFee: res.data.memberPayFee, // 会员卡支付代售费
+                    allPrice: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格
+                  })
+                } else {
+                  that.setData({
+                    price: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格
+                    thirdPayFee: res.data.thirdPayFee, // 微信支付代售费
+                    memberCardPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
+                    memberPayFee: res.data.memberPayFee, // 会员卡支付代售费
+                  })
                 }
               }
-            })
-          }
+            }
+          })
+        } else {
+          // 获取订单价格 没有会员卡传null
+          wx.request({
+            url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.orderCode + '/' + null,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              wx.hideLoading();
+              if (res.data.Status == 'Success') {
+                that.setData({
+                  price: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格
+                  thirdPayFee: res.data.thirdPayFee, // 微信支付代售费
+                  memberCardPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
+                  memberPayFee: res.data.memberPayFee, // 会员卡支付代售费
+                })
+              }
+            }
+          })
         }
       });
     }, 500)
@@ -670,11 +661,13 @@ Page({
   },
   // 微信支付
   wxPay: function () {
+    wx.showLoading({
+      title: '加载中',
+      mask: true
+    })
     var that = this;
     var json = [];
-    console.log(that.data)
     let list = app.globalData.seat;
-    console.log(list)
     for (let i = 0; i < list.length; i++) {
       let seatCode = list[i].seatCode;
       json.push({
@@ -700,6 +693,7 @@ Page({
       },
       success: function (res) {
         console.log(res);
+        wx.hideLoading();
         if (res.data.Status == "Success") {
           let timeStamp = res.data.data.timeStamp;
           let nonceStr = res.data.data.nonceStr;
@@ -797,6 +791,7 @@ Page({
   pay2: function () {
     wx.showLoading({
       title: '加载中',
+      mask: true
     })
     var that = this;
     // if (that.data.canClick != 1) {

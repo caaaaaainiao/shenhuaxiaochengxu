@@ -143,6 +143,11 @@ Page({
       name: e.detail.value
     })
   },
+  getId: function (e) {
+    this.setData({
+      cardId: e.detail.value
+    })
+  }, 
   // 查看会员协议
   cinemaAgreement: function () {
     let that = this;
@@ -243,6 +248,7 @@ Page({
                 },
                 success: function (res) {
                   wx.hideLoading();
+                  console.log(res)
                   if (res.data.Status == 'Success') {
                     wx.showToast({
                       title: '开卡成功！',

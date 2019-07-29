@@ -180,7 +180,6 @@ Page({
           'content-type': 'application/json' // 默认值
         },
         success: function (res) {
-          wx.hideTabBar() //隐藏栏
           console.log(res)
           that.setData({
             retreat: false,

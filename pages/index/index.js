@@ -669,8 +669,6 @@ Page({
         }
       })
     }
-
-
   },
   wxLogin: function () { //用户信息
     var that = this;
