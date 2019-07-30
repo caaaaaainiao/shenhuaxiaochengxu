@@ -638,7 +638,7 @@ Page({
     this.showCity();
   },
   getUserInfo: function (e) { //获取用户信息
-    // console.log(e)
+    console.log(e)
     var that = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
       wx.showToast({
@@ -669,51 +669,14 @@ Page({
         }
       })
     }
+    else{
+      wx.showModal({
+        title: e.detail.errMsg
+      })
+    }
   },
   wxLogin: function () { //用户信息
     var that = this;
-    let loginInfo = wx.getStorageSync('loginInfo');
-    if (loginInfo) {
-      app.globalData.userInfo = loginInfo;
-      that.setData({
-        userInfo: loginInfo
-      });
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
-        var memberCard = [];
-        var status = [];
-        if (res.data.Status == "Failure") {
-          that.setData({
-            memberCardScore: '---',
-            memberCardBalance: '---'
-          })
-        } else if (res.data.data.memberCard == null) {
-          that.setData({
-            memberCardScore: '---',
-            memberCardBalance: '---'
-          })
-        } else {
-          var memberCard = res.data.data.memberCard;
-          for (var i = 0; i < memberCard.length; i++) {
-            if (memberCard[i].status == 1) {
-              status.push(memberCard[i]);
-            }
-          }
-          // 计算余额最多的会员卡
-          var first = memberCard.sort(function (a, b) {
-            return a.balance < b.balance
-          })[0];
-          if (first.score == null) {
-            first.score = 0
-          }
-          that.setData({
-            memberCardBalance: first.balance,
-            memberCardScore: first.score
-          })
-        }
-      })
-      return;
-    }
-
     wx.login({
       success: function (msg) {
         var wxCode = msg.code; // 发送 res.code 到后台换取 openId, sessionKey, unionId
@@ -804,16 +767,16 @@ Page({
                   }
                 }
               })
-            } 
+            }
             else {
               wx.showToast({
                 title: '授权失败，请重新授权',
                 icon: 'none',
                 duration: 2000,
-                success () {
-                    that.setData({
-                      shouquan: true
-                    })
+                success() {
+                  that.setData({
+                    shouquan: true
+                  })
                 }
               })
             }
@@ -838,6 +801,47 @@ Page({
         })
       }
     })
+    let loginInfo = wx.getStorageSync('loginInfo');
+    if (loginInfo) {
+      app.globalData.userInfo = loginInfo;
+      that.setData({
+        userInfo: loginInfo
+      });
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+        var memberCard = [];
+        var status = [];
+        if (res.data.Status == "Failure") {
+          that.setData({
+            memberCardScore: '---',
+            memberCardBalance: '---'
+          })
+        } else if (res.data.data.memberCard == null) {
+          that.setData({
+            memberCardScore: '---',
+            memberCardBalance: '---'
+          })
+        } else {
+          var memberCard = res.data.data.memberCard;
+          for (var i = 0; i < memberCard.length; i++) {
+            if (memberCard[i].status == 1) {
+              status.push(memberCard[i]);
+            }
+          }
+          // 计算余额最多的会员卡
+          var first = memberCard.sort(function (a, b) {
+            return a.balance < b.balance
+          })[0];
+          if (first.score == null) {
+            first.score = 0
+          }
+          that.setData({
+            memberCardBalance: first.balance,
+            memberCardScore: first.score
+          })
+        }
+      })
+      // return;
+    }
   },
   getLocation: function () {
     wx.getSetting({
