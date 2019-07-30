@@ -42,7 +42,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
-        // console.log(res)
+        console.log(res)
         if (res.data.Status == "Success" && res.data.data.images) {
           that.setData({
             picture: res.data.data.images[0].image,
@@ -102,6 +102,34 @@ Page({
           userInfo: res.data.userInfo
         })
       },
+    });
+    let odata = {
+      UserName: app.usermessage.Username,
+      Password: app.usermessage.Password,
+      CinemaCode: app.globalData.cinemacode,
+      GradeCode: "02",
+      OpenID: app.globalData.openId,
+    };
+    // 读取页面背景图片
+    wx.request({
+      url: app.globalData.url + '/Api/Activity/QueryActivitys/' + odata.UserName + '/' + odata.Password + '/' + odata.CinemaCode + '/' + odata.GradeCode,
+      method: 'GET',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        if (res.data.Status == "Success" && res.data.data.images) {
+          that.setData({
+            picture: res.data.data.images[0].image,
+          })
+        }
+        else{
+          that.setData({
+            picture: 'https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/minebg.png'
+          })
+        }
+      }
     });
     let data = {
       UserName: app.usermessage.Username,
