@@ -864,6 +864,7 @@ Page({
    */
   onShow: function () {
     var that = this;
+    wx.showTabBar();
     wx.getStorage({
       key: 'accredit',
       success: function (res) { //key所对应的内容
@@ -945,8 +946,6 @@ Page({
         }
       });
     }
-
-    return;
     that.setData({
       userInfo: app.globalData.userInfo,
       movieList: app.globalData.movieList,

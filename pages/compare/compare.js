@@ -249,11 +249,10 @@ Page({
     })
   },
   buy: function(e) {
-    // console.log(e)
     var that = this;
     app.globalData.filmName = that.data.moviesListDate.filmName
     var i = that.data.select;
-    var index = that.data.selectedIndex;
+    var index = e.currentTarget.dataset.index;
     var sessionDate = that.data.moviesListDate.sessionDate[i].sessionDate
     var screenCode = e.currentTarget.dataset.screencode;
     var time = that.data.moviesListDate.sessionDate[i].session[index].beginTime;
@@ -298,7 +297,6 @@ Page({
   },
   checkSession:function(e){//选择比价
     var that = this;
-    // console.log(that.data.comparePrices)
     that.setData({
       // isShow:true,
       selectedIndex: e.currentTarget.dataset.index
