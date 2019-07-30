@@ -950,35 +950,11 @@ Page({
       userInfo: app.globalData.userInfo,
       movieList: app.globalData.movieList,
     })
-    // console.log(app.globalData)
-    if (app.globalData.movieList) {
-      that.setData({
-        currentCity: app.globalData.cinemaList[0].city
-      })
-    }
-    if (app.globalData.cinemaList && that.data.moviearea.cinemaName != app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName) {
-      that.setData({
-        moviearea: app.globalData.cinemaList[app.globalData.cinemaNo],
-        cinemaList: app.globalData.cinemaList,
-        offerDescription: app.globalData.cinemaList.offerDescription,
-      })
-    }
-    if (app.globalData.movieList != null) {
-      this.setData({
-        moviearea: app.globalData.cinemaList[app.globalData.cinemaNo],
-      })
-
-    }
     if (that.data.memberCardBalance == "---") {
       app.globalData.cardList = 1;
     } else {
       app.globalData.cardList = 0;
     };
-    setTimeout(function () {
-      wx.setNavigationBarTitle({
-        title: app.globalData.cinemaList.cinemaName
-      });
-    }, 1000)
   },
   onShareAppMessage: function () {
     return {
