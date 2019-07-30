@@ -32,7 +32,7 @@
           </block>
         </view>
         <view wx:if="{{activityText.length > 0}}" class="activityText">{{activityText}}</view>
-        <view class='recharge' bindtap='recharge'>充值</view>
+        <view class='recharge' bindtap='recharge' disabled="{{disabled}}">充值</view>
       </swiper-item>
       <swiper-item>
         <view class='tip'><text>*</text>解绑后将不再享受会员优惠价，也不能使用会员卡支付，请谨慎操作！ </view>

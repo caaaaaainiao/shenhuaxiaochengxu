@@ -17,7 +17,8 @@ Page({
     index:-1,
     orderNumber:0,
     activity:[],
-    isShow: true
+    isShow: true,
+    disabled: false,
   },
 
   /**
@@ -288,6 +289,15 @@ Page({
       })
       return;
     };
+    // 防止多次点击
+    that.setData({
+      disabled: true,
+    })
+    setTimeout(function () {
+      that.setData({
+        disabled: false,
+      })
+    }, 1000)
     // 选择充值的金额
     var rechargeMoney = that.data.rule[that.data.index].credit;
     wx.showLoading({
@@ -301,7 +311,7 @@ Page({
           selectRule: that.data.rule[i],
         })
       }
-    }
+    };
     let card = app.globalData.card;
     // 预支付
     wx.request({
