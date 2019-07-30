@@ -946,8 +946,6 @@ Page({
         }
       });
     }
-
-    return;
     that.setData({
       userInfo: app.globalData.userInfo,
       movieList: app.globalData.movieList,
