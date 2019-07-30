@@ -159,21 +159,19 @@ Page({
                 })
               }
             })
-
-            wx.getStorage({
-              key: 'accredit',
-              success: function (res) { //key所对应的内容
-                // console.log(res)
-
-                that.wxLogin();
-              },
-              fail: function (res) {
-                that.setData({
-                  shouquan: true
-                })
-                wx.hideTabBar() //隐藏栏
-              }
-            })
+            // wx.getStorage({
+            //   key: 'accredit',
+            //   success: function (res) { //key所对应的内容
+            //     // console.log(res)
+            //     that.wxLogin();
+            //   },
+            //   fail: function (res) {
+            //     that.setData({
+            //       shouquan: true
+            //     })
+            //     wx.hideTabBar() //隐藏栏
+            //   }
+            // })
           }
         }, 500)
       }
