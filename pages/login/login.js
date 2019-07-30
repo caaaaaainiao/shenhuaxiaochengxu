@@ -240,9 +240,18 @@ Page({
       })
       //发送请求获取验证码
       let apiuser = util.getAPIUserData(null);
-      if (!app.globalData.cinemacode || !app.globalData.userInfo.openID) {
+      if (!app.globalData.cinemacode) {
         wx.showToast({
-          title: '请删除小程序重新扫码或搜索进入',
+          title: '请删除小程序重新扫码或搜索进入01',
+          duration: 1000,
+          icon: 'none',
+          mask: true
+        });
+        return;
+      }
+      else if (!app.globalData.userInfo.openID) {
+        wx.showToast({
+          title: '请删除小程序重新扫码或搜索进入02',
           duration: 1000,
           icon: 'none',
           mask: true

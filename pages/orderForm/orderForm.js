@@ -54,6 +54,7 @@ Page({
     printNo: null, // 出票号
     verifyCode: null, // 验证码
     payway: null, //支付方式 2-会员卡，1-微信
+    disabled: false,
     // waitActivity: null,//可參與活動
     UrlMap: {
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
@@ -647,6 +648,14 @@ Page({
       })
       return;
     }
+    that.setData({
+      disabled: true,
+    })
+    setTimeout(function(){
+      that.setData({
+        disabled: false,
+      })
+    },1000)
     if (that.data.payway == 1) { // 微信支付
       that.wxPay();
     };
