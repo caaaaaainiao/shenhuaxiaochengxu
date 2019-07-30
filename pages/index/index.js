@@ -540,7 +540,7 @@ Page({
     let that = this;
     // 由距离远近进行排序 增加一个开关选择是否显示所有影院
     let cinemaList = app.globalData.areaList.sort(util.sortDistance("distance"));
-    console.log(cinemaList)
+    // console.log(cinemaList)
     if (that.data.all == true) {
       that.setData({
         cinemaList: cinemaList,
@@ -563,7 +563,7 @@ Page({
     }
     app.globalData.cinemaNo = e.currentTarget.dataset.index;
     app.globalData.cinemacode = e.currentTarget.dataset.cinemacode;
-    console.log(app.globalData.cinemacode)
+    // console.log(app.globalData.cinemacode)
     app.globalData.moviearea = e.currentTarget.dataset.cinemaname;
     that.setData({
       moviearea: app.globalData.moviearea,
@@ -574,7 +574,7 @@ Page({
     })
     util.getQueryFilmSession(app.globalData.cinemacode, function (res) {
       var timestamp1 = new Date().getTime()
-      console.log(res)
+      // console.log(res)
       // that.setData({
       //   movieList: res
       // })
@@ -934,7 +934,7 @@ Page({
             var first = userCardList.sort(function (a, b) {
               return a.balance < b.balance
             })[0];
-            console.log(first)
+            // console.log(first)
             if (first.score == null) {
               first.score = 0
             }
@@ -950,35 +950,11 @@ Page({
       userInfo: app.globalData.userInfo,
       movieList: app.globalData.movieList,
     })
-    // console.log(app.globalData)
-    if (app.globalData.movieList) {
-      that.setData({
-        currentCity: app.globalData.cinemaList[0].city
-      })
-    }
-    if (app.globalData.cinemaList && that.data.moviearea.cinemaName != app.globalData.cinemaList[app.globalData.cinemaNo].cinemaName) {
-      that.setData({
-        moviearea: app.globalData.cinemaList[app.globalData.cinemaNo],
-        cinemaList: app.globalData.cinemaList,
-        offerDescription: app.globalData.cinemaList.offerDescription,
-      })
-    }
-    if (app.globalData.movieList != null) {
-      this.setData({
-        moviearea: app.globalData.cinemaList[app.globalData.cinemaNo],
-      })
-
-    }
     if (that.data.memberCardBalance == "---") {
       app.globalData.cardList = 1;
     } else {
       app.globalData.cardList = 0;
     };
-    setTimeout(function () {
-      wx.setNavigationBarTitle({
-        title: app.globalData.cinemaList.cinemaName
-      });
-    }, 1000)
   },
   onShareAppMessage: function () {
     return {
