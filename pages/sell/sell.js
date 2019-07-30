@@ -423,7 +423,7 @@ Page({
       url: app.globalData.url + '/Api/Goods/IsGoodsOrderFood' +'/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode,
       method:'GET',
       success:function(res){
-        // console.log(res)
+        console.log(res)
         if (res.data.isOrderFood == '1'){
           that.setData({
             movieList: app.globalData.movieList
@@ -500,8 +500,9 @@ Page({
       }
         else if (res.data.isOrderFood == '0'){
               wx.showModal({
-                title: '该时间段暂不支持点餐'
-              })  
+                title: '该时间段不支持点餐',
+                content: res.data.goodsStartTime + '-' + res.data.goodsEndTime,
+              }) 
       }
       }
     })
