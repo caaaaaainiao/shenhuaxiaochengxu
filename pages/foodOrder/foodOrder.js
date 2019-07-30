@@ -312,7 +312,8 @@ Page({
                 cinemaCode: app.globalData.cinemacode,
                 couponsCode: that.data.merOrder.merTicket.conponCode,
                 reductionPrice: that.data.merOrder.merTicket.couponPrice,
-                goodsList: app.globalData.goodslist
+                goodsList: app.globalData.goodslist,
+                deliveryMark: that.data.userMessage
 
               },
               success: function (res) {
@@ -677,7 +678,7 @@ Page({
     if (that.data.cinemaType == '辰星' || that.data.cinemaType == '满天星') {
       console.log(data)
       wx.request({
-        url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + that.data.phone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + null + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + that.data.phone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + null + '/' + that.data.merOrder.merTicket.conponCode +'/'+that.data.userMessage,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
@@ -698,7 +699,7 @@ Page({
     } else if (that.data.cinemaType == '粤科') {
       console.log(that.data.cardNo)
       wx.request({
-        url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode + '/' + that.data.userMessage,
         method: "GET",
         success: function (res) {
           console.log(res)
@@ -716,7 +717,7 @@ Page({
       })
     } else if (that.data.cinemaType == '电影1905') {
       wx.request({
-        url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode,
+        url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode + '/' + that.data.userMessage,
         method: "GET",
         success: function (res) {
           console.log(res)

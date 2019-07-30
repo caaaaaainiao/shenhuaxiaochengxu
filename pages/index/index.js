@@ -699,7 +699,7 @@ Page({
             "Content-Type": "application/json"
           },
           success: function (e) {
-            // console.log(e)
+            console.log(e)
             //个人信息
             if (e.data.Status == 'Success') {
               that.setData({
