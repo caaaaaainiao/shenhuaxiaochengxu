@@ -638,7 +638,7 @@ Page({
     this.showCity();
   },
   getUserInfo: function (e) { //获取用户信息
-    console.log(e)
+    // console.log(e)
     var that = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") {
       wx.showToast({
@@ -864,6 +864,7 @@ Page({
    */
   onShow: function () {
     var that = this;
+    wx.showTabBar()
     wx.getStorage({
       key: 'accredit',
       success: function (res) { //key所对应的内容
@@ -979,7 +980,7 @@ Page({
       wx.setNavigationBarTitle({
         title: app.globalData.cinemaList.cinemaName
       });
-    }, 1000);
+    }, 1000)
   },
   onShareAppMessage: function () {
     return {
