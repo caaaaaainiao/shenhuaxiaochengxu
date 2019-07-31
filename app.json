@@ -78,5 +78,6 @@
       "desc": "你的位置信息将用于小程序获取最近影院"
     }
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "backgroundColor": "#2177b9"
 }

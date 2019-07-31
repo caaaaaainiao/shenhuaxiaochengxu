@@ -276,6 +276,15 @@ Page({
     // this.formSubmit()
     var that = this
     console.log(that.data.phone)
+    console.log(that.data.userMessage)
+    if (that.data.userMessage){
+         console.log("1")
+    }
+    else{
+      that.setData({
+        userMessage:null
+      })
+    }
     if(that.data.payway == 1){
       if (that.data.canClick != 1) {
         return;

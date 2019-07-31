@@ -71,7 +71,7 @@
                 <view class='nowPrice'>
                   <text>￥</text>
                   <text class='num'>{{comparePrices.settlePrice}}</text>
-                  <text wx:if="{{comparePrices.typeCode==1}}">起</text>
+                  <text class="qi" wx:if="{{comparePrices.typeCode==1}}">  起</text>
                 </view>
                 <view class='buy' data-index="{{index}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-typeCode='{{comparePrices.typeCode}}' data-code="{{session.qmmComparePrices[index].dataType}}" catchtap='buyMoer'>购票</view>
               </view>

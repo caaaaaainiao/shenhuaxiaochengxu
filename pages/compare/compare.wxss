@@ -1,4 +1,8 @@
 /* pages/compare/compare.wxss */
+.qi{
+  font-size:19rpx
+}
+
 .show{
   display: block
 }

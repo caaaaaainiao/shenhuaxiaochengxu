@@ -275,10 +275,10 @@ Page({
       that.data.typeMovie[i].foodcheck = false;
     }
     that.data.typeMovie[index].foodcheck = true;
-    app.globalData.sellhallname = that.data.typeMovie[index].screenName
+    app.globalData.sellhallname = name
     that.setData({
       typeMovie:that.data.typeMovie,
-      isOk:true
+      isOk:true,
     })
   },
   manage: function(data) { //影片排片数据处理

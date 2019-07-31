@@ -495,6 +495,7 @@ Page({
     var that = this;
     var id = e.currentTarget.dataset.id;
     var goodList = that.data.goodsList;
+    console.log(goodList)
     for (var i = 0; i < goodList.length; i++) {
       if (goodList[i].goodsId == id) {
 
