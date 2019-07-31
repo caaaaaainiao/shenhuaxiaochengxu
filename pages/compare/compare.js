@@ -205,7 +205,21 @@ Page({
       buyNum: e.target.dataset.typecode
     })
     if (e.target.dataset.typecode == 1) {
-      that.buy(e);
+      app.globalData.filmName = that.data.moviesListDate.filmName
+      var i = that.data.select;
+      var index = that.data.selectedIndex;
+      var sessionDate = that.data.moviesListDate.sessionDate[i].sessionDate
+      var screenCode = e.currentTarget.dataset.screencode;
+      var time = that.data.moviesListDate.sessionDate[i].session[index].beginTime;
+      var endtime = that.data.moviesListDate.sessionDate[i].session[index].endTime;
+      var screenName = that.data.moviesListDate.sessionDate[i].session[index].screenName;
+      var sessionCode = that.data.moviesListDate.sessionDate[i].session[index].sessionCode;
+      var filmType = that.data.moviesListDate.filmType;
+      var salePrice = that.data.moviesListDate.sessionDate[i].session[index].salePrice;
+      app.globalData.moviesListDate = that.data.moviesListDate.sessionDate[i].session[index];
+      wx.navigateTo({
+        url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&salePrice=' + salePrice + '&&endtime=' + endtime,
+      })
     }
   },
   ask: function() { //请求数据
@@ -223,6 +237,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function (res) {
+        console.log(res)
         var comparePrices = res.data.data.sessionDate[0].session;
         // console.log(comparePrices)
         // 获取影院设置的限制购票时间
