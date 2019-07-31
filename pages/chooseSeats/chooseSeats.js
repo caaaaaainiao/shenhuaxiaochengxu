@@ -68,7 +68,11 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    // console.log(options)
+    wx.showToast({
+      title: '加载座位中',
+      icon: 'loading',
+      mask: true,
+    })
     that.setData({
       screenCode: options.screenCode,
       featureAppNo: options.sessionCode,
@@ -112,6 +116,7 @@ Page({
       },
       success: function (res) {
         // console.log(res)
+        wx.hideLoading();
         var seat = res.data.sessionSeat.seat;
         var seats = that.data.seats;
         for (let i = 0; i < seats.length; i++) {
@@ -438,6 +443,11 @@ Page({
             delta: 1
           })
         } else {
+          wx.showToast({
+            title: '加载中',
+            icon: 'loading',
+            mask: true,
+          })
           var nowtime = new Date().getTime();
           var sign = app.createMD5('countOrderPrice', nowtime);
           var appData = app.globalData;
@@ -460,7 +470,6 @@ Page({
           } else {
             return;
           }
-          // wx.showLoading()
           for (var i = 0; i < that.data.seatArr.length; i++) {
             seatarr += that.data.seatArr[i] + ","
             seatNumber += that.data.seatNumber[i] + ","
