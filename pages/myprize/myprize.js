@@ -109,7 +109,7 @@ Page({
               ishide: false
             })
             wx.reLaunch({
-              url: '../myprize/myprize'+that.data.isshow
+              url: '../myprize/myprize'
             })
             }
         }
