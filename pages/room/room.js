@@ -188,7 +188,7 @@ Page({
         console.log(that.data.gifts)
         for(var i = 0;i < that.data.gifts.gift.length;i++){
           if (that.data.gifts.gift[i].id == id){
-            giftNum = that.data.gifts.gift[i].groupNumber - 1
+            giftNum = that.data.gifts.gift[i].sendNumber
           }
         }
         // for (var i = 0; i < that.data.gifts.coupons.length; i++) {

@@ -54,7 +54,7 @@ Page({
     printNo: null, // 出票号
     verifyCode: null, // 验证码
     payway: null, //支付方式 2-会员卡，1-微信
-    disabled: false,
+    disabled: 1,
     // waitActivity: null,//可參與活動
     UrlMap: {
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
@@ -629,6 +629,13 @@ Page({
   },
   choosePay: function () {
     let that = this;
+    if (that.data.disabled == 0) {
+      return;
+    } else {
+      that.setData({
+        disabled: 0,
+      })
+    }
     if (!that.data.phone) {
       wx.showToast({
         title: '号码不能为空!',
@@ -648,14 +655,6 @@ Page({
       })
       return;
     }
-    that.setData({
-      disabled: true,
-    })
-    setTimeout(function(){
-      that.setData({
-        disabled: false,
-      })
-    },1000)
     if (that.data.payway == 1) { // 微信支付
       that.wxPay();
     };
@@ -734,6 +733,9 @@ Page({
                   signType: signType,
                   paySign: paySign,
                   success(res) {
+                    that.setData({
+                      disabled: 1,
+                    })
                     console.log(res);
                     if (res.errMsg == "requestPayment:ok") {
                       wx.showToast({
@@ -749,6 +751,9 @@ Page({
                     }
                   },
                   fail(res) {
+                    that.setData({
+                      disabled: 1,
+                    })
                     wx.hideTabBar() //隐藏栏
                     console.log(res);
                   }
@@ -863,6 +868,9 @@ Page({
         let order = res.data.data;
         let price = that.data.memberCardPrice;
         if (res.data.Status == "Success") {
+          that.setData({
+            disabled: 1,
+          })
           // 判断售票系统
           if (app.globalData.cinemaList.cinemaType == "电影1905") { // 1905
                 // 1905系统会员卡支付
@@ -896,7 +904,6 @@ Page({
                   }
                 })
           } else if (app.globalData.cinemaList.cinemaType == "辰星") { //辰星
-              if (res.data.Status == "Success") {
                   // 会员卡支付
                 wx.request({
                   url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2 + '/' + null,
@@ -928,7 +935,6 @@ Page({
                       }
                     }
                   })
-                }
           } else if (app.globalData.cinemaList.cinemaType == "粤科") { //粤科
                 if (res.data.Status == 'Success') {
                   // 会员卡支付

@@ -145,7 +145,7 @@
     </view>
   </view>
   <view class='btn' bindtap='zero' wx:if="{{seatOrder.disPrice == 0}}">确认0元购票</view>
-  <view class='btn' bindtap='choosePay' disabled="{{disabled}}" wx:else>立即支付</view>
+  <view class='btn' bindtap='choosePay' wx:else>立即支付</view>
   <!-- 会员卡密码 -->
   <view class='black2' wx:if="{{showM}}">
     <view class='add2'>

@@ -18,7 +18,7 @@ Page({
     orderNumber:0,
     activity:[],
     isShow: true,
-    disabled: false,
+    disabled: 1,
   },
 
   /**
@@ -290,14 +290,13 @@ Page({
       return;
     };
     // 防止多次点击
-    that.setData({
-      disabled: true,
-    })
-    setTimeout(function () {
+    if (that.data.disabled == 0) {
+      return;
+    } else {
       that.setData({
-        disabled: false,
+        disabled: 0,
       })
-    }, 1000)
+    }
     // 选择充值的金额
     var rechargeMoney = that.data.rule[that.data.index].credit;
     wx.showLoading({
@@ -331,6 +330,9 @@ Page({
             signType: res.data.data.signType,
             paySign: res.data.data.paySign,
             success(res) {
+              that.setData({
+                disabled: 1,
+              });
               console.log(res)
               if (res.errMsg == "requestPayment:ok") {
                 // 获取远程售票系统会员卡积分余额
@@ -349,14 +351,12 @@ Page({
                     }
                   }
                 })
-                // setTimeout(function () {
-                //   wx.redirectTo({
-                //     url: '../mycard/mycard',
-                //   })
-                // }, 1000)
               }
             },
             fail(res) {
+              that.setData({
+                disabled: 1,
+              });
               wx.hideLoading();
               wx.showToast({
                 title: res.err_desc,
