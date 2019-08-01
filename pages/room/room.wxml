@@ -51,7 +51,7 @@
         <view class='gift2'>
           <image src='{{gift.image}}' class='pic2'></image>
           <view class='name'>{{gift.giftName}}</view>
-          <view class='num'>{{gift.groupNumber}}</view>
+          <view class='num'>{{gift.remaingroupNumber}}</view>
           <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{gift.id}}' data-type='{{gift.giftType}}'></image>
         </view>
       </block>
