@@ -251,6 +251,7 @@ Page({
 
   // 右侧滑动导航
   onScroll: function(e) {
+    console.log(e)
     // console.log(e.detail.scrollTop)
     var st = e.detail.scrollTop;
     var that = this;
