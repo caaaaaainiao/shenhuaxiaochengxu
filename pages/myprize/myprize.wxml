@@ -3,7 +3,7 @@
 <!-- 我的奖品 -->
 <scroll-view class='container' scroll-y="true" wx:if="{{result.length > 0}}">
   <view class='line'>
-       <view class="back" bindtap="back">返回</view>  
+    <view class="back" bindtap="back">返回</view>
   </view>
   <!-- <view class='prize'>
     <image class='icon' src=''></image>
@@ -20,8 +20,8 @@
       <view class='name'>{{prize.giftName}}</view>
       <!-- <view class='scope'>全店通用，请至前台领取</view> -->
       <view class='time'>有效期至：{{prize.expireDate}}</view>
-      <view class='right' bindtap="lingqu" data-id='{{prize.giftId}}' >
-        <image wx:if='{{prize.giftStatus==1}}' src='/images/status.png' class='status'></image>
+      <view class='right'>
+        <image wx:if='{{prize.giftStatus==1}}' data-id='{{prize.giftId}}' bindtap="lingqu" src='/images/status.png' class='status'></image>
         <image wx:if='{{prize.giftStatus==2}}' src='/images/yifafang.png' class='status'></image>
       </view>
       <image src='/images/conponStatus.png' wx:if="{{prize.status == 1}}" class='status'></image>
@@ -31,11 +31,11 @@
     <view class='charge'>
       此奖品一经核销即视为已领取。为保障您的权益，请至前台，由工作人员核销并兑奖。
       <view class='chargebtn'>
-          <image wx:if='{{ishide}}' bindtap="hexiao" class="hexiao" src="/images/hexiao.png"></image>
-          <image wx:if='{{isshow}}' class="hexiao" src="/images/yifafang.png"></image>
+        <image wx:if='{{ishide}}' bindtap="hexiao" class="hexiao" src="/images/hexiao.png"></image>
+        <image wx:if='{{isshow}}' class="hexiao" src="/images/yifafang.png"></image>
       </view>
       <view class='close'>
-          <image bindtap="close" class="closePrize" src="/images/closePrize.png"></image>
+        <image bindtap="close" class="closePrize" src="/images/closePrize.png"></image>
       </view>
     </view>
   </view>
