@@ -431,45 +431,54 @@ Page({
   },
   sendGift: function(e) { //发放
     var that = this;
-    console.log(e)
-    wx.showModal({
-      title: '提示',
-      content: '是否确认发放',
-      success:function(res){
-        if(res.confirm){
-          var id = e.currentTarget.dataset.id;
-          var content = e.currentTarget.dataset.type;
-          var nowtime = new Date().getTime();
-          var prizeId = id + "_" + nowtime;
-          console.log(e)
-          var json = {
-            messageType: "2",
-            header: that.data.userInfo.headlmgUrl,
-            nickName: that.data.userInfo.nickName,
-            messageContent: content.toString(),
-            prizeId: prizeId,
-          };
-          console.log(json)
-          wx.sendSocketMessage({
-            data: JSON.stringify(json),
-            success: function (res) {
-              console.log(res)
-              that.setData({
-                showGifts: false
-              })
-            },
-            fail: function () {
-              wx.showModal({
-                title: '发送失败',
-                content: '红包发送失败',
-              })
-            }
+    // console.log(e)
+    var index = e.currentTarget.dataset.index
+    console.log(index)
+    console.log(that.data.gifts.gift[index])
+    if (that.data.gifts.gift[index].remaingroupNumber == 0){
+        wx.showToast({
+          title: '数量不足',
+        })
+    }
+    else{
+      wx.showModal({
+        title: '提示',
+        content: '是否确认发放',
+        success: function (res) {
+          if (res.confirm) {
+            var id = e.currentTarget.dataset.id;
+            var content = e.currentTarget.dataset.type;
+            var nowtime = new Date().getTime();
+            var prizeId = id + "_" + nowtime;
+            console.log(e)
+            var json = {
+              messageType: "2",
+              header: that.data.userInfo.headlmgUrl,
+              nickName: that.data.userInfo.nickName,
+              messageContent: content.toString(),
+              prizeId: prizeId,
+            };
+            console.log(json)
+            wx.sendSocketMessage({
+              data: JSON.stringify(json),
+              success: function (res) {
+                console.log(res)
+                that.setData({
+                  showGifts: false
+                })
+              },
+              fail: function () {
+                wx.showModal({
+                  title: '发送失败',
+                  content: '红包发送失败',
+                })
+              }
 
-          })
+            })
+          }
         }
-      }
-    })
-   
+      })
+    }   
   },
   tapRed:function(){//领取红包
     var that = this;

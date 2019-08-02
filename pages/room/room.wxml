@@ -51,8 +51,8 @@
         <view class='gift2'>
           <image src='{{gift.image}}' class='pic2'></image>
           <view class='name'>{{gift.giftName}}</view>
-          <view class='num'>{{gift.remaingroupNumber}}</view>
-          <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{gift.id}}' data-type='{{gift.giftType}}'></image>
+          <view class='num'>{{gift.sendNumber}}</view>
+          <image src='/images/sendGift.png' class='sendGift' bindtap="sendGift" data-id='{{gift.id}}' data-type='{{gift.giftType}}' data-index='{{index}}'></image>
         </view>
       </block>
       <block wx:for="{{gifts.coupons}}" wx:for-item="ticket" wx:key="ticket">
