@@ -437,7 +437,7 @@ Page({
     console.log(that.data.gifts.gift[index])
     if (that.data.gifts.gift[index].remaingroupNumber == 0){
         wx.showToast({
-          title: '数量不足',
+          title: '该房间达到发送上限',
         })
     }
     else{

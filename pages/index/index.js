@@ -159,19 +159,6 @@ Page({
                 })
               }
             })
-            // wx.getStorage({
-            //   key: 'accredit',
-            //   success: function (res) { //key所对应的内容
-            //     // console.log(res)
-            //     that.wxLogin();
-            //   },
-            //   fail: function (res) {
-            //     that.setData({
-            //       shouquan: true
-            //     })
-            //     wx.hideTabBar() //隐藏栏
-            //   }
-            // })
           }
         }, 500)
       }
@@ -203,6 +190,7 @@ Page({
         }
       }
       app.globalData.areaList = cinemas
+      // console.log(cinemas)
       var recent = cinemas.sort(util.sortDistance("distance"))[0].cinemaName;
       var cinemaList = cinemas.sort(util.sortDistance("distance"))[0];
       that.setData({

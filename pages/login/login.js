@@ -14,6 +14,8 @@ Page({
     yzmTime: "60",
     image: null,
     modalHidden: true,
+    isshow:false,
+    iskey:true
   },
 
   /**
@@ -23,7 +25,8 @@ Page({
     var dataInfo = app.globalData;
     var that = this;
     that.setData({
-      userInfo: dataInfo.userInfo
+      userInfo: dataInfo.userInfo,
+      areaList: app.globalData.areaList
     })
     wx.setNavigationBarTitle({ title: '用户注册' });
     wx.request({
@@ -35,6 +38,38 @@ Page({
         })
       }
     })
+  },
+
+  //选择影院
+  choosecinema:function(){
+    var that = this 
+    that.setData({
+      isshow:true,
+      iskey:false
+    })
+    console.log(that.data.areaList)
+
+  },
+ // 关闭选择影院
+  submite:function(){
+    var that = this 
+    that.setData({
+       isshow:false,
+       iskey:true
+    })
+  },
+
+  //选择具体影院
+  choosearea:function(e){
+    var that = this
+    that.setData({
+      cinemacode: e.currentTarget.dataset.cinemacode,
+      cinemaname: e.currentTarget.dataset.cinemaname,
+      isshow: false,
+      iskey: true
+    })
+    console.log(that.data.cinemacode)
+    console.log(that.data.cinemaname)
   },
 
   /**
@@ -125,11 +160,20 @@ Page({
     // console.log("login")
     var phone = this.data.phone;
     var yzm = this.data.inputYzm;
+    var cinemaname = this.data.cinemaname
     var that = this;
     if (!(/^1\d{10}$/.test(phone))) {
       wx.showModal({
         title: '提示',
         content: '手机号码错误！',
+      })
+      return;
+    }
+
+    if (!cinemaname){
+      wx.showModal({
+        title: '提示',
+        content: '请选择影院',
       })
       return;
     }
@@ -154,14 +198,14 @@ Page({
         verifyCode: yzm,
         mobilePhone: phone,
         openID: app.globalData.userInfo.openID,
-        cinemaCode: app.globalData.cinemacode,
+        cinemaCode: that.data.cinemacode,
         userName: apiuser.UserName,
         password: apiuser.Password,
       },
       success: function (res) {
         // console.log(res.data.data.mobilePhone)//用户注册的手机号码
         wx.hideLoading()
-        console.log(res)
+        // console.log(res)
         if (res.data.Status == "Success") {
               wx.request({
                 url: app.globalData.url + '/Api/User/QueryUser' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
@@ -170,6 +214,7 @@ Page({
                   "Content-Type": "application/json"
                 },
                 success: function (res) {
+                  // console.log(res)
                   if (res.data.Status == 'Success') {
                     wx.setStorage({
                       key: 'loginInfo',
