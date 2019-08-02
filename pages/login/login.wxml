@@ -1,10 +1,15 @@
 <!--pages/login/login.wxml-->
 <view class="container">
-    <image class='logo' src='{{logo}}'></image>
+    <image wx:if='{{iskey}}' class='logo' src='{{logo}}'></image>
     <view hidden="{{!modalHidden}}"  class='message'>
       <view class='phone'>
         <image src='/images/phone_icon.png'></image>
         <input id='phone'  placeholder='输入手机号' placeholder-style="color:#888;" type='idcard' bindinput='phoneCut' value='{{inputPhone}}'/>
+      </view>
+       <view class='location' bindtap="choosecinema">
+        <image src='/images/icon_location.png'></image>
+        <input id='cinema' placeholder='绑定影院' placeholder-style="color:#888;" type='idcard' value="{{cinemaname}}"/>
+        <image id="choosecinema" src='/images/login_back.png'></image>
       </view>
       <view class='yzm'>
         <image src='/images/icon_num.png'></image>
@@ -17,19 +22,17 @@
       <image src='/images/btn_bg.png'></image>
     </view>
 </view>
-<!-- 优惠券弹窗 -->
-<view hidden="{{modalHidden}}" bindtap='modalCandel' class='img'>
-  <!-- <view>
-      <image class="image" src="{{image}}" mode='aspectFill'></image>
-    </view> -->
-  <!-- <modal no-cancel='true' bindtap='modalConfirm'  hidden="{{modalHidden}}" bindconfirm="modalConfirm" bindcancel="modalCandel">
-    <view>
-      <image class="image" src="{{image}}" mode='aspectFill' style='position: relative;left: -40rpx;'></image>
-    </view>
-  </modal> -->
-  <view class='hiddenImg' >
-  <image  src='{{image}}' bindtap='modalConfirm' ></image>
-  </view>
-  
-  <!-- <view hidden="{{modalHidden}}"></view> -->
+<!-- 选择影院 -->
+<view wx:if='{{isshow}}' class="cinemabox" >
+    <block wx:for='{{areaList}}' wx:for-item="area" wx:key="area" >
+        <view class="option" bindtap="choosearea" data-cinemacode='{{area.cinemaCode}}' data-cinemaname='{{area.cinemaName}}' >
+          <text class="cinemaName">{{area.cinemaName}}</text>
+          <text class="address">{{area.address}}</text>
+          <text class="distance">{{area.distance}}km</text>
+        </view>
+    </block>
+    <view class='btn' bindtap='submite'>确定</view>
+</view>
+<!-- 遮罩层  -->
+<view class="zhezhao" wx:if='{{isshow}}'>
 </view>
