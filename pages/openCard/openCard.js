@@ -258,7 +258,7 @@ Page({
                     wx.redirectTo({
                       url: '../mycard/mycard',
                     })
-                  } else if (res.data.Status == 'Failure') {
+                  } else {
                     wx.showToast({
                       title: res.data.ErrorMessage,
                       icon: 'none',
@@ -279,45 +279,54 @@ Page({
                   success: function (res) {
                     console.log(res)
                     // 微信支付接口
-                    wx.requestPayment({
-                      timeStamp: res.data.data.timeStamp,
-                      nonceStr: res.data.data.nonceStr,
-                      package: res.data.data.packages,
-                      signType: res.data.data.signType,
-                      paySign: res.data.data.paySign,
-                      success(res) {
-                        if (res.errMsg == "requestPayment:ok") {
+                    if (res.data.Status == 'Success') {
+                      wx.requestPayment({
+                        timeStamp: res.data.data.timeStamp,
+                        nonceStr: res.data.data.nonceStr,
+                        package: res.data.data.packages,
+                        signType: res.data.data.signType,
+                        paySign: res.data.data.paySign,
+                        success(res) {
+                          if (res.errMsg == "requestPayment:ok") {
+                            wx.hideLoading();
+                            wx.showToast({
+                              title: '支付成功！',
+                              icon: 'none',
+                              duration: 2000
+                            });
+                            that.setData({
+                              showAlertExchange2: !that.data.showAlertExchange2
+                            });
+                            setTimeout(function () {
+                              wx.redirectTo({
+                                url: '../mycard/mycard',
+                              })
+                            }, 1000)
+                          } else {
+                            wx.hideLoading();
+                            wx.showModal({
+                              title: '开卡失败',
+                              content: '支付金额将在三个工作日内退回',
+                            })
+                          }
+                        },
+                        fail(res) {
                           wx.hideLoading();
                           wx.showToast({
-                            title: '支付成功！',
+                            title: res.err_desc,
                             icon: 'none',
-                            duration: 2000
+                            duration: 3000
                           });
-                          that.setData({
-                            showAlertExchange2: !that.data.showAlertExchange2
-                          });
-                          setTimeout(function () {
-                            wx.redirectTo({
-                              url: '../mycard/mycard',
-                            })
-                          }, 1000)
-                        } else {
-                          wx.hideLoading();
-                          wx.showModal({
-                            title: '开卡失败',
-                            content: '支付金额将在三个工作日内退回',
-                          })
                         }
-                      },
-                      fail(res) {
-                        wx.hideLoading();
-                        wx.showToast({
-                          title: res.err_desc,
-                          icon: 'none',
-                          duration: 3000
-                        });
-                      }
-                    })
+                      })
+                    } else {
+                      wx.showToast({
+                        title: res.data.ErrorMessage,
+                        icon: 'none',
+                        duration: 3000
+                      })
+                    }
+                    
                   }
                 })
               

@@ -43,7 +43,7 @@
   </view>
   <view wx:else>
     <view class='input'>
-      <input placeholder-style='color:#888;' placeholder='输入您的会员卡号/手机号'  bindinput="onInput"></input>
+      <input placeholder-style='color:#888;' placeholder='输入您的会员卡号'  bindinput="onInput"></input>
     </view>
     <view class='input' style='margin:0 auto 180rpx;'>
       <input placeholder-style='color:#888;' placeholder='输入您的会员卡密码' type='password' bindinput="onInput2"></input>
