@@ -633,13 +633,6 @@ Page({
   },
   choosePay: function() {
     let that = this;
-    if (that.data.disabled == 0) {
-      return;
-    } else {
-      that.setData({
-        disabled: 0,
-      })
-    }
     if (!that.data.phone) {
       wx.showToast({
         title: '号码不能为空!',
@@ -659,7 +652,24 @@ Page({
       })
       return;
     }
+    if (!that.data.payway) {
+      wx.showToast({
+        title: '请选择支付方式!',
+        icon: 'loading',
+        image: '',
+        duration: 1000,
+        mask: true,
+      })
+      return;
+    }
     if (that.data.payway == 1) { // 微信支付
+      if (that.data.disabled == 0) {
+        return;
+      } else {
+        that.setData({
+          disabled: 0,
+        })
+      }
       that.wxPay();
     };
     if (that.data.payway == 2) { // 会员卡支付
@@ -781,30 +791,6 @@ Page({
       }
     })
   },
-  // 会员卡支付
-  cardPay: function() {
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('cardPay', nowtime);
-    var pageNo = that.data.pageNo;
-    // if (that.data.canClick != 1) {
-    //   return;
-    // }
-    // that.setData({
-    //   canClick: 0
-    // }) //防止多次点击
-    if (!that.data.phone || that.data.phone.length != 11) {
-      wx.showToast({
-        title: '手机格式不正确',
-        icon: 'loading',
-        image: '',
-        duration: 1000,
-        mask: true,
-      })
-      return;
-    }
-
-  },
   // 会员卡密码确认
   pay2: function() {
     wx.showLoading({
@@ -812,13 +798,6 @@ Page({
       mask: true
     })
     var that = this;
-    // if (that.data.canClick != 1) {
-    //   wx.hideTabBar() //隐藏栏
-    //   return;
-    // }
-    // that.setData({
-    //   canClick: 0
-    // }) //防止多次点击
     if (!that.data.phone || that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',

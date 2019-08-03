@@ -2,22 +2,22 @@ var utilMd5 = require('utils/md5.js');
 App({
 
 
-  onLaunch: function() {
+  onLaunch: function () {
 
   },
 
 
-  onShow: function(options) {
+  onShow: function (options) {
     //  console.log("show")
   },
 
 
-  onHide: function() {
+  onHide: function () {
     // console.log("hide")
   },
 
 
-  onError: function(msg) {
+  onError: function (msg) {
     // console.log("error")
   },
   usermessage: {
@@ -69,7 +69,7 @@ App({
     offerDescription: null,
     ticketCoupons: null,
   },
-  createMD5: function(apiname, nowtime) {
+  createMD5: function (apiname, nowtime) {
     var sign = utilMd5.hexMD5("HLBW2018SHAPPLET" + apiname + "SH076WZ80D98X5G2" + nowtime);
     return sign;
   },
