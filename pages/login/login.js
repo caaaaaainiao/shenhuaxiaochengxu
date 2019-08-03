@@ -200,7 +200,7 @@ Page({
       data: {
         verifyCode: yzm,
         mobilePhone: phone,
-        openID: app.globalData.userInfo.openID,
+        openID: app.globalData.openId,
         cinemaCode: that.data.cinemacode,
         userName: apiuser.UserName,
         password: apiuser.Password,
@@ -271,8 +271,8 @@ Page({
     })
   },
   sendYzm: function() {
-    var phone = this.data.phone;
     var that = this;
+    var phone = that.data.phone;
     if (that.data.yzmText == "获取验证码") {
       //手机号验证
       if (!(/^1\d{10}$/.test(phone))) {
@@ -286,7 +286,6 @@ Page({
         yzmText: "正在发送"
       })
       //发送请求获取验证码
-      let apiuser = util.getAPIUserData(null);
       if (!app.globalData.cinemacode) {
         wx.showToast({
           title: '请删除小程序重新扫码或搜索进入01',
@@ -308,14 +307,14 @@ Page({
         url: app.globalData.url + '/Api/User/SendVerifyCode',
         method: "POST",
         data: {
-          userName: apiuser.UserName,
-          password: apiuser.Password,
+          userName: app.usermessage.Username,
+          password: app.usermessage.Password,
           cinemaCode: app.globalData.cinemacode,
-          openID: app.globalData.userInfo.openID,
+          openID: app.globalData.openId,
           mobilePhone: phone
         },
         success: function(res) {
-          // console.log(res)
+          console.log(res)
           if (res.data.Status == "Success") {
             //倒计时
             that.setData({
