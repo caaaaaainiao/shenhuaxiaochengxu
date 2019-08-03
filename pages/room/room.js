@@ -36,9 +36,12 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log(options)
+    console.log(options)
     this.getGifts()
     var that = this;
+    that.setData({
+      roomName: options.roomname,
+    })
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     var contentHeight = windowHeight - 279;
     console.log(app.globalData)
@@ -403,6 +406,7 @@ Page({
       url: app.globalData.url +'/Api/chatRoom/getCanSendGifts',
       data:{
         cinemaCode: app.globalData.cinemacode,
+        roomName: that.data.roomName,
       },
       // app.globalData.cinemacode,
       method: "POST",

@@ -53,13 +53,13 @@ Page({
     var that =this
     var index = e.currentTarget.dataset.index;
     app.globalData.movieRoom = that.data.MovieList[index];
-    console.log(that.data.MovieList[index])
+    // console.log(that.data.MovieList[index])
     wx.getStorage({
       key: 'loginInfo',
       success: function (res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
-            url: '../room/room',
+            url: '../room/room?roomname=' + that.data.MovieList[index].roomName,
           })
         } else {
           wx.navigateTo({

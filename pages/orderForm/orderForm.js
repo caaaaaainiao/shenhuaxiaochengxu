@@ -114,7 +114,7 @@ Page({
           wx.request({
             url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode+ '/' + that.data.orderCode + '/' + first.cardNo,
             method: 'GET',
-            header: {
+            header: { 
               'content-type': 'application/json' // 默认值
             },
             success: function (res) {
