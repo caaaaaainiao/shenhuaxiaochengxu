@@ -7,15 +7,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    sexArr:["男","女"],
-    userInfo:null,
+    sexArr: ["男", "女"],
+    userInfo: null,
     // phone: null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function () {
+  onLoad: function() {
     var that = this;
     that.setData({
       userInfo: app.globalData.userInfo,
@@ -27,7 +27,7 @@ Page({
       header: {
         "Content-Type": "application/json"
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == "Success") {
           that.setData({
@@ -56,56 +56,56 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
   // 修改头像
-  imgChange:function(){
+  imgChange: function() {
     var that = this;
     console.log(app.usermessage.Username)
     console.log(app.usermessage.Password)
@@ -117,7 +117,7 @@ Page({
         const tempFilePaths = res.tempFilePaths
         console.log(tempFilePaths)
         wx.uploadFile({
-          url: app.globalData.url + '/Api/User/UpdateHeadUrl', 
+          url: app.globalData.url + '/Api/User/UpdateHeadUrl',
           filePath: tempFilePaths[0],
           name: 'file',
           formData: {
@@ -126,7 +126,7 @@ Page({
             openID: app.globalData.userInfo.openID
           },
           header: {
-            'charset':'UTF - 8'
+            'charset': 'UTF - 8'
           },
           success(res) {
             var userInfo = that.data.userInfo;
@@ -153,7 +153,7 @@ Page({
       }
     })
   },
-  bindDateChange: function (e) {//生日
+  bindDateChange: function(e) { //生日
     var userInfo = this.data.userInfo;
     userInfo.birthday = e.detail.value;
     this.setData({
@@ -161,7 +161,7 @@ Page({
     })
     this.change()
   },
-  bindSexChange: function (e) {//性别
+  bindSexChange: function(e) { //性别
     var sex = parseInt(e.detail.value) + 1;
     var userInfo = this.data.userInfo;
     userInfo.sex = sex;
@@ -170,59 +170,8 @@ Page({
     })
     this.change()
   },
-  change:function(){
+  change: function() {
     var that = this;
-    var nowtime = new Date().getTime();
-    var userInfo = that.data.userInfo;
-    if(userInfo.birthday == null){
-      userInfo.birthday = ""
-    }
-    wx.showLoading({
-      title: '加载中',
-    })
-    wx.request({
-      url: app.globalData.url + '/Api/User/UpdateUserInfo',
-      data: {
-        userName: app.usermessage.Username,
-        password: app.usermessage.Password,
-        openID: app.globalData.userInfo.openID,
-        headUrl: that.data.headUrl,
-        nickName: that.data.nickName,
-        sex: that.data.sex,
-        birthday: that.data.birthday,
-        // mobilePhone: that.data.phone,
-      },
-      method: "POST",
-      header: {
-        "Content-Type": "application/json"
-      },
-      success: function (res) {
-        // console.log(res)
-        if (res.data.Status != 'Success') {
-          wx.showModal({
-            title: '修改失败',
-          })
-        } else {
-          wx.setStorage({
-            key: 'loginInfo',
-            data: that.data.userInfo,
-          })
-          app.globalData.userInfo = that.data.userInfo;
-        }
-        wx.hideLoading();
-      }
-    })
-  },
-  nameChange:function(e){
-    var that = this;
-    var name = e.detail.value;
-    var userInfo = that.data.userInfo;
-    userInfo.nickName = name;
-    app.globalData.nameChange=true
-    that.setData({
-      nickName: name,
-      userInfo: userInfo,
-    })  
     var nowtime = new Date().getTime();
     var userInfo = that.data.userInfo;
     if (userInfo.birthday == null) {
@@ -247,7 +196,58 @@ Page({
       header: {
         "Content-Type": "application/json"
       },
-      success: function (res) {
+      success: function(res) {
+        // console.log(res)
+        if (res.data.Status != 'Success') {
+          wx.showModal({
+            title: '修改失败',
+          })
+        } else {
+          wx.setStorage({
+            key: 'loginInfo',
+            data: that.data.userInfo,
+          })
+          app.globalData.userInfo = that.data.userInfo;
+        }
+        wx.hideLoading();
+      }
+    })
+  },
+  nameChange: function(e) {
+    var that = this;
+    var name = e.detail.value;
+    var userInfo = that.data.userInfo;
+    userInfo.nickName = name;
+    app.globalData.nameChange = true
+    that.setData({
+      nickName: name,
+      userInfo: userInfo,
+    })
+    var nowtime = new Date().getTime();
+    var userInfo = that.data.userInfo;
+    if (userInfo.birthday == null) {
+      userInfo.birthday = ""
+    }
+    wx.showLoading({
+      title: '加载中',
+    })
+    wx.request({
+      url: app.globalData.url + '/Api/User/UpdateUserInfo',
+      data: {
+        userName: app.usermessage.Username,
+        password: app.usermessage.Password,
+        openID: app.globalData.userInfo.openID,
+        headUrl: that.data.headUrl,
+        nickName: that.data.nickName,
+        sex: that.data.sex,
+        birthday: that.data.birthday,
+        // mobilePhone: that.data.phone,
+      },
+      method: "POST",
+      header: {
+        "Content-Type": "application/json"
+      },
+      success: function(res) {
         // console.log(res)
         if (res.data.Status != 'Success') {
           wx.showModal({
@@ -261,7 +261,7 @@ Page({
           app.globalData.userInfo = that.data.userInfo;
           wx.getStorage({
             key: 'accredit',
-            success: function (res) {
+            success: function(res) {
               res.data.userInfo.nickName = that.data.userInfo.nickName
               var oRes = res
               console.log(oRes)

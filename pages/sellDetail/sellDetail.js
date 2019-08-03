@@ -45,7 +45,7 @@ Page({
     // })
     this.setData({
       type: options.type,
-      isReady:1
+      isReady: 1
     })
     app.globalData.optionstype = options.type
     util.clearCart(null);
@@ -83,7 +83,7 @@ Page({
     //   })
     // }
   },
-  sureChoose: function () {
+  sureChoose: function() {
     let that = this;
     let loginInfo = wx.getStorageSync('loginInfo');
     app.globalData.loginInfo = loginInfo
@@ -111,23 +111,23 @@ Page({
 
     //创建订单的参数
     let xml = '<CreateGoodsOrder><cinemaCode>' + app.globalData.cinemacode + '</cinemaCode><payType>0</payType><goodsList>';
-      let cartobj = util.getcartObj(null);
-      if (cartobj && cartobj.list) {
-        for (var i = 0; i < cartobj.list.length; i++) {
-          let item = cartobj.list[i];
-          xml += '<goods>';
-          xml += '<goodsCode>' + item.goodsCode + '</goodsCode>';
-          xml += '<goodsCount>' + item.buyNum + '</goodsCount>';
-          xml += '<standardPrice>' + item.standardPrice + '</standardPrice>';
-          if (item.channelFee) {
-            xml += '<goodsChannelFee>' + item.channelFee + '</goodsChannelFee>';
-          } else {
-            xml += '<goodsChannelFee>0</goodsChannelFee>';
-          }
-
-          xml += '</goods>';
+    let cartobj = util.getcartObj(null);
+    if (cartobj && cartobj.list) {
+      for (var i = 0; i < cartobj.list.length; i++) {
+        let item = cartobj.list[i];
+        xml += '<goods>';
+        xml += '<goodsCode>' + item.goodsCode + '</goodsCode>';
+        xml += '<goodsCount>' + item.buyNum + '</goodsCount>';
+        xml += '<standardPrice>' + item.standardPrice + '</standardPrice>';
+        if (item.channelFee) {
+          xml += '<goodsChannelFee>' + item.channelFee + '</goodsChannelFee>';
+        } else {
+          xml += '<goodsChannelFee>0</goodsChannelFee>';
         }
+
+        xml += '</goods>';
       }
+    }
     xml += '</goodsList></CreateGoodsOrder>';
     // console.log(xml);
     // console.log('点击跳转')
@@ -139,22 +139,22 @@ Page({
     if (wx.getStorageSync(key) != "") {
       wx.getStorage({
         key: key,
-        success: function (res) {
+        success: function(res) {
           wx.setStorageSync('toSubmitGoods', res);
           //重置购物阶段数据
           that.emptyCart();
           //新增待支付购物列表
-       
+
 
         },
       })
 
     }
-    setTimeout(function(){
+    setTimeout(function() {
       wx.redirectTo({
         url: '../foodOrder/foodOrder?type=' + that.data.type,
       })
-    },500)
+    }, 500)
 
 
 
@@ -386,10 +386,10 @@ Page({
   getGoods: function() { //获取卖品
     var that = this;
     wx.request({
-      url: app.globalData.url +'/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode,
-      method:'GET',
-      success:function(res){
-    //  console.log(res.data.data.goods)
+      url: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode,
+      method: 'GET',
+      success: function(res) {
+        //  console.log(res.data.data.goods)
         var goodsList = res.data.data.goods
         let tempgoodsList = [];
         wx.hideLoading()
@@ -502,8 +502,7 @@ Page({
 
         if (goodList[i].buyNum < goodList[i].stockCount) {
           goodList[i].buyNum += 1;
-        }
-        else{
+        } else {
           wx.showModal({
             title: '库存不足'
           })

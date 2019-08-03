@@ -41,7 +41,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == "Success" && res.data.data.images) {
           that.setData({
@@ -57,7 +57,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == "Success") {
           that.setData({
@@ -80,7 +80,9 @@ Page({
         })
       },
     })
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
@@ -97,7 +99,7 @@ Page({
     var that = this;
     wx.getStorage({
       key: 'accredit',
-      success: function (res) {
+      success: function(res) {
         that.setData({
           userInfo: res.data.userInfo
         })
@@ -117,14 +119,13 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == "Success" && res.data.data.images) {
           that.setData({
             picture: res.data.data.images[0].image,
           })
-        }
-        else{
+        } else {
           that.setData({
             picture: 'https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/minebg.png'
           })
@@ -144,7 +145,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == "Success") {
           that.setData({
@@ -158,7 +159,9 @@ Page({
         }
       }
     });
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
@@ -201,7 +204,7 @@ Page({
   myTicket: function() {
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../myticket/myticket',
@@ -211,7 +214,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -221,7 +225,7 @@ Page({
   myFood: function() {
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../myfood/myfood',
@@ -231,7 +235,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -247,7 +252,7 @@ Page({
     // })
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../mycoupon/mycoupon',
@@ -257,7 +262,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -267,7 +273,7 @@ Page({
   myPrize: function() {
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../myprize/myprize',
@@ -277,7 +283,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -287,7 +294,7 @@ Page({
   toCommon: function() {
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../common/common',
@@ -297,7 +304,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -307,7 +315,7 @@ Page({
   toActivity: function() {
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../hotActivity/hotActivity',
@@ -317,7 +325,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -327,7 +336,7 @@ Page({
   toSeenMovie: function() {
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../seenMovie/seenMovie',
@@ -337,7 +346,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -347,7 +357,7 @@ Page({
   toWantsee: function() {
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../wantsee/wantsee',
@@ -357,7 +367,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -367,7 +378,7 @@ Page({
   toMycard: function() {
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../mycard/mycard',
@@ -377,7 +388,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -465,7 +477,7 @@ Page({
       }
     })
   },
-  bannerTap: function (e) {
+  bannerTap: function(e) {
     var index = e.currentTarget.dataset.index;
     var banner = this.data.banner2;
     var num = banner[index].playType;
@@ -475,7 +487,7 @@ Page({
         app.globalData.acivityUrl = url;
         wx.getStorage({
           key: 'loginInfo',
-          success: function (res) {
+          success: function(res) {
             if (res.data.mobilePhone && res.data.isRegister == '1') {
               wx.navigateTo({
                 url: '../acivityUrl/acivityUrl',
@@ -485,7 +497,8 @@ Page({
                 url: '../login/login'
               })
             }
-          }, fail: function () {
+          },
+          fail: function() {
             wx.reLaunch({
               url: '../login/login',
             })
@@ -500,7 +513,7 @@ Page({
           app.globalData.movieIndex = i;
           wx.getStorage({
             key: 'loginInfo',
-            success: function (res) {
+            success: function(res) {
               if (res.data.mobilePhone && res.data.isRegister == '1') {
                 wx.navigateTo({
                   url: '../movieDetail/movieDetail',
@@ -510,7 +523,8 @@ Page({
                   url: '../login/login'
                 })
               }
-            }, fail: function () {
+            },
+            fail: function() {
               wx.reLaunch({
                 url: '../login/login',
               })

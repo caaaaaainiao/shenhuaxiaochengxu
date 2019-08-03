@@ -7,16 +7,16 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isMember:true,
-    type:1,//1 充值 2解绑
-    swiperIndex:"0",
-    userInfo:null,
-    phone:null,
-    cardnum:"",
-    cardmm:"",
-    index:-1,
-    orderNumber:0,
-    activity:[],
+    isMember: true,
+    type: 1, //1 充值 2解绑
+    swiperIndex: "0",
+    userInfo: null,
+    phone: null,
+    cardnum: "",
+    cardmm: "",
+    index: -1,
+    orderNumber: 0,
+    activity: [],
     isShow: true,
     disabled: 1,
   },
@@ -24,7 +24,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var that = this;
     that.setData({
       openId: app.globalData.openId,
@@ -45,7 +45,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         // 如果有已经绑定的会员卡
         if (res.data.data.memberCard && res.data.data.memberCard.length > 0) {
@@ -64,11 +64,11 @@ Page({
             header: {
               'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
               console.log(res)
               if (res.data.Status == 'Success') {
                 let rule = res.data.data.rule;
-                for (let i = 0; i < rule.length; i ++) {
+                for (let i = 0; i < rule.length; i++) {
                   rule[i]['select'] = 0;
                   var credit = "rule[" + i + "].credit";
                   var ruleCode = "rule[" + i + "].ruleCode";
@@ -95,7 +95,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         // 如果没有开卡规则 则隐藏开卡按钮
         if (res.data.Status != 'Success' || !res.data.data || !res.data.data.level || res.data.data.level.length < 1) {
@@ -114,66 +114,68 @@ Page({
         }
       }
     })
-    wx.setNavigationBarTitle({ title: '会员卡' });
+    wx.setNavigationBarTitle({
+      title: '会员卡'
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: '神画电影',
       path: '/pages/index/index'
     }
   },
-  swiperChange:function(e){
+  swiperChange: function(e) {
     // console.log(e.detail)
     var that = this;
-    if(e.detail.current == 0){
+    if (e.detail.current == 0) {
       that.setData({
-        type:1
+        type: 1
       })
     } else if (e.detail.current == 1) {
       that.setData({
@@ -181,13 +183,13 @@ Page({
       })
     }
   },
-  changeTap:function(e){
+  changeTap: function(e) {
     var that = this;
     var type = e.currentTarget.dataset.type;
-    if(type == 1){
+    if (type == 1) {
       that.setData({
         type: 1,
-        swiperIndex:0
+        swiperIndex: 0
       })
     } else if (type == 2) {
       that.setData({
@@ -197,19 +199,19 @@ Page({
     }
   },
   // 获取手机号码
-  onInput:function(e){
+  onInput: function(e) {
     this.setData({
-      cardnum:e.detail.value
+      cardnum: e.detail.value
     })
   },
   // 获取密码
-  onInput2: function (e) {
+  onInput2: function(e) {
     this.setData({
       cardmm: e.detail.value
     })
   },
   // 绑定会员卡
-  bang:function(){
+  bang: function() {
     wx.showLoading({
       title: '绑定中',
     })
@@ -234,7 +236,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res);
         wx.hideLoading();
         if (res.data.Status == "Success") {
@@ -253,8 +255,7 @@ Page({
           wx.redirectTo({
             url: '../mycard/mycard',
           })
-        }
-        else {
+        } else {
           wx.showToast({
             title: res.data.ErrorMessage,
             icon: 'none',
@@ -265,11 +266,11 @@ Page({
     })
   },
   // 选择充值金额
-  chooseMoney:function(e){
+  chooseMoney: function(e) {
     var that = this;
     var index = e.currentTarget.dataset.index;
     var rule = that.data.rule;
-    for (var i = 0; i < rule.length;i++){
+    for (var i = 0; i < rule.length; i++) {
       rule[i].select = 0;
     }
     rule[index].select = 1;
@@ -279,9 +280,9 @@ Page({
     })
   },
   // 充值
-  recharge:function(){
+  recharge: function() {
     var that = this;
-    if (that.data.index == -1){
+    if (that.data.index == -1) {
       wx.showModal({
         title: '',
         content: '请选择支付金额',
@@ -301,10 +302,10 @@ Page({
     var rechargeMoney = that.data.rule[that.data.index].credit;
     wx.showLoading({
       title: '加载中..',
-      mask:true
+      mask: true
     });
     // 筛选出选中的金额的充值规则
-    for (let i = 0; i < that.data.rule.length; i ++) {
+    for (let i = 0; i < that.data.rule.length; i++) {
       if (that.data.rule[i].select == 1) {
         that.setData({
           selectRule: that.data.rule[i],
@@ -319,7 +320,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         wx.hideLoading();
         if (res.data.Status == 'Success') {
           // 微信支付接口
@@ -342,7 +343,7 @@ Page({
                   header: {
                     'content-type': 'application/json' // 默认值
                   },
-                  success: function (res) {
+                  success: function(res) {
                     console.log(res)
                     if (res.data.Status == 'Success') {
                       that.setData({
@@ -370,20 +371,20 @@ Page({
     })
   },
   // 解绑
-  untying:function(){
+  untying: function() {
     var that = this;
     wx.showModal({
       title: '提示',
       content: '是否解绑会员卡',
-      success:function(res){
-        if(res.confirm){         
+      success: function(res) {
+        if (res.confirm) {
           wx.request({
             url: app.globalData.url + '/Api/Member/MemberCardUnbind' + '/' + that.data.userName + '/' + that.data.passWord + '/' + that.data.cinemaCode + '/' + that.data.card.cardNo + '/' + that.data.openId,
             method: 'GET',
             header: {
               'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
               console.log(res)
               if (res.data.Status == 'Success') {
                 wx.showToast({
@@ -391,7 +392,7 @@ Page({
                   icon: 'none',
                   duration: 3000
                 });
-                setTimeout(function () {
+                setTimeout(function() {
                   wx.redirectTo({
                     url: '../mycard/mycard',
                   })
@@ -410,13 +411,13 @@ Page({
     })
   },
   // 查看充值记录
-  record:function(){
+  record: function() {
     wx.navigateTo({
       url: '../cardRecord/cardRecord',
     })
   },
   // 开卡
-  openCard:function(){
+  openCard: function() {
     wx.navigateTo({
       url: '../openCard/openCard',
     })

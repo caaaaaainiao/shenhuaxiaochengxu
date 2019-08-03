@@ -1,4 +1,3 @@
-
 /* 
  * A JavaScript implementation of the RSA Data Security, Inc. MD5 Message 
  * Digest Algorithm, as defined in RFC 1321. 
@@ -30,15 +29,19 @@ function rol(num, cnt) {
 function cmn(q, a, b, x, s, t) {
   return safe_add(rol(safe_add(safe_add(a, q), safe_add(x, t)), s), b)
 }
+
 function ff(a, b, c, d, x, s, t) {
   return cmn((b & c) | ((~b) & d), a, b, x, s, t)
 }
+
 function gg(a, b, c, d, x, s, t) {
   return cmn((b & d) | (c & (~d)), a, b, x, s, t)
 }
+
 function hh(a, b, c, d, x, s, t) {
   return cmn(b ^ c ^ d, a, b, x, s, t)
 }
+
 function ii(a, b, c, d, x, s, t) {
   return cmn(c ^ (b | (~d)), a, b, x, s, t)
 }
@@ -195,12 +198,25 @@ function strw2binl(str) {
 /* 
  * External interface 
  */
-function hexMD5(str) { return binl2hex(coreMD5(str2binl(str))) }
-function hexMD5w(str) { return binl2hex(coreMD5(strw2binl(str))) }
-function b64MD5(str) { return binl2b64(coreMD5(str2binl(str))) }
-function b64MD5w(str) { return binl2b64(coreMD5(strw2binl(str))) }
+function hexMD5(str) {
+  return binl2hex(coreMD5(str2binl(str)))
+}
+
+function hexMD5w(str) {
+  return binl2hex(coreMD5(strw2binl(str)))
+}
+
+function b64MD5(str) {
+  return binl2b64(coreMD5(str2binl(str)))
+}
+
+function b64MD5w(str) {
+  return binl2b64(coreMD5(strw2binl(str)))
+}
 /* Backward compatibility */
-function calcMD5(str) { return binl2hex(coreMD5(str2binl(str))) }
+function calcMD5(str) {
+  return binl2hex(coreMD5(str2binl(str)))
+}
 module.exports = {
   hexMD5: hexMD5
 }

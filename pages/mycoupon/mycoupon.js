@@ -7,12 +7,12 @@ Page({
    * 页面的初始数据
    */
   data: {
-    isAdd:false,
+    isAdd: false,
     result: null,
     // pageNo: 1,
     // pageSize: 10,
-    couponCount:0,
-    couponNum:"",
+    couponCount: 0,
+    couponNum: "",
     pages: null,
     isShow: false,
   },
@@ -20,7 +20,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     let that = this;
     that.ask();
     var pages = getCurrentPages().length - 1;
@@ -37,55 +37,55 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-  
+  onShow: function() {
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  ask: function () {
+  ask: function() {
     var that = this;
     console.log(app.globalData)
     var nowtime = new Date().getTime();
@@ -97,14 +97,14 @@ Page({
       OpenID: app.globalData.openId,
       Status: 'All'
     };
-    
+
     wx.request({
-      url: app.globalData.url + '/Api/Conpon/QueryUserConpons' + '/' + data.Username + '/' +data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.Status,
+      url: app.globalData.url + '/Api/Conpon/QueryUserConpons' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.Status,
       method: "Get",
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         wx.hideLoading()
         var result = that.addJson(that.data.result, res.data.data);
@@ -117,7 +117,7 @@ Page({
       }
     })
   },
-  toDetail: function (e) {
+  toDetail: function(e) {
     var num = e.currentTarget.dataset.num;
     var status = e.currentTarget.dataset.status;
     // if(status == 3){
@@ -127,7 +127,7 @@ Page({
     //   url: '../orderDetail/orderDetail?orderNum=' + num,
     // })
   },
-  addJson: function (json1, json2) {
+  addJson: function(json1, json2) {
     if (json1 == null) {
       return json2
     }
@@ -138,54 +138,54 @@ Page({
 
 
   },
-  toIndex:function(e){
+  toIndex: function(e) {
     var type = e.currentTarget.dataset.type;
-      if (type == 2) {
-        wx.switchTab({
-          url: '../sell/sell',
-        })
-      } else {
-        wx.switchTab({
-          url: '../index/index',
-        })
-      }
+    if (type == 2) {
+      wx.switchTab({
+        url: '../sell/sell',
+      })
+    } else {
+      wx.switchTab({
+        url: '../index/index',
+      })
+    }
     // }
-    
-    
+
+
   },
-  
+
   // 返回首页
-  back: function () {
+  back: function() {
     wx.switchTab({
       url: '../index/index'
     })
   },
 
-  toDetail:function(e){
+  toDetail: function(e) {
     var id = e.currentTarget.dataset.id;
     var index = e.currentTarget.dataset.index;
     app.globalData.thisresult = this.data.result[index]
 
     wx.navigateTo({
-      url: '../couponDetail/couponDetail?id='+id,
+      url: '../couponDetail/couponDetail?id=' + id,
     })
   },
-  addCoupon:function(){
+  addCoupon: function() {
     this.setData({
-      isAdd:true
+      isAdd: true
     })
   },
-  closeAdd:function(){
+  closeAdd: function() {
     this.setData({
       isAdd: false
     })
   },
-  couponNum:function(e){
+  couponNum: function(e) {
     this.setData({
-      couponNum:e.detail.value
+      couponNum: e.detail.value
     })
   },
-  submitAdd:function(){
+  submitAdd: function() {
     var that = this;
     var num = that.data.couponNum;
     var nowtime = new Date().getTime();

@@ -20,17 +20,19 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
       orderNum: options.orderNum
     })
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('unPayOrder', nowtime);
@@ -49,7 +51,7 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         if (res.data.data.order != null) {
           var order = res.data.data;
@@ -74,7 +76,7 @@ Page({
       }
     })
   },
-  phone: function (e) {
+  phone: function(e) {
     var phone = e.currentTarget.dataset.phone;
     wx.makePhoneCall({
       phoneNumber: phone,
@@ -84,50 +86,52 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+  onShow: function() {
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  leftTime: function () {
+  leftTime: function() {
     var that = this;
-    var timer = setInterval(function () {
+    var timer = setInterval(function() {
       var nowTime = parseInt(new Date().getTime() / 1000);
       var leftTime = that.data.order.order.orderExpireSecond - nowTime;
       var minute = parseInt(leftTime / 60);
@@ -145,14 +149,14 @@ Page({
       if (second < 10) {
         second = "0" + second;
       }
-      
+
       that.setData({
         minute: minute,
         second: second
       })
     }, 1000)
   },
-  cancelOrder: function () {
+  cancelOrder: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('cancelorder', nowtime);
@@ -168,7 +172,7 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         if (res.data.status == 1) {
           wx.showToast({
@@ -178,11 +182,11 @@ Page({
             duration: 2000,
             mask: true,
           })
-          setTimeout(function(){
+          setTimeout(function() {
             wx.redirectTo({
               url: '../compare/compare',
             })
-          },1500)
+          }, 1500)
         } else {
           wx.showToast({
             title: '取消失败',
@@ -195,21 +199,21 @@ Page({
       }
     })
   },
-  toPay: function () {
+  toPay: function() {
     var that = this;
-    if (that.data.order.disPrice == 0){
+    if (that.data.order.disPrice == 0) {
       that.cancelOrder();
       wx.showToast({
         title: '订单已取消',
       })
-    }else{
+    } else {
       this.setData({
         showPay: true
       })
     }
-    
+
   },
-  wxPay: function () {
+  wxPay: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('minipay', nowtime);
@@ -218,7 +222,7 @@ Page({
     }
     that.setData({
       canClick: 0
-    })//防止多次点击
+    }) //防止多次点击
     wx.request({
       url: app.globalData.url + '/api/shOrder/minipay',
       data: {
@@ -231,7 +235,7 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         // return;
         wx.requestPayment({
@@ -240,7 +244,7 @@ Page({
           package: res.data.data.package,
           signType: res.data.data.signType,
           paySign: res.data.data.paySign,
-          success: function (res) {
+          success: function(res) {
             that.setData({
               showPay: false
             })
@@ -249,13 +253,13 @@ Page({
               mask: true,
               duration: 2000
             })
-            setTimeout(function () {
+            setTimeout(function() {
               wx.redirectTo({
                 url: '../success/success?orderNum=' + that.data.orderNum,
               })
             }, 1000)
           },
-          fail: function (res) {
+          fail: function(res) {
             // console.log(res)
             that.setData({
               canClick: 1
@@ -265,12 +269,12 @@ Page({
       }
     })
   },
-  close: function () {
+  close: function() {
     this.setData({
       showPay: false
     })
   },
-  cardPay:function(){
+  cardPay: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('cardPay', nowtime);
@@ -290,7 +294,7 @@ Page({
     }
     that.setData({
       canClick: 0
-    })//防止多次点击
+    }) //防止多次点击
     wx.showLoading({
       title: '支付中',
     })
@@ -299,7 +303,7 @@ Page({
       data: {
         appUserId: app.globalData.userInfo.id,
         orderNum: that.data.orderNum,
-        password:that.data.password,
+        password: that.data.password,
         timeStamp: nowtime,
         mac: sign
       },
@@ -307,11 +311,11 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         that.setData({
           canClick: 1
-        })//解開點擊
+        }) //解開點擊
         wx.hideLoading()
         if (res.data.status == 0) {
           if (res.data.code == "not_enough_balance") {
@@ -319,7 +323,7 @@ Page({
               title: '',
               content: res.data.message,
               // confirmText:"",
-              success: function (res) {
+              success: function(res) {
                 if (res.confirm) {
                   wx.redirectTo({
                     url: '../mycard/mycard',
@@ -343,7 +347,7 @@ Page({
             mask: true,
             duration: 2000
           })
-          setTimeout(function () {
+          setTimeout(function() {
             wx.redirectTo({
               url: '../success/success?orderNum=' + that.data.orderNum,
             })
@@ -352,7 +356,7 @@ Page({
       }
     })
   },
-  syn: function () {
+  syn: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userCard', nowtime);
@@ -368,7 +372,7 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         if (res.data.status == 1) {
           var userInfo = res.data.data;
@@ -385,18 +389,18 @@ Page({
       }
     })
   },
-  setM: function (e) {
+  setM: function(e) {
     var password = e.detail.value;
     this.setData({
       password: password
     })
   },
-  showM: function () {
+  showM: function() {
     if (app.globalData.userInfo.dxInsiderInfo == null) {
       wx.showModal({
         title: '支付失败',
         content: "您还没有会员卡，是否前去绑定/开卡？",
-        success: function (res) {
+        success: function(res) {
           if (res.confirm) {
             wx.navigateTo({
               url: '../mycard/mycard',
@@ -410,7 +414,7 @@ Page({
       showM: true
     })
   },
-  closeM: function () {
+  closeM: function() {
     this.setData({
       showM: false
     })

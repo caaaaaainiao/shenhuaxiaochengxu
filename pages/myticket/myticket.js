@@ -7,15 +7,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    result:null,
-    pageNo:1,
-    pageSize:10
+    result: null,
+    pageNo: 1,
+    pageSize: 10
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     wx.showLoading({
       title: '加载中',
     })
@@ -25,14 +25,14 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     // wx.showLoading({
     //   title: '加载中',
     // })
@@ -41,41 +41,41 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  ask:function(){
+  ask: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userOrderList', nowtime);
@@ -86,8 +86,8 @@ Page({
       header: {
         "Content-Type": "application/json"
       },
-      success: function (res) {
-       console.log(res)
+      success: function(res) {
+        console.log(res)
         var result = []
         for (var x in res.data.data.ticket) {
           if (res.data.data.ticket[x].orderCode != null) {
@@ -103,7 +103,7 @@ Page({
 
     })
   },
-  toDetail:function(e){
+  toDetail: function(e) {
     var orderNum = e.currentTarget.dataset.num;
     var status = e.currentTarget.dataset.status;
     // if(status == 3){
@@ -113,7 +113,7 @@ Page({
       url: '../orderDetail/orderDetail?orderNum=' + orderNum,
     })
   },
-  addJson: function (json1, json2) {
+  addJson: function(json1, json2) {
     if (json1 == null) {
       return json2
     }

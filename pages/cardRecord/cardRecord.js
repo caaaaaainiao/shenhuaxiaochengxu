@@ -15,63 +15,67 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.ask();
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+  onShow: function() {
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  ask: function () {
+  ask: function() {
     var that = this;
     wx.showLoading({
       title: '加载中',
@@ -82,10 +86,10 @@ Page({
       header: {
         'content-type': 'application/json'
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.Status == 'Success' && res.data.data) {
           let result = res.data.data;
-          for (let i = 0; i < result.length; i ++) {
+          for (let i = 0; i < result.length; i++) {
             if (result[i].chargeTime) {
               let cardNo = "result[" + i + "].cardNo";
               let chargeTime = "result[" + i + "].chargeTime";
@@ -116,7 +120,7 @@ Page({
       }
     })
   },
-  addJson: function (json1, json2) {
+  addJson: function(json1, json2) {
     if (json1 == null) {
       return json2
     }

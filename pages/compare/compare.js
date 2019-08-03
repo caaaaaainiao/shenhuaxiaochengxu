@@ -14,16 +14,16 @@ Page({
     cinemaCode: null,
     screenPlanList: null,
     select: 0,
-    orderNum:0,
-    showTask:false,
-    showTip:0,
-    moviearea:null,
-    isLoading:true,
+    orderNum: 0,
+    showTask: false,
+    showTip: 0,
+    moviearea: null,
+    isLoading: true,
     moviesListDate: null,
-    isShow:false,
+    isShow: false,
     index: 0,
-    selectedIndex:0,
-    buyNum : 4
+    selectedIndex: 0,
+    buyNum: 4
   },
 
   /**
@@ -31,7 +31,9 @@ Page({
    */
   onLoad: function(options) {
     let that = this;
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
     that.setData({
       logo: app.globalData.businessPic,
     })
@@ -41,7 +43,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function() {
-    var that = this;   
+    var that = this;
     this.setData({
       checkfilmcode: app.globalData.checkfilmcode,
       swiperIndex: app.globalData.movieIndex
@@ -57,17 +59,17 @@ Page({
     that.getStorageMovieList()
     that.ask();
   },
-  getStorageMovieList(){
+  getStorageMovieList() {
     var that = this
     wx.getStorage({
       key: 'movieList',
-      success: function (res) {
+      success: function(res) {
         that.setData({
           moviesList: res.data
-          })
+        })
       },
-      fail: function (res) { },
-      complete: function (res) { },
+      fail: function(res) {},
+      complete: function(res) {},
     })
   },
 
@@ -75,7 +77,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
@@ -109,7 +113,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
@@ -151,7 +155,7 @@ Page({
       var date3 = new Date(date.getTime() + 2 * 24 * 60 * 60 * 1000);
       var nowMonth3 = date3.getMonth() + 1;
       var nowDay3 = date3.getDate();
-      if (month == nowMonth && day == nowDay){
+      if (month == nowMonth && day == nowDay) {
         if (month < 10) {
           month = "0" + month;
         }
@@ -159,7 +163,7 @@ Page({
           day = "0" + day;
         }
         screenPlanList[i].date = month + "-" + day + " " + "今天";
-      } else if (month == nowMonth2 && day == nowDay2){//明天
+      } else if (month == nowMonth2 && day == nowDay2) { //明天
         if (month < 10) {
           month = "0" + month;
         }
@@ -167,7 +171,7 @@ Page({
           day = "0" + day;
         }
         screenPlanList[i].date = month + "-" + day + " " + "明天";
-      } else if (month == nowMonth3 && day == nowDay3) {//后天
+      } else if (month == nowMonth3 && day == nowDay3) { //后天
         if (month < 10) {
           month = "0" + month;
         }
@@ -198,7 +202,7 @@ Page({
     })
     app.globalData.screenPlanList = that.data.screenPlanList;
   },
-  buyMoer : function(e){
+  buyMoer: function(e) {
     let that = this;
     // console.log(e.currentTarget.dataset.index)
     that.setData({
@@ -226,7 +230,7 @@ Page({
     var that = this;
     var nowtime = new Date();
     let nowday = util.formatTimeDay(nowtime);
-    let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30);//add 30 day
+    let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30); //add 30 day
     let endday = util.formatTimeDay(endtime);
     let apiuser = util.getAPIUserData(null);
     let cinemacode = app.globalData.cinemacode
@@ -236,7 +240,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         var comparePrices = res.data.data.sessionDate[0].session;
         // console.log(comparePrices)
@@ -244,8 +248,8 @@ Page({
         let beforeStartTime = Number(app.globalData.beforeStartTime) * 60 * 1000;
         // 将限制购票时间加上当前时间与影片开场时间作对比
         let nowTime = parseInt(new Date().getTime()) + beforeStartTime;
-        for (let i = comparePrices.length - 1; i >= 0; i --) { // 循环排期时间  倒序进行判断
-          let sessionTime = new Date(comparePrices[i].sessionTime.replace(/-/g, '/')).getTime();// 获取排期时间戳
+        for (let i = comparePrices.length - 1; i >= 0; i--) { // 循环排期时间  倒序进行判断
+          let sessionTime = new Date(comparePrices[i].sessionTime.replace(/-/g, '/')).getTime(); // 获取排期时间戳
           if (sessionTime < nowTime) { // 比较两个时间戳大小 判断排期时间是否已过期
             // 如果当前时间比排期时间大  那么排期已过期  把过期的排期删除
             comparePrices.splice(i, 1);
@@ -260,7 +264,7 @@ Page({
       }
     })
     that.setData({
-      isLoading:true
+      isLoading: true
     })
   },
   buy: function(e) {
@@ -281,18 +285,18 @@ Page({
       url: '../chooseSeats/chooseSeats?screenCode=' + screenCode + '&&sessionDate=' + sessionDate + '&&time=' + time + '&&screenName=' + screenName + '&&sessionCode=' + sessionCode + '&&filmType=' + filmType + '&&salePrice=' + salePrice + '&&endtime=' + endtime,
     })
   },
-  hideTip:function(){
+  hideTip: function() {
     this.setData({
       buyNum: 4
     })
   },
-  toOrder:function(){//待支付订单
+  toOrder: function() { //待支付订单
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('minpayOrderAgain', nowtime);
-    if (code == 0) {//会员购票
+    if (code == 0) { //会员购票
       wx.request({
-        url: app.globalData.url + '/api/shOrder/minpayOrderAgain',//查询订单
+        url: app.globalData.url + '/api/shOrder/minpayOrderAgain', //查询订单
         data: {
           appUserId: app.globalData.userInfo.id,
           timeStamp: nowtime,
@@ -302,22 +306,22 @@ Page({
         header: {
           "Content-Type": "application/x-www-form-urlencoded"
         },
-        success: function (res) {
+        success: function(res) {
           // console.log(res)
-          
+
 
         }
       })
-    } 
+    }
   },
-  checkSession:function(e){//选择比价
+  checkSession: function(e) { //选择比价
     var that = this;
     that.setData({
       // isShow:true,
       selectedIndex: e.currentTarget.dataset.index
     })
   },
-  cancel:function(){
+  cancel: function() {
     var that = this;
     var nowtime = new Date().getTime();
     that.setData({
@@ -335,9 +339,9 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
-        if(res.data.status == 1){
+        if (res.data.status == 1) {
           wx.showToast({
             title: '取消成功',
             icon: 'loading',
@@ -345,8 +349,8 @@ Page({
             duration: 2000,
             mask: true,
           })
-          
-        }else{
+
+        } else {
           wx.showToast({
             title: '取消失败',
             icon: 'loading',
@@ -358,42 +362,42 @@ Page({
       }
     })
   },
-  sure:function(){
+  sure: function() {
     var that = this;
     that.setData({
-      showTask:false
+      showTask: false
     })
     wx.navigateTo({
-      url: '../waitPay/waitPay?orderNum='+that.data.orderNum,
+      url: '../waitPay/waitPay?orderNum=' + that.data.orderNum,
     })
   },
-  toDetail:function(e){
+  toDetail: function(e) {
     var that = this
     var nowtime = new Date();
     let nowday = util.formatTimeDay(nowtime);
-    let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30);//add 30 day
+    let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30); //add 30 day
     let endday = util.formatTimeDay(endtime);
     let apiuser = util.getAPIUserData(null);
     let cinemacode = app.globalData.cinemacode
-    if (this.data.swiperIndex == e.currentTarget.dataset.index){
+    if (this.data.swiperIndex == e.currentTarget.dataset.index) {
       app.globalData.movieIndex = this.data.swiperIndex;
 
       wx.navigateTo({
         url: '../movieDetail/movieDetail',
       })
-    }else{
+    } else {
       this.setData({
         swiperIndex: e.currentTarget.dataset.index
       })
 
 
       wx.request({
-        url: app.globalData.url + '/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode ,
+        url: app.globalData.url + '/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
         },
-        success: function (res) {
+        success: function(res) {
           that.setData({
             moviesListDate: res.data.data
           })

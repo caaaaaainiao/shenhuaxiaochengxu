@@ -7,76 +7,80 @@ Page({
    */
   data: {
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    userInfo:null
+    userInfo: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+  onShow: function() {
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  getUserInfo: function (e) {
+  getUserInfo: function(e) {
     // console.log(e)
-    if (e.detail.errMsg == "getUserInfo:fail auth deny"){
-        wx.showToast({
-          title: '请先授权',
-          icon:"loading",
-          duration:2000
-        })
-    } else if (e.detail.errMsg == "getUserInfo:ok"){
+    if (e.detail.errMsg == "getUserInfo:fail auth deny") {
+      wx.showToast({
+        title: '请先授权',
+        icon: "loading",
+        duration: 2000
+      })
+    } else if (e.detail.errMsg == "getUserInfo:ok") {
       this.setData({
         userInfo: e.detail.userInfo,
       })
@@ -86,7 +90,7 @@ Page({
         data: {
           "userInfo": e.detail.userInfo
         },
-        success:function(res){
+        success: function(res) {
           // console.log(res)
           wx.switchTab({
             url: '../index/index',
@@ -94,7 +98,7 @@ Page({
         }
       })
     }
-    
+
 
   },
 })
