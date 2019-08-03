@@ -7,75 +7,79 @@ Page({
    * 页面的初始数据
    */
   data: {
-    result:null,
-    suggestion:"",
-    phone:"",
-    isAsk:false
+    result: null,
+    suggestion: "",
+    phone: "",
+    isAsk: false
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.ask();
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     this.setData({
       isAsk: false
     });
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  ask:function(){
+  ask: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('list', nowtime);
@@ -90,11 +94,11 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         var result = res.data.data;
-        for(var i = 0;i < result.length;i++){
-          result[i].createTime2 = result[i].createTime.substring(0,10)
+        for (var i = 0; i < result.length; i++) {
+          result[i].createTime2 = result[i].createTime.substring(0, 10)
         }
         that.setData({
           result: result,
@@ -102,18 +106,18 @@ Page({
       }
     })
   },
-  question: function () {
+  question: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('suggestions', nowtime);
-    if(that.data.phone.length != 11){
+    if (that.data.phone.length != 11) {
       wx.showModal({
         title: '提交失败',
         content: '手机号格式不正确',
       })
       return
     }
-    if (that.data.suggestion.length == 0){
+    if (that.data.suggestion.length == 0) {
       wx.showModal({
         title: '提交失败',
         content: '请输入您的意见',
@@ -127,7 +131,7 @@ Page({
       url: app.globalData.url + '/api/suggestion/suggestions;charset=utf-8',
       data: {
         appUserId: app.globalData.userInfo.id,
-        phone:that.data.phone,
+        phone: that.data.phone,
         suggestion: that.data.suggestion,
         timeStamp: nowtime,
         mac: sign
@@ -136,42 +140,42 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         wx.hideLoading()
-        if(res.data.status == 1){
+        if (res.data.status == 1) {
           wx.showToast({
             title: '提交成功',
-            icon:"loading",
+            icon: "loading",
             duration: 2000
           })
-        }else{
+        } else {
           wx.showModal({
             title: '提交失败',
             content: '',
           })
         }
         that.setData({
-          isAsk:false
+          isAsk: false
         })
       }
     })
   },
-  words:function(e){
+  words: function(e) {
     var that = this;
     that.setData({
-      suggestion:e.detail.value
+      suggestion: e.detail.value
     })
   },
-  phone: function (e) {
+  phone: function(e) {
     var that = this;
     that.setData({
       phone: e.detail.value
     })
   },
-  showAsk:function(){
+  showAsk: function() {
     this.setData({
-      isAsk:true
+      isAsk: true
     })
   }
 })

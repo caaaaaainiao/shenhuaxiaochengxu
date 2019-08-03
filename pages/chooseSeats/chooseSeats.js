@@ -55,12 +55,12 @@ Page({
     rowNumMr: -20,
     screenName: "",
     salePrice: '',
-    seatx:50,
-    seaty:50,
+    seatx: 50,
+    seaty: 50,
     seats: '',
     // isEmpty: 'empty',
     rows: '',
-    rownum:[]
+    rownum: []
   },
 
   /**
@@ -100,7 +100,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         var seats = res.data.data.rows;
         that.setData({
@@ -114,7 +114,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         wx.hideLoading();
         var seat = res.data.sessionSeat.seat;
@@ -143,13 +143,15 @@ Page({
         var scale = 650 / (maxColumn * 64 - 8);
         that.setData({
           rows: seats,
-          scale:scale
+          scale: scale
         })
         that.setRowNum();
       }
     })
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
-   
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
+
   },
 
   /**
@@ -272,22 +274,22 @@ Page({
       seats: maps,
       scale: scale
     })
-   
+
   },
-  setRowNum:function(){
+  setRowNum: function() {
     var that = this;
     var seats = that.data.seats;
     var rownums = that.data.rownum;
-    for(var i = 0;i < seats.length;i++){
-      if (seats[i] && seats[i].rowNum){
+    for (var i = 0; i < seats.length; i++) {
+      if (seats[i] && seats[i].rowNum) {
         var rownum = seats[i].rowNum;
-        rownums[i]=rownum;
+        rownums[i] = rownum;
       } else {
         rownums[i] = "";
       }
     }
     that.setData({
-      rownum:rownums
+      rownum: rownums
     })
   },
   choose: function(e) { //选座
@@ -297,7 +299,7 @@ Page({
     var seatNum = that.data.seatNum;
     var status = e.currentTarget.dataset.status;
     var checkNum = 0;
-    if (canOnePointMove){
+    if (canOnePointMove) {
       return;
     }
     if (status == "sell") {
@@ -513,7 +515,7 @@ Page({
               // "content-Type": "application/x-www-form-urlencoded"
               'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
               // console.log(res)
               if (res.data.Status == "Success") {
                 // console.log(that.data)
@@ -535,15 +537,15 @@ Page({
                   icon: 'loading',
                   duration: 2000,
                   mask: true,
-                  success: function (res) {
-                    setTimeout(function () {
+                  success: function(res) {
+                    setTimeout(function() {
                       wx.redirectTo({
                         url: '../orderForm/orderForm?date=' + date + '&&screenName=' + screenName + '&&autoUnlockDatetime=' + autoUnlockDatetime + '&&count=' + count + '&&seat=' + seat + '&&orderCode=' + orderCode + '&&sessionCode=' + sessionCode + '&&title=' + title + '&&price=' + price,
                       })
                     }, 500)
                   },
-                  fail: function (res) { },
-                  complete: function (res) { },
+                  fail: function(res) {},
+                  complete: function(res) {},
                 })
               } else {
                 wx.showToast({
@@ -570,7 +572,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
@@ -604,14 +608,14 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
   // // 缩放，平移
-  touchstart: function (e) {
+  touchstart: function(e) {
 
     var that = this
 
@@ -636,7 +640,7 @@ Page({
     }
 
   },
-  touchmove: function (e) {
+  touchmove: function(e) {
 
     var that = this
 
@@ -713,7 +717,7 @@ Page({
     // that.checkLeft();
   },
 
-  touchend: function (e) {
+  touchend: function(e) {
 
     var that = this
 

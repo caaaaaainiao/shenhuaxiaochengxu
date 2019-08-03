@@ -14,25 +14,27 @@ Page({
     yzmTime: "60",
     image: null,
     modalHidden: true,
-    isshow:false,
-    iskey:true
+    isshow: false,
+    iskey: true
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var dataInfo = app.globalData;
     var that = this;
     that.setData({
       userInfo: dataInfo.userInfo,
       areaList: app.globalData.areaList
     })
-    wx.setNavigationBarTitle({ title: '用户注册' });
+    wx.setNavigationBarTitle({
+      title: '用户注册'
+    });
     wx.request({
-      url: app.globalData.url +'/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
-      method:'GET',
-      success:function(res){
+      url: app.globalData.url + '/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
+      method: 'GET',
+      success: function(res) {
         that.setData({
           logo: res.data.data.cinemas[0].businessPic
         })
@@ -41,26 +43,26 @@ Page({
   },
 
   //选择影院
-  choosecinema:function(){
-    var that = this 
+  choosecinema: function() {
+    var that = this
     that.setData({
-      isshow:true,
-      iskey:false
+      isshow: true,
+      iskey: false
     })
     console.log(that.data.areaList)
 
   },
- // 关闭选择影院
-  submite:function(){
-    var that = this 
+  // 关闭选择影院
+  submite: function() {
+    var that = this
     that.setData({
-       isshow:false,
-       iskey:true
+      isshow: false,
+      iskey: true
     })
   },
 
   //选择具体影院
-  choosearea:function(e){
+  choosearea: function(e) {
     var that = this
     that.setData({
       cinemacode: e.currentTarget.dataset.cinemacode,
@@ -75,56 +77,56 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () { },
+  onReady: function() {},
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
   /**
- * 显示弹窗
- */
-  buttonTap: function () {
+   * 显示弹窗
+   */
+  buttonTap: function() {
     this.setData({
       modalHidden: false
     })
@@ -133,7 +135,7 @@ Page({
   /**
    * 点击取消
    */
-  modalCandel: function () {
+  modalCandel: function() {
     // do something
     this.setData({
       modalHidden: true
@@ -146,7 +148,7 @@ Page({
   /**
    *  点击确认
    */
-  modalConfirm: function () {
+  modalConfirm: function() {
     // do something
     this.setData({
       modalHidden: true
@@ -156,7 +158,7 @@ Page({
     })
   },
 
-  login: function () {
+  login: function() {
     // console.log("login")
     var phone = this.data.phone;
     var yzm = this.data.inputYzm;
@@ -170,7 +172,7 @@ Page({
       return;
     }
 
-    if (!cinemaname){
+    if (!cinemaname) {
       wx.showModal({
         title: '提示',
         content: '请选择影院',
@@ -202,43 +204,42 @@ Page({
         userName: apiuser.UserName,
         password: apiuser.Password,
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res.data.data.mobilePhone)//用户注册的手机号码
         wx.hideLoading()
         // console.log(res)
         if (res.data.Status == "Success") {
-              wx.request({
-                url: app.globalData.url + '/Api/User/QueryUser' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
-                method: "GET",
-                header: {
-                  "Content-Type": "application/json"
-                },
-                success: function (res) {
-                  // console.log(res)
-                  if (res.data.Status == 'Success') {
-                    wx.setStorage({
-                      key: 'loginInfo',
-                      data: res.data.data,
-                    })
-                  }
-                }
-              })
-              app.globalData.phone = that.data.phone
-           if (res.data.data.linkUrl == '') {
-                wx.switchTab({
-                  url: '../index/index',
+          wx.request({
+            url: app.globalData.url + '/Api/User/QueryUser' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
+            method: "GET",
+            header: {
+              "Content-Type": "application/json"
+            },
+            success: function(res) {
+              // console.log(res)
+              if (res.data.Status == 'Success') {
+                wx.setStorage({
+                  key: 'loginInfo',
+                  data: res.data.data,
                 })
               }
-              else {
-             let image = res.data.data.linkUrl;
-                that.setData({
-                  image: image,
-                  modalHidden: false,
-                });
-              }
+            }
+          })
+          app.globalData.phone = that.data.phone
+          if (res.data.data.linkUrl == '') {
+            wx.switchTab({
+              url: '../index/index',
+            })
+          } else {
+            let image = res.data.data.linkUrl;
+            that.setData({
+              image: image,
+              modalHidden: false,
+            });
+          }
         } else {
           wx.showToast({
-            title: res.data.ErrorMessage,//修改报错
+            title: res.data.ErrorMessage, //修改报错
             icon: 'loading',
             image: '',
             duration: 2000,
@@ -249,7 +250,7 @@ Page({
     })
 
   },
-  phoneCut: function (e) { //手机号长度校验
+  phoneCut: function(e) { //手机号长度校验
     var text = e.detail.value;
     if (text.length > 11) {
       text = text.slice(0, 11);
@@ -259,7 +260,7 @@ Page({
       phone: text
     })
   },
-  yzmCut: function (e) { //验证码长度校验
+  yzmCut: function(e) { //验证码长度校验
     var text = e.detail.value;
     if (text.length > 6) {
       text = text.slice(0, 6);
@@ -268,7 +269,7 @@ Page({
       inputYzm: text
     })
   },
-  sendYzm: function () {
+  sendYzm: function() {
     var phone = this.data.phone;
     var that = this;
     if (that.data.yzmText == "获取验证码") {
@@ -293,8 +294,7 @@ Page({
           mask: true
         });
         return;
-      }
-      else if (!app.globalData.userInfo.openID) {
+      } else if (!app.globalData.userInfo.openID) {
         wx.showToast({
           title: '请删除小程序重新扫码或搜索进入02',
           duration: 1000,
@@ -313,14 +313,14 @@ Page({
           openID: app.globalData.userInfo.openID,
           mobilePhone: phone
         },
-        success: function (res) {
+        success: function(res) {
           console.log(res)
           if (res.data.Status == "Success") {
             //倒计时
             that.setData({
               yzmText: that.data.yzmTime + "s后重新发送"
             })
-            var timer = setInterval(function () {
+            var timer = setInterval(function() {
               var time = parseInt(that.data.yzmTime) - 1;
               if (time == 0) {
                 that.setData({
@@ -337,7 +337,7 @@ Page({
               }
 
             }, 1000)
-          }else{
+          } else {
             wx.showToast({
               title: res.data.ErrorMessage,
               duration: 1000,

@@ -13,63 +13,67 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.ask();
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+  onShow: function() {
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  ask: function () {
+  ask: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('commentList', nowtime);
@@ -87,8 +91,10 @@ Page({
         mac: sign
       },
       method: "POST",
-      header: { "Content-Type": "application/x-www-form-urlencoded" },
-      success: function (res) {
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      success: function(res) {
         // console.log(res);
         wx.hideLoading()
         var result = that.addJson(that.data.result, res.data.data);
@@ -100,7 +106,7 @@ Page({
       }
     })
   },
-  addJson: function (json1, json2) {
+  addJson: function(json1, json2) {
     if (json1 == null) {
       return json2
     }

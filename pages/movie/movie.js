@@ -8,24 +8,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-    location:"",
-    movieRoom:null,
-    Username : '',
-    Password : '',
-    CinemaCode : '',
-    banner: [{ imageUrl: "/images/comparebg.jpg" }],
-    MovieList : []
+    location: "",
+    movieRoom: null,
+    Username: '',
+    Password: '',
+    CinemaCode: '',
+    banner: [{
+      imageUrl: "/images/comparebg.jpg"
+    }],
+    MovieList: []
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var that = this;
     wx.request({
-      url: app.globalData.url+'/Api/Activity/QueryActivitys/' + 'MiniProgram/' +'6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode +'/04',
-      method:'GET',
-      success: function (res) {
+      url: app.globalData.url + '/Api/Activity/QueryActivitys/' + 'MiniProgram/' + '6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/04',
+      method: 'GET',
+      success: function(res) {
         // console.log(res.data.data)
         that.setData({
           picture: res.data.data.images
@@ -33,11 +35,13 @@ Page({
 
       }
     })
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method: 'GET',
-      success: function (e) {
+      success: function(e) {
         console.log(e)
         let roll = e.data.data
         console.log(roll)
@@ -49,14 +53,14 @@ Page({
       }
     })
   },
-  roomin:function(e){
-    var that =this
+  roomin: function(e) {
+    var that = this
     var index = e.currentTarget.dataset.index;
     app.globalData.movieRoom = that.data.MovieList[index];
     // console.log(that.data.MovieList[index])
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         if (res.data.mobilePhone && res.data.isRegister == '1') {
           wx.navigateTo({
             url: '../room/room?roomname=' + that.data.MovieList[index].roomName,
@@ -66,7 +70,8 @@ Page({
             url: '../login/login'
           })
         }
-      }, fail: function () {
+      },
+      fail: function() {
         wx.reLaunch({
           url: '../login/login',
         })
@@ -77,18 +82,18 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method: 'GET',
-      success: function (e) {
+      success: function(e) {
         console.log(e)
         let roll = e.data.data
         console.log(roll)
@@ -109,47 +114,49 @@ Page({
     var that = this;
     var nowtime = new Date().getTime();
     that.getNowTimeMovie()
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  bannerTap: function (e) {
+  bannerTap: function(e) {
     var index = e.currentTarget.dataset.index;
     var banner = this.data.banner;
     var num = banner[index].playType;
@@ -174,31 +181,31 @@ Page({
       }
     }
   },
-  getNowTimeMovie : function (){
+  getNowTimeMovie: function() {
     var that = this
     let apiuser = util.getAPIUserData(null);
     wx.showLoading({
       title: '加载中',
     })
     wx.request({
-      url: app.globalData.url + '/Api/chatRoom/getRooms' ,
+      url: app.globalData.url + '/Api/chatRoom/getRooms',
       // url: app.globalData.url + '/Api/chatRoom/getRooms',
       method: "POST",
-      data:{
-        cinemaCode  : app.globalData.cinemacode
+      data: {
+        cinemaCode: app.globalData.cinemacode
       },
       header: {
         // 'content-type': 'application/json' // 默认值
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         wx.hideLoading()
         // that.data.FlimList.push(res)
         that.setData({
-          MovieList : res.data
+          MovieList: res.data
         })
-       
+
       }
     })
   }

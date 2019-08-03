@@ -7,107 +7,130 @@ Page({
    * 页面的初始数据
    */
   data: {
-    text: [
-      { text: "好看到炸裂！", select: false },
-      { text: "非常温暖感人，推荐！", select: false },
-      { text: "见仁见智", select: false },
-      { text: "给导演加鸡腿", select: false },
-      { text: "剧情不错！", select: false },
-      { text: "值回票价", select: false },
-      { text: "演员太美，舔屏！", select: false },
-      { text: "演技满分！", select: false },
+    text: [{
+        text: "好看到炸裂！",
+        select: false
+      },
+      {
+        text: "非常温暖感人，推荐！",
+        select: false
+      },
+      {
+        text: "见仁见智",
+        select: false
+      },
+      {
+        text: "给导演加鸡腿",
+        select: false
+      },
+      {
+        text: "剧情不错！",
+        select: false
+      },
+      {
+        text: "值回票价",
+        select: false
+      },
+      {
+        text: "演员太美，舔屏！",
+        select: false
+      },
+      {
+        text: "演技满分！",
+        select: false
+      },
     ],
-    movieId:"",
-    inputText:""
+    movieId: "",
+    inputText: ""
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     this.setData({
-      movieId:options.id
+      movieId: options.id
     })
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
+  onShow: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  inputText:function(e){
+  inputText: function(e) {
     var text = e.detail.value;
     this.setData({
-      inputText:text
+      inputText: text
     })
   },
-  select:function(e){
+  select: function(e) {
     var that = this;
     var index = e.currentTarget.dataset.index;
     var text = that.data.text;
-    if (text[index].select){
+    if (text[index].select) {
       text[index].select = false;
-    }else{
+    } else {
       text[index].select = true;
     }
     that.setData({
-      text:text
+      text: text
     })
   },
-  submit:function(){
+  submit: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('saveComment', nowtime);
     var str = "";
     var comment = "";
-    for(var i = 0;i < that.data.text.length;i++){
-      if(that.data.text[i].select){
+    for (var i = 0; i < that.data.text.length; i++) {
+      if (that.data.text[i].select) {
         comment += that.data.text[i].text;
       }
     }
@@ -120,7 +143,7 @@ Page({
       data: {
         appUserId: app.globalData.userInfo.id,
         comment: comment,
-        movieId:that.data.movieId,
+        movieId: that.data.movieId,
         timeStamp: nowtime,
         mac: sign
       },
@@ -128,25 +151,25 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
-        if(res.data.status == 1){
+        if (res.data.status == 1) {
           wx.showToast({
             title: '评论成功',
-            duration:2000,
-            icon:"loading"
+            duration: 2000,
+            icon: "loading"
           })
-          setTimeout(function(){
+          setTimeout(function() {
             wx.redirectTo({
               url: '../seenMovie/seenMovie?id=' + that.data.movieId,
             })
-          },1500)
-        }else{
+          }, 1500)
+        } else {
           wx.showModal({
             title: '评论失败',
             content: '',
           })
-          setTimeout(function () {
+          setTimeout(function() {
             wx.navigateBack()
           }, 1500)
         }

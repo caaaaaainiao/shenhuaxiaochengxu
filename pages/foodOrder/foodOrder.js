@@ -48,15 +48,15 @@ Page({
   onLoad: function(options) {
     var that = this;
     //todo: 创建订单
-  wx.getStorage({
-    key: 'cartObj',
-    success: function(res) {
-      console.log(res.data.list)
-      that.setData({
-        goodsList: res.data.list
-      })
-    },
-  })
+    wx.getStorage({
+      key: 'cartObj',
+      success: function(res) {
+        console.log(res.data.list)
+        that.setData({
+          goodsList: res.data.list
+        })
+      },
+    })
     that.setData({
       userInfo: app.globalData.userInfo,
       phone: app.globalData.userInfo.mobilePhone,
@@ -64,7 +64,7 @@ Page({
     var nowtime = new Date();
     let endtime = new Date(nowtime.getTime() + 1000 * 60);
     let endday = util.formatTime2(endtime);
-    var deliveryAddress = app.globalData.sellhallname 
+    var deliveryAddress = app.globalData.sellhallname
     wx.showLoading({
       title: '加载中',
     })
@@ -84,17 +84,16 @@ Page({
       },
       success: function(res) {
         wx.hideLoading()
-        if (res.data.Status == "Success"){
+        if (res.data.Status == "Success") {
           that.setData({
             ordercode: res.data.order.orderCode
           })
-        }
-      else{
+        } else {
           wx.showModal({
             title: '创建订单失败',
             content: res.data.ErrorMessage + '请重新选择商品',
           })
-      }     
+        }
       }
     })
     util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
@@ -104,7 +103,7 @@ Page({
     })
     wx.getStorage({
       key: 'cartObj',
-      success: function (res) {
+      success: function(res) {
         console.log(res.data.list)
         that.setData({
           goodsList: res.data.list
@@ -141,7 +140,7 @@ Page({
         });
       },
     })
-   
+
 
     util.getcinemaList(function(res) {
       if (res) {
@@ -265,7 +264,7 @@ Page({
     var nowtime = new Date().getTime();
   },
   // 获取手机号
-  getPhone: function (e) {
+  getPhone: function(e) {
     let that = this;
     let phone = e.detail.value;
     that.setData({
@@ -275,99 +274,91 @@ Page({
   choosePay: function() {
     // this.formSubmit()
     var that = this
-    console.log(that.data.phone)
-    console.log(that.data.userMessage)
-    if (that.data.userMessage){
-         console.log("1")
-    }
-    else{
+    if (!that.data.userMessage) {
       that.setData({
-        userMessage:null
+        userMessage: null
       })
     }
-    if(that.data.payway == 1){
+    //查询订单
+    wx.request({
+      url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + 'MiniProgram' + '/' + "6BF477EBCC446F54E6512AFC0E976C41" + '/' + app.globalData.cinemacode + '/' + that.data.ordercode,
+      method: "GET",
+      success: function(res) {
+        console.log(res)
+        var arr = res.data.data.goodsList
+        console.log(arr)
+        var goodslist = []
+        for (let x = 0; x < arr.goods.length; x++) {
+          var obj = {}
+          obj.goodsCode = arr.goods[x].goodsCode
+          obj.goodsCount = arr.goods[x].goodsCount
+          goodslist.push(obj)
+          console.log(goodslist)
+          that.setData({
+            goodslist: goodslist
+          })
+        }
+        app.globalData.goodslist = that.data.goodslist
+        if (res.data.Status == "Success") {
+          wx.request({ //预支付
+            url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
+            method: "POST",
+            data: {
+              userName: "MiniProgram",
+              password: "6BF477EBCC446F54E6512AFC0E976C41",
+              orderCode: that.data.ordercode,
+              mobilePhone: that.data.phone,
+              cinemaCode: app.globalData.cinemacode,
+              couponsCode: that.data.merOrder.merTicket.conponCode,
+              reductionPrice: that.data.merOrder.merTicket.couponPrice,
+              goodsList: app.globalData.goodslist,
+              deliveryMark: that.data.userMessage
+            },
+            success: function(res) {
+              console.log(res)
+              wx.requestPayment({ //微信支付
+                timeStamp: res.data.data.timeStamp,
+                nonceStr: res.data.data.nonceStr,
+                package: res.data.data.packages,
+                signType: res.data.data.signType,
+                paySign: res.data.data.paySign,
+                success(res) {
+                  console.log(res)
+                  wx.showToast({
+                    title: '支付成功！',
+                    icon: 'none',
+                    duration: 1000,
+                    mask: true,
+                  })
+                  wx.redirectTo({
+                    url: '../myfood/myfood'
+                  })
+                },
+                fail(res) {
+                  console.log(res)
+                  that.setData({
+                    canClick: 1
+                  })
+                }
+              })
+            }
+          })
+
+        } else {
+          wx.showToast({
+            title: '订单创建失败,请重试',
+            icon: 'loading',
+            image: '',
+            duration: 2000,
+            mask: true,
+          })
+        }
+      },
+    })
+    if (that.data.payway == 1) {
       if (that.data.canClick != 1) {
         return;
       }
-      //查询订单
-      wx.request({
-        url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + 'MiniProgram' + '/' + "6BF477EBCC446F54E6512AFC0E976C41" + '/' + app.globalData.cinemacode + '/' + that.data.ordercode,
-        method: "GET",
-        success: function (res) {
-          console.log(res)
-          var arr = res.data.data.goodsList
-          console.log(arr)
-          var goodslist = []
-          for (let x = 0; x < arr.goods.length; x++) {
-            var obj = {}
-            obj.goodsCode = arr.goods[x].goodsCode
-            obj.goodsCount = arr.goods[x].goodsCount
-            goodslist.push(obj)
-            console.log(goodslist)
-            that.setData({
-              goodslist: goodslist
-            })
-          }
-          app.globalData.goodslist = that.data.goodslist
-          if (res.data.Status == "Success") {
-            wx.request({ //预支付
-              url: app.globalData.url + '/Api/Goods/PrePayGoodsOrder',
-              method: "POST",
-              data: {
-                userName: "MiniProgram",
-                password: "6BF477EBCC446F54E6512AFC0E976C41",
-                orderCode: that.data.ordercode,
-                mobilePhone: that.data.phone,
-                cinemaCode: app.globalData.cinemacode,
-                couponsCode: that.data.merOrder.merTicket.conponCode,
-                reductionPrice: that.data.merOrder.merTicket.couponPrice,
-                goodsList: app.globalData.goodslist,
-                deliveryMark: that.data.userMessage
-
-              },
-              success: function (res) {
-                console.log(res)
-                wx.requestPayment({ //微信支付
-                  timeStamp: res.data.data.timeStamp,
-                  nonceStr: res.data.data.nonceStr,
-                  package: res.data.data.packages,
-                  signType: res.data.data.signType,
-                  paySign: res.data.data.paySign,
-                  success(res) {
-                    console.log(res)
-                    wx.showToast({
-                      title: '支付成功！',
-                      icon: 'none',
-                      duration: 1000,
-                      mask: true,
-                    })
-                    wx.redirectTo({
-                      url: '../myfood/myfood'
-                    })
-                  },
-                  fail(res) {
-                    console.log(res)
-                    that.setData({
-                      canClick: 1
-                    })
-                  }
-                })
-              }
-            })
-
-          } else {
-            wx.showToast({
-              title: '订单创建失败,请重试',
-              icon: 'loading',
-              image: '',
-              duration: 2000,
-              mask: true,
-            })
-          }
-        },
-      })
-
-
       // wx.hideLoading()
       if (that.data.phone.length != 11) {
         wx.showToast({
@@ -411,13 +402,12 @@ Page({
       if (that.data.merOrder.merTicket != null) {
         merTicketId = that.data.merOrder.merTicket.id;
       }
-    }
-    else if(that.data.payway == 2){
+    } else if (that.data.payway == 2) {
       //查询订单
       wx.request({
         url: app.globalData.url + '/Api/Goods/QueryLocalGoodsOrder' + '/' + 'MiniProgram' + '/' + "6BF477EBCC446F54E6512AFC0E976C41" + '/' + app.globalData.cinemacode + '/' + that.data.ordercode,
         method: "GET",
-        success: function (res) {
+        success: function(res) {
           console.log(res)
           var arr = res.data.data.goodsList
           console.log(arr)
@@ -438,7 +428,7 @@ Page({
               wx.showModal({
                 title: '支付失败',
                 content: "您还没有会员卡，是否前去绑定/开卡？",
-                success: function (res) {
+                success: function(res) {
                   if (res.confirm) {
                     wx.navigateTo({
                       url: '../mycard/mycard',
@@ -449,7 +439,7 @@ Page({
               return;
             } else {
               that.showM()
-            } 
+            }
           } else {
             wx.showToast({
               title: '订单创建失败,请重试',
@@ -611,7 +601,7 @@ Page({
     })
     // console.log(e.detail.formId)
   },
-  cardPay: function () {
+  cardPay: function() {
     var that = this;
     if (that.data.canClick != 1) {
       return;
@@ -687,12 +677,12 @@ Page({
     if (that.data.cinemaType == '辰星' || that.data.cinemaType == '满天星') {
       console.log(data)
       wx.request({
-        url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + that.data.phone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + null + '/' + that.data.merOrder.merTicket.conponCode +'/'+that.data.userMessage,
+        url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + that.data.phone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.PayAmount + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + null + '/' + that.data.merOrder.merTicket.conponCode + '/' + that.data.userMessage,
         method: 'GET',
         header: {
           'content-type': 'application/json' // 默认值
         },
-        success: function (res) {
+        success: function(res) {
           if (res.data.Status == "Failure") {
             wx.showModal({
               title: '支付失败',
@@ -710,7 +700,7 @@ Page({
       wx.request({
         url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode + '/' + that.data.userMessage,
         method: "GET",
-        success: function (res) {
+        success: function(res) {
           console.log(res)
           if (res.data.Status == "Failure") {
             wx.showModal({
@@ -728,7 +718,7 @@ Page({
       wx.request({
         url: app.globalData.url + '/Api/Member/GoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode + '/' + that.data.userMessage,
         method: "GET",
-        success: function (res) {
+        success: function(res) {
           console.log(res)
           if (res.data.Status == "Failure") {
             wx.showModal({
@@ -744,12 +734,12 @@ Page({
       })
     }
   },
-  wxway: function () {
+  wxway: function() {
     let that = this;
     // console.log(that.data.ordercode)
     wx.request({ //查询优惠券
       url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '1' + '/' + null + '/' + that.data.ordercode,
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == 'Success') {
           var goodTicket = res.data.data.couponsList
@@ -780,8 +770,7 @@ Page({
               merOrder: merOrder,
               disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
             })
-          }
-          else {
+          } else {
             that.setData({
               disPrice: that.data.totalPrice
             })
@@ -795,14 +784,14 @@ Page({
     })
     that.setData({
       payway: 1,
-      
+
     });
   },
-  cardway: function () {
+  cardway: function() {
     let that = this;
     wx.request({ //查询优惠券
       url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + that.data.ordercode,
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == 'Success') {
           var goodTicket = res.data.data.couponsList
@@ -832,8 +821,7 @@ Page({
               merOrder: merOrder,
               disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
             })
-          }
-          else {
+          } else {
             that.setData({
               disPrice: that.data.totalPrice
             })
@@ -847,11 +835,11 @@ Page({
     })
     that.setData({
       payway: 2,
-    
+
     });
   },
   // 查看会员协议
-  cinemaAgreement: function () {
+  cinemaAgreement: function() {
     let that = this;
     console.log(app.globalData.cinemaList.cinemaAgreement)
     if (app.globalData.cinemaList.cinemaAgreement) {
@@ -867,7 +855,7 @@ Page({
     }
   },
   // 关闭会员协议
-  closeCinemaAgreement: function () {
+  closeCinemaAgreement: function() {
     let that = this;
     that.setData({
       cinemaAgreement: false,

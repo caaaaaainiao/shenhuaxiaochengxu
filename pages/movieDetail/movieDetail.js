@@ -9,36 +9,38 @@ Page({
   data: {
     isWant: '0', //想看的电影所需参数
     isLooked: '3', // 看过电影所需参数
-    isAll:false,
-    movie:null,
-    canTap:"1",
-    comments:null,
-    watchRecord:"1",
+    isAll: false,
+    movie: null,
+    canTap: "1",
+    comments: null,
+    watchRecord: "1",
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+  onLoad: function(options) {
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
     console.log(app.globalData.movieList)
     var that = this;
     var movie = app.globalData.movieList[app.globalData.movieIndex];
     console.log(movie)
     var event = movie;
     // console.log(event)
-    if (movie.introduction==null){
+    if (movie.introduction == null) {
       movie.introduction = ''
     }
-    var juzhaoList =[]
-    if (movie.stagePhoto1 !=null){
-      juzhaoList.push(movie.stagePhoto1) 
+    var juzhaoList = []
+    if (movie.stagePhoto1 != null) {
+      juzhaoList.push(movie.stagePhoto1)
     }
     if (movie.stagePhoto2 != null) {
       juzhaoList.push(movie.stagePhoto2)
@@ -56,7 +58,7 @@ Page({
       juzhaoList.push(movie.stagePhoto6)
     }
     that.setData({
-      movie : movie,
+      movie: movie,
       juzhaoList: juzhaoList
     })
     that.manage(event);
@@ -67,19 +69,19 @@ Page({
     // console.log(a)
     // 查询用户想看的电影
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a ,
+      url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         // 判断当前选择的电影是否和请求中的数据一致  若为一致  则为想看电影
-        for (var i in res.data.data.film) { 
-          if (res.data.data.film[i].filmImage == movie.image){
-               that.setData({
-                 isWant : 1,
-               })
+        for (var i in res.data.data.film) {
+          if (res.data.data.film[i].filmImage == movie.image) {
+            that.setData({
+              isWant: 1,
+            })
           }
         }
       }
@@ -91,9 +93,9 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
-         // 判断当前选择的电影是否和请求中的数据一致  若为一致  则为看过的电影
+        // 判断当前选择的电影是否和请求中的数据一致  若为一致  则为看过的电影
         for (var i in res.data.data.film) {
           if (res.data.data.film[i].filmImage == movie.image) {
             that.setData({
@@ -108,73 +110,75 @@ Page({
   /**
    * 生命周期函数--监听页面显示
    */
-  onShow: function () {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+  onShow: function() {
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
 
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
-  manage:function(event){
+  manage: function(event) {
     var that = this;
     var movie = event;
     // movie.startPlay = movie.startPlay.substring(0,10);
-    if (typeof (movie.photos) == "string"){
+    if (typeof(movie.photos) == "string") {
       movie.photos = movie.photos.split(",");
     }
-    
+
     // console.log(movie)
     that.setData({
-      movie:movie
+      movie: movie
     })
   },
-  seeAll:function(){//查看全部介绍
+  seeAll: function() { //查看全部介绍
     var that = this;
-    if(that.data.isAll){
+    if (that.data.isAll) {
       that.setData({
-        isAll:true
+        isAll: true
       })
-    }else{
+    } else {
       that.setData({
         isAll: false
       })
     }
   },
-  wantSee:function(){//想看按钮
+  wantSee: function() { //想看按钮
     var that = this;
     let apiuser = util.getAPIUserData(null);
     if (that.data.canTap == "1") {
@@ -194,17 +198,19 @@ Page({
       wx.request({
         url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isWant,
         method: "GET",
-        header: { 'content-type': 'application/json' },
-        success: function (res) {
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function(res) {
           // console.log(res);
           that.setData({
             canTap: "1"
           })
         }
       })
-    } 
+    }
   },
-  toCompare:function(){
+  toCompare: function() {
     console.log(app.globalData.movieList)
     console.log(app.globalData.movieIndex)
     app.globalData.movieId = app.globalData.movieList[app.globalData.movieIndex].id;
@@ -212,40 +218,42 @@ Page({
       url: '../compare/compare',
     })
   },
-  toComments:function(){
+  toComments: function() {
     var id = app.globalData.movieList[app.globalData.movieIndex].id;
     wx.navigateTo({
-      url: '../compare/compare?id='+id,
+      url: '../compare/compare?id=' + id,
     })
   },
-  looked:function(){  // 看过按钮
+  looked: function() { // 看过按钮
     var that = this;
     let apiuser = util.getAPIUserData(null);
     if (that.data.watchRecord == '1') {
       that.setData({
         watchRecord: '0',
       })
-    if (that.data.isLooked == '2') {
-      that.setData({
-        isLooked: '3',
-      })
-    } else {
-      that.setData({
-        isLooked: '2',
-      })
-    }
-    // console.log(that.data.watchRecord)
-    wx.request({
-      url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isLooked,
-      method: "GET",
-      header: { 'content-type': 'application/json' },
-      success: function (res) {
-        // console.log(res);
+      if (that.data.isLooked == '2') {
         that.setData({
-          watchRecord: '1',
+          isLooked: '3',
+        })
+      } else {
+        that.setData({
+          isLooked: '2',
         })
       }
-    })
+      // console.log(that.data.watchRecord)
+      wx.request({
+        url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isLooked,
+        method: "GET",
+        header: {
+          'content-type': 'application/json'
+        },
+        success: function(res) {
+          // console.log(res);
+          that.setData({
+            watchRecord: '1',
+          })
+        }
+      })
     }
   }
 

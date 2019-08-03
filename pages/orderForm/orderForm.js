@@ -12,7 +12,7 @@ Page({
     seatOrder: null,
     date: null,
     ticketName: '电影票优惠券',
-    seatCoupon: 0,  // 电影票优惠券
+    seatCoupon: 0, // 电影票优惠券
     foodCoupon: 0,
     formids: 0,
     seatCouponList: null, //电影票优惠券列表
@@ -65,7 +65,7 @@ Page({
   /**
    * 生命周期函数--监听页面加载
    */
-  onLoad: function (options) {
+  onLoad: function(options) {
     var that = this;
     // 查询手机号
     wx.showLoading({
@@ -77,7 +77,7 @@ Page({
       header: {
         "Content-Type": "application/json"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         that.setData({
           phone: res.data.data.mobilePhone,
@@ -103,21 +103,23 @@ Page({
       seatCouponList: app.globalData.ticketCoupons, // 优惠券列表
     });
     // 获取会员卡信息
-    setTimeout(function(){
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+    setTimeout(function() {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
         if (res.data.Status == 'Success' && res.data.data.memberCard) { // 如果有会员卡
-          var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+          var first = res.data.data.memberCard.sort(function(a, b) {
+            return a.balance < b.balance
+          })[0];
           that.setData({
             card: first,
           })
           // 获取订单价格
           wx.request({
-            url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode+ '/' + that.data.orderCode + '/' + first.cardNo,
+            url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.orderCode + '/' + first.cardNo,
             method: 'GET',
-            header: { 
+            header: {
               'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
               wx.hideLoading();
               console.log(res)
               if (res.data.Status == 'Success') {
@@ -133,12 +135,12 @@ Page({
         } else {
           // 获取订单价格 没有会员卡传null
           wx.request({
-            url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode+ '/' + that.data.orderCode + '/' + null,
+            url: app.globalData.url + '/Api/Order/QueryOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.orderCode + '/' + null,
             method: 'GET',
             header: {
               'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
               wx.hideLoading();
               if (res.data.Status == 'Success') {
                 that.setData({
@@ -152,26 +154,26 @@ Page({
           })
         }
       });
-    },500)
+    }, 500)
     that.leftTime();
   },
   //传入数组以及要去重的对象
-  arrayUnique2: function (arr, key) {
+  arrayUnique2: function(arr, key) {
     var hash = {};
-    return arr.reduce(function (item, next) {
+    return arr.reduce(function(item, next) {
       hash[next[key]] ? '' : hash[next[key]] = true && item.push(next);
       return item;
     }, []);
   },
   // 排序
-  sortFun: function (attr, rev) {
+  sortFun: function(attr, rev) {
     if (rev == undefined) {
       rev = 1;
     } else {
       rev = (rev) ? 1 : -1;
     }
 
-    return function (a, b) {
+    return function(a, b) {
       a = a[attr];
       b = b[attr];
       // 改变>和<可以进行升序降序
@@ -188,7 +190,7 @@ Page({
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
-  onReady: function () {
+  onReady: function() {
     var that = this;
     // console.log(app.globalData.seatOrder)
   },
@@ -196,13 +198,15 @@ Page({
   /**
    * 生命周期函数--监听页面显示z
    */
-  onShow: function () {
+  onShow: function() {
     let that = this;
     // 获取会员卡信息
-    setTimeout(function () {
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+    setTimeout(function() {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
         if (res.data.Status == 'Success' && res.data.data.memberCard) { // 如果有会员卡
-          var first = res.data.data.memberCard.sort(function (a, b) { return a.balance < b.balance })[0];
+          var first = res.data.data.memberCard.sort(function(a, b) {
+            return a.balance < b.balance
+          })[0];
           that.setData({
             card: first,
           })
@@ -213,7 +217,7 @@ Page({
             header: {
               'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
               wx.hideLoading();
               if (res.data.Status == 'Success') {
                 if (that.data.payway == 2) { // 如果选择了会员卡支付
@@ -251,7 +255,7 @@ Page({
             header: {
               'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
               wx.hideLoading();
               if (res.data.Status == 'Success') {
                 that.setData({
@@ -267,10 +271,10 @@ Page({
       });
     }, 500)
   },
-  leftTime: function () {
+  leftTime: function() {
     var that = this;
     that.setData({
-      timer: setInterval(function () {
+      timer: setInterval(function() {
         var nowTime = parseInt(new Date().getTime());
         var date = new Date(that.data.autoUnlockDatetime.replace(/-/g, '/')).getTime();
         var leftTime = parseInt((date - nowTime) / 1000);
@@ -302,14 +306,14 @@ Page({
   /**
    * 生命周期函数--监听页面隐藏
    */
-  onHide: function () {
+  onHide: function() {
 
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
-  onUnload: function () {
+  onUnload: function() {
     clearInterval(this.data.timer)
     let that = this;
     let price = (that.data.allPrice) / (that.data.count);
@@ -343,7 +347,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
       }
     })
@@ -352,28 +356,28 @@ Page({
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
-  onPullDownRefresh: function () {
+  onPullDownRefresh: function() {
 
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+  onReachBottom: function() {
 
   },
 
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
     }
   },
   // 选择会员卡支付
-  cardway: function () {
+  cardway: function() {
     let that = this;
     that.setData({
       payway: 2,
@@ -382,7 +386,7 @@ Page({
       wx.showModal({
         title: '',
         content: "您还没有会员卡，是否前去绑定/开卡？",
-        success: function (res) {
+        success: function(res) {
           if (res.confirm) {
             wx.navigateTo({
               url: '../mycard/mycard',
@@ -407,7 +411,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == 'Success') {
           let seatCouponList = res.data.data.couponsList;
@@ -415,7 +419,7 @@ Page({
             seatCouponList: seatCouponList,
           });
           if (seatCouponList && seatCouponList.length > 0) { // 如果有优惠券
-            let merOrder = {  // 声明一个新的对象用来存放第一张优惠券一级优惠券列表
+            let merOrder = { // 声明一个新的对象用来存放第一张优惠券一级优惠券列表
               merTicket: {
                 counponId: seatCouponList[0].couponsCode,
                 couponCode: seatCouponList[0].couponsCode,
@@ -460,7 +464,7 @@ Page({
     })
   },
   // 选择微信支付
-  wxway: function () {
+  wxway: function() {
     let that = this;
     that.setData({
       payway: 1,
@@ -472,7 +476,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         if (res.data.Status == 'Success') {
           let seatCouponList = res.data.data.couponsList;
@@ -480,7 +484,7 @@ Page({
             seatCouponList: seatCouponList,
           });
           if (seatCouponList && seatCouponList.length > 0) { // 如果有优惠券
-            let merOrder = {  // 声明一个新的对象用来存放第一张优惠券一级优惠券列表
+            let merOrder = { // 声明一个新的对象用来存放第一张优惠券一级优惠券列表
               merTicket: {
                 counponId: seatCouponList[0].couponsCode,
                 couponCode: seatCouponList[0].couponsCode,
@@ -524,7 +528,7 @@ Page({
       }
     })
   },
-  manage: function () {
+  manage: function() {
     var that = this;
     if (that.data.comboList != null) {
       for (var i = 0; i < that.data.comboList.length; i++) {
@@ -539,7 +543,7 @@ Page({
     that.leftTime();
   },
   // 增加数量
-  add: function (e) {
+  add: function(e) {
     var that = this;
     var comboList = that.data.comboList;
     var refreshments = that.data.refreshments;
@@ -563,7 +567,7 @@ Page({
     // console.log(that.data.comboList)
   },
   // 减少数量
-  minus: function (e) {
+  minus: function(e) {
     var that = this;
     var comboList = that.data.comboList;
     var refreshments = that.data.refreshments;
@@ -588,7 +592,7 @@ Page({
     })
     that.calculate();
   },
-  calculate: function () { //计算价格
+  calculate: function() { //计算价格
     var that = this;
     var json = [];
     let refreshments = 0;
@@ -627,15 +631,8 @@ Page({
     // }
     // wx.showLoading()
   },
-  choosePay: function () {
+  choosePay: function() {
     let that = this;
-    if (that.data.disabled == 0) {
-      return;
-    } else {
-      that.setData({
-        disabled: 0,
-      })
-    }
     if (!that.data.phone) {
       wx.showToast({
         title: '号码不能为空!',
@@ -655,20 +652,37 @@ Page({
       })
       return;
     }
+    if (!that.data.payway) {
+      wx.showToast({
+        title: '请选择支付方式!',
+        icon: 'loading',
+        image: '',
+        duration: 1000,
+        mask: true,
+      })
+      return;
+    }
     if (that.data.payway == 1) { // 微信支付
+      if (that.data.disabled == 0) {
+        return;
+      } else {
+        that.setData({
+          disabled: 0,
+        })
+      }
       that.wxPay();
     };
     if (that.data.payway == 2) { // 会员卡支付
       that.showM();
     }
   },
-  close: function () {
+  close: function() {
     this.setData({
       showPay: false
     })
   },
   // 微信支付
-  wxPay: function () {
+  wxPay: function() {
     wx.showLoading({
       title: '加载中',
       mask: true
@@ -699,7 +713,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res);
         wx.hideLoading();
         if (res.data.Status == "Success") {
@@ -721,7 +735,7 @@ Page({
             header: {
               'content-type': 'application/json' // 默认值
             },
-            success: function (res) {
+            success: function(res) {
               wx.hideTabBar() //隐藏栏
               // 微信支付
               if (res.data.Status == "Success") {
@@ -743,7 +757,7 @@ Page({
                         icon: 'none',
                         duration: 1000
                       });
-                      setTimeout(function () {
+                      setTimeout(function() {
                         wx.redirectTo({
                           url: '../myticket/myticket',
                         })
@@ -777,44 +791,13 @@ Page({
       }
     })
   },
-  // 会员卡支付
-  cardPay: function () {
-    var that = this;
-    var nowtime = new Date().getTime();
-    var sign = app.createMD5('cardPay', nowtime);
-    var pageNo = that.data.pageNo;
-    // if (that.data.canClick != 1) {
-    //   return;
-    // }
-    // that.setData({
-    //   canClick: 0
-    // }) //防止多次点击
-    if (!that.data.phone || that.data.phone.length != 11) {
-      wx.showToast({
-        title: '手机格式不正确',
-        icon: 'loading',
-        image: '',
-        duration: 1000,
-        mask: true,
-      })
-      return;
-    }
-
-  },
   // 会员卡密码确认
-  pay2: function () {
+  pay2: function() {
     wx.showLoading({
       title: '加载中',
       mask: true
     })
     var that = this;
-    // if (that.data.canClick != 1) {
-    //   wx.hideTabBar() //隐藏栏
-    //   return;
-    // }
-    // that.setData({
-    //   canClick: 0
-    // }) //防止多次点击
     if (!that.data.phone || that.data.phone.length != 11) {
       wx.showToast({
         title: '手机格式不正确',
@@ -863,7 +846,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res);
         let order = res.data.data;
         let price = that.data.memberCardPrice;
@@ -873,136 +856,133 @@ Page({
           })
           // 判断售票系统
           if (app.globalData.cinemaList.cinemaType == "电影1905") { // 1905
-                // 1905系统会员卡支付
-                wx.request({
-                  url: app.globalData.url + '/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
-                  method: 'GET',
-                  header: {
-                    'content-type': 'application/json' // 默认值
-                  },
-                  success: function (res) {
-                    wx.hideTabBar() //隐藏栏
-                    console.log(res)
-                    if (res.data.Status == "Success") {
-                      wx.showToast({
-                        title: '交易成功',
-                        mask: true,
-                        duration: 2000
-                      });
-                      setTimeout(function () {
-                        wx.redirectTo({
-                          url: '../myticket/myticket',
-                        })
-                      }, 1000)
-                    } else { //支付失败
-                      wx.showToast({
-                        title: "订单确认失败",
-                        icon: 'none',
-                        duration: 3000
-                      });
-                    }
-                  }
-                })
+            // 1905系统会员卡支付
+            wx.request({
+              url: app.globalData.url + '/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function(res) {
+                wx.hideTabBar() //隐藏栏
+                console.log(res)
+                if (res.data.Status == "Success") {
+                  wx.showToast({
+                    title: '交易成功',
+                    mask: true,
+                    duration: 2000
+                  });
+                  setTimeout(function() {
+                    wx.redirectTo({
+                      url: '../myticket/myticket',
+                    })
+                  }, 1000)
+                } else { //支付失败
+                  wx.showToast({
+                    title: "订单确认失败",
+                    icon: 'none',
+                    duration: 3000
+                  });
+                }
+              }
+            })
           } else if (app.globalData.cinemaList.cinemaType == "辰星") { //辰星
-                  // 会员卡支付
-                wx.request({
-                  url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2 + '/' + null,
-                  method: 'GET',
-                  header: {
-                     'content-type': 'application/json' // 默认值
-                  },
-                  success: function (res) {
-                      wx.hideTabBar() //隐藏栏
-                      console.log(res)
-                      if (res.data.Status == "Success") {
-                        wx.showToast({
-                          title: '交易成功',
-                          mask: true,
-                          duration: 2000
-                        });
-                        setTimeout(function () {
-                          wx.redirectTo({
-                            url: '../myticket/myticket',
-                          })
-                        }, 1000)
-                      }
-                      else { //支付失败
-                        wx.showToast({
-                          title: res.data.ErrorMessage,
-                          icon: 'none',
-                          duration: 3000
-                        });
-                      }
-                    }
-                  })
+            // 会员卡支付
+            wx.request({
+              url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2 + '/' + null,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function(res) {
+                wx.hideTabBar() //隐藏栏
+                console.log(res)
+                if (res.data.Status == "Success") {
+                  wx.showToast({
+                    title: '交易成功',
+                    mask: true,
+                    duration: 2000
+                  });
+                  setTimeout(function() {
+                    wx.redirectTo({
+                      url: '../myticket/myticket',
+                    })
+                  }, 1000)
+                } else { //支付失败
+                  wx.showToast({
+                    title: res.data.ErrorMessage,
+                    icon: 'none',
+                    duration: 3000
+                  });
+                }
+              }
+            })
           } else if (app.globalData.cinemaList.cinemaType == "粤科") { //粤科
-                if (res.data.Status == 'Success') {
-                  // 会员卡支付
-                wx.request({
-                  url: app.globalData.url + '/Api/Member/YkTicketmMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
-                  method: 'GET',
-                  header: {
-                    'content-type': 'application/json' // 默认值
-                  },
-                  success: function(res) {
-                    wx.hideTabBar() //隐藏栏
-                    console.log(res)
-                    if (res.data.Status == "Success") {
-                      wx.showToast({
-                        title: '交易成功',
-                        mask: true,
-                        duration: 2000
-                      });
-                      setTimeout(function () {
-                        wx.redirectTo({
-                          url: '../myticket/myticket',
-                        })
-                      }, 1000)
-                    }
-                     else {// 支付失败
-                      wx.showToast({
-                        title: "订单确认失败",
-                        icon: 'none',
-                        duration: 3000
-                      });
-                    }
+            if (res.data.Status == 'Success') {
+              // 会员卡支付
+              wx.request({
+                url: app.globalData.url + '/Api/Member/YkTicketmMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
+                method: 'GET',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function(res) {
+                  wx.hideTabBar() //隐藏栏
+                  console.log(res)
+                  if (res.data.Status == "Success") {
+                    wx.showToast({
+                      title: '交易成功',
+                      mask: true,
+                      duration: 2000
+                    });
+                    setTimeout(function() {
+                      wx.redirectTo({
+                        url: '../myticket/myticket',
+                      })
+                    }, 1000)
+                  } else { // 支付失败
+                    wx.showToast({
+                      title: "订单确认失败",
+                      icon: 'none',
+                      duration: 3000
+                    });
                   }
-                })
-                } 
+                }
+              })
+            }
           } else if (app.globalData.cinemaList.cinemaType == "满天星") { // 满天星
-              if (res.data.Status == "Success") {
-                // 会员卡支付
-                wx.request({
-                  url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2 + '/' + null,
-                  method: 'GET',
-                  header: {
-                    'content-type': 'application/json' // 默认值
-                  },
-                  success: function (res) {
-                    wx.hideTabBar() //隐藏栏
-                    console.log(res)
-                    if (res.data.Status == "Success") {
-                      wx.showToast({
-                        title: '交易成功',
-                        mask: true,
-                        duration: 2000
-                      });
-                      setTimeout(function () {
-                        wx.redirectTo({
-                          url: '../myticket/myticket',
-                        })
-                      }, 1000)
-                    }
-                    else { //支付失败
-                      wx.showToast({
-                        title: res.data.ErrorMessage,
-                        icon: 'none',
-                        duration: 3000
-                      });
-                    }
+            if (res.data.Status == "Success") {
+              // 会员卡支付
+              wx.request({
+                url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2 + '/' + null,
+                method: 'GET',
+                header: {
+                  'content-type': 'application/json' // 默认值
+                },
+                success: function(res) {
+                  wx.hideTabBar() //隐藏栏
+                  console.log(res)
+                  if (res.data.Status == "Success") {
+                    wx.showToast({
+                      title: '交易成功',
+                      mask: true,
+                      duration: 2000
+                    });
+                    setTimeout(function() {
+                      wx.redirectTo({
+                        url: '../myticket/myticket',
+                      })
+                    }, 1000)
+                  } else { //支付失败
+                    wx.showToast({
+                      title: res.data.ErrorMessage,
+                      icon: 'none',
+                      duration: 3000
+                    });
                   }
-                })
-              } 
+                }
+              })
+            }
           }
         } else { //订单查询失败
           wx.showToast({
@@ -1014,7 +994,7 @@ Page({
       }
     })
   },
-  syn: function () {
+  syn: function() {
     var that = this;
     var nowtime = new Date().getTime();
     var sign = app.createMD5('userCard', nowtime);
@@ -1030,7 +1010,7 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         if (res.data.status == 1) {
           var userInfo = res.data.data;
@@ -1047,25 +1027,25 @@ Page({
       }
     })
   },
-  changePhone: function (e) {
+  changePhone: function(e) {
     var phone = e.detail.value;
     this.setData({
       phone: phone
     })
   },
-  setM: function (e) {
+  setM: function(e) {
     var password = e.detail.value;
     this.setData({
       password: password
     })
   },
-  showM: function () {
+  showM: function() {
     let that = this;
     if (that.data.card == null) {
       wx.showModal({
         title: '支付失败',
         content: "您还没有会员卡，是否前去绑定/开卡？",
-        success: function (res) {
+        success: function(res) {
           if (res.confirm) {
             wx.navigateTo({
               url: '../mycard/mycard',
@@ -1086,14 +1066,14 @@ Page({
       }
     }
   },
-  closeM: function () {
+  closeM: function() {
     this.setData({
       showM: false,
       isShow: false,
     })
   },
   // 选择会员卡号支付
-  btnChoose: function (e) {
+  btnChoose: function(e) {
     let that = this;
     // console.log(e)
     let cardNo = e.currentTarget.dataset.cardno;
@@ -1106,20 +1086,20 @@ Page({
     });
   },
   // 获取影票优惠券
-  setType1: function () {
+  setType1: function() {
     let that = this;
     that.setData({
       chooseType: 1
     });
     console.log(that.data)
   },
-  setType2: function () {
+  setType2: function() {
     this.setData({
       chooseType: 2
     })
   },
   // 选择优惠券
-  setSeatCoupon: function (e) {
+  setSeatCoupon: function(e) {
     console.log(e)
     let that = this;
     let merOrder = that.data.merOrder;
@@ -1143,7 +1123,7 @@ Page({
       price = Number(that.data.memberCardPrice) - Number(ticketPrice); // 会员价减去优惠券价格
       price = parseFloat(price * 100) / 100;
     } else { // 微信支付
-      price = Number(that.data.beginTicket) - Number(ticketPrice);// 影票原价减去优惠券价格
+      price = Number(that.data.beginTicket) - Number(ticketPrice); // 影票原价减去优惠券价格
       price = parseFloat(price * 100) / 100;
     }
     console.log(that.data.beginTicket)
@@ -1183,7 +1163,7 @@ Page({
     //   })
     // }
   },
-  setFoodCoupon: function (e) {
+  setFoodCoupon: function(e) {
     var that = this;
     var id = e.currentTarget.dataset.id;
     that.setData({
@@ -1191,40 +1171,40 @@ Page({
     })
     that.calculate();
   },
-  closeChoose: function () {
+  closeChoose: function() {
     let that = this;
     that.setData({
       chooseType: 0
     })
   },
-  messageshow: function () {
+  messageshow: function() {
     this.setData({
       messageshow: true
     })
   },
-  btnShowExchange2: function () {
+  btnShowExchange2: function() {
     this.setData({
       isShow: !this.data.isShow
     })
   },
-  closeMessageshow: function () {
+  closeMessageshow: function() {
     this.setData({
       messageshow: false
     })
   },
-  setMessage: function (e) {
+  setMessage: function(e) {
     var userMessage = e.detail.value;
     this.setData({
       userMessage: userMessage
     })
   },
-  formSubmit: function (e) {
+  formSubmit: function(e) {
     this.setData({
       formids: e.detail.formId
     })
     // console.log(e.detail.formId)
   },
-  zero: function () {
+  zero: function() {
     var that = this;
     // if (that.data.canClick != 1) {
     //   return;
@@ -1284,7 +1264,7 @@ Page({
       header: {
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         if (res.data.status == 0) {
           wx.showModal({
             title: '购票失败',
@@ -1298,7 +1278,7 @@ Page({
           mask: true,
           duration: 2000
         })
-        setTimeout(function () {
+        setTimeout(function() {
           wx.redirectTo({
             url: '../success/success?orderNum=' + ordernum,
           })
@@ -1322,7 +1302,7 @@ Page({
       })
     }
   },
-    // 关闭会员协议
+  // 关闭会员协议
   closeCinemaAgreement: function() {
     let that = this;
     that.setData({

@@ -19,17 +19,17 @@ Page({
     text: "",
     gifts: null,
     showGifts: false,
-    showGift:false,
-    prizeId:"",
-    giftNum:0,
-    showPrize:false,
-    prizeList:null,
-    showGift2:false,
-    endTime:"00:00",
-    leftTime:"0",
-    content:"",
-    unload:false,
-    timer : ''
+    showGift: false,
+    prizeId: "",
+    giftNum: 0,
+    showPrize: false,
+    prizeList: null,
+    showGift2: false,
+    endTime: "00:00",
+    leftTime: "0",
+    content: "",
+    unload: false,
+    timer: ''
   },
 
   /**
@@ -47,12 +47,12 @@ Page({
     console.log(app.globalData)
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
-      method:'GET',
-      success:function(e){
+      method: 'GET',
+      success: function(e) {
         console.log(e)
         wx.getStorage({
           key: 'loginInfo',
-          success: function (res) {
+          success: function(res) {
             res.data.roll = e.data.data.roll
             console.log(res)
             wx.setStorage({
@@ -98,39 +98,39 @@ Page({
           },
           // protocols: ['TCP'],
           method: "GET",
-          success: function (res) {
+          success: function(res) {
             // console.log("ok")
           },
-          fail: function (res) {
+          fail: function(res) {
             wx.showModal({
               title: '聊天室连接失败',
               content: '',
-              success: function (res) {
+              success: function(res) {
                 wx.navigateBack()
               }
             })
           }
         })
       },
-      fail:function(res){
+      fail: function(res) {
         console.log(res)
       }
     })
-    
+
     this.leftTime()
     console.log(app.globalData.movieRoom)
     // console.log(that.data.movie)
     // that.movie = that.data.movie
-   
+
     wx.onSocketOpen(function() {
       console.log("已连接")
     })
-    wx.onSocketClose(function () { 
+    wx.onSocketClose(function() {
       console.log("close")
-      if(!that.data.unload){
+      if (!that.data.unload) {
         that.reline();
       }
-      
+
     })
     wx.onSocketError(function(res) {
       // console.log("连接已断开")
@@ -138,7 +138,7 @@ Page({
       wx.showModal({
         title: '聊天室连接错误',
         content: '聊天室连接出现错误，请退出重进',
-        success: function (res) {
+        success: function(res) {
           wx.navigateBack()
         },
       })
@@ -160,10 +160,10 @@ Page({
         row.img = message.header;
         row.roll = message.role;
         row.time = 0.5;
-        if (message.phoneOrOpenid == that.data.userInfo.mobilePhone){
+        if (message.phoneOrOpenid == that.data.userInfo.mobilePhone) {
           row.self = true
         }
-        if (screen[rowNum].words.length > 0){
+        if (screen[rowNum].words.length > 0) {
           rowNum = parseInt(screen.length * Math.random());
           row.time = 1;
         }
@@ -189,8 +189,8 @@ Page({
         var content = message.content;
         var giftNum = 0;
         console.log(that.data.gifts)
-        for(var i = 0;i < that.data.gifts.gift.length;i++){
-          if (that.data.gifts.gift[i].id == id){
+        for (var i = 0; i < that.data.gifts.gift.length; i++) {
+          if (that.data.gifts.gift[i].id == id) {
             giftNum = that.data.gifts.gift[i].sendNumber
           }
         }
@@ -201,25 +201,25 @@ Page({
         // }
         // console.log(message)
         that.setData({
-          showGift:true,
+          showGift: true,
           showGift2: true,
-          content:content,
+          content: content,
           prizeId: message.prizeId,
-          giftNum:giftNum
+          giftNum: giftNum
         })
-      } else if (message.messageType == 22){//实时奖品数量变化
+      } else if (message.messageType == 22) { //实时奖品数量变化
         console.log(message)
         that.setData({
-          giftNum:message.content
+          giftNum: message.content
         })
-      } else if (message.messageType == 3) {//奖品已领取
+      } else if (message.messageType == 3) { //奖品已领取
         that.setData({
           showGift: false
         })
         wx.showToast({
           title: '领取成功',
         })
-      }else if (message.messageType == -3){//奖品领完了
+      } else if (message.messageType == -3) { //奖品领完了
         wx.showModal({
           title: '奖品已领完',
           content: '',
@@ -229,29 +229,29 @@ Page({
           showGift: false,
           showGift2: false,
         })
-      } else if (message.messageType == -2) {//房间结束
+      } else if (message.messageType == -2) { //房间结束
         wx.showToast({
           title: '房间已关闭',
-          icon:"loading",
-          duration:2000
+          icon: "loading",
+          duration: 2000
         })
-        setTimeout(function(){
-           wx.switchTab({
-             url: '../movie/movie',
-           })
-        },2000)
-      } else if (message.messageType == -1) {//房间未开启
+        setTimeout(function() {
+          wx.switchTab({
+            url: '../movie/movie',
+          })
+        }, 2000)
+      } else if (message.messageType == -1) { //房间未开启
         wx.showToast({
           title: '房间未开启',
           icon: "loading",
           duration: 2000
         })
-        setTimeout(function () {
+        setTimeout(function() {
           wx.switchTab({
             url: '../movie/movie',
           })
         }, 2000)
-      } else if (message.messageType == 0){//其他地方登陆
+      } else if (message.messageType == 0) { //其他地方登陆
         wx.showModal({
           title: '',
           content: '当前账号在其他地方进入了该聊天室',
@@ -263,7 +263,7 @@ Page({
             }
           }
         })
-      } else if (message.messageType == -12){
+      } else if (message.messageType == -12) {
         wx.showModal({
           title: '发送失败',
           content: '奖品库存不足',
@@ -276,9 +276,11 @@ Page({
       }
 
     })
-   
+
     // that.getTime();
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
@@ -287,14 +289,16 @@ Page({
   onReady: function() {
     var that = this;
     that.setAisle();
-    
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    wx.setNavigationBarTitle({ title: app.globalData.cinemaList.cinemaName });
+    wx.setNavigationBarTitle({
+      title: app.globalData.cinemaList.cinemaName
+    });
   },
 
   /**
@@ -332,7 +336,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
@@ -378,11 +382,11 @@ Page({
           text: ""
         })
       },
-      fail:function(){
+      fail: function() {
         wx.showModal({
           title: '发送失败',
           content: '信息发送失败',
-          success: function (res) {
+          success: function(res) {
             // wx.navigateBack()
           }
         })
@@ -403,8 +407,8 @@ Page({
     var pageNo = that.data.pageNo;
     let apiuser = util.getAPIUserData(null);
     wx.request({
-      url: app.globalData.url +'/Api/chatRoom/getCanSendGifts',
-      data:{
+      url: app.globalData.url + '/Api/chatRoom/getCanSendGifts',
+      data: {
         cinemaCode: app.globalData.cinemacode,
         roomName: that.data.roomName,
       },
@@ -414,7 +418,7 @@ Page({
         // 'content-type': 'application/json' // 默认值
         "Content-Type": "application/x-www-form-urlencoded"
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res.data);
         that.setData({
           gifts: res.data
@@ -439,16 +443,15 @@ Page({
     var index = e.currentTarget.dataset.index
     console.log(index)
     console.log(that.data.gifts.gift[index])
-    if (that.data.gifts.gift[index].remaingroupNumber == 0){
-        wx.showToast({
-          title: '该房间达到发送上限',
-        })
-    }
-    else{
+    if (that.data.gifts.gift[index].remaingroupNumber == 0) {
+      wx.showToast({
+        title: '房间发放上限',
+      })
+    } else {
       wx.showModal({
         title: '提示',
         content: '是否确认发放',
-        success: function (res) {
+        success: function(res) {
           if (res.confirm) {
             var id = e.currentTarget.dataset.id;
             var content = e.currentTarget.dataset.type;
@@ -465,13 +468,13 @@ Page({
             console.log(json)
             wx.sendSocketMessage({
               data: JSON.stringify(json),
-              success: function (res) {
+              success: function(res) {
                 console.log(res)
                 that.setData({
                   showGifts: false
                 })
               },
-              fail: function () {
+              fail: function() {
                 wx.showModal({
                   title: '发送失败',
                   content: '红包发送失败',
@@ -482,9 +485,9 @@ Page({
           }
         }
       })
-    }   
+    }
   },
-  tapRed:function(){//领取红包
+  tapRed: function() { //领取红包
     var that = this;
     var json = {
       messageType: "21",
@@ -494,23 +497,23 @@ Page({
       prizeId: that.data.prizeId
     };
     that.setData({
-      showGift:false
+      showGift: false
     })
-    if(that.data.userInfo.roll == 2){
+    if (that.data.userInfo.roll == 2) {
       wx.showModal({
         title: '抢包失败',
         content: '管理员不可以抢红包哦',
       })
-    }else{
+    } else {
       console.log(json)
       wx.sendSocketMessage({
         data: JSON.stringify(json),
-        success: function (res) {
+        success: function(res) {
           console.log(res)
           console.log('领取了')
 
         },
-        fail: function () {
+        fail: function() {
           wx.showModal({
             title: '抢包失败',
             content: '领取红包失败，连接断开'
@@ -519,48 +522,49 @@ Page({
 
       })
     }
-    
-   
+
+
   },
-  closeGift:function(){
+  closeGift: function() {
     this.setData({
       showGift: false
     })
   },
-  getPrize:function(){
+  getPrize: function() {
     console.log(app.globalData.userInfo.openID)
     var that = this
-   wx.request({
-     url: app.globalData.url+'/Api/chatRoom/QueryRoomGiftRecord',
-     method:'POST',
-     data:{
-       userName: app.usermessage.Username,
-       password: app.usermessage.Password,
-       cinemaCode:app.globalData.cinemacode,
-       roomCode: app.globalData.movieRoom.roomName,
-       openID: app.globalData.userInfo.mobilePhone
-     },
-     success:function(res){
-       console.log(res)
-       var prizeList = res.data.data
-       that.setData({
-         showPrize:true,
-         prizeList: prizeList
-       })
+    wx.request({
+      url: app.globalData.url + '/Api/chatRoom/QueryRoomGiftRecord',
+      method: 'POST',
+      data: {
+        userName: app.usermessage.Username,
+        password: app.usermessage.Password,
+        cinemaCode: app.globalData.cinemacode,
+        roomCode: app.globalData.movieRoom.roomName,
+        openID: app.globalData.userInfo.mobilePhone
+      },
+      success: function(res) {
+        console.log(res)
+        var prizeList = res.data.data
+        that.setData({
+          showPrize: true,
+          prizeList: prizeList
+        })
 
-     }
-   })
+      }
+    })
   },
-  closePrzie:function(){
+  closePrzie: function() {
     this.setData({
       showPrize: false
     })
-  },　
-  leftTime: function () {//计时器
+  },
+  　
+  leftTime: function() { //计时器
     var that = this;
     // console.log()
     this.setData({
-      timer : setInterval(function () {
+      timer: setInterval(function() {
         var nowTimeData = new Date()
         var nowTime = '0001-01-01' + ' ' + nowTimeData.getHours() + ':' + nowTimeData.getMinutes() + ':' + nowTimeData.getSeconds() // 当前时间
         var ThisTime = '0001-01-01' + ' ' + that.data.movie.startTime // 影片开始时间
@@ -568,14 +572,14 @@ Page({
         var str = "";
         var minute = parseInt(newTime / 1000 / 60)
         var second = parseInt(newTime / 1000 % 60)
-        if (minute > 61){
+        if (minute > 61) {
           clearInterval(that.data.timer)
           wx.showToast({
             title: '房间未开启',
             icon: "loading",
             duration: 300,
           })
-          setTimeout(function () {
+          setTimeout(function() {
             wx.switchTab({
               url: '../movie/movie',
             })
@@ -589,7 +593,7 @@ Page({
             icon: "loading",
             duration: 300,
           })
-          setTimeout(function () {
+          setTimeout(function() {
             wx.switchTab({
               url: '../movie/movie',
             })
@@ -610,18 +614,18 @@ Page({
         // console.log(str)
       }, 1000)
     })
-    
+
   },
-  reline:function(){
+  reline: function() {
     var that = this;
     wx.showLoading({
       title: '重新连接第' + relineTime + '次',
     })
-    if (relineTime > 10){
+    if (relineTime > 10) {
       wx.showModal({
         title: '重连失败',
         content: '聊天室连接已断开，请退出重进',
-        success: function (res) {
+        success: function(res) {
           wx.navigateBack()
         }
       })
@@ -640,10 +644,10 @@ Page({
             'Authorization': null
           },
           method: "GET",
-          success: function (res) {
+          success: function(res) {
             wx.hideLoading();
           },
-          fail: function (res) {
+          fail: function(res) {
             wx.hideLoading();
             relineTime++;
             that.reline();
@@ -651,6 +655,6 @@ Page({
         })
       },
     })
-   
+
   }
 })

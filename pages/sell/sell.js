@@ -109,7 +109,7 @@ Page({
     // console.log(app.globalData.lookcinemaname)
     wx.getStorage({
       key: 'accredit',
-      success: function (res) {
+      success: function(res) {
         // console.log(res)
         that.setData({
           userInfom: res.data.userInfo
@@ -127,7 +127,7 @@ Page({
     var that = this;
     // 调用全局函数设置余额以及积分
     if (app.globalData.cinemacode && app.globalData.openId) {
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function (res) {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
         var memberCard = [];
         var status = [];
         let userCardList = [];
@@ -150,7 +150,7 @@ Page({
           }
           // console.log(status)
           for (let i = 0; i < status.length; i++) {
-            util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, status[i].cardNo, status[i].cardPassword, function (res) {
+            util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, status[i].cardNo, status[i].cardPassword, function(res) {
               userCardList.push(res);
               that.setData({
                 userCardList: userCardList
@@ -158,8 +158,8 @@ Page({
             })
           }
           // 计算余额最多的会员卡
-          setTimeout(function () {
-            var first = userCardList.sort(function (a, b) {
+          setTimeout(function() {
+            var first = userCardList.sort(function(a, b) {
               return a.balance < b.balance
             })[0];
             // console.log(first)
@@ -210,7 +210,7 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
+  onShareAppMessage: function() {
     return {
       title: app.globalData.cinemaList.cinemaName,
       path: '/pages/index/index'
@@ -277,8 +277,8 @@ Page({
     that.data.typeMovie[index].foodcheck = true;
     app.globalData.sellhallname = name
     that.setData({
-      typeMovie:that.data.typeMovie,
-      isOk:true,
+      typeMovie: that.data.typeMovie,
+      isOk: true,
     })
   },
   manage: function(data) { //影片排片数据处理
@@ -359,7 +359,7 @@ Page({
     that.setData({
       timeList: timearr
     })
-  }, 
+  },
   // 获取用户位置，请求影院列表
   getPlace: function() {
     var that = this;
@@ -420,11 +420,11 @@ Page({
   start: function() {
     var that = this;
     wx.request({
-      url: app.globalData.url + '/Api/Goods/IsGoodsOrderFood' +'/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/'+app.globalData.cinemacode,
-      method:'GET',
-      success:function(res){
+      url: app.globalData.url + '/Api/Goods/IsGoodsOrderFood' + '/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode,
+      method: 'GET',
+      success: function(res) {
         console.log(res)
-        if (res.data.isOrderFood == '1'){
+        if (res.data.isOrderFood == '1') {
           that.setData({
             movieList: app.globalData.movieList
           })
@@ -435,7 +435,7 @@ Page({
           if (type == 1) {
             wx.getStorage({
               key: 'loginInfo',
-              success: function (res) {
+              success: function(res) {
                 if (res.data.mobilePhone && res.data.isRegister == '1') {
                   wx.navigateTo({
                     url: '../sellDetail/sellDetail?type=' + type,
@@ -446,18 +446,17 @@ Page({
                   })
                 }
               },
-              fail: function () {
+              fail: function() {
                 wx.reLaunch({
                   url: '../login/login',
                 })
               }
             })
-          }
-          else if (type == 2 && app.globalData.isSnackDistribution == '是') {
+          } else if (type == 2 && app.globalData.isSnackDistribution == '是') {
             if (isOk) {
               wx.getStorage({
                 key: 'loginInfo',
-                success: function (res) {
+                success: function(res) {
                   if (res.data.mobilePhone && res.data.isRegister == '1') {
                     wx.navigateTo({
                       url: '../sellDetail/sellDetail?type=' + type,
@@ -468,7 +467,7 @@ Page({
                     })
                   }
                 },
-                fail: function () {
+                fail: function() {
                   wx.reLaunch({
                     url: '../login/login',
                   })
@@ -478,7 +477,7 @@ Page({
               wx.request({
                 url: app.globalData.url + '/Api/Screen/QueryScreens' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode,
                 method: 'GET',
-                success: function (res) {
+                success: function(res) {
                   console.log(res.data.data.screen)
                   that.setData({
                     typeMovie: res.data.data.screen
@@ -490,20 +489,18 @@ Page({
               })
               wx.hideTabBar()
             }
-          }
-          else if (type == 2 && app.globalData.isSnackDistribution == '否') {
+          } else if (type == 2 && app.globalData.isSnackDistribution == '否') {
             wx.showModal({
               title: '暂不支持送餐服务',
             })
           }
 
-      }
-        else if (res.data.isOrderFood == '0'){
-              wx.showModal({
-                title: '该时间段不支持点餐',
-                content: res.data.goodsStartTime + '-' + res.data.goodsEndTime,
-              }) 
-      }
+        } else if (res.data.isOrderFood == '0') {
+          wx.showModal({
+            title: '该时间段不支持点餐',
+            content: res.data.goodsStartTime + '-' + res.data.goodsEndTime,
+          })
+        }
       }
     })
 
