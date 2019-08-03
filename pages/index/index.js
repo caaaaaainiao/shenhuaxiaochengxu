@@ -639,6 +639,7 @@ Page({
         userInfoDetail: e.detail
       })
       app.globalData.userInfo = e.detail.userInfo;
+      // console.log(app.globalData.userInfo)
       wx.setStorage({
         key: 'accredit',
         data: {
@@ -698,6 +699,7 @@ Page({
                     // console.log(e)
                     app.globalData.openId = e.data.data.openID;
                     app.globalData.userInfo = e.data.data;
+                    // console.log(app.globalData.userInfo)
                     that.setData({
                       userInfo: e.data.data
                     })
@@ -788,6 +790,7 @@ Page({
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
       app.globalData.userInfo = loginInfo;
+      console.log(app.globalData.userInfo)
       that.setData({
         userInfo: loginInfo
       });
@@ -874,6 +877,7 @@ Page({
     let loginInfo = wx.getStorageSync('loginInfo');
     if (loginInfo) {
       app.globalData.userInfo = loginInfo;
+      // console.log(app.globalData.userInfo)
       that.setData({
         userInfo: loginInfo,
         openID: loginInfo.openID

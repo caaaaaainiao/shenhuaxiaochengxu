@@ -251,7 +251,7 @@ Page({
 
   // 右侧滑动导航
   onScroll: function(e) {
-    console.log(e)
+    // console.log(e)
     // console.log(e.detail.scrollTop)
     var st = e.detail.scrollTop;
     var that = this;
@@ -496,7 +496,7 @@ Page({
     var that = this;
     var id = e.currentTarget.dataset.id;
     var goodList = that.data.goodsList;
-    console.log(goodList)
+    // console.log(goodList)
     for (var i = 0; i < goodList.length; i++) {
       if (goodList[i].goodsId == id) {
 

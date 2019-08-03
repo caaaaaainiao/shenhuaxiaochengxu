@@ -49,7 +49,7 @@ Page({
       isshow: true,
       iskey: false
     })
-    console.log(that.data.areaList)
+    // console.log(that.data.areaList)
 
   },
   // 关闭选择影院
@@ -161,6 +161,7 @@ Page({
   login: function() {
     // console.log("login")
     var phone = this.data.phone;
+    // console.log(phone)
     var yzm = this.data.inputYzm;
     var cinemaname = this.data.cinemaname
     var that = this;
@@ -314,7 +315,7 @@ Page({
           mobilePhone: phone
         },
         success: function(res) {
-          console.log(res)
+          // console.log(res)
           if (res.data.Status == "Success") {
             //倒计时
             that.setData({

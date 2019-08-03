@@ -423,7 +423,7 @@ Page({
       url: app.globalData.url + '/Api/Goods/IsGoodsOrderFood' + '/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode,
       method: 'GET',
       success: function(res) {
-        console.log(res)
+        // console.log(res)
         if (res.data.isOrderFood == '1') {
           that.setData({
             movieList: app.globalData.movieList
