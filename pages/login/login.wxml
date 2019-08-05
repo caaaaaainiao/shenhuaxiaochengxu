@@ -39,7 +39,7 @@
 
 <!-- 优惠券弹窗 -->
 <view class="img" wx:if="{{!modalHidden}}" bindtap="modalCandel">
-  <view bindtap="modalConfirm" class="hiddenImg">
-    <image src="{{image}}"></image>
+  <view  class="hiddenImg">
+    <image catchtap="modalConfirm" src="{{image}}"></image>
   </view>
 </view>
