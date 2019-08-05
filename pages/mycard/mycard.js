@@ -212,10 +212,18 @@ Page({
   },
   // 绑定会员卡
   bang: function() {
+    let that = this;
+    if (!that.data.cardmm && !that.data.cardnum) {
+      wx.showToast({
+        title: '请输入卡号和密码！',
+        icon: 'none',
+        duration: 2000
+      });
+      return;
+    }
     wx.showLoading({
       title: '绑定中',
     })
-    let that = this;
     var cinemaCode = app.globalData.cinemaList.cinemaCode;
     var openID = app.globalData.userInfo.openID;
     var userName = that.data.userName;
