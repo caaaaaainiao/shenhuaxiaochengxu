@@ -686,6 +686,7 @@ Page({
           },
           success: function(e) {
             console.log(e)
+            app.globalData.openId = e.data.data.openID;
             //个人信息
             if (e.data.Status == 'Success') {
               that.setData({
@@ -697,7 +698,7 @@ Page({
                   data: e.data.data,
                   success: function() {
                     // console.log(e)
-                    app.globalData.openId = e.data.data.openID;
+                    // app.globalData.openId = e.data.data.openID;
                     app.globalData.userInfo = e.data.data;
                     // console.log(app.globalData.userInfo)
                     that.setData({
