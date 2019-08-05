@@ -216,12 +216,12 @@ Page({
             header: {
               "Content-Type": "application/json"
             },
-            success: function(res) {
-              // console.log(res)
-              if (res.data.Status == 'Success') {
+            success: function(e) {
+              // console.log(e)
+              if (e.data.Status == 'Success') {
                 wx.setStorage({
                   key: 'loginInfo',
-                  data: res.data.data,
+                  data: e.data.data,
                 })
               }
             }
@@ -240,9 +240,8 @@ Page({
           }
         } else {
           wx.showToast({
-            title: res.data.ErrorMessage, //修改报错
-            icon: 'loading',
-            image: '',
+            title: res.data.ErrorMessage,
+            icon: 'none',
             duration: 2000,
             mask: true,
           })
