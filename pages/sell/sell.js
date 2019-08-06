@@ -33,11 +33,11 @@ Page({
     // 读取缓存  设置影院信息
     that.countMovie()
     wx.getStorage({
-      key: 'accredit',
+      key: 'loginInfo',
       success: function(res) {
         // console.log(res)
         that.setData({
-          userInfom: res.data.userInfo
+          userInfom: res.data
         })
       },
     })
@@ -108,11 +108,11 @@ Page({
     // console.log(app.globalData.areaList)
     // console.log(app.globalData.lookcinemaname)
     wx.getStorage({
-      key: 'accredit',
+      key: 'loginInfo',
       success: function(res) {
         // console.log(res)
         that.setData({
-          userInfom: res.data.userInfo
+          userInfom: res.data
         })
         // console.log(that.data.userInfo)
       },

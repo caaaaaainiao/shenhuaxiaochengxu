@@ -5,7 +5,7 @@
     <image class='bannerbg' src='/images/indexbanner.png'></image>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{userInfom.avatarUrl}}' mode='aspectFill'></image>
+      <image src='{{userInfom.headlmgUrl}}' mode='aspectFill'></image>
     </view>
     <view class='bottom'>
       <view class='messages'>

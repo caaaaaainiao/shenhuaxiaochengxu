@@ -12,7 +12,7 @@
   </view>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{wxInfo.avatarUrl}}' mode='aspectFill'></image>
+      <image src='{{userInfo.headlmgUrl}}' mode='aspectFill'></image>
     </view>
     <view class='bottom'>
       <view class='messages'>
@@ -21,7 +21,7 @@
           <text class='number'>{{memberCardScore}}</text>
         </view>
         <view class="middleBlock">
-          <text>{{wxInfo.nickName}}</text>
+          <text>{{userInfo.nickName}}</text>
         </view>
         <view class="rightBlock" bindtap='toCard'>
           <text class='title'>余额</text>

@@ -329,6 +329,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
+        console.log(res)
         wx.hideLoading();
         if (res.data.Status == 'Success') {
           // 微信支付接口

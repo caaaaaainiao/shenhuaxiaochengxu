@@ -72,11 +72,11 @@ Page({
       }
     });
     wx.getStorage({
-      key: 'accredit',
+      key: 'loginInfo',
       success: function(res) {
         // console.log(res.data.userInfo)
         that.setData({
-          userInfo: res.data.userInfo
+          userInfo: res.data
         })
       },
     })
@@ -98,10 +98,10 @@ Page({
   onShow: function() {
     var that = this;
     wx.getStorage({
-      key: 'accredit',
+      key: 'loginInfo',
       success: function(res) {
         that.setData({
-          userInfo: res.data.userInfo
+          userInfo: res.data
         })
       },
     });

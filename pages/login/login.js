@@ -71,8 +71,8 @@ Page({
       isshow: false,
       iskey: true
     })
-    console.log(that.data.cinemacode)
-    console.log(that.data.cinemaname)
+    // console.log(that.data.cinemacode)
+    // console.log(that.data.cinemaname)
   },
 
   /**
