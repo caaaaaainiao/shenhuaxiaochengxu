@@ -22,7 +22,12 @@ Page({
    */
   onLoad: function(options) {
     let that = this;
-    that.ask();
+    console.log(options)
+    if (options.cinemacode) {
+      that.ask1(options.cinemacode);
+    } else {
+      that.ask();
+    }
     var pages = getCurrentPages().length - 1;
     that.setData({
       pages: pages,
@@ -85,6 +90,40 @@ Page({
       path: '/pages/index/index'
     }
   },
+  // 携带参数
+  ask1: function (e) {
+    var that = this;
+    console.log(app.globalData)
+    var nowtime = new Date().getTime();
+    var pageNo = that.data.pageNo;
+    var data = {
+      Username: 'MiniProgram',
+      Password: '6BF477EBCC446F54E6512AFC0E976C41',
+      CinemaCode: e,
+      OpenID: app.globalData.openId,
+      Status: 'All'
+    };
+
+    wx.request({
+      url: app.globalData.url + '/Api/Conpon/QueryUserConpons' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.Status,
+      method: "Get",
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function (res) {
+        console.log(res)
+        wx.hideLoading()
+        var result = that.addJson(that.data.result, res.data.data);
+        that.setData({
+          result: result.conpons,
+          couponCount: result.conponCount
+        })
+        console.log(that.data.result)
+        app.globalData.resultList = that.data.result
+      }
+    })
+  },
+
   ask: function() {
     var that = this;
     console.log(app.globalData)

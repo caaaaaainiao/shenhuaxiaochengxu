@@ -64,15 +64,12 @@ Page({
   //选择具体影院
   choosearea: function(e) {
     var that = this
-    app.globalData.cinemacode = e.currentTarget.dataset.cinemacode
     that.setData({
       cinemacode: e.currentTarget.dataset.cinemacode,
       cinemaname: e.currentTarget.dataset.cinemaname,
       isshow: false,
       iskey: true
     })
-    // console.log(that.data.cinemacode)
-    // console.log(that.data.cinemaname)
   },
 
   /**
@@ -155,7 +152,7 @@ Page({
       modalHidden: true
     })
     wx.redirectTo({
-      url: '../mycoupon/mycoupon',
+      url: '../mycoupon/mycoupon?cinemacode=' + this.data.cinemacode,
     })
   },
 

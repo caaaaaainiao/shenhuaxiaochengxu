@@ -192,7 +192,7 @@
 }
 .empty{
   width: 100%;
-  height: calc(100% - 110rpx);
+  height: 100%;
   background: #fff;
   position: relative;
   overflow: hidden;
