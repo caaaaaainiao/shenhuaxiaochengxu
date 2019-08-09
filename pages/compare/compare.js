@@ -241,26 +241,24 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log(res)
-        var comparePrices = res.data.data.sessionDate[0].session;
-        // console.log(comparePrices)
-        // 获取影院设置的限制购票时间
-        let beforeStartTime = Number(app.globalData.beforeStartTime) * 60 * 1000;
-        // 将限制购票时间加上当前时间与影片开场时间作对比
-        let nowTime = parseInt(new Date().getTime()) + beforeStartTime;
-        for (let i = comparePrices.length - 1; i >= 0; i--) { // 循环排期时间  倒序进行判断
-          let sessionTime = new Date(comparePrices[i].sessionTime.replace(/-/g, '/')).getTime(); // 获取排期时间戳
-          if (sessionTime < nowTime) { // 比较两个时间戳大小 判断排期时间是否已过期
-            // 如果当前时间比排期时间大  那么排期已过期  把过期的排期删除
-            comparePrices.splice(i, 1);
+        // console.log(res)
+          var comparePrices = res.data.data.sessionDate[0].session;
+          // console.log(comparePrices)
+          // 获取影院设置的限制购票时间
+          let beforeStartTime = Number(app.globalData.beforeStartTime) * 60 * 1000;
+          // 将限制购票时间加上当前时间与影片开场时间作对比
+          let nowTime = parseInt(new Date().getTime()) + beforeStartTime;
+          for (let i = comparePrices.length - 1; i >= 0; i--) { // 循环排期时间  倒序进行判断
+            let sessionTime = new Date(comparePrices[i].sessionTime.replace(/-/g, '/')).getTime(); // 获取排期时间戳
+            if (sessionTime < nowTime) { // 比较两个时间戳大小 判断排期时间是否已过期
+              // 如果当前时间比排期时间大  那么排期已过期  把过期的排期删除
+              comparePrices.splice(i, 1);
+            }
           }
-        }
-        // console.log(res.data.data)
-        that.setData({
-          moviesListDate: res.data.data,
-          comparePrices: comparePrices,
-        })
-        // console.log(that.data.moviesListDate)
+          that.setData({
+            moviesListDate: res.data.data,
+            comparePrices: comparePrices,
+          })
       }
     })
     that.setData({
