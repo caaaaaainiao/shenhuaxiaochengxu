@@ -81,7 +81,7 @@ Page({
     })
     wx.getSetting({ //获取用户当前设置
       success: function(res) {
-         console.log(res)
+        //  console.log(res)
         //authSetting 返回的授权结果
         if (res.authSetting["scope.userLocation"]) {
           that.setData({

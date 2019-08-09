@@ -36,7 +36,27 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    console.log(options)
+    // console.log(options)
+    var json = {
+      messageType: "5",
+      header: '',
+      nickName: '',
+      messageContent: 'heart',
+      prizeId: '1'
+    };
+    setTimeout(function(){
+      wx.sendSocketMessage({
+        data: JSON.stringify(json),
+        success: function (res) {
+          console.log('连接中')
+
+        },
+        fail: function () {
+          this.reline()
+        }
+
+      })
+    },60000)
     this.getGifts()
     var that = this;
     that.setData({
@@ -44,17 +64,17 @@ Page({
     })
     var windowHeight = wx.getSystemInfoSync().windowHeight;
     var contentHeight = windowHeight - 279;
-    console.log(app.globalData)
+    // console.log(app.globalData)
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
       method: 'GET',
       success: function(e) {
-        console.log(e)
+        // console.log(e)
         wx.getStorage({
           key: 'loginInfo',
           success: function(res) {
             res.data.roll = e.data.data.roll
-            console.log(res)
+            // console.log(res)
             wx.setStorage({
               key: 'loginInfo',
               data: res.data,
@@ -81,7 +101,7 @@ Page({
         that.setData({
           userInfo: res.data,
         })
-        console.log(that.data.userInfo)
+        // console.log(that.data.userInfo)
         // console.log(res.data)
         // var SocketUrl = "wss://ik.legendpicture.com"
         var SocketUrl = app.globalData.SocketUrl;
@@ -118,7 +138,7 @@ Page({
     })
 
     this.leftTime()
-    console.log(app.globalData.movieRoom)
+    // console.log(app.globalData.movieRoom)
     // console.log(that.data.movie)
     // that.movie = that.data.movie
 
