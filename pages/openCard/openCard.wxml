@@ -15,7 +15,7 @@
   </view>
   <view class="option" wx:if="{{isShow}}">
     <image src="/images/icon-person.png" class="icon" mode="widthFix"></image>
-    <input type='number' value="" bindinput="" bindblur="getId" placeholder="输入身份证号码" placeholder-class="phColor"/>
+    <input value="" bindinput="" bindblur="getId" placeholder="输入身份证号码" placeholder-class="phColor"/>
   </view>
   <view class='option'>
     <image src='/images/ocname.png' class='icon'></image>

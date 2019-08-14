@@ -236,12 +236,12 @@
 
 .movieText {
   width: 310rpx;
-  line-height: 1;
+  line-height: 1.2;
   font-size: 24rpx;
   color: #a9a9a9;
   position: absolute;
   left: 190rpx;
-  top: 87rpx;
+  top: 70rpx;
   /* font-weight: bold; */
   overflow: hidden;
   text-overflow: ellipsis;
@@ -255,7 +255,7 @@
   color: #a9a9a9;
   position: absolute;
   left: 190rpx;
-  top: 146rpx;
+  top: 170rpx;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
