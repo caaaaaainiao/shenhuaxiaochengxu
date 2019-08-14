@@ -44,19 +44,19 @@ Page({
       messageContent: 'heart',
       prizeId: '1'
     };
-    setTimeout(function(){
+    setTimeout(function() {
       wx.sendSocketMessage({
         data: JSON.stringify(json),
-        success: function (res) {
+        success: function(res) {
           console.log('连接中')
 
         },
-        fail: function () {
+        fail: function() {
           this.reline()
         }
 
       })
-    },30000)
+    }, 30000)
     this.getGifts()
     var that = this;
     that.setData({

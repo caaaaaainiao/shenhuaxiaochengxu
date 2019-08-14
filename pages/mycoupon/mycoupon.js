@@ -91,7 +91,7 @@ Page({
     }
   },
   // 携带参数
-  ask1: function (e) {
+  ask1: function(e) {
     var that = this;
     console.log(app.globalData)
     var nowtime = new Date().getTime();
@@ -110,7 +110,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         wx.hideLoading()
         var result = that.addJson(that.data.result, res.data.data);

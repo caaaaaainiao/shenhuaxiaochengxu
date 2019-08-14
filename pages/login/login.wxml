@@ -1,28 +1,28 @@
 <!--pages/login/login.wxml-->
 <view class="container">
-    <image wx:if='{{iskey}}' class='logo' src='{{logo}}'></image>
-    <view hidden="{{!modalHidden}}"  class='message'>
-       <view class='location' wx:if="{{getInfo==0}}">
-        <image src='/images/icon_location.png'></image>
-        <picker bindchange="bindPickerChange" value="{{index}}" range-key="cinemaName" range="{{areaList}}">
+  <image wx:if='{{iskey}}' class='logo' src='{{logo}}'></image>
+  <view hidden="{{!modalHidden}}" class='message'>
+    <view class='location' wx:if="{{getInfo==0}}">
+      <image src='/images/icon_location.png'></image>
+      <picker bindchange="bindPickerChange" value="{{index}}" range-key="cinemaName" range="{{areaList}}">
         <view class="picker">
           {{areaList[index].cinemaName}}
         </view>
       </picker>
-      </view>
     </view>
-    <image class='film' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/film.png'></image>
-    <view wx:if="{{canIUse}}">
-      <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='signIn' wx:if="{{getInfo==0}}">
-        <image src='/images/accreditbtn.png'></image>
-      </button>
-      <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class='signIn' wx:else>
-        <image src='/images/phoneLogin.png'></image>
-      </button>
-    </view>
-    <block wx:else>
-      <view>微信版本过低，请升级后使用</view>
-    </block>
+  </view>
+  <image class='film' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/film.png'></image>
+  <view wx:if="{{canIUse}}">
+    <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='signIn' wx:if="{{getInfo==0}}">
+      <image src='/images/accreditbtn.png'></image>
+    </button>
+    <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class='signIn' wx:else>
+      <image src='/images/phoneLogin.png'></image>
+    </button>
+  </view>
+  <block wx:else>
+    <view>微信版本过低，请升级后使用</view>
+  </block>
 </view>
 
 <!-- 优惠券弹窗 -->

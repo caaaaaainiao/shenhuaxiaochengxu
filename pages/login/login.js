@@ -132,7 +132,7 @@ Page({
   },
 
   // 选择影院
-  bindPickerChange: function (e) {
+  bindPickerChange: function(e) {
     let that = this;
     that.setData({
       index: e.detail.value,
@@ -141,7 +141,7 @@ Page({
   },
 
   // 获取用户信息
-  getUserInfo: function (e) { //获取用户信息
+  getUserInfo: function(e) { //获取用户信息
     var that = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") { // 拒绝
       wx.showToast({
@@ -159,7 +159,7 @@ Page({
           "userInfo": e.detail.userInfo,
           "userInfoDetail": e.detail
         },
-        success: function (res) {
+        success: function(res) {
           that.wxLogin();
           that.setData({
             getInfo: 1,
@@ -174,7 +174,7 @@ Page({
   },
 
   // 获取手机号
-  getPhoneNumber: function (e) { //获取用户信息
+  getPhoneNumber: function(e) { //获取用户信息
     var that = this;
     if (e.detail.errMsg == "getPhoneNumber:fail user deny") { // 拒绝
       wx.showToast({
@@ -194,10 +194,10 @@ Page({
     }
   },
 
-  wxLogin: function () { // 获取用户信息
+  wxLogin: function() { // 获取用户信息
     var that = this;
     wx.login({
-      success: function (msg) {
+      success: function(msg) {
         var wxCode = msg.code; // 发送 res.code 到后台换取 openId, sessionKey, unionId
         let encryptedData = that.data.userInfoDetail.encryptedData;
         let iv = that.data.userInfoDetail.iv;
@@ -216,7 +216,7 @@ Page({
           header: {
             "Content-Type": "application/json"
           },
-          success: function (e) {
+          success: function(e) {
             //个人信息
             if (e.data.Status == 'Success') {
               app.globalData.openId = e.data.data.openID;
@@ -231,7 +231,7 @@ Page({
               })
             }
           },
-          fail: function (e) {
+          fail: function(e) {
             wx.showToast({
               title: e.data.ErrorMessage,
               icon: 'none',
@@ -246,10 +246,10 @@ Page({
     })
   },
 
-  wxGetPhoneNumber: function () { // 获取用户手机号
+  wxGetPhoneNumber: function() { // 获取用户手机号
     var that = this;
     wx.login({
-      success: function (msg) {
+      success: function(msg) {
         var wxCode = msg.code; // 发送 res.code 到后台换取 openId, sessionKey, unionId
         let encryptedData = that.data.userInfoDetail.encryptedData;
         let iv = that.data.userInfoDetail.iv;
@@ -268,7 +268,7 @@ Page({
           header: {
             "Content-Type": "application/json"
           },
-          success: function (e) {
+          success: function(e) {
             console.log(e)
             //个人信息
             if (e.data.Status == 'Success') {
@@ -278,7 +278,7 @@ Page({
                 header: {
                   "Content-Type": "application/json"
                 },
-                success: function (res) {
+                success: function(res) {
                   if (res.data.Status == 'Success') {
                     wx.setStorage({
                       key: 'loginInfo',
@@ -322,7 +322,7 @@ Page({
               })
             }
           },
-          fail: function (e) {
+          fail: function(e) {
             wx.showToast({
               title: e.data.ErrorMessage,
               icon: 'none',

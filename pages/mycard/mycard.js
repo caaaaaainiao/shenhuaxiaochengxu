@@ -336,7 +336,7 @@ Page({
         header: {
           'content-type': 'application/json' // 默认值
         },
-        success: function (res) {
+        success: function(res) {
           console.log(res)
           wx.hideLoading();
           if (res.data.Status == 'Success') {
@@ -360,7 +360,7 @@ Page({
                     header: {
                       'content-type': 'application/json' // 默认值
                     },
-                    success: function (res) {
+                    success: function(res) {
                       console.log(res)
                       if (res.data.Status == 'Success') {
                         that.setData({
@@ -441,20 +441,20 @@ Page({
     })
   },
   // 关闭输入密码窗口
-  closeM: function () {
+  closeM: function() {
     this.setData({
       showM: false
     })
   },
   // 密码输入
-  setM: function (e) {
+  setM: function(e) {
     var cardPassword = e.detail.value;
     this.setData({
       cardPassword: cardPassword
     })
   },
   // 确认密码
-  pay2: function () {
+  pay2: function() {
     let that = this;
     // 预支付
     wx.request({
@@ -463,7 +463,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         wx.hideLoading();
         if (res.data.Status == 'Success') {
@@ -487,7 +487,7 @@ Page({
                   header: {
                     'content-type': 'application/json' // 默认值
                   },
-                  success: function (res) {
+                  success: function(res) {
                     console.log(res)
                     if (res.data.Status == 'Success') {
                       that.setData({

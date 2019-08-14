@@ -52,17 +52,17 @@
               </block>
 
               <block wx:if='{{movie.cast}}'>
-                <view class='moviePeopletxt' >
-                    <text wx:for="{{movie.cast}}" wx:for-item="cast" wx:key="cast" class='moviePeople'>{{cast.castName}}</text>
+                <view class='moviePeopletxt'>
+                  <text wx:for="{{movie.cast}}" wx:for-item="cast" wx:key="cast" class='moviePeople'>{{cast.castName}}</text>
                 </view>
-                  
+
               </block>
-                <block wx:else>
-                  <view class='moviePeopletxt' >
-                    <text class='moviePeople'>暂无</text>
-                  </view>
-                  
-                </block>
+              <block wx:else>
+                <view class='moviePeopletxt'>
+                  <text class='moviePeople'>暂无</text>
+                </view>
+
+              </block>
 
               <view class='label'>
                 <block wx:if='{{movie.version}}'>

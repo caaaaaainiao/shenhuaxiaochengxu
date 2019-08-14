@@ -35,7 +35,7 @@ Page({
     var that = this;
     wx.getStorage({
       key: 'loginInfo',
-      success: function (res) {
+      success: function(res) {
         that.setData({
           userInfo: res.data, //用户信息
         })
@@ -203,7 +203,7 @@ Page({
   },
 
   // 点击头像注册
-  login: function () {
+  login: function() {
     wx.navigateTo({
       url: '../login/login',
     })
@@ -431,7 +431,7 @@ Page({
           })
         } else {
           wx.navigateTo({
-            url: '../login/login' 
+            url: '../login/login'
           })
         }
       },
@@ -655,17 +655,17 @@ Page({
           })
         } else {
           var memberCard = res.data.data.memberCard[0];
-            if (memberCard.score == null) {
-              that.setData({
-                memberCardBalance: memberCard.balance,
-                memberCardScore: '---'
-              })
-            } else {
-              that.setData({
-                memberCardBalance: memberCard.balance,
-                memberCardScore: memberCard.score
-              })
-            }
+          if (memberCard.score == null) {
+            that.setData({
+              memberCardBalance: memberCard.balance,
+              memberCardScore: '---'
+            })
+          } else {
+            that.setData({
+              memberCardBalance: memberCard.balance,
+              memberCardScore: memberCard.score
+            })
+          }
         }
       });
     }
