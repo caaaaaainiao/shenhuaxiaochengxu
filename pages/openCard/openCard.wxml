@@ -55,29 +55,6 @@
   </view>
   <view class='btn' bindtap='open'>开卡</view>
 
-<!-- 会员卡充值弹窗   -->
-<!-- <block wx:if="{{showAlertExchange2}}">
-	<view class="alert alert-exchange">
-		<view class="over-close" bindtap="closeShow"></view>
-		<view class="box-bottom">
-			<view class="title">{{levelName}}：{{cardno}}</view>
-			<view class="choose">
-				<block wx:for="{{rule}}" wx:key="item" wx:for-item="item" wx:for-index="index">
-					<button class="item {{item.checked?'on':''}}" bindtap="btnChoose" data-id="{{index}}" data-price="{{item.credit}}" data-rule="{{item.ruleCode}}" hover-class="none">
-						{{item.credit}}
-						<view class="tips" wx:if="{{item.givenAmount>0?true:false}}">赠送{{item.givenAmount}}元</view>
-					</button>
-				</block>
-			</view>
-     <form report-submit='true'  bindsubmit='formSubmit'>
-			<view class="operate">
-      	<button formType="submit" class="btn btn-red" bindtap="pay" hover-class="none">确认充值</button>
-			</view>
-     </form>
-		</view>
-	</view>
-</block> -->
-
   <!-- 会员服务协议 -->
   <view style='width: 100%;height: 100%;background: rgba(0,0,0,.5);position: fixed;top: 0;left: 0;z-index: 99;'wx:if="{{cinemaAgreement}}">
     <view style='width: 100%;height: 560rpx;background: #fff;padding-top: 100rpx;border-radius: 16rpx 16rpx 0 0;  position: absolute;left: 0;bottom: 0;'>

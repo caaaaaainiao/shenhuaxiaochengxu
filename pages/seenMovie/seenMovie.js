@@ -113,7 +113,7 @@ Page({
     // var sign = app.createMD5('getWantSeeMovie', nowtime);
     // var pageNo = that.data.pageNo;
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUserLookedFilms' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUserLookedFilms' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.userInfo.openID,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值

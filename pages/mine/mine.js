@@ -32,7 +32,7 @@ Page({
       Password: app.usermessage.Password,
       CinemaCode: app.globalData.cinemacode,
       GradeCode: "02",
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.openID,
     };
     // 读取页面背景图片
     wx.request({
@@ -42,7 +42,6 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log(res)
         if (res.data.Status == "Success" && res.data.data.images) {
           that.setData({
             picture: res.data.data.images[0].image,
@@ -110,7 +109,7 @@ Page({
       Password: app.usermessage.Password,
       CinemaCode: app.globalData.cinemacode,
       GradeCode: "02",
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.openID,
     };
     // 读取页面背景图片
     wx.request({
@@ -120,7 +119,6 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log(res)
         if (res.data.Status == "Success" && res.data.data.images) {
           that.setData({
             picture: res.data.data.images[0].image,
@@ -136,7 +134,7 @@ Page({
       UserName: app.usermessage.Username,
       Password: app.usermessage.Password,
       CinemaCode: app.globalData.cinemacode,
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.openID,
     };
     // 读取资源数量
     wx.request({
@@ -216,12 +214,20 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
     })
   },
+
+  // 点击头像登录
+  login: function () {
+    wx.navigateTo({
+      url: '../login/login',
+    })
+  },
+
   myFood: function() {
     wx.getStorage({
       key: 'loginInfo',
@@ -237,7 +243,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -264,7 +270,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -285,7 +291,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -306,7 +312,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -327,7 +333,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -348,7 +354,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -369,7 +375,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -390,7 +396,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -499,7 +505,7 @@ Page({
             }
           },
           fail: function() {
-            wx.reLaunch({
+            wx.navigateTo({
               url: '../login/login',
             })
           }
@@ -525,7 +531,7 @@ Page({
               }
             },
             fail: function() {
-              wx.reLaunch({
+              wx.navigateTo({
                 url: '../login/login',
               })
             }

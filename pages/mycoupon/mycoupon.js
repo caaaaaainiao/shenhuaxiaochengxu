@@ -91,7 +91,7 @@ Page({
     }
   },
   // 携带参数
-  ask1: function (e) {
+  ask1: function(e) {
     var that = this;
     console.log(app.globalData)
     var nowtime = new Date().getTime();
@@ -100,7 +100,7 @@ Page({
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
       CinemaCode: e,
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.openID,
       Status: 'All'
     };
 
@@ -110,7 +110,7 @@ Page({
       header: {
         'content-type': 'application/json' // 默认值
       },
-      success: function (res) {
+      success: function(res) {
         console.log(res)
         wx.hideLoading()
         var result = that.addJson(that.data.result, res.data.data);
@@ -133,7 +133,7 @@ Page({
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
       CinemaCode: app.globalData.cinemacode,
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.openID,
       Status: 'All'
     };
 

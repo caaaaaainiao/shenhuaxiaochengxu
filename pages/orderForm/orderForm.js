@@ -72,7 +72,7 @@ Page({
       title: '加载中',
     })
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: "GET",
       header: {
         "Content-Type": "application/json"
@@ -406,7 +406,7 @@ Page({
     }
     // 获取优惠券
     wx.request({
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + that.data.cardNo + '/' + that.data.orderCode,
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + 1 + '/' + that.data.payway + '/' + that.data.cardNo + '/' + that.data.orderCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -471,7 +471,7 @@ Page({
     });
     // 获取优惠券
     wx.request({
-      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId + '/' + 1 + '/' + that.data.payway + '/' + null + '/' + that.data.orderCode,
+      url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + 1 + '/' + that.data.payway + '/' + null + '/' + that.data.orderCode,
       method: "GET",
       header: {
         'content-type': 'application/json' // 默认值
@@ -856,7 +856,6 @@ Page({
           })
           // 判断售票系统
           if (app.globalData.cinemaList.cinemaType == "电影1905") { // 1905
-            // 1905系统会员卡支付
             wx.request({
               url: app.globalData.url + '/Api/Member/SellTicketCustomMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
               method: 'GET',
@@ -917,7 +916,7 @@ Page({
                 }
               }
             })
-          } else if (app.globalData.cinemaList.cinemaType == "粤科") { //粤科
+          } else if (app.globalData.cinemaList.cinemaType == "粤科") { //粤科 云智
             if (res.data.Status == 'Success') {
               // 会员卡支付
               wx.request({

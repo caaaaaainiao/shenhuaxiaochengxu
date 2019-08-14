@@ -1,5 +1,3 @@
-<!--pages/mycard/mycard.wxml-->
-<!-- <text>pages/mycard/mycard.wxml</text> -->
 <!-- 会员卡 -->
 <view class='container'>
   <view class='header'>
@@ -51,5 +49,17 @@
     <view class='bang' bindtap='bang'>绑 定 会 员 卡</view>
     <view class='openCard' bindtap='openCard' wx:if="{{isShow}}">没有会员卡？在线开通，立享多重观影福利！</view>
   </view>
-
+  
+  <!-- 会员卡密码 -->
+  <view class='black2' wx:if="{{showM}}">
+    <view class='add2'>
+      <image class='close2' src='/images/close.png' bindtap='closeM'></image>
+      <view class='input2'>
+        <input  type='password' placeholder-style="color:#888;" placeholder='请输入密码' bindinput='setM'></input>
+      </view>
+       <form report-submit='true'  bindsubmit='formSubmit'>
+       <button formType="submit" class='submit2' bindtap='pay2'>确 定</button>
+      </form>
+    </view>
+  </view>
 </view>

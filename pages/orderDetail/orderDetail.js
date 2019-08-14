@@ -188,7 +188,7 @@ Page({
             wx.request({
               url: 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' + app.usermessage.access_token,
               data: {
-                "touser": app.globalData.openId,
+                "touser": app.globalData.userInfo.openID,
                 "template_id": "-T44MoRBctur8xHCZoB169XjI3hbIit1rvPrVOgKnpE",
                 "form_id": that.data.formids,
                 "data": {

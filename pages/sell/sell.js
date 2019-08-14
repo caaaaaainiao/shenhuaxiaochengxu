@@ -7,8 +7,6 @@ Page({
    * 页面的初始数据
    */
   data: {
-
-    //userInfo: null,
     movieList: null,
     timeList: null,
     hallList: null,
@@ -28,22 +26,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    // console.log(app.globalData.isSnackDistribution)
-    app.globalData.phonenum = app.globalData.userInfo.mobilePhone
-    // 读取缓存  设置影院信息
-    that.countMovie()
-    wx.getStorage({
-      key: 'loginInfo',
-      success: function(res) {
-        // console.log(res)
-        that.setData({
-          userInfom: res.data
-        })
-      },
-    })
     util.getcinemaList(function(res) {
-
-
       let movilisttemp = res.sort(util.sortDistance("distance"));
       var recent = movilisttemp[0].cinemaName;
       that.setData({
@@ -52,11 +35,8 @@ Page({
       app.globalData.cinemaNo = 0;
     });
 
-    this.setData({
-      userInfo: app.globalData.userInfo ? app.globalData.userInfo : {},
-    })
     // 调用全局函数设置余额以及积分
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
+    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
       var memberCard = [];
       var status = [];
       if (res.data.Status == "Failure") {
@@ -89,6 +69,14 @@ Page({
         })
       }
     });
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        that.setData({
+          userInfo: res.data
+        })
+      },
+    })
     wx.setNavigationBarTitle({
       title: app.globalData.cinemaList.cinemaName
     });
@@ -105,18 +93,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
-    // console.log(app.globalData.areaList)
-    // console.log(app.globalData.lookcinemaname)
-    wx.getStorage({
-      key: 'loginInfo',
-      success: function(res) {
-        // console.log(res)
-        that.setData({
-          userInfom: res.data
-        })
-        // console.log(that.data.userInfo)
-      },
-    })
+    let that = this;
     if (app.globalData.lookcinemaname == undefined) {
       app.globalData.lookcinemaname = app.globalData.areaList[0].cinemaName
     }
@@ -124,10 +101,9 @@ Page({
     this.setData({
       lookcinemaname: lookcinemaname
     })
-    var that = this;
     // 调用全局函数设置余额以及积分
-    if (app.globalData.cinemacode && app.globalData.openId) {
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.openId, app.globalData.cinemacode, function(res) {
+    if (app.globalData.cinemacode && app.globalData.userInfo.openID) {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
         var memberCard = [];
         var status = [];
         let userCardList = [];
@@ -174,6 +150,14 @@ Page({
         }
       });
     }
+    wx.getStorage({
+      key: 'loginInfo',
+      success: function (res) {
+        that.setData({
+          userInfo: res.data
+        })
+      },
+    })
     wx.setNavigationBarTitle({
       title: app.globalData.cinemaList.cinemaName
     });
@@ -216,6 +200,13 @@ Page({
       path: '/pages/index/index'
     }
   },
+  // 点击头像注册
+  login: function () {
+    wx.navigateTo({
+      url: '../login/login',
+    })
+  },
+
   toCard: function() {
     var that = this;
     wx.getStorage({
@@ -232,7 +223,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -447,7 +438,7 @@ Page({
                 }
               },
               fail: function() {
-                wx.reLaunch({
+                wx.navigateTo({
                   url: '../login/login',
                 })
               }
@@ -468,7 +459,7 @@ Page({
                   }
                 },
                 fail: function() {
-                  wx.reLaunch({
+                  wx.navigateTo({
                     url: '../login/login',
                   })
                 }
@@ -505,36 +496,4 @@ Page({
     })
 
   },
-  countMovie: function() {
-    // var movieList = app.globalData.sellMovielist;
-    // var now = new Date();
-    // var year = now.getFullYear();
-    // var month = now.getMonth() + 1;
-    // var day = now.getDate();
-    // var that = this;
-    // if (month < 10) {
-    //   month = "0" + month;
-    // }
-    // if (day < 10) {
-    //   day = "0" + day;
-    // }
-    // var today = year + "-" + month + "-" + day;
-    // for (var i = 0; i < movieList.length; i++) {
-    //   for (var j = 0; j < movieList[i].session.length; j++) {
-    //     if (movieList[i].session[j].startTime.substring(0, 10) != today) {
-    //       movieList[i].session.splice(0, 1);
-    //       j--;
-    //     }
-    //   }
-    // }
-    // for (var g = 0; g < movieList.length; g++) {
-    //   if (movieList[g].session.length == 0) {
-    //     movieList.splice(g, 1);
-    //     g--;
-    //   }
-    // }
-    // that.setData({
-    //   movieList: movieList
-    // })
-  }
 })

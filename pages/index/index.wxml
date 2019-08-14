@@ -12,7 +12,8 @@
   </view>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{userInfo.headlmgUrl}}' mode='aspectFill'></image>
+      <image src='{{userInfo.headlmgUrl}}' mode='aspectFill' wx:if="{{userInfo}}"></image>
+      <image src='/images/loginBtn.png' catchtap="login" mode='aspectFill' wx:else></image>
     </view>
     <view class='bottom'>
       <view class='messages'>
@@ -51,17 +52,17 @@
               </block>
 
               <block wx:if='{{movie.cast}}'>
-                <view class='moviePeopletxt' >
-                    <text wx:for="{{movie.cast}}" wx:for-item="cast" wx:key="cast" class='moviePeople'>{{cast.castName}}</text>
+                <view class='moviePeopletxt'>
+                  <text wx:for="{{movie.cast}}" wx:for-item="cast" wx:key="cast" class='moviePeople'>{{cast.castName}}</text>
                 </view>
-                  
+
               </block>
-                <block wx:else>
-                  <view class='moviePeopletxt' >
-                    <text class='moviePeople'>暂无</text>
-                  </view>
-                  
-                </block>
+              <block wx:else>
+                <view class='moviePeopletxt'>
+                  <text class='moviePeople'>暂无</text>
+                </view>
+
+              </block>
 
               <view class='label'>
                 <block wx:if='{{movie.version}}'>
@@ -102,9 +103,8 @@
   <!-- 首次授权 -->
   <view class="container2" wx:if="{{shouquan}}">
     <view wx:if="{{canIUse}}">
-      <image src='{{logo}}' class='accreditbg'></image>
-      <view class='con_name'>{{concinemaname}}</view>
-      <!-- <view class='con_con'>{{concont}}</view> -->
+      <!-- <image src='{{logo}}' class='accreditbg'></image>
+      <view class='con_name'>{{concinemaname}}</view> -->
       <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='getUserInfo'>
         <image src='/images/accreditbtn.png'></image>
       </button>

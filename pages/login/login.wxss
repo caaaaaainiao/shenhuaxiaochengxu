@@ -1,45 +1,54 @@
 /* pages/login/login.wxss */
-page{
-  position: relative
+
+page {
+  position: relative;
 }
 
-.container{
+.container {
   width: 100%;
-  height:100%;
-  position:relative;
+  height: 100%;
+  position: relative;
   overflow: hidden;
-  float : left;
+  float: left;
 }
-.logo{
+
+.logo {
   width: 186rpx;
   height: 231rpx;
   position: absolute;
   left: 282rpx;
-  top:98rpx;
+  top: 98rpx;
 }
-.message{
+
+.message {
   width: 540rpx;
   height: 240rpx;
-  position:absolute;
+  position: absolute;
   top: 50%;
-  left:105rpx;
+  left: 105rpx;
   margin-top: -120rpx;
   z-index: 9;
 }
-.message view{
+
+.message view {
   width: 100%;
-  height: 120rpx;
-  position:relative;
-  border-bottom: 1rpx solid #888888;
+  height: 105rpx;
+  position: relative;
+  text-align: center;
+  border: 1rpx solid #ccc;
+  border-radius: 50rpx;
 }
-.message image{
+
+.message image {
   width: 40rpx;
   height: 40rpx;
-  position:absolute;
-  left:23rpx;
-  bottom: 18rpx;
+  position: absolute;
+  left: 50rpx;
+  bottom: 33rpx;
+  z-index: 99;
 }
-.message input{
+
+.message input {
   width: 230rpx;
   height: 40rpx;
   line-height: 40rpx;
@@ -51,36 +60,38 @@ page{
   left: 130rpx;
   bottom: 18rpx;
 }
-.message .getYzm{
+
+.message .getYzm {
   width: auto;
   height: 50rpx;
-  line-height:50rpx;
-  font-size:22rpx;
-  color: #DA4E7B;
+  line-height: 50rpx;
+  font-size: 22rpx;
+  color: #da4e7b;
   padding: 0 10rpx;
   position: absolute;
   right: 0;
   bottom: 12rpx;
-  border: 1rpx solid #DA4E7B;
+  border: 1rpx solid #da4e7b;
   border-radius: 25rpx;
 }
 
-#choosecinema{
+#choosecinema {
   width: 20rpx;
   height: 25rpx;
   position: absolute;
-  left:500rpx;
-  bottom: 30rpx
+  left: 500rpx;
+  bottom: 30rpx;
 }
 
-.film{
+.film {
   width: 815rpx;
   height: 652rpx;
   position: absolute;
   left: 150rpx;
   bottom: 0;
 }
-.signIn{
+
+.signIn {
   width: 559rpx;
   height: 99rpx;
   position: absolute;
@@ -91,37 +102,43 @@ page{
   line-height: 85rpx;
   text-align: center;
 }
-.signIn image{
+
+.signIn image {
   width: 100%;
   height: 85rpx;
   position: absolute;
   top: 0;
   left: 0;
 }
-.signIn text{
+
+.signIn text {
   position: relative;
   z-index: 9;
 }
-.img{
+
+.img {
   position: relative;
-  width:100%;
-  height : 100%;
-  background-color:rgba(76,76,76,0.5)
+  width: 100%;
+  height: 100%;
+  background-color: rgba(76, 76, 76, 0.5);
 }
-.hiddenImg{
-   position: absolute;
-   top: 50%;
-   /* right:50%;
+
+.hiddenImg {
+  position: absolute;
+  top: 50%;
+  /* right:50%;
    bottom:50%; */
-   left:50%; 
-   transform: translate(-50%,-50%)
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.hiddenImg image{
+
+.hiddenImg image {
   /* position: absolute; */
-  width:520rpx;
-  height:690rpx;
+  width: 520rpx;
+  height: 690rpx;
 }
-.btn{
+
+.btn {
   width: 100%;
   height: 98rpx;
   position: fixed;
@@ -132,45 +149,62 @@ page{
   color: #fff;
   text-align: center;
   line-height: 98rpx;
-   background: linear-gradient(to right, #DA4E7B, #2177B9);
+  background: linear-gradient(to right, #da4e7b, #2177b9);
 }
-.cinemabox{
+
+.cinemabox {
   position: absolute;
   width: 100%;
   /* height: 500rpx; */
   background: white;
-  bottom:100rpx;
-  z-index:10
+  bottom: 100rpx;
+  z-index: 10;
 }
-.option{
+
+.option {
   width: 100%;
   height: 135rpx;
-  border-bottom: 1rpx solid #DDDDDD
+  border-bottom: 1rpx solid #ddd;
   /* background: red */
 }
-.cinemaName{
-    font-size: 30rpx;
+
+.cinemaName {
+  font-size: 30rpx;
   color: black;
   position: absolute;
-  left:45rpx;
-  margin-top: 20rpx
+  left: 45rpx;
+  margin-top: 20rpx;
 }
-.address{
-    font-size: 20rpx;
+
+.address {
+  font-size: 20rpx;
   color: black;
   position: absolute;
-  left:44rpx;
-  margin-top:80rpx
+  left: 44rpx;
+  margin-top: 80rpx;
 }
-.distance{
-  font-size:20rpx;
+
+.distance {
+  font-size: 20rpx;
   color: black;
   position: absolute;
-  right:54rpx;
-  margin-top:57rpx
+  right: 54rpx;
+  margin-top: 57rpx;
 }
-.zhezhao{
+
+.zhezhao {
   width: 100%;
   height: 100%;
-  background: #888888
+  background: #888;
+}
+
+.section__title {
+  margin-bottom: 16rpx;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+}
+
+.picker {
+  padding: 26rpx;
+  background-color: #fff;
 }

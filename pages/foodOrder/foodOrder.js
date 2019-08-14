@@ -48,7 +48,7 @@ Page({
   onLoad: function(options) {
     var that = this;
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: "GET",
       header: {
         "Content-Type": "application/json"
@@ -92,7 +92,7 @@ Page({
         queryXml: app.globalData.xml,
         userName: 'MiniProgram',
         password: "6BF477EBCC446F54E6512AFC0E976C41",
-        openID: app.globalData.openId,
+        openID: app.globalData.userInfo.openID,
         isReady: app.globalData.isReady
       },
       success: function(res) {
@@ -109,7 +109,7 @@ Page({
         }
       }
     })
-    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.openId, app.globalData.cinemacode, function(res) {
+    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
       that.setData({
         card: res.data.data.memberCard,
       })
@@ -211,7 +211,7 @@ Page({
     })
     var that = this 
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: "GET",
       header: {
         "Content-Type": "application/json"

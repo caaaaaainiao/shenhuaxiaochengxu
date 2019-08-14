@@ -44,19 +44,19 @@ Page({
       messageContent: 'heart',
       prizeId: '1'
     };
-    setTimeout(function(){
+    setTimeout(function() {
       wx.sendSocketMessage({
         data: JSON.stringify(json),
-        success: function (res) {
+        success: function(res) {
           console.log('连接中')
 
         },
-        fail: function () {
+        fail: function() {
           this.reline()
         }
 
       })
-    },60000)
+    }, 30000)
     this.getGifts()
     var that = this;
     that.setData({
@@ -66,7 +66,7 @@ Page({
     var contentHeight = windowHeight - 279;
     // console.log(app.globalData)
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: 'GET',
       success: function(e) {
         // console.log(e)

@@ -81,7 +81,7 @@ Page({
   ask: function() {
     var that = this;
     let apiuser = util.getAPIUserData(null);
-    var a = app.globalData.openId
+    var a = app.globalData.userInfo.openID
     console.log(a)
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUserFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + a,

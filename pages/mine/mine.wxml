@@ -3,18 +3,11 @@
 <view class='contianer'>
   <view class='header'>
     <image src='{{picture}}' class='bg'></image>
-    <view class='userimagebox'><image src='{{userInfo.headlmgUrl}}' mode='aspectFill'></image></view>
+    <view class='userimagebox'>
+      <image src='{{userInfo.headlmgUrl}}' mode='aspectFill' wx:if="{{userInfo}}"></image>
+      <image src='/images/loginBtn.png' catchtap="login" mode='aspectFill' wx:else></image>
+    </view>
     <view class='username'>{{userInfo.nickName}}</view>
-    <!-- <view class='progress_text' wx:if="{{progress}}">还差 <text>3</text> 张票根即可兑换电影票</view>
-    <view class='progress_btn' wx:else>兑换电影票</view> -->
-    <!-- <view>
-      <image src='/images/duihuan.png' class='dhicon'></image>
-      <view class='progress_num'><text>12</text>/12</view>
-      <view class='progress'>
-        <view class='progress_in'></view>
-      </view>
-      <view class='dhdetail'>了解详情</view>
-    </view> -->
     <view class='classify'>
       <view class='option' bindtap='myTicket'>
         <image class='option_pic' src='/images/mine_dyp.png'></image>
