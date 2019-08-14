@@ -16,13 +16,14 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function() {
+    console.log(app.globalData)
     var that = this;
     that.setData({
       userInfo: app.globalData.userInfo,
     })
     // 获取用户信息
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUserInfo' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUserInfo' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.userInfo.openID,
       method: "GET",
       header: {
         "Content-Type": "application/json"

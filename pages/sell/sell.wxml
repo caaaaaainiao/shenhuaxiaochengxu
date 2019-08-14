@@ -5,20 +5,23 @@
     <image class='bannerbg' src='/images/indexbanner.png'></image>
   <view class='content'>
     <view class='userimage'>
-      <image src='{{userInfom.headlmgUrl}}' mode='aspectFill'></image>
+      <image src='{{userInfo.headlmgUrl}}' mode='aspectFill' wx:if="{{userInfo}}"></image>
+      <image catchtap="login" mode="aspectFill" src="/images/loginBtn.png" wx:else></image>
     </view>
     <view class='bottom'>
       <view class='messages'>
         <view class="leftBlock" bindtap='toCard'>
           <text class='title'>积分</text>
-          <text class='number'>{{memberCardScore}}</text>
+          <text class='number' wx:if="{{memberCardScore}}">{{memberCardScore}}</text>
+          <text class='number' wx:else>---</text>
         </view>
         <view class="middleBlock">
-          <text>{{userInfom.nickName}}</text>
+          <text>{{userInfo.nickName}}</text>
         </view>
         <view class="rightBlock" bindtap='toCard'>
           <text class='title'>余额</text>
-          <text class='number'>{{memberCardBalance}}</text>
+          <text class='number' wx:if="{{memberCardBalance}}">{{memberCardBalance}}</text>
+          <text class='number' wx:else>---</text>
         </view>
       </view>
       <view class='location'>{{lookcinemaname}}</view>

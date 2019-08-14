@@ -2,39 +2,27 @@
 <view class="container">
     <image wx:if='{{iskey}}' class='logo' src='{{logo}}'></image>
     <view hidden="{{!modalHidden}}"  class='message'>
-      <view class='phone'>
-        <image src='/images/phone_icon.png'></image>
-        <input id='phone'  placeholder='输入手机号' placeholder-style="color:#888;" type='idcard' bindinput='phoneCut' value='{{inputPhone}}'/>
-      </view>
-       <view class='location' bindtap="choosecinema">
+       <view class='location' wx:if="{{getInfo==0}}">
         <image src='/images/icon_location.png'></image>
-        <input id='cinema' placeholder='绑定影院' placeholder-style="color:#888;" type='idcard' value="{{cinemaname}}"/>
-        <image id="choosecinema" src='/images/login_back.png'></image>
-      </view>
-      <view class='yzm'>
-        <image src='/images/icon_num.png'></image>
-        <input id='yzm' placeholder='输入验证码' placeholder-style="color:#888;" type='idcard' value='{{inputYzm}}' bindinput='yzmCut'/>
-        <view class='getYzm' bindtap='sendYzm'>{{yzmText}}</view>
+        <picker bindchange="bindPickerChange" value="{{index}}" range-key="cinemaName" range="{{areaList}}">
+        <view class="picker">
+          {{areaList[index].cinemaName}}
+        </view>
+      </picker>
       </view>
     </view>
     <image class='film' src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/film.png'></image>
-    <view hidden="{{!modalHidden}}"  class='signIn' bindtap='login'>
-      <image src='/images/btn_bg.png'></image>
+    <view wx:if="{{canIUse}}">
+      <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" class='signIn' wx:if="{{getInfo==0}}">
+        <image src='/images/accreditbtn.png'></image>
+      </button>
+      <button open-type="getPhoneNumber" bindgetphonenumber="getPhoneNumber" class='signIn' wx:else>
+        <image src='/images/phoneLogin.png'></image>
+      </button>
     </view>
-</view>
-<!-- 选择影院 -->
-<view wx:if='{{isshow}}' class="cinemabox" >
-    <block wx:for='{{areaList}}' wx:for-item="area" wx:key="area" >
-        <view class="option" bindtap="choosearea" data-cinemacode='{{area.cinemaCode}}' data-cinemaname='{{area.cinemaName}}' >
-          <text class="cinemaName">{{area.cinemaName}}</text>
-          <text class="address">{{area.address}}</text>
-          <text class="distance">{{area.distance}}km</text>
-        </view>
+    <block wx:else>
+      <view>微信版本过低，请升级后使用</view>
     </block>
-    <view class='btn' bindtap='submite'>确定</view>
-</view>
-<!-- 遮罩层  -->
-<view class="zhezhao" wx:if='{{isshow}}'>
 </view>
 
 <!-- 优惠券弹窗 -->

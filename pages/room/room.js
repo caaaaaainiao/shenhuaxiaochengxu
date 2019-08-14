@@ -56,7 +56,7 @@ Page({
         }
 
       })
-    },60000)
+    },30000)
     this.getGifts()
     var that = this;
     that.setData({
@@ -66,7 +66,7 @@ Page({
     var contentHeight = windowHeight - 279;
     // console.log(app.globalData)
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: 'GET',
       success: function(e) {
         // console.log(e)

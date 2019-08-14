@@ -65,7 +65,7 @@ Page({
     // console.log(app.globalData)
     var nowtime = new Date().getTime();
     let apiuser = util.getAPIUserData(null);
-    var a = app.globalData.openId
+    var a = app.globalData.userInfo.openID
     // console.log(a)
     // 查询用户想看的电影
     wx.request({
@@ -196,7 +196,7 @@ Page({
       }
       // 更新想看的电影 iswant为0时 不想看  为1时 想看
       wx.request({
-        url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isWant,
+        url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.userInfo.openID + '/' + that.data.movie.code + '/' + that.data.isWant,
         method: "GET",
         header: {
           'content-type': 'application/json'
@@ -242,7 +242,7 @@ Page({
       }
       // console.log(that.data.watchRecord)
       wx.request({
-        url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.openId + '/' + that.data.movie.code + '/' + that.data.isLooked,
+        url: app.globalData.url + '/Api/User/UpdateUserWantedFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + app.globalData.userInfo.openID + '/' + that.data.movie.code + '/' + that.data.isLooked,
         method: "GET",
         header: {
           'content-type': 'application/json'

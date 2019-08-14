@@ -221,3 +221,68 @@ swiper{
   border:2rpx solid #DA4E7B;
   border-radius: 40rpx;
 }
+
+.black2{
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+
+.add2{
+  width: 100%;
+  height: 560rpx;
+  background: #fff;
+  padding-top: 100rpx;
+  border-radius: 16rpx 16rpx 0 0;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.close2{
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+}
+
+.input2{
+  width: 540rpx;
+  height: 80rpx;
+  background: #EEEEEE;
+  margin: 0 auto 160rpx;
+  padding-left: 30rpx;
+  border-radius: 16rpx;
+}
+.input2 input{
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 22rpx;
+  color: #312927;
+}
+.input2 textarea{
+  width: 100%;
+  height: 100%;
+  font-size: 22rpx;
+  color: #312927;
+  line-height: 80rpx;
+}
+
+.submit2{
+  width: 540rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 30rpx;
+  color: #fff;
+  text-align: center;
+  background: #DA4E7B;
+  margin: auto;
+  border-radius: 40rpx;
+}
+

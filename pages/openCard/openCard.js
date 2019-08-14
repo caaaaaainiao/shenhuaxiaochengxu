@@ -25,7 +25,7 @@ Page({
   onLoad: function() {
     var that = this;
     that.setData({
-      openId: app.globalData.openId,
+      openId: app.globalData.userInfo.openID,
       cinemaCode: app.globalData.cinemacode,
       userName: app.usermessage.Username,
       passWord: app.usermessage.Password,
@@ -57,17 +57,35 @@ Page({
           for (let i = 0; i < res.data.data.level.length; i++) {
             if (res.data.data.level[i].isOnlineOpenCard == 1) {
               let level = res.data.data.level[i];
-              if (level.credit) {
+              if (!level.cardCostFee) { // 如果需要工本费  仅限粤科和云智
+                that.setData({
+                  cardCostFee: 0
+                })
+              } else {
+                that.setData({
+                  cardCostFee: level.cardCostFee
+                })
+              }
+              if (!level.memberFee) {
+                that.setData({
+                  memberFee: 0
+                })
+              } else {
+                that.setData({
+                  memberFee: level.memberFee
+                })
+              }
+              if (level.credit) { // 如果起充金额存在
                 that.setData({
                   levelCode: level.levelCode, // 等级编号
                   ruleCode: level.ruleCode, //  规则编码
-                  credit: level.credit, // 初始金额
+                  credit: level.credit + that.data.cardCostFee + that.data.memberFee, // 初始金额
                 })
               } else {
                 that.setData({
                   levelCode: level.levelCode, // 等级编号
                   ruleCode: level.ruleCode, //  规则编码
-                  credit: 0, // 初始金额
+                  credit: 0 + that.data.cardCostFee + that.data.memberFee, // 初始金额
                 })
               }
             }

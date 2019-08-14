@@ -39,10 +39,9 @@ Page({
       title: app.globalData.cinemaList.cinemaName
     });
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: 'GET',
       success: function(e) {
-        console.log(e)
         let roll = e.data.data
         console.log(roll)
         wx.setStorage({
@@ -72,7 +71,7 @@ Page({
         }
       },
       fail: function() {
-        wx.reLaunch({
+        wx.navigateTo({
           url: '../login/login',
         })
       }
@@ -91,10 +90,9 @@ Page({
    */
   onShow: function() {
     wx.request({
-      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.openId,
+      url: app.globalData.url + '/Api/User/QueryUser/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: 'GET',
       success: function(e) {
-        console.log(e)
         let roll = e.data.data
         console.log(roll)
         wx.setStorage({
@@ -199,7 +197,6 @@ Page({
         "Content-Type": "application/x-www-form-urlencoded"
       },
       success: function(res) {
-        console.log(res)
         wx.hideLoading()
         // that.data.FlimList.push(res)
         that.setData({

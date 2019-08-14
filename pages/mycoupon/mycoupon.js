@@ -100,7 +100,7 @@ Page({
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
       CinemaCode: e,
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.openID,
       Status: 'All'
     };
 
@@ -133,7 +133,7 @@ Page({
       Username: 'MiniProgram',
       Password: '6BF477EBCC446F54E6512AFC0E976C41',
       CinemaCode: app.globalData.cinemacode,
-      OpenID: app.globalData.openId,
+      OpenID: app.globalData.userInfo.openID,
       Status: 'All'
     };
 
