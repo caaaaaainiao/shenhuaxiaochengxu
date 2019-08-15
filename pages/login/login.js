@@ -161,9 +161,6 @@ Page({
         },
         success: function(res) {
           that.wxLogin();
-          that.setData({
-            getInfo: 1,
-          })
         }
       })
     } else { // 报错
@@ -221,6 +218,20 @@ Page({
             //个人信息
             if (e.data.Status == 'Success') {
               app.globalData.openId = e.data.data.openID;
+              if (e.data.data.mobilePhone && e.data.data.isRegister == '1') {
+                wx.setStorage({
+                  key: 'loginInfo',
+                  data: e.data.data,
+                })
+                app.globalData.userInfo = e.data.data;
+                wx.switchTab({
+                  url: '../index/index',
+                })
+              } else {
+                that.setData({
+                  getInfo: 1,
+                })
+              }
             } else {
               wx.showToast({
                 title: '授权失败，请重新授权',
@@ -234,7 +245,7 @@ Page({
           },
           fail: function(e) {
             wx.showToast({
-              title: e.data.ErrorMessage,
+              title: '授权失败，请重新授权',
               icon: 'none',
               duration: 2000,
             })
@@ -325,7 +336,7 @@ Page({
           },
           fail: function(e) {
             wx.showToast({
-              title: e.data.ErrorMessage,
+              title: '授权失败，请重新授权',
               icon: 'none',
               duration: 2000,
             })

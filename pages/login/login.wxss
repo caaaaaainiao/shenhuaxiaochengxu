@@ -93,7 +93,7 @@ page {
 
 .signIn {
   width: 559rpx;
-  height: 99rpx;
+  height: 85rpx;
   position: absolute;
   left: 96rpx;
   bottom: 172rpx;
