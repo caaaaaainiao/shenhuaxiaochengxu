@@ -19,6 +19,9 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     getInfo: 0,
     index: 0,
+    dianji:false,
+    show:true,
+    text:'请选择注册影院'
   },
 
   /**
@@ -137,37 +140,48 @@ Page({
     that.setData({
       index: e.detail.value,
       cinemacode: that.data.areaList[e.detail.value].cinemaCode,
+      dianji: true,
+      show:false
     })
   },
 
   // 获取用户信息
   getUserInfo: function(e) { //获取用户信息
     var that = this;
-    if (e.detail.errMsg == "getUserInfo:fail auth deny") { // 拒绝
-      wx.showToast({
-        title: '请先授权',
-        icon: "loading",
-        duration: 2000
-      })
-    } else if (e.detail.errMsg == "getUserInfo:ok") { // 允许
-      that.setData({
-        userInfoDetail: e.detail
-      })
-      wx.setStorage({
-        key: 'accredit',
-        data: {
-          "userInfo": e.detail.userInfo,
-          "userInfoDetail": e.detail
-        },
-        success: function(res) {
-          that.wxLogin();
-        }
-      })
-    } else { // 报错
-      wx.showModal({
-        title: e.detail.errMsg
-      })
+    // console.log(that.data.dianji)
+    if (that.data.dianji == false){
+     wx.showToast({
+       title: '请点击选择影院',
+     })
     }
+    else{
+      if (e.detail.errMsg == "getUserInfo:fail auth deny") { // 拒绝
+        wx.showToast({
+          title: '请先授权',
+          icon: "loading",
+          duration: 2000
+        })
+      } else if (e.detail.errMsg == "getUserInfo:ok") { // 允许
+        that.setData({
+          userInfoDetail: e.detail
+        })
+        wx.setStorage({
+          key: 'accredit',
+          data: {
+            "userInfo": e.detail.userInfo,
+            "userInfoDetail": e.detail
+          },
+          success: function (res) {
+            that.wxLogin();
+          }
+        })
+      } else { // 报错
+        wx.showModal({
+          title: e.detail.errMsg
+        })
+      }
+    }
+  
   },
 
   // 获取手机号

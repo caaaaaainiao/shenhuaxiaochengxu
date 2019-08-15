@@ -5,7 +5,10 @@
     <view class='location' wx:if="{{getInfo==0}}">
       <image src='/images/icon_location.png'></image>
       <picker bindchange="bindPickerChange" value="{{index}}" range-key="cinemaName" range="{{areaList}}">
-        <view class="picker">
+      <view class="picker" wx:if='{{show}}'>
+          {{text}}
+        </view>
+        <view class="picker" wx:if='{{dianji}}'>
           {{areaList[index].cinemaName}}
         </view>
       </picker>

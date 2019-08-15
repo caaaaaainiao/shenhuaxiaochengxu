@@ -229,6 +229,12 @@ Page({
   // 绑定会员卡
   bang: function() {
     let that = this;
+    if (app.globalData.isOpenMember == 0){
+          wx.showToast({
+            title: '暂不支持会员卡',
+          })
+          return
+    }
     if (!that.data.cardmm && !that.data.cardnum) {
       wx.showToast({
         title: '请输入卡号和密码！',
@@ -449,6 +455,12 @@ Page({
   },
   // 开卡
   openCard: function() {
+    if (app.globalData.isOpenMember == 0) {
+      wx.showToast({
+        title: '暂不支持会员卡',
+      })
+      return
+    }
     wx.navigateTo({
       url: '../openCard/openCard',
     })
