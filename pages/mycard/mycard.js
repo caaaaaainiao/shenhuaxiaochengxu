@@ -456,7 +456,6 @@ Page({
   // 确认密码
   pay2: function() {
     let that = this;
-    console.log(that.data.cardPassword)
     // 预支付
     wx.request({
       url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + app.globalData.userInfo.openID + '/' + that.data.card.levelCode + '/' + that.data.selectRule.ruleCode + '/' + that.data.selectRule.credit + '/' + that.data.card.cardNo + '/' + that.data.cardPassword,

@@ -725,7 +725,7 @@ Page({
           }
         }
       })
-    } else if (that.data.cinemaType == '粤科') {
+    } else if (that.data.cinemaType == '粤科' || that.data.cinemaType == '云智') {
       console.log(that.data.cardNo)
       wx.request({
         url: app.globalData.url + '/Api/Member/YkGoodsOrderMember' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + that.data.ordercode + '/' + that.data.phone + '/' + that.data.cardNo + '/' + data.CardPassword + '/' + that.data.merOrder.merTicket.conponCode + '/' + that.data.userMessage,
