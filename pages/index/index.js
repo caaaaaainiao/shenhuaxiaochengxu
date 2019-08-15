@@ -178,6 +178,7 @@ Page({
         moviearea: recent
       })
       console.log(cinemaList)
+      app.globalData.isOpenMember = cinemaList.isOpenMember
       app.globalData.lookcinemaname = cinemaList.cinemaName;
       app.globalData.lookcinemaadd = cinemaList.address;
       app.globalData.moviearea = recent;

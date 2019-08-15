@@ -26,18 +26,18 @@ App({
     // AppId: 'wx1baa1fc8240ef183', // 高美
     // AppId: 'wxb491affbeb262f2f', // 国购
     // AppId: 'wx8eafe6ec48aa323f', // 越幕
-    AppId: 'wxa20eeb5bde481333', // 智泉
+    // AppId: 'wxa20eeb5bde481333', // 智泉
     // AppId: 'wx2069ef6c2d5b1880', // 美伦
     // AppId: 'wxfd577490c3d0a0a5', // 睢县
-    // AppId: 'wxddbd0d6022465cc9', // 金逸
+    AppId: 'wxddbd0d6022465cc9', // 金逸
     // AppId: 'wxb7760b5f31f38e19', // 惠州时代
     // secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
     // secret: '0e050ba2d7338a77d0988a3c5716f813', // 国购
     // secret: '6b5276609738d408c1640e37460a64e6', // 越幕
-    secret: 'eff0e90de960e6cae166368c54de0b5f', // 智泉
+    // secret: 'eff0e90de960e6cae166368c54de0b5f', // 智泉
     // secret: '145bc00fe2907c30ce35a166e50cfc89', // 美伦
     // secret: '6e4e81ce226bf638c6c9e82f49e41cb4', // 睢县
-    // secret: '9a041c6519cdef582296831e07bc1601', // 金逸
+    secret: '9a041c6519cdef582296831e07bc1601', // 金逸
     // secret: '4de03856faca26ed0fcc741a76bd1c10', // 惠州时代
     access_token: ''
   },
@@ -55,8 +55,8 @@ App({
     movieIndex: null,
     screenPlanList: null,
     list: null,
-    url: "https://ik.legendpicture.com",
-    // url: "http://192.168.1.179:8080",
+    // url: "https://ik.legendpicture.com",
+    url: "http://192.168.1.179:8080",
     // url: "http://192.168.1.177:8080",
     SocketUrl: "wss://ik.legendpicture.com",
     // SocketUrl: "wss://192.168.1.177:8080",
