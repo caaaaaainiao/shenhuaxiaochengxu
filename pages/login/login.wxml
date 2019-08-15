@@ -2,10 +2,10 @@
 <view class="container">
   <image wx:if='{{iskey}}' class='logo' src='{{logo}}'></image>
   <view hidden="{{!modalHidden}}" class='message'>
-    <view class='location' wx:if="{{getInfo==0}}">
+    <view class='location' wx:if="{{getInfo==1}}">
       <image src='/images/icon_location.png'></image>
       <picker bindchange="bindPickerChange" value="{{index}}" range-key="cinemaName" range="{{areaList}}">
-      <view class="picker" wx:if='{{show}}'>
+        <view class="picker" wx:if='{{show}}'>
           {{text}}
         </view>
         <view class="picker" wx:if='{{dianji}}'>

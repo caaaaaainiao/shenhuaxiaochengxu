@@ -148,61 +148,59 @@ Page({
   // 获取用户信息
   getUserInfo: function(e) { //获取用户信息
     var that = this;
-    // console.log(that.data.dianji)
-    if (that.data.dianji == false){
-     wx.showToast({
-       title: '请点击选择影院',
-     })
-    }
-    else{
-      if (e.detail.errMsg == "getUserInfo:fail auth deny") { // 拒绝
-        wx.showToast({
-          title: '请先授权',
-          icon: "loading",
-          duration: 2000
-        })
-      } else if (e.detail.errMsg == "getUserInfo:ok") { // 允许
-        that.setData({
-          userInfoDetail: e.detail
-        })
-        wx.setStorage({
-          key: 'accredit',
-          data: {
-            "userInfo": e.detail.userInfo,
-            "userInfoDetail": e.detail
-          },
-          success: function (res) {
-            that.wxLogin();
-          }
-        })
-      } else { // 报错
-        wx.showModal({
-          title: e.detail.errMsg
-        })
-      }
-    }
-  
-  },
-
-  // 获取手机号
-  getPhoneNumber: function(e) { //获取用户信息
-    var that = this;
-    if (e.detail.errMsg == "getPhoneNumber:fail user deny") { // 拒绝
+    if (e.detail.errMsg == "getUserInfo:fail auth deny") { // 拒绝
       wx.showToast({
         title: '请先授权',
         icon: "loading",
         duration: 2000
       })
-    } else if (e.detail.errMsg == "getPhoneNumber:ok") { // 允许
+    } else if (e.detail.errMsg == "getUserInfo:ok") { // 允许
       that.setData({
         userInfoDetail: e.detail
       })
-      that.wxGetPhoneNumber();
+      wx.setStorage({
+        key: 'accredit',
+        data: {
+          "userInfo": e.detail.userInfo,
+          "userInfoDetail": e.detail
+        },
+        success: function (res) {
+          that.wxLogin();
+        }
+      })
     } else { // 报错
-      console.log(e.detail.errMsg)
       wx.showModal({
         title: e.detail.errMsg
       })
+    }
+  },
+
+  // 获取手机号
+  getPhoneNumber: function(e) { //获取用户信息
+    var that = this;
+    if (that.data.dianji == false) {
+      wx.showToast({
+        title: '请点击选择影院',
+        icon: 'none',
+      })
+    } else {
+      if (e.detail.errMsg == "getPhoneNumber:fail user deny") { // 拒绝
+        wx.showToast({
+          title: '请先授权',
+          icon: "loading",
+          duration: 2000
+        })
+      } else if (e.detail.errMsg == "getPhoneNumber:ok") { // 允许
+        that.setData({
+          userInfoDetail: e.detail
+        })
+        that.wxGetPhoneNumber();
+      } else { // 报错
+        console.log(e.detail.errMsg)
+        wx.showModal({
+          title: e.detail.errMsg
+        })
+      }
     }
   },
 
