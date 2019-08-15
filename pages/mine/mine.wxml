@@ -58,6 +58,9 @@
     </view>
     <view class='division'></view>
   </view>
+  <view class="bottom">
+  <text>技术支持 @万画筒科技</text>
+  </view>
   
  <image class='leader' src='{{banner2[0].imageUrl}}'  wx:if="{{banner2[0].imageUrl.length>0}}" bindtap='bannerTap' data-index="0"></image>
 </view>

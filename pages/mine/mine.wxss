@@ -1,4 +1,16 @@
 /* pages/mine/mine.wxss */
+.bottom{
+width: 100%;
+height: 120rpx;
+font-size: 23rpx;
+line-height: 50rpx;
+color: #312927;
+padding-left: 42rpx;
+position: relative;
+margin-left: 28%
+
+}
+
 .container{
   width: 100%;
   height: 100%;

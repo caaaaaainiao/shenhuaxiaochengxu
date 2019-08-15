@@ -177,7 +177,7 @@ Page({
       that.setData({
         moviearea: recent
       })
-      // console.log(cinemaList)
+      console.log(cinemaList)
       app.globalData.lookcinemaname = cinemaList.cinemaName;
       app.globalData.lookcinemaadd = cinemaList.address;
       app.globalData.moviearea = recent;
