@@ -249,7 +249,7 @@ Page({
     }
     wx.showModal({
       title: '是否立即开卡',
-      content: '您当前所处' + app.globalData.cinemaList.cinemaName + '请确保填入的信息准确无误',
+      content: '您当前所处（' + app.globalData.cinemaList.cinemaName + '）请确保填入的信息准确无误',
       success(res) {
         if (res.confirm) { // 点击确认则开卡
           wx.showLoading({
