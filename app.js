@@ -29,7 +29,7 @@ App({
     // AppId: 'wxa20eeb5bde481333', // 智泉
     // AppId: 'wx2069ef6c2d5b1880', // 美伦
     // AppId: 'wxfd577490c3d0a0a5', // 睢县
-    AppId: '	wxddbd0d6022465cc9', // 金逸
+    AppId: 'wxddbd0d6022465cc9', // 金逸
     // AppId: 'wxb7760b5f31f38e19', // 惠州时代
     // secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
     // secret: '0e050ba2d7338a77d0988a3c5716f813', // 国购

@@ -188,6 +188,7 @@ Page({
       })
       that.wxGetPhoneNumber();
     } else { // 报错
+      console.log(e.detail.errMsg)
       wx.showModal({
         title: e.detail.errMsg
       })
