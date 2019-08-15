@@ -9,6 +9,10 @@
     <view class='balance' style="color:white">余额：
       <text>{{card?card.balance:"- - -"}}</text>
     </view>
+    <view class="refresh" bindtap="refresh" style="color:white" wx:if="{{show}}">
+      <image src='/images/refresh.png' class='refreshimg'></image>
+      <text>刷新余额</text>
+    </view>
   </view>
   <view wx:if="{{card}}">
     <view class='control'>
@@ -51,15 +55,17 @@
   </view>
   
   <!-- 会员卡密码 -->
-  <view class='black2' wx:if="{{showM}}">
-    <view class='add2'>
-      <image class='close2' src='/images/close.png' bindtap='closeM'></image>
-      <view class='input2'>
-        <input  type='password' placeholder-style="color:#888;" placeholder='请输入密码' bindinput='setM'></input>
-      </view>
-       <form report-submit='true'  bindsubmit='formSubmit'>
-       <button formType="submit" class='submit2' bindtap='pay2'>确 定</button>
-      </form>
+  <view class='cardpassword' wx:if="{{showM}}">
+    <view>
+      <image src="/images/close.png" class='cancel' bindtap="closeM"></image>
+      <image src="/images/passwordlock.png" class='lock'></image>
+    </view>
+    <view>
+      <input type="password" bindinput="getpassword" placeholder-style='color:#888;text-align:center;font-size:18rpx;' placeholder='请输入会员卡密码' class='enter'></input>
+    </view>
+    <view class='line'></view>
+    <view class='sure' bindtap="query">
+      确定
     </view>
   </view>
 </view>
