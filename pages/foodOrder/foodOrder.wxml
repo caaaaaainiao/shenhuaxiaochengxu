@@ -26,7 +26,8 @@
       <image src='/images/membercardpay.png' class='payimg'></image>
       会员卡支付
       <text>元</text>
-      <text class='money'>{{filters.toFix(totalPrice)}}</text>
+      <text class='money' wx:if='{{isbind}}'>未绑定</text>
+      <text class='money' wx:if='{{onbind}}'>{{orderMemberPrice}}</text>
       <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==2}}"></image>
       <image src='/images/unselect.png' class='selectimg' wx:else></image>
       </view>

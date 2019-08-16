@@ -36,6 +36,8 @@ Page({
     showReady: false,
     cinema: null,
     isShow: false,
+    isbind:false,
+    onbind:true,
     UrlMap: {
       conponsUrl: app.globalData.url + '/Api/Conpon/QueryUserConpons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
@@ -47,6 +49,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
+    console.log(app.globalData.cinemaList.cinemaType)
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: "GET",
@@ -74,7 +77,9 @@ Page({
       userInfo: app.globalData.userInfo,
       // phone: app.globalData.userInfo.mobilePhone,
     })
-    var nowtime = new Date();
+    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
+      console.log(res.data.data.memberCard)
+          var nowtime = new Date();
     let endtime = new Date(nowtime.getTime() + 1000 * 60);
     let endday = util.formatTime2(endtime);
     var deliveryAddress = app.globalData.sellhallname
@@ -95,21 +100,46 @@ Page({
         openID: app.globalData.userInfo.openID,
         isReady: app.globalData.isReady
       },
-      success: function(res) {
+      success: function(e) {
         wx.hideLoading()
-        if (res.data.Status == "Success") {
+        if (e.data.Status == "Success") {
+          if (res.data.data.memberCard){
+            wx.request({
+              url: app.globalData.url + '/Api/Goods/QueryGoodsOrderPrice' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + e.data.order.orderCode + '/' + res.data.data.memberCard[0].cardNo,
+              method: "GET",
+              header: {
+                "Content-Type": "application/json"
+              },
+              success: function (r) {
+                console.log(r.data.orderMemberPrice)
+                that.setData({
+                  orderMemberPrice: r.data.orderMemberPrice
+                })
+              }
+            })
+          }
           that.setData({
-            ordercode: res.data.order.orderCode
+            ordercode: e.data.order.orderCode
           })
         } else {
           wx.showModal({
             title: '创建订单失败',
-            content: res.data.ErrorMessage + '请重新选择商品',
+            content: e.data.ErrorMessage + '请重新选择商品',
           })
         }
       }
     })
-    util.getCardInfo('MiniProgram', '6BF477EBCC446F54E6512AFC0E976C41', app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
+      if (res.data.data.memberCard){
+        that.setData({
+          isbind:false,
+          onbind:true
+        })
+      }else{
+        that.setData({
+          isbind: true,
+          onbind:false
+        })
+      }
       that.setData({
         card: res.data.data.memberCard,
       })
@@ -153,8 +183,6 @@ Page({
         });
       },
     })
-
-
     util.getcinemaList(function(res) {
       if (res) {
         that.setData({
@@ -819,6 +847,20 @@ Page({
   },
   cardway: function() {
     let that = this;
+    if (that.data.card == null) {
+      wx.showModal({
+        title: '',
+        content: "您还没有会员卡，是否前去绑定/开卡？",
+        success: function (res) {
+          if (res.confirm) {
+            wx.navigateTo({
+              url: '../mycard/mycard',
+            })
+          }
+        }
+      })
+      return;
+    }
     wx.request({ //查询优惠券
       url: app.globalData.url + '/Api/Conpon/QueryUserAvailableCoupons/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID + '/' + '2' + '/' + '2' + '/' + null + '/' + that.data.ordercode,
       success: function(res) {
@@ -849,16 +891,16 @@ Page({
             console.log(merOrder);
             that.setData({
               merOrder: merOrder,
-              disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
+              disPrice: that.data.orderMemberPrice - merOrder.merTicket.couponPrice
             })
           } else {
             that.setData({
-              disPrice: that.data.totalPrice
+              disPrice: that.data.orderMemberPrice
             })
           }
         } else {
           that.setData({
-            disPrice: that.data.totalPrice
+            disPrice: that.data.orderMemberPrice
           })
         }
       }
