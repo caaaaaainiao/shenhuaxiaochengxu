@@ -103,10 +103,7 @@ Page({
     })
     // 调用全局函数设置余额以及积分
     if (app.globalData.cinemacode && app.globalData.userInfo.openID) {
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
-        var memberCard = [];
-        var status = [];
-        let userCardList = [];
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
         if (res.data.Status == "Failure") {
           that.setData({
             memberCardScore: '---',
@@ -118,35 +115,18 @@ Page({
             memberCardBalance: '---'
           })
         } else {
-          var memberCard = res.data.data.memberCard;
-          for (var i = 0; i < memberCard.length; i++) {
-            if (memberCard[i].status == 1) {
-              status.push(memberCard[i]);
-            }
-          }
-          // console.log(status)
-          for (let i = 0; i < status.length; i++) {
-            util.getCallBack(app.usermessage.Username, app.usermessage.Password, app.globalData.cinemacode, status[i].cardNo, status[i].cardPassword, function(res) {
-              userCardList.push(res);
-              that.setData({
-                userCardList: userCardList
-              })
-            })
-          }
-          // 计算余额最多的会员卡
-          setTimeout(function() {
-            var first = userCardList.sort(function(a, b) {
-              return a.balance < b.balance
-            })[0];
-            // console.log(first)
-            if (first.score == null) {
-              first.score = 0
-            }
+          var memberCard = res.data.data.memberCard[0];
+          if (memberCard.score == null) {
             that.setData({
-              memberCardBalance: first.balance,
-              memberCardScore: first.score
+              memberCardBalance: memberCard.balance,
+              memberCardScore: '---'
             })
-          }, 1000)
+          } else {
+            that.setData({
+              memberCardBalance: memberCard.balance,
+              memberCardScore: memberCard.score
+            })
+          }
         }
       });
     }
