@@ -255,157 +255,99 @@ Page({
           wx.showLoading({
             title: '开卡中',
           });
-          if (cinemaType != "粤科") {
-            // 如果开卡不需要充值
-            if (data.InitialAmount == 0) {
-              wx.request({
-                url: app.globalData.url + '/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
-                method: 'GET',
-                header: {
-                  'content-type': 'application/json' // 默认值
-                },
-                success: function(res) {
-                  wx.hideLoading();
-                  console.log(res)
-                  if (res.data.Status == 'Success') {
-                    wx.showToast({
-                      title: '开卡成功！',
-                      icon: 'none',
-                      duration: 2000
-                    });
-                    wx.redirectTo({
-                      url: '../mycard/mycard',
-                    })
-                  } else {
-                    wx.showToast({
-                      title: res.data.ErrorMessage,
-                      icon: 'none',
-                      duration: 3000
-                    })
-                  }
+          // 如果开卡不需要充值
+          if (data.InitialAmount == 0) {
+            wx.request({
+              url: app.globalData.url + '/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function(res) {
+                wx.hideLoading();
+                console.log(res)
+                if (res.data.Status == 'Success') {
+                  wx.showToast({
+                    title: '开卡成功！',
+                    icon: 'none',
+                    duration: 2000
+                  });
+                  wx.redirectTo({
+                    url: '../mycard/mycard',
+                  })
+                } else {
+                  wx.showToast({
+                    title: res.data.ErrorMessage,
+                    icon: 'none',
+                    duration: 3000
+                  })
                 }
-              })
-            } else {
-              // 影院设置了开卡金额  需要进行充值
-              // 预支付
-              wx.request({
-                url: app.globalData.url + '/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.CardPassword + '/' + data.IDNumber + '/' + data.Sex,
-                method: 'GET',
-                header: {
-                  'content-type': 'application/json' // 默认值
-                },
-                success: function(res) {
-                  console.log(res)
-                  // 微信支付接口
-                  if (res.data.Status == 'Success') {
-                    wx.requestPayment({
-                      timeStamp: res.data.data.timeStamp,
-                      nonceStr: res.data.data.nonceStr,
-                      package: res.data.data.packages,
-                      signType: res.data.data.signType,
-                      paySign: res.data.data.paySign,
-                      success(res) {
-                        if (res.errMsg == "requestPayment:ok") {
-                          wx.hideLoading();
-                          wx.showToast({
-                            title: '支付成功！',
-                            icon: 'none',
-                            duration: 2000
-                          });
-                          that.setData({
-                            showAlertExchange2: !that.data.showAlertExchange2
-                          });
-                          setTimeout(function() {
-                            wx.redirectTo({
-                              url: '../mycard/mycard',
-                            })
-                          }, 1000)
-                        } else {
-                          wx.hideLoading();
-                          wx.showModal({
-                            title: '开卡失败',
-                            content: '支付金额将在三个工作日内退回',
-                          })
-                        }
-                      },
-                      fail(res) {
+              }
+            })
+          } else {
+            // 影院设置了开卡金额  需要进行充值
+            // 预支付
+            wx.request({
+              url: app.globalData.url + '/Api/Member/PrePayCardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.CardPassword + '/' + data.IDNumber + '/' + data.Sex,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function(res) {
+                console.log(res)
+                // 微信支付接口
+                if (res.data.Status == 'Success') {
+                  wx.requestPayment({
+                    timeStamp: res.data.data.timeStamp,
+                    nonceStr: res.data.data.nonceStr,
+                    package: res.data.data.packages,
+                    signType: res.data.data.signType,
+                    paySign: res.data.data.paySign,
+                    success(res) {
+                      if (res.errMsg == "requestPayment:ok") {
                         wx.hideLoading();
                         wx.showToast({
-                          title: res.err_desc,
+                          title: '支付成功！',
                           icon: 'none',
-                          duration: 3000
+                          duration: 2000
                         });
+                        that.setData({
+                          showAlertExchange2: !that.data.showAlertExchange2
+                        });
+                        setTimeout(function() {
+                          wx.redirectTo({
+                            url: '../mycard/mycard',
+                          })
+                        }, 1000)
+                      } else {
+                        wx.hideLoading();
+                        wx.showModal({
+                          title: '开卡失败',
+                          content: '支付金额将在三个工作日内退回',
+                        })
                       }
-                    })
-                  } else {
-                    wx.showToast({
-                      title: res.data.ErrorMessage,
-                      icon: 'none',
-                      duration: 3000
-                    })
-                  }
-
+                    },
+                    fail(res) {
+                      wx.hideLoading();
+                      wx.showToast({
+                        title: res.err_desc,
+                        icon: 'none',
+                        duration: 3000
+                      });
+                    }
+                  })
+                } else {
+                  wx.showToast({
+                    title: res.data.ErrorMessage,
+                    icon: 'none',
+                    duration: 3000
+                  })
                 }
-              })
 
-            }
+              }
+            })
+
           }
-          //  else if (cinemaType == "电影1905" || cinemaType == "满天星") {
-          //   // 此售票系统需进行充值  调取多个接口
-          //   that.setData({
-          //     showAlertExchange2: !that.data.showAlertExchange2
-          //   });
-          //   // 获取开卡充值金额
-          //   wx.request({
-          //     url: app.globalData.url + '/Api/Member/QueryMemberCardLevelRule' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LevelCode,
-          //     method: 'GET',
-          //     header: {
-          //       'content-type': 'application/json' // 默认值
-          //     },
-          //     success: function (res) {
-          //       console.log(res)
-          //       if (res.data.Status == 'Success' && res.data.data.rule && res.data.data.rule.length > 0) {
-          //         let rule = res.data.data.rule[0];
-          //         that.setData({
-
-          //         })
-          //       } else if (res.data.Status == 'Success' && res.data.data.rule.length < 1) {
-          //         // 如果没设置起充金额
-          //         wx.request({
-          //           url: app.globalData.url + '/Api/Member/CardRegister' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.OpenID + '/' + data.CardPassword + '/' + data.LevelCode + '/' + data.RuleCode + '/' + data.InitialAmount + '/' + data.CardUserName + '/' + data.MobilePhone + '/' + data.IDNumber + '/' + data.Sex,
-          //           method: 'GET',
-          //           header: {
-          //             'content-type': 'application/json' // 默认值
-          //           },
-          //           success: function (res) {
-          //             if (res.data.Status == 'Success') {
-          //               wx.showToast({
-          //                 title: '开卡成功！',
-          //                 icon: 'none',
-          //                 duration: 2000
-          //               });
-          //               wx.redirectTo({
-          //                 url: '../mycard/mycard',
-          //               })
-          //             } else if (res.data.Status == 'Failure') {
-          //               wx.showToast({
-          //                 title: res.data.ErrorMessage,
-          //                 icon: 'none',
-          //                 duration: 3000
-          //               })
-          //             }
-          //           }
-          //         })
-          //       } else {
-          //         wx.showToast({
-          //           title: res.data.ErrorMessage,
-          //           icon: 'none',
-          //           duration: 3000
-          //         })
-          //       }
-          //     },
-          //   })
-          // }
         } else if (res.cancel) {
           return
         }

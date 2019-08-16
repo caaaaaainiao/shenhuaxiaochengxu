@@ -88,7 +88,9 @@
         <image src='/images/refunded.png'></image>
       </view>
        <form report-submit='true'  bindsubmit='formSubmit'>
-      <button wx:if="{{order.orderStatus != 9}}" formType="submit" class='refund' bindtap='refundbtn'>退票</button>
+       <view wx:if="{{isCanRefund == 1}}">
+        <button wx:if="{{order.orderStatus != 9}}" formType="submit" class='refund' bindtap='refundbtn'>退票</button>
+       </view>
       </form>
     </view>
   </view>  

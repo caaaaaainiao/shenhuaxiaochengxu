@@ -31,7 +31,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    // console.log(options);
     let that = this;
     wx.getSystemInfo({
       success: function(res) {
@@ -44,7 +43,7 @@ Page({
       orderNum: options.orderNum,
       refundFee: app.globalData.cinemaList.refundFee,
       overRefundTime: app.globalData.cinemaList.overRefundTime,
-      // verifyCode: options.verifyCode,
+      isCanRefund: app.globalData.isCanRefund,
     });
     let data = {
       UserName: app.usermessage.Username,
