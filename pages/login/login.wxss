@@ -61,20 +61,6 @@ page {
   bottom: 18rpx;
 }
 
-/* .message {
-  width: auto;
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 22rpx;
-  color: #da4e7b;
-  padding: 0 10rpx;
-  position: absolute;
-  right: 0;
-  bottom: 12rpx;
-  border: 1rpx solid #da4e7b;
-  border-radius: 25rpx;
-} */
-
 #choosecinema {
   width: 20rpx;
   height: 25rpx;
@@ -94,9 +80,9 @@ page {
 .signIn {
   width: 559rpx;
   height: 85rpx;
-  position: absolute;
+  position: fixed;
   left: 96rpx;
-  bottom: 172rpx;
+  bottom: 80rpx;
   font-size: 30rpx;
   color: #fff;
   line-height: 85rpx;
@@ -161,13 +147,6 @@ page {
   z-index: 10;
 }
 
-.option {
-  width: 100%;
-  height: 135rpx;
-  border-bottom: 1rpx solid #ddd;
-  /* background: red */
-}
-
 .cinemaName {
   font-size: 30rpx;
   color: black;
@@ -211,4 +190,109 @@ page {
   overflow: hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
+}
+
+.top{
+  text-align: center;
+  width: 100%;
+  height: 75rpx;
+  line-height: 75rpx;
+}
+
+.bottom{
+  text-align: center;
+  width: 100%;
+  height: 75rpx;
+  line-height: 75rpx;
+  color: #DA4E7B;
+  position: fixed;
+  bottom: 200rpx;
+}
+
+.city {
+  width: 100%;
+  padding: 45rpx 0 15rpx;
+  background: #f4f4f4;
+}
+
+.city text {
+  display: inline-block;
+  width: 120rpx;
+  height: 60rpx;
+  border: 2rpx solid #aaa;
+  border-radius: 30rpx;
+  margin-left: 40rpx;
+  margin-right: 20rpx;
+  margin-bottom: 30rpx;
+  font-size: 26rpx;
+  color: #888;
+  line-height: 60rpx;
+  text-align: center;
+}
+
+.city .selectCity {
+  color: #da4e7b;
+  border-color: #da4e7b;
+}
+
+.option {
+  width: 100%;
+  height: 120rpx;
+  border-bottom: 1rpx solid #ddd;
+  position: relative;
+}
+
+.choosename {
+  font-size: 26rpx;
+  color: #312927;
+  font-weight: bold;
+  line-height: 1;
+  position: absolute;
+  left: 40rpx;
+  top: 29rpx;
+}
+
+.chooseArea {
+  max-width: 600rpx;
+  font-size: 20rpx;
+  color: #888;
+  line-height: 1;
+  position: absolute;
+  left: 40rpx;
+  bottom: 27rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.distance {
+  height: 120rpx;
+  font-size: 20rpx;
+  color: #888;
+  line-height: 60rpx;
+  position: absolute;
+  right: 40rpx;
+  top: 0;
+}
+
+.choosearea {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow: auto;
+  z-index: 99;
+}
+
+.selectCinema {
+  color: #da4e7b;
+}
+
+.cinema{
+  width: 100%;
+  height: 570rpx;
+  position: fixed;
+  overflow-y: scroll;
 }

@@ -148,7 +148,6 @@ Page({
       for (let i = 0; i < cinemas.length; i++) {
         arr.push(cinemas[i].city);
       };
-      // console.log(arr)
       // 去除重复省市显示返回新数组newArr
       var newArr = arr.filter(function(element, index, self) {
         return self.indexOf(element) === index;
@@ -171,7 +170,6 @@ Page({
         }
       }
       app.globalData.areaList = cinemas
-      // console.log(cinemas)
       var recent = cinemas.sort(util.sortDistance("distance"))[0].cinemaName;
       var cinemaList = cinemas.sort(util.sortDistance("distance"))[0];
       that.setData({
@@ -483,7 +481,6 @@ Page({
   chooseCity: function(e) {
     var that = this;
     var crCity = e.currentTarget.dataset.name;
-    // var show = [];
     that.setData({
       currentCity: crCity
     });
@@ -517,7 +514,6 @@ Page({
     let that = this;
     // 由距离远近进行排序 增加一个开关选择是否显示所有影院
     let cinemaList = app.globalData.areaList.sort(util.sortDistance("distance"));
-    // console.log(cinemaList)
     if (that.data.all == true) {
       that.setData({
         cinemaList: cinemaList,
@@ -528,7 +524,6 @@ Page({
   chooseCinema: function(e) { //选择影院
     var that = this
     wx.showTabBar({});
-    // console.log(e)
     app.globalData.isSnackDistribution = e.currentTarget.dataset.issnack
     app.globalData.lookcinemaadd = e.currentTarget.dataset.address;
     var cinemacode = e.currentTarget.dataset.cinemacode;
