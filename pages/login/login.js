@@ -21,7 +21,11 @@ Page({
     index: 0,
     dianji:false,
     show:true,
-    text:'请选择注册影院'
+    text:'请选择注册影院',
+    nowCity: [{
+      name: "",
+      show: ""
+    }],
   },
 
   /**
@@ -47,6 +51,28 @@ Page({
           logo: res.data.data.cinemas[0].businessPic
         })
       }
+    })
+    // 声明一个新数组 将市区添加到新数组内
+    var arr = [];
+    for (let i = 0; i < app.globalData.areaList.length; i++) {
+      arr.push(app.globalData.areaList[i].city);
+    };
+    // 去除重复省市显示返回新数组newArr
+    var newArr = arr.filter(function (element, index, self) {
+      return self.indexOf(element) === index;
+    });
+    // 将数据赋值到nowCity中显示
+    for (var j = 0; j < newArr.length; j++) {
+      var name = "nowCity[" + j + "].name";
+      var show = "nowCity[" + j + "].show";
+      that.setData({
+        [name]: newArr[j],
+        [show]: newArr[j]
+      })
+    };
+    let allCinemas = app.globalData.areaList.sort(util.sortDistance("distance"));
+    that.setData({
+      allCinemas: allCinemas,
     })
   },
 
@@ -130,18 +156,51 @@ Page({
       modalHidden: true
     })
     wx.redirectTo({
-      url: '../mycoupon/mycoupon?cinemacode=' + this.data.cinemacode,
+      url: '../mycoupon/mycoupon?cinemacode=' + this.data.currentCode,
     })
+  },
+  
+  // 选择城市
+  chooseCity: function (e) {
+    var that = this;
+    var crCity = e.currentTarget.dataset.name;
+    that.setData({
+      currentCity: crCity
+    });
+    // 获取存入缓存的数据开始渲染
+    var show = [];
+    for (let i = 0; i < app.globalData.areaList.length; i++) {
+      if (crCity === app.globalData.areaList[i].city) {
+        show.push(app.globalData.areaList[i]);
+      }
+    }
+    // 清空列表
+    that.setData({
+      allCinemas: []
+    })
+    for (let j = 0; j < show.length; j++) {
+      let name = "allCinemas[" + j + "].cinemaName";
+      let address = "allCinemas[" + j + "].address";
+      let distance = "allCinemas[" + j + "].distance";
+      let cinemaCode = "allCinemas[" + j + "].cinemaCode";
+      let isSnackDistribution = "allCinemas[" + j + "].isSnackDistribution";
+      that.setData({
+        [name]: show[j].cinemaName,
+        [address]: show[j].address,
+        [distance]: show[j].distance,
+        [cinemaCode]: show[j].cinemaCode,
+        [isSnackDistribution]: show[j].isSnackDistribution,
+      })
+    };
   },
 
   // 选择影院
-  bindPickerChange: function(e) {
-    let that = this;
+  chooseCinema: function (e) { //选择影院
+    var that = this;
+    var cinemacode = e.currentTarget.dataset.cinemacode;
     that.setData({
-      index: e.detail.value,
-      cinemacode: that.data.areaList[e.detail.value].cinemaCode,
-      dianji: true,
-      show:false
+      cinemacode: cinemacode,
+      currentCode: cinemacode,
     })
   },
 
@@ -178,10 +237,9 @@ Page({
   // 获取手机号
   getPhoneNumber: function(e) { //获取用户信息
     var that = this;
-    if (that.data.dianji == false) {
-      wx.showToast({
+    if (!that.data.currentCode) {
+      wx.showModal({
         title: '请点击选择影院',
-        icon: 'none',
       })
     } else {
       if (e.detail.errMsg == "getPhoneNumber:fail user deny") { // 拒绝
@@ -242,6 +300,7 @@ Page({
               } else {
                 that.setData({
                   getInfo: 1,
+                  iskey: false,
                 })
               }
             } else {
@@ -286,7 +345,7 @@ Page({
             password: apiuser.Password,
             encryptedData: encryptedData,
             iv: iv,
-            cinemaCode: that.data.cinemacode
+            cinemaCode: that.data.currentCode
           },
           method: "POST",
           header: {
@@ -297,7 +356,7 @@ Page({
             //个人信息
             if (e.data.Status == 'Success') {
               wx.request({
-                url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + that.data.cinemacode + '/' + app.globalData.openId,
+                url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + that.data.currentCode + '/' + app.globalData.openId,
                 method: "GET",
                 header: {
                   "Content-Type": "application/json"
