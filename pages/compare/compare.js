@@ -64,6 +64,7 @@ Page({
     wx.getStorage({
       key: 'movieList',
       success: function(res) {
+        console.log(res)
         that.setData({
           moviesList: res.data
         })
@@ -241,7 +242,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
           var comparePrices = res.data.data.sessionDate[0].session;
           // console.log(comparePrices)
           // 获取影院设置的限制购票时间
