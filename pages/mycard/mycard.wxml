@@ -54,7 +54,7 @@
     <view class='openCard' bindtap='openCard' wx:if="{{isShow}}">没有会员卡？在线开通，立享多重观影福利！</view>
   </view>
   
-  <!-- 会员卡密码 -->
+  <!-- 查询余额会员卡密码 -->
   <view class='cardpassword' wx:if="{{showM}}">
     <view>
       <image src="/images/close.png" class='cancel' bindtap="closeM"></image>
@@ -65,6 +65,21 @@
     </view>
     <view class='line'></view>
     <view class='sure' bindtap="query">
+      确定
+    </view>
+  </view>
+
+    <!-- 充值会员卡密码 -->
+  <view class='cardpassword' wx:if="{{passwordModle}}">
+    <view>
+      <image src="/images/close.png" class='cancel' bindtap="closeModle"></image>
+      <image src="/images/passwordlock.png" class='lock'></image>
+    </view>
+    <view>
+      <input type="password" bindinput="getpassword2" placeholder-style='color:#888;text-align:center;font-size:18rpx;' placeholder='请输入会员卡密码' class='enter'></input>
+    </view>
+    <view class='line'></view>
+    <view class='sure' bindtap="topUp">
       确定
     </view>
   </view>

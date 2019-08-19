@@ -102,7 +102,7 @@ swiper image{
   height: 20rpx;
   background: #fff;
   position: absolute;
-  top: 390rpx;
+  top: 405rpx;
   left: 365rpx;
   transform: rotateZ(45deg);
 }
