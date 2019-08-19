@@ -22,7 +22,7 @@
 
 .bannerbg {
   width: 100%;
-  height: 446rpx;
+  height: 432rpx;
   position: relative;
   top: 0;
   left: 0;
@@ -217,6 +217,9 @@ swiper image{
 .movie_type {
   font-size: 24rpx;
   color: #312927;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap
 }
 
 .session_top image {

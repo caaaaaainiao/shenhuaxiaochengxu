@@ -425,6 +425,7 @@ Page({
     let tempList = [];
 
     let goodtypes = that.data.goodTypeList;
+    console.log(that.data.goodTypeList)
     for (var i = 0; i < goodtypes.length; i++) {
       let tempobj = {
         currentItemClass: goodtypes[i].typeName,

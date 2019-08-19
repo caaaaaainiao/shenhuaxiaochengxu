@@ -12,10 +12,10 @@
   <view class='check'></view>
   <view class='movieDetail'>
     <view class='movieName'>{{moviesList[swiperIndex].name}}</view>
-    <view class='movieMessage' >{{moviesList[swiperIndex].duration}}分钟
+    <view class='movieMessage' >{{moviesList[swiperIndex].duration}}分钟 | {{moviesList[swiperIndex].type}} 
     </view>
-     <view class='movieMessage' wx:if='{{moviesList[swiperIndex].type}}'>{{moviesList[swiperIndex].type}} 
-    </view>
+     <!-- <view class='movieMessage' wx:if='{{moviesList[swiperIndex].type}}'>{{moviesList[swiperIndex].type}} 
+    </view> -->
   </view>
   <scroll-view scroll-x class='dates'>
     <block wx:for="{{moviesListDate.sessionDate}}" wx:for-item="date" wx:key="date">
@@ -33,7 +33,10 @@
         </view>
         <view class='address'>
           <view class='session_top'>
-          <view style='line-height:40rpx;margin-top:10%;'>
+          <view style='line-height:40rpx;margin-top:13%; text-overflow: ellipsis;overflow: hidden;white-space: nowrap'>
+            <text class='movie_type'>{{session.language}} {{session.dimensional}}</text>
+          </view>
+          <view style='line-height:40rpx;margin-top:10%; text-overflow: ellipsis;overflow: hidden;white-space: nowrap'>
             <text class='movie_type'>{{session.screenName}}</text>
           </view>
           </view>
