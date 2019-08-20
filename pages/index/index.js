@@ -122,17 +122,29 @@ Page({
                 })
               } else { // 绑定了会员卡
                 var memberCard = res.data.data.memberCard[0];
-                if (!memberCard.score) {
-                  that.setData({
-                    memberCardBalance: memberCard.balance,
-                    memberCardScore: '---'
-                  })
-                } else {
-                  that.setData({
-                    memberCardBalance: memberCard.balance,
-                    memberCardScore: memberCard.score
-                  })
-                }
+                wx.request({
+                  url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
+                  method: 'GET',
+                  header: {
+                    'content-type': 'application/json' // 默认值
+                  },
+                  success: function (res) {
+                    console.log(res)
+                    if (res.data.Status == 'Success') {
+                      if (!res.data.card.score) {
+                        that.setData({
+                          memberCardBalance: res.data.card.balance,
+                          memberCardScore: '---'
+                        })
+                      } else {
+                        that.setData({
+                          memberCardBalance: res.data.card.balance,
+                          memberCardScore: res.data.card.score
+                        })
+                      }
+                    }
+                  }
+                })
               }
             })
           } else {
@@ -376,7 +388,6 @@ Page({
 
     wx.request({
       url: app.globalData.url + '/Api/Film/QueryFilm' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + filmCode,
-
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -559,39 +570,52 @@ Page({
       })
     });
     // 调用全局函数设置余额以及积分
-    util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
-      var memberCard = [];
-      var status = [];
-      if (res.data.Status == "Failure") {
-        that.setData({
-          memberCardScore: '---',
-          memberCardBalance: '---'
-        })
-      } else if (res.data.data.memberCard == null) {
-        that.setData({
-          memberCardScore: '---',
-          memberCardBalance: '---'
-        })
-      } else {
-        var memberCard = res.data.data.memberCard;
-        for (var i = 0; i < memberCard.length; i++) {
-          if (memberCard[i].status == 1) {
-            status.push(memberCard[i]);
-          }
+    if (app.globalData.userInfo && app.globalData.userInfo.openID) {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+        console.log(res)
+        if (res.data.Status == "Failure") { // 读取失败
+          that.setData({
+            memberCardScore: '---',
+            memberCardBalance: '---'
+          })
+        } else if (res.data.data.memberCard == null) { // 未绑定会员卡
+          that.setData({
+            memberCardScore: '---',
+            memberCardBalance: '---'
+          })
+        } else { // 绑定了会员卡
+          var memberCard = res.data.data.memberCard[0];
+          wx.request({
+            url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              console.log(res)
+              if (res.data.Status == 'Success') {
+                if (!res.data.card.score) {
+                  that.setData({
+                    memberCardBalance: res.data.card.balance,
+                    memberCardScore: '---'
+                  })
+                } else {
+                  that.setData({
+                    memberCardBalance: res.data.card.balance,
+                    memberCardScore: res.data.card.score
+                  })
+                }
+              }
+            }
+          })
         }
-        // 计算余额最多的会员卡
-        var first = memberCard.sort(function(a, b) {
-          return a.balance < b.balance
-        })[0];
-        if (first.score == null) {
-          first.score = 0
-        }
-        that.setData({
-          memberCardBalance: first.balance,
-          memberCardScore: first.score
-        })
-      }
-    });
+      })
+    } else {
+      that.setData({
+        memberCardScore: '---',
+        memberCardBalance: '---'
+      })
+    }
     setTimeout(function() {
       wx.setNavigationBarTitle({
         title: app.globalData.cinemaList.cinemaName
@@ -638,33 +662,51 @@ Page({
     })
     that.getMovie(app.globalData.cinemacode);
     // 调用全局函数设置余额以及积分
-    if (app.globalData.cinemacode && app.globalData.userInfo.openID) {
-      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
-        if (res.data.Status == "Failure") {
+    if (app.globalData.userInfo && app.globalData.userInfo.openID) {
+      util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function (res) {
+        console.log(res)
+        if (res.data.Status == "Failure") { // 读取失败
           that.setData({
             memberCardScore: '---',
             memberCardBalance: '---'
           })
-        } else if (res.data.data.memberCard == null) {
+        } else if (res.data.data.memberCard == null) { // 未绑定会员卡
           that.setData({
             memberCardScore: '---',
             memberCardBalance: '---'
           })
-        } else {
+        } else { // 绑定了会员卡
           var memberCard = res.data.data.memberCard[0];
-          if (memberCard.score == null) {
-            that.setData({
-              memberCardBalance: memberCard.balance,
-              memberCardScore: '---'
-            })
-          } else {
-            that.setData({
-              memberCardBalance: memberCard.balance,
-              memberCardScore: memberCard.score
-            })
-          }
+          wx.request({
+            url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json' // 默认值
+            },
+            success: function (res) {
+              console.log(res)
+              if (res.data.Status == 'Success') {
+                if (!res.data.card.score) {
+                  that.setData({
+                    memberCardBalance: res.data.card.balance,
+                    memberCardScore: '---'
+                  })
+                } else {
+                  that.setData({
+                    memberCardBalance: res.data.card.balance,
+                    memberCardScore: res.data.card.score
+                  })
+                }
+              }
+            }
+          })
         }
-      });
+      })
+    } else {
+      that.setData({
+        memberCardScore: '---',
+        memberCardBalance: '---'
+      })
     }
     that.setData({
       userInfo: app.globalData.userInfo,

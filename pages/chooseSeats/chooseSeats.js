@@ -1,4 +1,3 @@
-// pages/chooseSeats/chooseSeats.js
 var canOnePointMove = false
 var arr = []
 var key = true

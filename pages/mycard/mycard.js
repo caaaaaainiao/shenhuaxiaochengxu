@@ -21,6 +21,7 @@ Page({
     isShow: true,
     disabled: 1,
     showM: false,
+    passwordModle: false,
   },
 
   /**
@@ -324,7 +325,14 @@ Page({
       wx.showModal({
         title: '',
         content: '请选择支付金额',
-        showCancel: true,
+        showCancel: false,
+        success(res) {
+          if (res.confirm) {
+            that.setData({
+              disabled: 1,
+            })
+          }
+        }
       })
       return;
     };
@@ -343,69 +351,71 @@ Page({
       }
     };
     let card = app.globalData.card;
-    // 预支付
-    wx.request({
-      url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + app.globalData.userInfo.openID + '/' + card.levelCode + '/' + that.data.selectRule.ruleCode + '/' + that.data.selectRule.credit + '/' + card.cardNo + '/' + card.cardPassword,
-      method: 'GET',
-      header: {
-        'content-type': 'application/json' // 默认值
-      },
-      success: function(res) {
-        console.log(res)
-        wx.hideLoading();
-        if (res.data.Status == 'Success') {
-          // 微信支付接口
-          wx.requestPayment({
-            timeStamp: res.data.data.timeStamp,
-            nonceStr: res.data.data.nonceStr,
-            package: res.data.data.packages,
-            signType: res.data.data.signType,
-            paySign: res.data.data.paySign,
-            success(res) {
-              that.setData({
-                disabled: 1,
-              });
-              console.log(res)
-              if (res.errMsg == "requestPayment:ok") {
-                // 获取远程售票系统会员卡积分余额
-                wx.request({
-                  url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + app.globalData.userInfo.openID,
-                  method: 'GET',
-                  header: {
-                    'content-type': 'application/json' // 默认值
-                  },
-                  success: function(res) {
-                    console.log(res)
-                    if (res.data.Status == 'Success') {
-                      that.setData({
-                        card: res.data.data.memberCard[0],
-                      })
-                    } else {
-                      wx.showToast({
-                        title: '获取最新余额失败！',
-                        icon: 'none',
-                        duration: 2000
-                      })
+    if (app.globalData.cinemaList.cinemaType == '满天星') {
+      wx.hideLoading();
+      that.setData({
+        passwordModle: true,
+      })
+    } else {
+      // 预支付
+      wx.request({
+        url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + app.globalData.userInfo.openID + '/' + card.levelCode + '/' + that.data.selectRule.ruleCode + '/' + that.data.selectRule.credit + '/' + card.cardNo + '/' + card.cardPassword,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res)
+          wx.hideLoading();
+          if (res.data.Status == 'Success') {
+            // 微信支付接口
+            wx.requestPayment({
+              timeStamp: res.data.data.timeStamp,
+              nonceStr: res.data.data.nonceStr,
+              package: res.data.data.packages,
+              signType: res.data.data.signType,
+              paySign: res.data.data.paySign,
+              success(res) {
+                that.setData({
+                  disabled: 1,
+                });
+                console.log(res)
+                if (res.errMsg == "requestPayment:ok") {
+                  // 获取远程售票系统会员卡积分余额
+                  wx.request({
+                    url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + app.globalData.userInfo.openID,
+                    method: 'GET',
+                    header: {
+                      'content-type': 'application/json' // 默认值
+                    },
+                    success: function (res) {
+                      console.log(res)
+                      if (res.data.Status == 'Success') {
+                        that.setData({
+                          card: res.data.data.memberCard[0],
+                        })
+                      } else {
+                        wx.showToast({
+                          title: '获取最新余额失败！',
+                          icon: 'none',
+                          duration: 2000
+                        })
+                      }
                     }
-                  }
-                })
+                  })
+                }
+              },
+              fail(res) {
+                that.setData({
+                  disabled: 1,
+                });
+                wx.hideLoading();
               }
-            },
-            fail(res) {
-              that.setData({
-                disabled: 1,
-              });
-              wx.hideLoading();
-              wx.showToast({
-                title: res.err_desc,
-                icon: 'none',
-                duration: 3000
-              });
-            }
-          })
+            })
+          }
         }
-      }
-    })
+      })
+    }
   },
   // 解绑
   untying: function() {
@@ -479,6 +489,11 @@ Page({
       refreshbalance: e.detail.value,
     })
   },
+  getpassword2: function (e) {
+    this.setData({
+      cardword: e.detail.value,
+    })
+  },
 
   // 关闭输入密码窗口
   closeM: function() {
@@ -487,11 +502,16 @@ Page({
       disabled: 1,
     }) 
   },
+  closeModle: function () {
+    this.setData({
+      passwordModle: false,
+      disabled: 1,
+    })
+  },
 
   // 查询最新余额
   query: function() {
     let that = this;
-    console.log(that.data)
     if (that.data.refreshbalance == '' || !that.data.refreshbalance) {
       wx.showToast({
         title: '请输入密码！',
@@ -526,11 +546,89 @@ Page({
             that.setData({
               showM: false,
               disabled: 1,
-              refreshbalance: '',
             })
           }
         }
       })
     }
   },
+
+  // 满天星充值
+  topUp: function() {
+    let that = this;
+    let card = app.globalData.card;
+    if (that.data.cardword == '' || !that.data.cardword) {
+      wx.showToast({
+        title: '请输入密码！',
+        icon: 'none',
+        duration: 1000,
+        mask: true,
+      })
+    } else {
+      wx.showLoading({
+        title: '加载中..',
+        mask: true
+      });
+      // 预支付
+      wx.request({
+        url: app.globalData.url + '/Api/Member/PrePayCardCharge' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + app.globalData.userInfo.openID + '/' + card.levelCode + '/' + that.data.selectRule.ruleCode + '/' + that.data.selectRule.credit + '/' + card.cardNo + '/' + that.data.cardword,
+        method: 'GET',
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function (res) {
+          console.log(res)
+          wx.hideLoading();
+          if (res.data.Status == 'Success') {
+            // 微信支付接口
+            wx.requestPayment({
+              timeStamp: res.data.data.timeStamp,
+              nonceStr: res.data.data.nonceStr,
+              package: res.data.data.packages,
+              signType: res.data.data.signType,
+              paySign: res.data.data.paySign,
+              success(res) {
+                that.setData({
+                  disabled: 1,
+                  cardword: '',
+                });
+                console.log(res)
+                if (res.errMsg == "requestPayment:ok") {
+                  // 获取远程售票系统会员卡积分余额
+                  wx.request({
+                    url: app.globalData.url + '/Api/Member/QueryMemberCardByOpenID' + '/' + that.data.userName + '/' + that.data.passWord + '/' + app.globalData.cinemaList.cinemaCode + '/' + app.globalData.userInfo.openID,
+                    method: 'GET',
+                    header: {
+                      'content-type': 'application/json' // 默认值
+                    },
+                    success: function (res) {
+                      console.log(res)
+                      if (res.data.Status == 'Success') {
+                        that.setData({
+                          card: res.data.data.memberCard[0],
+                        })
+                      } else {
+                        wx.showToast({
+                          title: '获取最新余额失败！',
+                          icon: 'none',
+                          duration: 2000
+                        })
+                      }
+                    }
+                  })
+                }
+              },
+              fail(res) {
+                console.log(res)
+                that.setData({
+                  disabled: 1,
+                });
+                wx.hideLoading();
+              }
+            })
+          }
+        }
+      })
+    }
+  }
 })
