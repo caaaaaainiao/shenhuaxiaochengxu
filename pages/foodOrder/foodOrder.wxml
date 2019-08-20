@@ -94,7 +94,7 @@
         <text>-{{marActivity.reduceMoney}}元</text>
       </view>
       <view class='right'>应付
-        <text class='numpay'>{{disPrice > 0? filters.toFix(disPrice) : 0}}</text>
+        <text class='numpay'>{{disPrice > 0? disPrice : 0}}</text>
         <text>元</text>
       </view>
     </view>

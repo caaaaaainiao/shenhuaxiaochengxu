@@ -219,7 +219,7 @@ Page({
     }
     that.setData({
 
-      disPrice: price
+      disPrice: price.toFixed(2),
     });
   },
   /**
@@ -826,16 +826,16 @@ Page({
             console.log(merOrder);
             that.setData({
               merOrder: merOrder,
-              disPrice: that.data.totalPrice - merOrder.merTicket.couponPrice
+              disPrice: (that.data.totalPrice - merOrder.merTicket.couponPrice).toFixed(2)
             })
           } else {
             that.setData({
-              disPrice: that.data.totalPrice
+              disPrice: that.data.totalPrice.toFixed(2)
             })
           }
         } else {
           that.setData({
-            disPrice: that.data.totalPrice
+            disPrice: that.data.totalPrice.toFixed(2)
           })
         }
       }

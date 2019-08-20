@@ -44,19 +44,13 @@ Page({
    */
   onReady: function() {
     var that = this;
-    this.setData({
-      checkfilmcode: app.globalData.checkfilmcode,
-      swiperIndex: app.globalData.movieIndex
-    })
-    this.swiperIndex = this.data.swiperIndex
-    // this.moviesList = app.globalData.moviearea
     that.setData({
-      // movieId: app.globalData.movieId,
+      checkfilmcode: app.globalData.checkfilmcode,
+      swiperIndex: app.globalData.movieIndex,
       moviearea: app.globalData.moviearea,
       cinemaNo: app.globalData.cinemaNo,
-      swiperIndex: app.globalData.movieIndex
     })
-    that.getStorageMovieList()
+    that.getStorageMovieList();
     that.ask();
   },
   getStorageMovieList() {
@@ -64,7 +58,6 @@ Page({
     wx.getStorage({
       key: 'movieList',
       success: function(res) {
-        console.log(res)
         that.setData({
           moviesList: res.data
         })
@@ -121,18 +114,17 @@ Page({
     }
   },
   swiperChange(e) { //切换电影
-    const that = this;
+    let that = this;
     that.setData({
       swiperIndex: e.detail.current,
       checkfilmcode: that.data.moviesList[e.detail.current].code,
       select: 0
     })
+    app.globalData.movieIndex = e.detail.current;
     setTimeout(function() {
       wx.hideLoading();
     }, 500)
-    // console.log(that.data.swiperIndex)
     that.ask();
-    app.globalData.movieIndex = that.data.swiperIndex;
   },
   dayChange: function(e) { //切换日期
     var day = e.currentTarget.dataset.index;
@@ -236,7 +228,7 @@ Page({
     let apiuser = util.getAPIUserData(null);
     let cinemacode = app.globalData.cinemacode
     wx.request({
-      url: app.globalData.url + '/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + this.data.checkfilmcode,
+      url: app.globalData.url + '/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + that.data.checkfilmcode,
       method: 'GET',
       header: {
         'content-type': 'application/json' // 默认值
@@ -372,6 +364,7 @@ Page({
   },
   toDetail: function(e) {
     var that = this
+    console.log(e)
     var nowtime = new Date();
     let nowday = util.formatTimeDay(nowtime);
     let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30); //add 30 day
@@ -380,7 +373,6 @@ Page({
     let cinemacode = app.globalData.cinemacode
     if (this.data.swiperIndex == e.currentTarget.dataset.index) {
       app.globalData.movieIndex = this.data.swiperIndex;
-
       wx.navigateTo({
         url: '../movieDetail/movieDetail',
       })
@@ -388,8 +380,6 @@ Page({
       this.setData({
         swiperIndex: e.currentTarget.dataset.index
       })
-
-
       wx.request({
         url: app.globalData.url + '/Api/Session/QueryFilmSessionPrice' + '/' + apiuser.UserName + '/' + apiuser.Password + '/' + cinemacode + '/' + e.currentTarget.dataset.moviecode,
         method: 'GET',
@@ -403,7 +393,7 @@ Page({
           console.log(that.data.moviesListDate)
         }
       })
-      // console.log(this.data.swiperIndex)
+      console.log(that.data.swiperIndex)
     }
   }
 })
