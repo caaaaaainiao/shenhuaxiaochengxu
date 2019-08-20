@@ -29,7 +29,7 @@ App({
     AppId: 'wxa20eeb5bde481333', // 智泉
     // AppId: 'wx2069ef6c2d5b1880', // 美伦
     // AppId: 'wxfd577490c3d0a0a5', // 睢县
-    // AppId: 'wxddbd0d6022465cc9', // 金逸
+    //  AppId: 'wxddbd0d6022465cc9', // 金逸
     // AppId: 'wxb7760b5f31f38e19', // 时代
     // AppId: 'wx8ed523bb8aa3b0b0', // 沃伦
     // AppId: 'wxb9c0ee0184070dc5', // 丰县
@@ -39,7 +39,7 @@ App({
     secret: 'eff0e90de960e6cae166368c54de0b5f', // 智泉
     // secret: '145bc00fe2907c30ce35a166e50cfc89', // 美伦
     // secret: '6e4e81ce226bf638c6c9e82f49e41cb4', // 睢县
-    // secret: '9a041c6519cdef582296831e07bc1601', // 金逸
+    //  secret: '9a041c6519cdef582296831e07bc1601', // 金逸
     // secret: '4de03856faca26ed0fcc741a76bd1c10', // 时代
     // secret: '18f5439fdef228c0488b747c678badc7', // 沃伦
     // secret: 'dd8ea09f751a84e6fc732312df1cbad3', // 丰县
