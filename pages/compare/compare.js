@@ -64,7 +64,7 @@ Page({
     wx.getStorage({
       key: 'movieList',
       success: function(res) {
-        console.log(res)
+        // console.log(res)
         that.setData({
           moviesList: res.data
         })

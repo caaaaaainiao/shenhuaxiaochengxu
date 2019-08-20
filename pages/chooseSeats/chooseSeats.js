@@ -101,7 +101,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         var seats = res.data.data.rows;
         that.setData({
           seats: seats,
@@ -115,7 +115,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
         wx.hideLoading();
         var seat = res.data.sessionSeat.seat;
         var seats = that.data.seats;
@@ -516,7 +516,7 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function(res) {
-              // console.log(res)
+              console.log(res)
               if (res.data.Status == "Success") {
                 // console.log(that.data)
                 // console.log(app.globalData)

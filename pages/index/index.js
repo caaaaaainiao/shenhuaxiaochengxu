@@ -48,7 +48,7 @@ Page({
       url: app.globalData.url + '/Api/Cinema/QueryCinemas/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.usermessage.AppId,
       method: 'GET',
       success: function(res) {
-        console.log(res)
+        // console.log(res)
         that.setData({
           logo: res.data.data.cinemas[0].businessPic,
           concinemaname: res.data.data.cinemas[0].businessName,
@@ -109,7 +109,7 @@ Page({
           that.getMovie(app.globalData.cinemacode)
           if (app.globalData.userInfo && app.globalData.userInfo.openID) {
             util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {
-              console.log(res)
+              // console.log(res)
               if (res.data.Status == "Failure") { // 读取失败
                 that.setData({
                   memberCardScore: '---',
@@ -175,7 +175,7 @@ Page({
       that.setData({
         moviearea: recent
       })
-      console.log(cinemaList)
+      // console.log(cinemaList)
       app.globalData.isCanRefund = cinemaList.isCanRefund;
       app.globalData.isOpenMember = cinemaList.isOpenMember;
       app.globalData.lookcinemaname = cinemaList.cinemaName;
@@ -416,7 +416,7 @@ Page({
     app.globalData.checkfilmcode = e.currentTarget.dataset.id
     // app.globalData.movieId = e.currentTarget.dataset.id
     app.globalData.movieIndex = e.currentTarget.dataset.index;
-    console.log(e)
+    // console.log(e)
     // console.log(app)
     wx.setStorage({
       key: 'movieList',
