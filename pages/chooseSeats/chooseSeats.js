@@ -101,18 +101,6 @@ Page({
       },
       success: function(res) {
         var seats = res.data.data.rows;
-        var indexarr = []
-        console.log(seats)
-        for(var x in seats){
-
-             for(var y in seats[x].seats){
-               if(seats[x].seats[y]){
-                 seats[x].seats[y].index = y
-                 indexarr.push(seats[x].seats[y])
-               }
-            }
-        }
-        console.log(indexarr)
         that.setData({
           seats: seats,
         });
@@ -142,6 +130,50 @@ Page({
             }
           }
         }
+
+        ////////////////////////////// 
+        // console.log(seats)
+        // let num = 0
+        for (let i = 0; i < seats.length; i++) {      //将null座位转化成相同格式
+          for (let j = 0; j < seats[i].seats.length; j++) {
+            if (!seats[i].seats[j]) {
+              seats[i].seats[j] = {
+                rowNum: seats[i].rowNum,
+                columnNum: '0',
+                status: "Sold"
+              }
+            }
+            // seats[i].seats[j].index = num;
+            // num++
+          }
+        }
+        that.setData({
+          indexList:seats
+        })
+        // var indexarr = []
+        // for (var x in seats) {
+        //   for (var y in seats[x].seats) {
+        //     if (seats[x].seats[y]) {
+        //       seats[x].seats[y].index = y //将index加进座位
+        //       indexarr.push(seats[x].seats[y]) //加完index的座位全放进新数组
+        //     }
+        //   }
+        // }
+        // console.log(indexarr)
+        // let arrs = []
+        // for (let i = 0; i < indexarr.length; i++) {
+        //   if (!arrs[indexarr[i].rowNum - 1]) {
+        //     arrs[indexarr[i].rowNum - 1] = []
+        //   }
+        //   arrs[indexarr[i].rowNum - 1].push(indexarr[i]) //将新数组按行分组
+        // }
+        // console.log(arrs)
+        // that.setData({
+        //   pusharr: arrs
+        // })
+        ////////////////////////////////
+
+
         var maxColumn = 0; // 计算最大列
         for (var i = 0; i < seats.length; i++) {
           if (seats[i]) {
@@ -303,13 +335,25 @@ Page({
     })
   },
   choose: function(e) { //选座
-    console.log(e)
     var that = this;
+    console.log(e)
+    // var hang = e.currentTarget.dataset.row
+    // var lie = e.currentTarget.dataset.index
     var rows = that.data.rows;
     var code = e.currentTarget.dataset.code;
     var seatNum = that.data.seatNum;
     var status = e.currentTarget.dataset.status;
     var checkNum = 0;
+    ///////////////////////
+   console.log(that.data.indexList)
+
+
+
+
+
+
+
+    //////////////////////////
     if (canOnePointMove) {
       return;
     }
