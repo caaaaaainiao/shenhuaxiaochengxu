@@ -51,29 +51,31 @@ Page({
           })
         } else { // 绑定了会员卡
           var memberCard = res.data.data.memberCard[0];
-          wx.request({
-            url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
-            method: 'GET',
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
-              console.log(res)
-              if (res.data.Status == 'Success') {
-                if (!res.data.card.score) {
-                  that.setData({
-                    memberCardBalance: res.data.card.balance,
-                    memberCardScore: '---'
-                  })
-                } else {
-                  that.setData({
-                    memberCardBalance: res.data.card.balance,
-                    memberCardScore: res.data.card.score
-                  })
+          if (app.globalData.cinemaList.cinemaType != '云智' && app.globalData.cinemaList.cinemaType != '粤科') {
+            wx.request({
+              url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res)
+                if (res.data.Status == 'Success') {
+                  if (!res.data.card.score) {
+                    that.setData({
+                      memberCardBalance: res.data.card.balance,
+                      memberCardScore: '---'
+                    })
+                  } else {
+                    that.setData({
+                      memberCardBalance: res.data.card.balance,
+                      memberCardScore: res.data.card.score
+                    })
+                  }
                 }
               }
-            }
-          })
+            })
+          }
         }
       })
     } else {
@@ -130,29 +132,31 @@ Page({
           })
         } else { // 绑定了会员卡
           var memberCard = res.data.data.memberCard[0];
-          wx.request({
-            url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
-            method: 'GET',
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success: function (res) {
-              console.log(res)
-              if (res.data.Status == 'Success') {
-                if (!res.data.card.score) {
-                  that.setData({
-                    memberCardBalance: res.data.card.balance,
-                    memberCardScore: '---'
-                  })
-                } else {
-                  that.setData({
-                    memberCardBalance: res.data.card.balance,
-                    memberCardScore: res.data.card.score
-                  })
+          if (app.globalData.cinemaList.cinemaType != '云智' && app.globalData.cinemaList.cinemaType != '粤科') {
+            wx.request({
+              url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
+              method: 'GET',
+              header: {
+                'content-type': 'application/json' // 默认值
+              },
+              success: function (res) {
+                console.log(res)
+                if (res.data.Status == 'Success') {
+                  if (!res.data.card.score) {
+                    that.setData({
+                      memberCardBalance: res.data.card.balance,
+                      memberCardScore: '---'
+                    })
+                  } else {
+                    that.setData({
+                      memberCardBalance: res.data.card.balance,
+                      memberCardScore: res.data.card.score
+                    })
+                  }
                 }
               }
-            }
-          })
+            })
+          }
         }
       })
     } else {
