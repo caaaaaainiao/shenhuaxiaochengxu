@@ -379,6 +379,14 @@ Page({
   // 选择会员卡支付
   cardway: function() {
     let that = this;
+    console.log(that.data.memberCardPrice)
+    if (that.data.memberCardPrice == -1){
+       wx.showModal({
+         title: '',
+         content: '会员卡价格获取失败，请退出重新购票或者选择其他支付方式',
+       })
+       return
+    }
     that.setData({
       payway: 2,
     });

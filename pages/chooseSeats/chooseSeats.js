@@ -100,8 +100,20 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log(res)
         var seats = res.data.data.rows;
+        console.log(seats)
+        for(var x in seats){
+
+             for(var y in seats[x].seats){
+               if(seats[x].seats[y]){
+                 seats[x].seats[y].index = y
+               }
+              //  console.log(seats[x].seats[y])
+               var arr = []
+               arr.push(seats[x].seats[y])
+               console.log(arr)
+               }
+        }
         that.setData({
           seats: seats,
         });
@@ -114,7 +126,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        console.log(res)
+        // console.log(res)
         wx.hideLoading();
         var seat = res.data.sessionSeat.seat;
         var seats = that.data.seats;
@@ -292,6 +304,7 @@ Page({
     })
   },
   choose: function(e) { //选座
+    console.log(e)
     var that = this;
     var rows = that.data.rows;
     var code = e.currentTarget.dataset.code;
