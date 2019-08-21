@@ -101,19 +101,18 @@ Page({
       },
       success: function(res) {
         var seats = res.data.data.rows;
+        var indexarr = []
         console.log(seats)
         for(var x in seats){
 
              for(var y in seats[x].seats){
                if(seats[x].seats[y]){
                  seats[x].seats[y].index = y
+                 indexarr.push(seats[x].seats[y])
                }
-              //  console.log(seats[x].seats[y])
-               var arr = []
-               arr.push(seats[x].seats[y])
-               console.log(arr)
-               }
+            }
         }
+        console.log(indexarr)
         that.setData({
           seats: seats,
         });
