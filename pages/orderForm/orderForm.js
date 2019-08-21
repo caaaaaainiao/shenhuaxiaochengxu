@@ -379,11 +379,11 @@ Page({
   // 选择会员卡支付
   cardway: function() {
     let that = this;
-    console.log(that.data.memberCardPrice)
     if (that.data.memberCardPrice == -1){
        wx.showModal({
          title: '',
          content: '会员卡价格获取失败，请退出重新购票或者选择其他支付方式',
+         showCancel: false,
        })
        return
     }
@@ -924,8 +924,7 @@ Page({
                 }
               }
             })
-          } else if (app.globalData.cinemaList.cinemaType == "粤科") { //粤科 云智
-            if (res.data.Status == 'Success') {
+          } else if (app.globalData.cinemaList.cinemaType == "粤科" || app.globalData.cinemaList.cinemaType == "云智") { //粤科 云智
               // 会员卡支付
               wx.request({
                 url: app.globalData.url + '/Api/Member/YkTicketmMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,
@@ -956,9 +955,7 @@ Page({
                   }
                 }
               })
-            }
           } else if (app.globalData.cinemaList.cinemaType == "满天星") { // 满天星
-            if (res.data.Status == "Success") {
               // 会员卡支付
               wx.request({
                 url: app.globalData.url + '/Api/Member/CardPay' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.LocalOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + price + '/' + data.GoodsPayAmount + '/' + data.SessionCode + '/' + data.FilmCode + '/' + data.TicketNum + '/' + data.CouponsCode + '/' + data.CouponsCode2 + '/' + null,
@@ -989,7 +986,6 @@ Page({
                   }
                 }
               })
-            }
           }
         } else { //订单查询失败
           wx.showToast({

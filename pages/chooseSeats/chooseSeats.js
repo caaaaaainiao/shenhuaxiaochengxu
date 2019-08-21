@@ -101,6 +101,15 @@ Page({
       },
       success: function(res) {
         var seats = res.data.data.rows;
+        for(var x in seats){
+             for(var y in seats[x].seats){
+               if(seats[x].seats[y]){
+                 seats[x].seats[y].index = y
+               }
+               var arr = []
+               arr.push(seats[x].seats[y])
+               }
+        }
         that.setData({
           seats: seats,
         });

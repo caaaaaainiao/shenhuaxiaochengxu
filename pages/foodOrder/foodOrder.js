@@ -111,7 +111,7 @@ Page({
                 "Content-Type": "application/json"
               },
               success: function (r) {
-                console.log(r.data.orderMemberPrice)
+                console.log(r)
                 that.setData({
                   orderMemberPrice: r.data.orderMemberPrice
                 })
