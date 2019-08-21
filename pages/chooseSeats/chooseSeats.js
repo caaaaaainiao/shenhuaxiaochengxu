@@ -101,17 +101,13 @@ Page({
       },
       success: function(res) {
         var seats = res.data.data.rows;
-        console.log(seats)
         for(var x in seats){
-
              for(var y in seats[x].seats){
                if(seats[x].seats[y]){
                  seats[x].seats[y].index = y
                }
-              //  console.log(seats[x].seats[y])
                var arr = []
                arr.push(seats[x].seats[y])
-               console.log(arr)
                }
         }
         that.setData({
@@ -304,7 +300,6 @@ Page({
     })
   },
   choose: function(e) { //选座
-    console.log(e)
     var that = this;
     var rows = that.data.rows;
     var code = e.currentTarget.dataset.code;
