@@ -100,6 +100,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
+        console.log(res)
         var seats = res.data.data.rows;
         for(var x in seats){
              for(var y in seats[x].seats){
@@ -139,8 +140,6 @@ Page({
             }
           }
         }
-
-        ////////////////////////////// 
         // console.log(seats)
         // let num = 0
         for (let i = 0; i < seats.length; i++) {      //将null座位转化成相同格式

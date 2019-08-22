@@ -626,6 +626,13 @@ Page({
                 wx.hideLoading();
               }
             })
+          } else {
+            wx.showToast({
+              title: res.data.ErrorMessage,
+              icon: 'none',
+              mask: true,
+              duration: 2000
+            })
           }
         }
       })
