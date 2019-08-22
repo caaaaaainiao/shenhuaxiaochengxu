@@ -142,7 +142,7 @@ Page({
         }
         // console.log(seats)
         // let num = 0
-        for (let i = 0; i < seats.length; i++) {      //将null座位转化成相同格式
+        for (let i = 0; i < seats.length; i++) { //将null座位转化成相同格式
           for (let j = 0; j < seats[i].seats.length; j++) {
             if (!seats[i].seats[j]) {
               seats[i].seats[j] = {
@@ -156,7 +156,7 @@ Page({
           }
         }
         that.setData({
-          indexList:seats
+          indexList: seats
         })
         // var indexarr = []
         // for (var x in seats) {
@@ -345,15 +345,22 @@ Page({
   choose: function(e) { //选座
     var that = this;
     console.log(e)
-    // var hang = e.currentTarget.dataset.row
-    // var lie = e.currentTarget.dataset.index
+    console.log(that.data.indexList)
+    var hang = e.currentTarget.dataset.row
+    var lie = e.currentTarget.dataset.index
     var rows = that.data.rows;
     var code = e.currentTarget.dataset.code;
     var seatNum = that.data.seatNum;
     var status = e.currentTarget.dataset.status;
     var checkNum = 0;
     ///////////////////////
-   console.log(that.data.indexList)
+    // for (var x in that.data.indexList) {
+    //   for (var y in that.data.indexList[hang - 1]) {
+    //     that.data.indexList[hang - 1][lie].status = "Sold" //将选中的座位在座位表里改变状态
+
+    //   }
+    // }
+    // console.log(that.data.pusharr)
 
 
 
