@@ -102,15 +102,15 @@ Page({
       success: function(res) {
         console.log(res)
         var seats = res.data.data.rows;
-        for(var x in seats){
-             for(var y in seats[x].seats){
-               if(seats[x].seats[y]){
-                 seats[x].seats[y].index = y
-               }
-               var arr = []
-               arr.push(seats[x].seats[y])
-               }
-        }
+        // for(var x in seats){
+        //      for(var y in seats[x].seats){
+        //        if(seats[x].seats[y]){
+        //          seats[x].seats[y].index = y
+        //        }
+        //        var arr = []
+        //        arr.push(seats[x].seats[y])
+        //        }
+        // }
         that.setData({
           seats: seats,
         });
@@ -142,22 +142,22 @@ Page({
         }
         // console.log(seats)
         // let num = 0
-        for (let i = 0; i < seats.length; i++) { //将null座位转化成相同格式
-          for (let j = 0; j < seats[i].seats.length; j++) {
-            if (!seats[i].seats[j]) {
-              seats[i].seats[j] = {
-                rowNum: seats[i].rowNum,
-                columnNum: '0',
-                status: "Sold"
-              }
-            }
+        // for (let i = 0; i < seats.length; i++) { //将null座位转化成相同格式
+        //   for (let j = 0; j < seats[i].seats.length; j++) {
+        //     if (!seats[i].seats[j]) {
+        //       seats[i].seats[j] = {
+        //         rowNum: seats[i].rowNum,
+        //         columnNum: '0',
+        //         status: "Sold"
+        //       }
+        //     }
             // seats[i].seats[j].index = num;
             // num++
-          }
-        }
-        that.setData({
-          indexList: seats
-        })
+        //   }
+        // }
+        // that.setData({
+        //   indexList: seats
+        // })
         // var indexarr = []
         // for (var x in seats) {
         //   for (var y in seats[x].seats) {
@@ -345,7 +345,7 @@ Page({
   choose: function(e) { //选座
     var that = this;
     console.log(e)
-    console.log(that.data.indexList)
+    // console.log(that.data.indexList)
     var hang = e.currentTarget.dataset.row
     var lie = e.currentTarget.dataset.index
     var rows = that.data.rows;

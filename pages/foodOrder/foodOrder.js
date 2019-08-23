@@ -891,7 +891,7 @@ Page({
             console.log(merOrder);
             that.setData({
               merOrder: merOrder,
-              disPrice: that.data.orderMemberPrice - merOrder.merTicket.couponPrice
+              disPrice: (that.data.orderMemberPrice - merOrder.merTicket.couponPrice).toFixed(2)
             })
           } else {
             that.setData({
