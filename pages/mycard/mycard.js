@@ -422,39 +422,40 @@ Page({
     var that = this;
     wx.showModal({
       title: '提示',
-      content: '是否解绑会员卡',
-      success: function(res) {
-        if (res.confirm) {
-          wx.request({
-            url: app.globalData.url + '/Api/Member/MemberCardUnbind' + '/' + that.data.userName + '/' + that.data.passWord + '/' + that.data.cinemaCode + '/' + that.data.card.cardNo + '/' + that.data.openId,
-            method: 'GET',
-            header: {
-              'content-type': 'application/json' // 默认值
-            },
-            success: function(res) {
-              console.log(res)
-              if (res.data.Status == 'Success') {
-                wx.showToast({
-                  title: '解绑成功！',
-                  icon: 'none',
-                  duration: 3000
-                });
-                setTimeout(function() {
-                  wx.redirectTo({
-                    url: '../mycard/mycard',
-                  })
-                }, 1000)
-              } else {
-                wx.showToast({
-                  title: '解绑失败' + res.data.ErrorMessage,
-                  icon: 'none',
-                  duration: 3000
-                });
-              }
-            }
-          })
-        }
-      }
+      content: '请联系影城工作人员解绑',
+      showCancel: false,
+      // success: function(res) {
+      //   if (res.confirm) {
+      //     wx.request({
+      //       url: app.globalData.url + '/Api/Member/MemberCardUnbind' + '/' + that.data.userName + '/' + that.data.passWord + '/' + that.data.cinemaCode + '/' + that.data.card.cardNo + '/' + that.data.openId,
+      //       method: 'GET',
+      //       header: {
+      //         'content-type': 'application/json' // 默认值
+      //       },
+      //       success: function(res) {
+      //         console.log(res)
+      //         if (res.data.Status == 'Success') {
+      //           wx.showToast({
+      //             title: '解绑成功！',
+      //             icon: 'none',
+      //             duration: 3000
+      //           });
+      //           setTimeout(function() {
+      //             wx.redirectTo({
+      //               url: '../mycard/mycard',
+      //             })
+      //           }, 1000)
+      //         } else {
+      //           wx.showToast({
+      //             title: '解绑失败' + res.data.ErrorMessage,
+      //             icon: 'none',
+      //             duration: 3000
+      //           });
+      //         }
+      //       }
+      //     })
+      //   }
+      // }
     })
   },
   // 查看充值记录
@@ -625,6 +626,13 @@ Page({
                 });
                 wx.hideLoading();
               }
+            })
+          } else {
+            wx.showToast({
+              title: res.data.ErrorMessage,
+              icon: 'none',
+              mask: true,
+              duration: 2000
             })
           }
         }

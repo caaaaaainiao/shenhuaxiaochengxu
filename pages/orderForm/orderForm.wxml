@@ -35,8 +35,9 @@
       会员卡支付
       <text wx:if="{{card&&memberCardPrice>-1}}">元</text>
       <text wx:else></text>
-      <text class='money'wx:if="{{card&&memberCardPrice>-1}}">{{memberCardPrice}}</text>
-      <text class='money'wx:else style="margin-right:50rpx">未绑定</text>
+      <text class='money' style="margin-right:50rpx" wx:if="{{!card}}">未绑定</text>
+      <text class='money'wx:elif="{{card&&memberCardPrice>-1}}">{{memberCardPrice}}</text>
+      <text class='money'wx:else style="margin-right:50rpx">获取会员价失败</text>
       <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==2}}"></image>
       <image src='/images/unselect.png' class='selectimg' wx:else></image>
       </view>
@@ -126,10 +127,10 @@
   </view>
   <view class='bottom'>
     <view class='price'>
-      <view class='left' wx:if="{{payway == 1 && thirdPayFee > 0}}">微信支付代售费
+      <view class='left' wx:if="{{payway == 1 && thirdPayFee > 0}}">含微信支付代售费
         <text>{{thirdPayFee}}元</text>
       </view>
-      <view class='left' wx:if="{{payway == 2 && memberPayFee > 0}}">会员卡支付代售费
+      <view class='left' wx:if="{{payway == 2 && memberPayFee > 0}}">含会员卡支付代售费
         <text>{{memberPayFee}}元</text>
       </view>
       <view class='right'>

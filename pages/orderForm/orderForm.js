@@ -886,7 +886,7 @@ Page({
                   }, 1000)
                 } else { //支付失败
                   wx.showToast({
-                    title: "订单确认失败",
+                    title: res.data.ErrorMessage,
                     icon: 'none',
                     duration: 3000
                   });
@@ -948,7 +948,7 @@ Page({
                     }, 1000)
                   } else { // 支付失败
                     wx.showToast({
-                      title: "订单确认失败",
+                      title: res.data.ErrorMessage,
                       icon: 'none',
                       duration: 3000
                     });
