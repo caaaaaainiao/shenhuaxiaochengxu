@@ -51,7 +51,9 @@
       <view class='foodMessage' wx:if="{{sendtype == 2&&detailArr.length>0}}">{{detailArr}}
         <text>修改</text>
       </view>
+      <text class="txt">开始点餐</text>
       <image src='/images/orderbtn.png' class='orderbtn {{sendtype>0?"":"gray"}}' bindtap='start'></image>
+
     </view>
 
   </view>

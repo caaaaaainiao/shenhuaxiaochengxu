@@ -1,4 +1,15 @@
 /* pages/sell/sell.wxss */
+
+.txt{
+  position: relative;
+  top:64rpx;
+  left: 295rpx;
+  z-index:999;
+  font-size: 37rpx;
+  color: white
+
+}
+
 .container{
   width: 100%;
   height: 100%;
