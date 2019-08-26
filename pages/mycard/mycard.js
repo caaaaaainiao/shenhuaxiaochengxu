@@ -541,12 +541,14 @@ Page({
             })
           } else {
             wx.showToast({
-              title: '刷新余额失败，请稍后重试',
+              title: '刷新余额失败',
+              icon: "none",
               duration: 1000,
             })
             that.setData({
               showM: false,
               disabled: 1,
+              refreshbalance: '',
             })
           }
         }
