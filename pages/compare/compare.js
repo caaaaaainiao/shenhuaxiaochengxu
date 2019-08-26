@@ -364,7 +364,7 @@ Page({
   },
   toDetail: function(e) {
     var that = this
-    console.log(e)
+    // console.log(e)
     var nowtime = new Date();
     let nowday = util.formatTimeDay(nowtime);
     let endtime = new Date(nowtime.getTime() + 1000 * 60 * 60 * 24 * 30); //add 30 day
@@ -390,10 +390,10 @@ Page({
           that.setData({
             moviesListDate: res.data.data
           })
-          console.log(that.data.moviesListDate)
+          // console.log(that.data.moviesListDate)
         }
       })
-      console.log(that.data.swiperIndex)
+      // console.log(that.data.swiperIndex)
     }
   }
 })

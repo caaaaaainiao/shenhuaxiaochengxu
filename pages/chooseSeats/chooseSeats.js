@@ -59,7 +59,7 @@ Page({
     seats: '',
     // isEmpty: 'empty',
     rows: '',
-    rownum: []
+    rownum: [],
   },
 
   /**
@@ -100,16 +100,8 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
+        // console.log(res)
         var seats = res.data.data.rows;
-        for(var x in seats){
-             for(var y in seats[x].seats){
-               if(seats[x].seats[y]){
-                 seats[x].seats[y].index = y
-               }
-               var arr = []
-               arr.push(seats[x].seats[y])
-               }
-        }
         that.setData({
           seats: seats,
         });
@@ -139,50 +131,6 @@ Page({
             }
           }
         }
-
-        ////////////////////////////// 
-        // console.log(seats)
-        // let num = 0
-        for (let i = 0; i < seats.length; i++) { //将null座位转化成相同格式
-          for (let j = 0; j < seats[i].seats.length; j++) {
-            if (!seats[i].seats[j]) {
-              seats[i].seats[j] = {
-                rowNum: seats[i].rowNum,
-                columnNum: '0',
-                status: "Sold"
-              }
-            }
-            // seats[i].seats[j].index = num;
-            // num++
-          }
-        }
-        that.setData({
-          indexList: seats
-        })
-        // var indexarr = []
-        // for (var x in seats) {
-        //   for (var y in seats[x].seats) {
-        //     if (seats[x].seats[y]) {
-        //       seats[x].seats[y].index = y //将index加进座位
-        //       indexarr.push(seats[x].seats[y]) //加完index的座位全放进新数组
-        //     }
-        //   }
-        // }
-        // console.log(indexarr)
-        // let arrs = []
-        // for (let i = 0; i < indexarr.length; i++) {
-        //   if (!arrs[indexarr[i].rowNum - 1]) {
-        //     arrs[indexarr[i].rowNum - 1] = []
-        //   }
-        //   arrs[indexarr[i].rowNum - 1].push(indexarr[i]) //将新数组按行分组
-        // }
-        // console.log(arrs)
-        // that.setData({
-        //   pusharr: arrs
-        // })
-        ////////////////////////////////
-
-
         var maxColumn = 0; // 计算最大列
         for (var i = 0; i < seats.length; i++) {
           if (seats[i]) {
@@ -212,9 +160,6 @@ Page({
     wx.setNavigationBarTitle({
       title: app.globalData.filmName //页面标题
     })
-    // console.log(app.globalData)
-    // console.log("app" + app.globalData.cinemaList[app.globalData.cinemaNo].cinemaCode)
-    // 获取座位信息
     var that = this;
     var nowtime = new Date().getTime();
   },
@@ -243,7 +188,6 @@ Page({
         }
       }
     }
-    // console.log(maps)
     maxRow = maxRow - minRow + 1;
     var maxColumn = 0; // 计算最大列
     for (var i = 0; i < seats.length; i++) {
@@ -257,8 +201,6 @@ Page({
         minColumn = parseInt(seats[i].XCoord)
       }
     }
-    // console.log(minColumn)
-    // console.log(maxColumn)
     // 处理列
     var result = [];
     for (var i = 0; i < maps.length; i++) {
@@ -290,7 +232,6 @@ Page({
       result.push(newRow)
     }
     maps = result;
-    // console.log(maps)
     // 情侣座
     for (var i = 0; i < maps.length; i++) {
       for (var j = 0; j < maps[i].length; j++) {
@@ -319,7 +260,6 @@ Page({
         maps[i][j].seatname = maps[i][j].rowNum + "排" + maps[i][j].columnNum + "座"
       }
     }
-    // console.log(maps)
     var scale = 650 / (maxColumn * 64 - 8);
     that.setData({
       seats: maps,
@@ -345,31 +285,13 @@ Page({
   },
   choose: function(e) { //选座
     var that = this;
-    console.log(e)
-    console.log(that.data.indexList)
-    var hang = e.currentTarget.dataset.row
-    var lie = e.currentTarget.dataset.index
+    var oArr = []
     var rows = that.data.rows;
     var code = e.currentTarget.dataset.code;
     var seatNum = that.data.seatNum;
     var status = e.currentTarget.dataset.status;
     var checkNum = 0;
-    ///////////////////////
-    // for (var x in that.data.indexList) {
-    //   for (var y in that.data.indexList[hang - 1]) {
-    //     that.data.indexList[hang - 1][lie].status = "Sold" //将选中的座位在座位表里改变状态
 
-    //   }
-    // }
-    // console.log(that.data.pusharr)
-
-
-
-
-
-
-
-    //////////////////////////
     if (canOnePointMove) {
       return;
     }
@@ -446,6 +368,92 @@ Page({
       seatNum: seatNum
     })
     that.dealseat();
+    ///////////////////////
+    for (let i = 0; i < rows.length; i++) { //将null座位转化成相同格式
+      if (rows[i]) {
+        for (let j = 0; j < rows[i].seats.length; j++) {
+          if (!rows[i].seats[j]) {
+            rows[i].seats[j] = {
+              rowNum: rows[i].rowNum,
+              columnNum: '0',
+              status: "null"
+            }
+          }
+        }
+      }
+    }
+    // console.log(rows)
+    for (let k in rows) { //如果座位已选中进行判断
+      if (rows[k]) {
+        for (let z in rows[k].seats) {
+          if (rows[k].seats[z].isSelect == true) { //判断座位被选中
+            // console.log(rows[k].seats[z])
+            // console.log(rows[k].seats[z - 1])
+            // console.log(rows[k].seats[z - (-1)])
+            if (!rows[k].seats[z - 1] || rows[k].seats[z - 1].status == 'null') { //判断左边第一排
+              if (rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)].status == 'Locked' || rows[k].seats[z - (-2)].isSelect == true) {
+                if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //判断已选座位右边第一个为空座位
+                  // console.log(1)
+                  oArr.push(2)
+                  break
+                }
+              }
+            } else if (!rows[k].seats[z - (-1)] || rows[k].seats[z - (-1)].status == 'null') { //判断右边第一排
+              if (rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked' || rows[k].seats[z - 2].isSelect == true) {
+                if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //判断已选座位右边第一个为空座位
+                  // console.log(2)
+                  oArr.push(2)
+                  break
+                }
+              }
+            } else if (!rows[k].seats[z - 2] || rows[k].seats[z - 2].status == 'null') { //判断左边第二排
+              if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //如果第二排左边那一排为空座位
+                // console.log(3)
+                oArr.push(2)
+                break
+              } else if (rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)].status == 'Locked') { //第二排 右边第二个锁座
+                if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //第二排 右边第一个为空座位
+                  // console.log(4)
+                  oArr.push(2)
+                  break
+                }
+              }
+            } else if (!rows[k].seats[z - (-2)] || rows[k].seats[z - (-2)].status == 'null') { //判断右边第二排
+              if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //如果右边第二排右边那一排为空座位
+                // console.log(5)
+                oArr.push(2)
+                break
+              } else if (rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked') { //第二排 左边第二个锁座
+                if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //第二排 左边第一个为空座位
+                  // console.log(6)
+                  oArr.push(2)
+                  break
+                }
+              }
+            } else if (rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked' || rows[k].seats[z - 2].isSelect == true) { //判断已选座位左边第二个为已售 已锁座 已选择状态
+              if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //判断已选座位左边第一个为空座位
+                // console.log(7)
+                oArr.push(2)
+                break
+              }
+            } else if (rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)].status == 'Locked' || rows[k].seats[z - (-2)].isSelect == true) { //判断已选座位右边第二个为已售 已锁座 已选择状态        
+              if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //判断已选座位右边第一个为空座位
+                // console.log(8)
+                oArr.push(2)
+                break
+              }
+            } else {
+              // console.log(9)
+              oArr.push(0)
+            }
+          }
+        }
+      }
+    }
+    that.setData({
+      oArr: oArr
+    })
+    //////////////////////////
   },
   dealseat: function() {
     var that = this;
@@ -507,6 +515,17 @@ Page({
     let day = new Date().getDate();
     let reg = /[\u4e00-\u9fa5]/g;
     let today = that.data.sessionDate.replace(reg, "").split('-');
+    var oArr = that.data.oArr
+    // console.log(oArr)
+    for (let i in oArr) {
+      if (oArr[i] == '2') {
+        wx.showToast({
+          title: '选座有空位',
+        })
+        return
+      }
+    }
+
     wx.showModal({
       title: '您购买的是' + today[0] + '月' + today[1] + '日的电影',
       content: app.globalData.cinemaList.ticketHint,
@@ -587,7 +606,7 @@ Page({
               'content-type': 'application/json' // 默认值
             },
             success: function(res) {
-              console.log(res)
+              // console.log(res)
               if (res.data.Status == "Success") {
                 // console.log(that.data)
                 // console.log(app.globalData)
