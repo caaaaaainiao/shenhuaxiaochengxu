@@ -55,6 +55,7 @@ Page({
     verifyCode: null, // 验证码
     payway: null, //支付方式 2-会员卡，1-微信
     disabled: 1,
+    isOpenMember: true, // 是否开通会员卡
     // waitActivity: null,//可參與活動
     UrlMap: {
       goodsUrl: app.globalData.url + '/Api/Goods/QueryGoods/MiniProgram/6BF477EBCC446F54E6512AFC0E976C41/',
@@ -102,6 +103,15 @@ Page({
       sessionCode: options.sessionCode,
       seatCouponList: app.globalData.ticketCoupons, // 优惠券列表
     });
+    if (app.globalData.isOpenMember == 1) {
+      that.setData({
+        isOpenMember: true
+      })
+    } else {
+      that.setData({
+        isOpenMember: false
+      })
+    }
     // 获取会员卡信息
     setTimeout(function() {
       util.getCardInfo(app.usermessage.Username, app.usermessage.Password, app.globalData.userInfo.openID, app.globalData.cinemacode, function(res) {

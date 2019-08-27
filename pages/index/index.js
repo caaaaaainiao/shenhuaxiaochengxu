@@ -736,11 +736,12 @@ Page({
     wx.getStorage({
       key: 'loginInfo',
       success: function(res) {
-        console.log(res)
         if (res.data.mobilePhone && res.data.isRegister == '1') {
-          wx.navigateTo({
-            url: '../mycard/mycard',
-          })
+          if (app.globalData.isOpenMember == 1) {
+            wx.navigateTo({
+              url: '../mycard/mycard',
+            })
+          }
         } else {
           wx.navigateTo({
             url: '../login/login'

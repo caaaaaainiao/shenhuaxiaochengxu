@@ -30,14 +30,14 @@
     <text class='money'>{{price}}</text>
     </view>
     <view class='payoption'>
-      <view class='membercardpay' bindtap='cardway'>
+      <view class='membercardpay' bindtap='cardway' wx:if="{{isOpenMember}}">
       <image src='/images/membercardpay.png' class='payimg'></image>
       会员卡支付
       <text wx:if="{{card&&memberCardPrice>-1}}">元</text>
       <text wx:else></text>
       <text class='money' style="margin-right:50rpx" wx:if="{{!card}}">未绑定</text>
       <text class='money'wx:elif="{{card&&memberCardPrice>-1}}">{{memberCardPrice}}</text>
-      <text class='money'wx:else style="margin-right:50rpx">获取会员价失败</text>
+      <text class='money'wx:else="{{card&&memberCardPrice == -1}}" style="margin-right:50rpx">获取会员价失败</text>
       <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==2}}"></image>
       <image src='/images/unselect.png' class='selectimg' wx:else></image>
       </view>

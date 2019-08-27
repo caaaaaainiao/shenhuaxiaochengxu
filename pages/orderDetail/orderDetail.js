@@ -61,7 +61,7 @@ Page({
         console.log(res)
         if (res.data.Status == 'Success') {
           let order = res.data.data;
-          let realAmount = Math.floor(res.data.data.realAmount * 100) / 100;
+          let realAmount = (res.data.data.realAmount).toFixed(2);
           let seat = res.data.data.seat;
           let printNo = res.data.data.printNo;
           let cinemaCode = res.data.data.cinemaCode;
