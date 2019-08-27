@@ -26,7 +26,9 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    // console.log(app.globalData)
+    that.setData({
+      isOpenMember: app.globalData.isOpenMember
+    })
     let data = {
       UserName: app.usermessage.Username,
       Password: app.usermessage.Password,
@@ -382,6 +384,14 @@ Page({
     })
   },
   toMycard: function() {
+    // console.log(this.data.isOpenMember)
+    if (this.data.isOpenMember == 0){
+      wx.showToast({
+        title: '暂未开通',
+        icon:'none'
+      })
+      return
+    }
     wx.getStorage({
       key: 'loginInfo',
       success: function(res) {

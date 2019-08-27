@@ -22,7 +22,7 @@
     <text class='money'>{{filters.toFix(totalPrice)}}</text>
   </view>
      <view class='payoption'>
-      <view class='membercardpay' bindtap='cardway'>
+      <view class='membercardpay' bindtap='cardway' wx:if='{{isOpenMember==1}}'>
       <image src='/images/membercardpay.png' class='payimg'></image>
       会员卡支付
       <text>元</text>

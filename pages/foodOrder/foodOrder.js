@@ -48,8 +48,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
-    var that = this;
-    console.log(app.globalData.cinemaList.cinemaType)
+    var that = this
+    that.setData({
+      isOpenMember: app.globalData.isOpenMember
+    })
     wx.request({
       url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + app.globalData.userInfo.openID,
       method: "GET",
