@@ -88,7 +88,7 @@
 }
 .payoption{
   width: 100%;
-  height: 200rpx;
+  /* height: 200rpx; */
   font-size: 26rpx;
   color: #322D2B;
   padding-left: 40rpx;

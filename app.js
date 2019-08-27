@@ -35,6 +35,7 @@ App({
     // AppId: 'wxb9c0ee0184070dc5', // 丰县
     // AppId: 'wxf372e7ee40bed29c', // 天一
     // AppId: 'wxc3d9adadfa5c9960', // 金陵
+    // AppId: 'wx2d99084124eb55cc', // 容湖
     // secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
     // secret: '0e050ba2d7338a77d0988a3c5716f813', // 国购
     // secret: '6b5276609738d408c1640e37460a64e6', // 越幕
@@ -47,6 +48,7 @@ App({
     // secret: 'dd8ea09f751a84e6fc732312df1cbad3', // 丰县
     // secret: '5aa832ac68dab4695d903ef8137c8214', // 天一
     // secret: '63e2a10300bb23d894d940d228879a83', // 金陵
+    // secret: 'f9b08699c6c819304320aec01512f023', // 容湖
     access_token: ''
   },
   globalData: {
