@@ -127,6 +127,7 @@ Page({
     that.ask();
   },
   dayChange: function(e) { //切换日期
+  // console.log(e)
     var day = e.currentTarget.dataset.index;
     this.setData({
       select: day
@@ -234,7 +235,7 @@ Page({
         'content-type': 'application/json' // 默认值
       },
       success: function(res) {
-        // console.log(res)
+        console.log(res)
           var comparePrices = res.data.data.sessionDate[0].session;
           // console.log(comparePrices)
           // 获取影院设置的限制购票时间

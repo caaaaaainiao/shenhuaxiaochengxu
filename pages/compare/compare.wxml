@@ -59,7 +59,7 @@
         </view>
         <view class='node'></view>
         <view data-index='{{index}}' wx:if="{{index == selectedIndex}}">
-          <block wx:for="{{moviesListDate.sessionDate[0].session[0].sessionPrice}}" wx:for-item="comparePrices" wx:key="comparePrices">
+          <block wx:for="{{moviesListDate.sessionDate[select].session[selectedIndex].sessionPrice}}" wx:for-item="comparePrices" wx:key="comparePrices">
             <view class='others'>
               <!-- 就在这里 -->
               <view class='store'>
