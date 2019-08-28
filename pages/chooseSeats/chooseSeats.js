@@ -375,90 +375,90 @@ Page({
     })
     that.dealseat();
     ///////////////////////
-    for (let i = 0; i < rows.length; i++) { //将null座位转化成相同格式
-      if (rows[i]) {
-        for (let j = 0; j < rows[i].seats.length; j++) {
-          if (!rows[i].seats[j]) {
-            rows[i].seats[j] = {
-              rowNum: rows[i].rowNum,
-              columnNum: '0',
-              status: "null"
-            }
-          }
-        }
-      }
-    }
-    console.log(rows)
-    for (let k in rows) { //如果座位已选中进行判断
-      if (rows[k]) {
-        for (let z in rows[k].seats) {
-          if (rows[k].seats[z].isSelect == true) { //判断座位被选中
-            // console.log(rows[k].seats[z])
-            // console.log(rows[k].seats[z - 2])
-            // console.log(rows[k].seats[z - (-2)])
-            if (!rows[k].seats[z - 1] || rows[k].seats[z - 1].status == 'null') { //判断左边第一排
-              // if (!rows[k].seats[z - (-2)] || rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)].status == 'Locked' || rows[k].seats[z - (-2)].isSelect == true) {
-              //   if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //判断已选座位右边第一个为空座位
-              //     console.log(1)
-              //     oArr.push(2)
-              //     break
-              //   }
-              // }
-            } else if (!rows[k].seats[z - (-1)] || rows[k].seats[z - (-1)].status == 'null') { //判断右边第一排
-              // if (!rows[k].seats[z - 2] || rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked' || rows[k].seats[z - 2].isSelect == true) {
-              //   if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //判断已选座位右边第一个为空座位
-              //     console.log(2)
-              //     oArr.push(2)
-              //     break
-              //   }
-              // }
-            } else if (!rows[k].seats[z - 2] || rows[k].seats[z - 2].status == 'null') { //判断左边第二排         
-              // if (rows[k].seats[z - (-2)] && rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true && rows[k].seats[z - (-2)].status != 'null') { //如果第二排左边那一排为空座位
-              //   console.log(3)
-              //   oArr.push(2)
-              //   break
-              // } else if (rows[k].seats[z - (-2)] && rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)] && rows[k].seats[z - (-2)].status == 'Locked') { //第二排 右边第二个锁座
-              //   if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //第二排 右边第一个为空座位
-              //     console.log(4)
-              //     oArr.push(2)
-              //     break
-              //   }
-              // }
-            } else if (!rows[k].seats[z - (-2)] || rows[k].seats[z - (-2)].status == 'null') { //判断右边第二排
-              // if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //如果右边第二排右边那一排为空座位
-              //   console.log(5)
-              //   oArr.push(2)
-              //   break
-              // } else if (rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked') { //第二排 左边第二个锁座
-              //   if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //第二排 左边第一个为空座位
-              //     console.log(6)
-              //     oArr.push(2)
-              //     break
-              //   }
-              // }
-            } else if (rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked' || rows[k].seats[z - 2].isSelect == true) { //判断已选座位左边第二个为已售 已锁座 已选择状态
-              if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //判断已选座位左边第一个为空座位
-                console.log(7)
-                oArr.push(2)
-                break
-              }
-            } else if (rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)].status == 'Locked' || rows[k].seats[z - (-2)].isSelect == true) { //判断已选座位右边第二个为已售 已锁座 已选择状态        
-              if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //判断已选座位右边第一个为空座位
-                console.log(8)
-                oArr.push(2)
-                break
-              }
-            } else {
-              console.log(9)
-              oArr.push(0)
-            }
-          }
-        }
-      }
-    }
-    that.setData({
-      oArr: oArr
-    })
+    // for (let i = 0; i < rows.length; i++) { //将null座位转化成相同格式
+    //   if (rows[i]) {
+    //     for (let j = 0; j < rows[i].seats.length; j++) {
+    //       if (!rows[i].seats[j]) {
+    //         rows[i].seats[j] = {
+    //           rowNum: rows[i].rowNum,
+    //           columnNum: '0',
+    //           status: "null"
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // console.log(rows)
+    // for (let k in rows) { //如果座位已选中进行判断
+    //   if (rows[k]) {
+    //     for (let z in rows[k].seats) {
+    //       if (rows[k].seats[z].isSelect == true) { //判断座位被选中
+    //         // console.log(rows[k].seats[z])
+    //         // console.log(rows[k].seats[z - 2])
+    //         // console.log(rows[k].seats[z - (-2)])
+    //         if (!rows[k].seats[z - 1] || rows[k].seats[z - 1].status == 'null') { //判断左边第一排
+    //           // if (!rows[k].seats[z - (-2)] || rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)].status == 'Locked' || rows[k].seats[z - (-2)].isSelect == true) {
+    //           //   if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //判断已选座位右边第一个为空座位
+    //           //     console.log(1)
+    //           //     oArr.push(2)
+    //           //     break
+    //           //   }
+    //           // }
+    //         } else if (!rows[k].seats[z - (-1)] || rows[k].seats[z - (-1)].status == 'null') { //判断右边第一排
+    //           // if (!rows[k].seats[z - 2] || rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked' || rows[k].seats[z - 2].isSelect == true) {
+    //           //   if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //判断已选座位右边第一个为空座位
+    //           //     console.log(2)
+    //           //     oArr.push(2)
+    //           //     break
+    //           //   }
+    //           // }
+    //         } else if (!rows[k].seats[z - 2] || rows[k].seats[z - 2].status == 'null') { //判断左边第二排         
+    //           // if (rows[k].seats[z - (-2)] && rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true && rows[k].seats[z - (-2)].status != 'null') { //如果第二排左边那一排为空座位
+    //           //   console.log(3)
+    //           //   oArr.push(2)
+    //           //   break
+    //           // } else if (rows[k].seats[z - (-2)] && rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)] && rows[k].seats[z - (-2)].status == 'Locked') { //第二排 右边第二个锁座
+    //           //   if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //第二排 右边第一个为空座位
+    //           //     console.log(4)
+    //           //     oArr.push(2)
+    //           //     break
+    //           //   }
+    //           // }
+    //         } else if (!rows[k].seats[z - (-2)] || rows[k].seats[z - (-2)].status == 'null') { //判断右边第二排
+    //           // if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //如果右边第二排右边那一排为空座位
+    //           //   console.log(5)
+    //           //   oArr.push(2)
+    //           //   break
+    //           // } else if (rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked') { //第二排 左边第二个锁座
+    //           //   if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //第二排 左边第一个为空座位
+    //           //     console.log(6)
+    //           //     oArr.push(2)
+    //           //     break
+    //           //   }
+    //           // }
+    //         } else if (rows[k].seats[z - 2].status == 'Sold' || rows[k].seats[z - 2].status == 'Locked' || rows[k].seats[z - 2].isSelect == true) { //判断已选座位左边第二个为已售 已锁座 已选择状态
+    //           if (rows[k].seats[z - 1].status == "Available" && rows[k].seats[z - 1].isSelect != true) { //判断已选座位左边第一个为空座位
+    //             console.log(7)
+    //             oArr.push(2)
+    //             break
+    //           }
+    //         } else if (rows[k].seats[z - (-2)].status == 'Sold' || rows[k].seats[z - (-2)].status == 'Locked' || rows[k].seats[z - (-2)].isSelect == true) { //判断已选座位右边第二个为已售 已锁座 已选择状态        
+    //           if (rows[k].seats[z - (-1)].status == "Available" && rows[k].seats[z - (-1)].isSelect != true) { //判断已选座位右边第一个为空座位
+    //             console.log(8)
+    //             oArr.push(2)
+    //             break
+    //           }
+    //         } else {
+    //           console.log(9)
+    //           oArr.push(0)
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // that.setData({
+    //   oArr: oArr
+    // })
     //////////////////////////
   },
   dealseat: function() {
@@ -523,15 +523,15 @@ Page({
     let today = that.data.sessionDate.replace(reg, "").split('-');
     var oArr = that.data.oArr
     // console.log(oArr)
-    for (let i in oArr) {
-      if (oArr[i] == '2') {
-        wx.showToast({
-          title: '选座不能留有空位',
-          icon: 'none'
-        })
-        return
-      }
-    }
+    // for (let i in oArr) {
+    //   if (oArr[i] == '2') {
+    //     wx.showToast({
+    //       title: '选座不能留有空位',
+    //       icon: 'none'
+    //     })
+    //     return
+    //   }
+    // }
 
     wx.showModal({
       title: '您购买的是' + today[0] + '月' + today[1] + '日的电影',

@@ -61,7 +61,6 @@
         <view data-index='{{index}}' wx:if="{{index == selectedIndex}}">
           <block wx:for="{{moviesListDate.sessionDate[0].session[0].sessionPrice}}" wx:for-item="comparePrices" wx:key="comparePrices">
             <view class='others'>
-              <!-- 就在这里 -->
               <view class='store'>
                 <image src='{{logo}}' wx:if="{{comparePrices.typeCode==1}}"></image>
                 <image src='/images/rmlogo.png' wx:elif="{{comparePrices.typeCode==46}}"></image>
@@ -73,7 +72,9 @@
                 <text wx:elif="{{comparePrices.typeCode==49}}">淘票票</text>
                 <view class='nowPrice'>
                   <text>￥</text>
-                  <text class='num'>{{comparePrices.settlePrice}}</text>
+                  <!-- <block wx:for="{{session}}" wx:for-item="session" wx:key="session"> -->
+                    <text class='num'>{{comparePrices.settlePrice}}</text>
+                  <!-- </block> -->
                   <text class="qi" wx:if="{{comparePrices.typeCode==1}}">  起</text>
                 </view>
                 <view class='buy' data-index="{{index}}" data-num="{{session.featureAppNo}}" data-screencode="{{session.screenCode}}" data-typeCode='{{comparePrices.typeCode}}' data-code="{{session.qmmComparePrices[index].dataType}}" catchtap='buyMoer'>购票</view>

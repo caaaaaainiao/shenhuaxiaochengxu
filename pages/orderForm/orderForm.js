@@ -229,6 +229,7 @@ Page({
             },
             success: function(res) {
               wx.hideLoading();
+              console.log(res)
               if (res.data.Status == 'Success') {
                 if (that.data.payway == 2) { // 如果选择了会员卡支付
                   that.setData({
@@ -267,6 +268,7 @@ Page({
             },
             success: function(res) {
               wx.hideLoading();
+              console.log(res)
               if (res.data.Status == 'Success') {
                 that.setData({
                   price: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格

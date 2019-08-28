@@ -240,6 +240,7 @@ Page({
     if (!that.data.currentCode) {
       wx.showModal({
         title: '请点击选择影院',
+        showCancel: false,
       })
     } else {
       if (e.detail.errMsg == "getPhoneNumber:fail user deny") { // 拒绝
@@ -355,45 +356,75 @@ Page({
             console.log(e)
             //个人信息
             if (e.data.Status == 'Success') {
-              wx.request({
-                url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + that.data.currentCode + '/' + app.globalData.openId,
-                method: "GET",
-                header: {
-                  "Content-Type": "application/json"
-                },
-                success: function(res) {
-                  if (res.data.Status == 'Success') {
-                    wx.setStorage({
-                      key: 'loginInfo',
-                      data: res.data.data,
-                    })
-                    app.globalData.userInfo = res.data.data;
-                    that.setData({
-                      userInfo: res.data.data,
-                    });
-                    if (e.data.linkUrl == '') {
+              if (e.data.linkUrl == '') {
+                wx.request({
+                  url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + that.data.currentCode + '/' + app.globalData.openId,
+                  method: "GET",
+                  header: {
+                    "Content-Type": "application/json"
+                  },
+                  success: function (res) {
+                    console.log(res)
+                    if (res.data.Status == 'Success') {
+                      wx.setStorage({
+                        key: 'loginInfo',
+                        data: res.data.data,
+                      })
+                      app.globalData.userInfo = res.data.data;
+                      that.setData({
+                        userInfo: res.data.data,
+                      });
                       wx.switchTab({
                         url: '../index/index',
                       })
                     } else {
-                      let image = e.data.linkUrl;
+                      wx.showToast({
+                        title: '授权失败，请重新授权',
+                        icon: 'none',
+                        duration: 2000,
+                      })
                       that.setData({
-                        image: image,
-                        modalHidden: false,
-                      });
+                        getInfo: 0,
+                      })
                     }
-                  } else {
-                    wx.showToast({
-                      title: '授权失败，请重新授权',
-                      icon: 'none',
-                      duration: 2000,
-                    })
-                    that.setData({
-                      getInfo: 0,
-                    })
                   }
-                }
-              })
+                })
+              } else {
+                let image = e.data.linkUrl;
+                that.setData({
+                  image: image,
+                  modalHidden: false,
+                });
+                wx.request({
+                  url: app.globalData.url + '/Api/User/QueryUser' + '/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + that.data.currentCode + '/' + app.globalData.openId,
+                  method: "GET",
+                  header: {
+                    "Content-Type": "application/json"
+                  },
+                  success: function (res) {
+                    console.log(res)
+                    if (res.data.Status == 'Success') {
+                      wx.setStorage({
+                        key: 'loginInfo',
+                        data: res.data.data,
+                      })
+                      app.globalData.userInfo = res.data.data;
+                      that.setData({
+                        userInfo: res.data.data,
+                      });
+                    } else {
+                      wx.showToast({
+                        title: '授权失败，请重新授权',
+                        icon: 'none',
+                        duration: 2000,
+                      })
+                      that.setData({
+                        getInfo: 0,
+                      })
+                    }
+                  }
+                })
+              }
             } else {
               wx.showToast({
                 title: '授权失败，请重新授权',
