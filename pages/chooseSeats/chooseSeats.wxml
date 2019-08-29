@@ -28,6 +28,19 @@
     <text>{{screenName}}</text>
     <image src='https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/seatbanner.png'></image>
   </view>
+  <!-- 弹出提示 -->
+  <view class="popping" wx:if='{{isshow}}'>
+    <view class="icon">
+    <text>!</text>
+    </view>
+    <image class="icon_1" src="/images/selected1.png"></image>
+    <image class="icon_2" src="/images/canselect.png"></image>
+    <image class="icon_3" src="/images/selected1.png"></image>
+    <view class="icon_txt">
+    <text>座位旁边不要留空</text>
+    </view>
+  </view>
+  <!-- 弹出提示 -->
   <view class='seatArea'>
     <view class='rownum' style='transform:translateY(-50%) scale({{scale}});margin-top:{{translateY}}px;'>
       <block wx:for="{{rownum}}" wx:for-item="number" wx:key="number">
@@ -35,12 +48,13 @@
       </block>
     </view>
     <view class='seats' style=' transform:translate({{translateX}}px,{{translateY}}px) scale({{scale}})' bindtouchstart="touchstart" catchtouchmove="touchmove" catchtouchend="touchend">
-    <!-- <view class='seats' style='transform-origin:{{seatx}}% {{seaty}}%; transform:translate({{translateX}}px,{{translateY}}px) scale({{scale}})'> -->
+      <!-- <view class='seats' style='transform-origin:{{seatx}}% {{seaty}}%; transform:translate({{translateX}}px,{{translateY}}px) scale({{scale}})'> -->
       <view class='box'>
         <block wx:for="{{rows}}" wx:for-item="row" wx:key="row">
           <view class='row'>
             <block wx:for="{{row.seats}}" wx:for-item="column" wx:key="column">
-              <view class='column seat {{column.loveFlag=="N"?"seatMiddle":""}} {{column.status=="Unavailable"?"selled":""}} {{column.loveFlag=="L"?"seatLeft":""}} {{column.loveFlag=="R"?"seatRight":""}} {{column.status=="Sold"?"selled":""}} {{column.status=="Booked"?"selled":""}} {{column.status=="Locked"?"selled":""}} {{column.status=="Available"?"available":""}} {{column.groupCode?"unempty":"empty"}} {{column.isSelect?"select":""}}' catchtap='choose' data-code="{{column.seatCode}}" data-status='{{column.status=="Available"?"available":"sell"}}'>
+              <view class='column seat {{column.loveFlag=="N"?"seatMiddle":""}} {{column.status=="Unavailable"?"selled":""}} {{column.loveFlag=="L"?"seatLeft":""}} {{column.loveFlag=="R"?"seatRight":""}} {{column.status=="Sold"?"selled":""}} {{column.status=="Booked"?"selled":""}} {{column.status=="Locked"?"selled":""}} {{column.status=="Available"?"available":""}} {{column.groupCode?"unempty":"empty"}} {{column.isSelect?"select":""}}'
+                catchtap='choose' data-code="{{column.seatCode}}" data-status='{{column.status=="Available"?"available":"sell"}}'>
               </view>
             </block>
           </view>

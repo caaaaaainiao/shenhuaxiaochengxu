@@ -1,5 +1,63 @@
 /* pages/chooseSeats/chooseSeats.wxss */
 
+.popping {
+  width: 340rpx;
+  height: 240rpx;
+  background: rgba(0, 0, 0, 0.7);
+  position: absolute;
+  left: 27%;
+  top: 40%;
+  border-radius: 3%;
+  z-index: 999;
+}
+
+.icon {
+  width: 40rpx;
+  height: 40rpx;
+  background: rgba(218, 78, 123, 1);
+  border-radius: 50%;
+  text-align: center;
+  color: white;
+  position: absolute;
+  left: 45%;
+  top: 10%;
+  font-family: '楷体';
+}
+
+.icon_1 {
+  width: 62rpx;
+  height: 52rpx;
+  position: absolute;
+  left: 45rpx;
+  top:80rpx
+}
+
+.icon_2 {
+  width: 62rpx;
+  height: 52rpx;
+  position: absolute;
+  left: 140rpx;
+  top:80rpx
+}
+
+.icon_3 {
+  width: 62rpx;
+  height: 52rpx;
+  position: absolute;
+  left: 235rpx;
+  top:80rpx
+}
+
+.icon_txt{
+  position: absolute;
+  left: 70rpx;
+  top: 165rpx;
+  color: white;
+  font-size: 23rpx;
+  letter-spacing: 5rpx;
+  font-family: 'PingFang-SC-Regular'
+}
+
 .container {
   width: 100%;
   height: 100%;
@@ -118,6 +176,7 @@
   overflow: hidden;
   position: relative;
 }
+
 /* .seats{
   transition: 0.5s
 }
@@ -133,6 +192,7 @@
   flex-direction: row;
   margin: auto;
 } */
+
 .row {
   width: auto;
   height: 56rpx;
@@ -144,14 +204,13 @@
   display: inline-block;
   overflow: hidden;
   /* transform-origin: top left; */
-
 }
 
 .seat {
   width: 58rpx;
   height: 56rpx;
   margin-right: 8rpx;
-  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seat1.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seat1.png) no-repeat;
   background-size: 100% 100%;
   /* float: left; */
   display: inline-block;
@@ -171,7 +230,7 @@
 }
 
 .available {
-  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatselect.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatselect.png) no-repeat;
   background-size: 100% 100%;
 }
 
@@ -179,7 +238,7 @@
   width: 62rpx;
   height: 55rpx;
   margin-right: 0;
-  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatleft.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatleft.png) no-repeat;
   background-size: 100% 100%;
 }
 
@@ -187,59 +246,69 @@
   width: 62rpx;
   height: 55rpx;
   margin-right: 0;
-  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seat1.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seat1.png) no-repeat;
   background-size: 100% 100%;
 }
+
 .seatRight {
   width: 62rpx;
   height: 55rpx;
-  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatright.png) no-repeat;
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatright.png) no-repeat;
   background-size: 100% 100%;
 }
 
-.selled{
-  background:url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/selled.png) no-repeat;
+.selled {
+  background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/selled.png) no-repeat;
   background-size: 100% 100%;
 }
 
-.seat.empty{
+.seat.empty {
   visibility: hidden;
 }
-.seatLeft.sell{
+
+.seatLeft.sell {
   background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatleftsell.png) no-repeat;
   background-size: 100% 100%;
 }
-.seatMiddle.sell{
+
+.seatMiddle.sell {
   background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatmiddleselect.png) no-repeat;
   background-size: 100% 100%;
 }
-.seatRight.sell{
+
+.seatRight.sell {
   background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatrightsell.png) no-repeat;
   background-size: 100% 100%;
 }
-.seat.select{
+
+.seat.select {
   background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatselect.png) no-repeat;
   background-size: 100% 100%;
 }
-.seatLeft.select{
+
+.seatLeft.select {
   background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatleftselect.png) no-repeat;
   background-size: 100% 100%;
 }
-.seatMiddle.select{
+
+.seatMiddle.select {
   background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatselect.png) no-repeat;
   background-size: 100% 100%;
 }
-.seatRight.select{
+
+.seatRight.select {
   background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/images/seat/seatrightselect.png) no-repeat;
   background-size: 100% 100%;
 }
-.tickets{
+
+.tickets {
   width: 100%;
   height: 145rpx;
   padding-top: 40rpx;
   padding-left: 20rpx;
 }
-.ticket{
+
+.ticket {
   width: 154rpx;
   height: 78rpx;
   background: url(https://whtxcx.oss-cn-hangzhou.aliyuncs.com/min/ticket.png) no-repeat;
@@ -248,20 +317,23 @@
   margin-right: 24rpx;
   padding-top: 10rpx;
 }
-.seatnum{
+
+.seatnum {
   font-size: 23rpx;
   color: #312927;
   text-align: center;
   line-height: 1;
   margin-bottom: 10rpx;
 }
-.seatprice{
+
+.seatprice {
   font-size: 23rpx;
-  color: #E04F2E;
+  color: #e04f2e;
   text-align: center;
   line-height: 1;
 }
-.pay{
+
+.pay {
   width: 100%;
   height: 78rpx;
   line-height: 78rpx;
@@ -272,22 +344,25 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  background: linear-gradient(to right, #DA4E7B, #2177B9);
+  background: linear-gradient(to right, #da4e7b, #2177b9);
 }
-.pay text{
+
+.pay text {
   margin-left: 20rpx;
 }
-.rownum{
+
+.rownum {
   width: 30rpx;
   height: auto;
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, 0.5);
   position: absolute;
   left: 20rpx;
   top: 50%;
   border-radius: 15rpx;
   z-index: 9;
 }
-.num{
+
+.num {
   font-size: 24rpx;
   color: #fff;
   text-align: center;
@@ -295,13 +370,15 @@
   height: 56rpx;
   margin-bottom: 10rpx;
 }
-.num:last-child{
+
+.num:last-child {
   /* margin-bottom: 0; */
 }
-.middle{
+
+.middle {
   width: 2rpx;
   height: 110%;
-  border-left: 2rpx dotted #888; 
+  border-left: 2rpx dotted #888;
   position: absolute;
   top: -5%;
   left: 50%;
