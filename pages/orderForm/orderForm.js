@@ -237,7 +237,6 @@ Page({
                     thirdPayFee: res.data.thirdPayFee, // 微信支付代售费
                     memberCardPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
                     memberPayFee: res.data.memberPayFee, // 会员卡支付代售费
-                    allPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
                   })
                 } else if (that.data.payway == 1) {
                   that.setData({
@@ -245,7 +244,6 @@ Page({
                     thirdPayFee: res.data.thirdPayFee, // 微信支付代售费
                     memberCardPrice: parseFloat(res.data.orderMemberPrice).toFixed(2), // 会员卡支付价格
                     memberPayFee: res.data.memberPayFee, // 会员卡支付代售费
-                    allPrice: parseFloat(res.data.orderThirdPrice).toFixed(2), // 微信支付价格
                   })
                 } else {
                   that.setData({

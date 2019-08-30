@@ -15,7 +15,7 @@
   </view>
   <view class="option" wx:if="{{isShow}}">
     <image src="/images/icon-person.png" class="icon" mode="widthFix"></image>
-    <input value="" bindinput="" bindblur="getId" placeholder="输入身份证号码" placeholder-class="phColor"/>
+    <input value="" bindinput="" bindblur="getId" placeholder="输入身份证号码" placeholder-class="phColor" />
   </view>
   <view class='option'>
     <image src='/images/ocname.png' class='icon'></image>
@@ -39,26 +39,35 @@
   </view>
   <view class='option'>
     <image src='/images/birthday.png' class='icon'></image>
-     <picker mode="date" value="{{birthday}}"  bindchange="setBirthday">
+    <picker mode="date" value="{{birthday}}" bindchange="setBirthday">
       <text class='text'>{{birthday?birthday:"选择生日"}}</text>
     </picker>
   </view>
-	<view class="operate" style="padding: 0 60rpx;margin-top: 10rpx; font-size: 13px">
-		<view class="agree" style="background-color: #fff;height: 80rpx;display: flex;align-items: center;justify-content: space-between;flex-wrap: wrap;box-sizing: border-box;">
+  <view class="operate" style="padding: 0 60rpx;margin-top: 10rpx; font-size: 13px">
+    <view class="agree" style="background-color: #fff;height: 80rpx;display: flex;align-items: center;justify-content: space-between;flex-wrap: wrap;box-sizing: border-box;">
       <image src="/images/selected.png" class="selected"></image>
-      我已阅读并同意 <navigator bindtap='cinemaAgreement' style="color: #DA4E7B;height: auto;width: auto;display: block;flex: 1;">《会员卡协议》</navigator>
-		</view>
-	</view>
-  <view class="money">
-    开通会员卡需充值:
-    <text style="color:#DA4E7B;">{{credit}}</text>
+      我已阅读并同意
+      <navigator bindtap='cinemaAgreement' style="color: #DA4E7B;height: auto;width: auto;display: block;flex: 1;">《会员卡协议》</navigator>
+    </view>
   </view>
-  <view class='btn' bindtap='open'>开卡</view>
+  <view class="fee" style="background: white">
+    <view wx:if="{{cardCostFee>0}}">
+      开卡费:
+      <text style="color:#DA4E7B;">{{cardCostFee}}元，</text>
+    </view>
+    <view wx:if="{{firstCredit>0}}">
+      开卡需充值:
+      <text style="color:#DA4E7B;">{{firstCredit}}元</text>
+    </view>
+  </view>
+  <view class='btn' bindtap='open'>开卡
+    <text wx:if="{{credit>0}}">(需支付{{credit}}元)</text>
+  </view>
 
   <!-- 会员服务协议 -->
-  <view style='width: 100%;height: 100%;background: rgba(0,0,0,.5);position: fixed;top: 0;left: 0;z-index: 99;'wx:if="{{cinemaAgreement}}">
+  <view style='width: 100%;height: 100%;background: rgba(0,0,0,.5);position: fixed;top: 0;left: 0;z-index: 99;' wx:if="{{cinemaAgreement}}">
     <view style='width: 100%;height: 560rpx;background: #fff;padding-top: 100rpx;border-radius: 16rpx 16rpx 0 0;  position: absolute;left: 0;bottom: 0;'>
-      <image style='width: 40rpx;height: 40rpx;position: absolute;top: 20rpx;right: 20rpx;'src='/images/close.png' bindtap='closeCinemaAgreement'></image>
+      <image style='width: 40rpx;height: 40rpx;position: absolute;top: 20rpx;right: 20rpx;' src='/images/close.png' bindtap='closeCinemaAgreement'></image>
       <view style='width: 540rpx;background: #EEEEEE;margin: 0 auto 160rpx;padding-left: 30rpx;border-radius: 16rpx;height:200rpx;padding-right:30rpx;font-size:28rpx;overflow:scroll;'>{{agreement}}</view>
     </view>
   </view>
