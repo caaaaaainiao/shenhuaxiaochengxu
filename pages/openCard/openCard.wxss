@@ -115,12 +115,6 @@ picker{
   margin-right: 5rpx;
 }
 
-.money{
-  position: absolute;
-  bottom: 118rpx;
-  left: 218rpx;
-}
-
 .alert{
   top: 0;
   z-index: 1000;
@@ -213,4 +207,20 @@ picker{
   line-height: 80rpx;
   height: 84rpx;
   letter-spacing: 3px;
+}
+
+.fee{
+  width: 100%;
+  height: 98rpx;
+  line-height: 98rpx;
+  font-size: 30rpx;
+  /* color: rgb(0, 0, 0); */
+  font-weight: bold;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  bottom: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
