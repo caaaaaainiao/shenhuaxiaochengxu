@@ -23,7 +23,7 @@ App({
   usermessage: {
     Username: "MiniProgram",
     Password: "6BF477EBCC446F54E6512AFC0E976C41",
-    // AppId: 'wx1baa1fc8240ef183', // 高美
+    AppId: 'wx1baa1fc8240ef183', // 高美
     // AppId: 'wxb491affbeb262f2f', // 国购
     // AppId: 'wx8eafe6ec48aa323f', // 越幕
     // AppId: 'wxa20eeb5bde481333', // 智泉
@@ -36,8 +36,8 @@ App({
     // AppId: 'wxf372e7ee40bed29c', // 天一
     // AppId: 'wxc3d9adadfa5c9960', // 金陵
     // AppId: 'wx2d99084124eb55cc', // 容湖
-     AppId: 'wx44926411189c0621', // 新远
-    // secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
+    // AppId: 'wx44926411189c0621', // 新远
+    secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
     // secret: '0e050ba2d7338a77d0988a3c5716f813', // 国购
     // secret: '6b5276609738d408c1640e37460a64e6', // 越幕
     // secret: 'eff0e90de960e6cae166368c54de0b5f', // 智泉
@@ -50,7 +50,7 @@ App({
     // secret: '5aa832ac68dab4695d903ef8137c8214', // 天一
     // secret: '63e2a10300bb23d894d940d228879a83', // 金陵
     // secret: 'f9b08699c6c819304320aec01512f023', // 容湖
-       secret: '4837c38d205f3fefae64ca0b880a2a32', // 新远
+    // secret: '4837c38d205f3fefae64ca0b880a2a32', // 新远
     access_token: ''
   },
   globalData: {

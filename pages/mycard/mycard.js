@@ -29,7 +29,6 @@ Page({
    */
   onLoad: function(options) {
     var that = this;
-    console.log(that.data)
     that.setData({
       openId: app.globalData.userInfo.openID,
       cinemaCode: app.globalData.cinemacode,
@@ -142,7 +141,6 @@ Page({
     let that = this;
     if (app.globalData.cinemaList.cinemaType == '云智' || app.globalData.cinemaList.cinemaType == '粤科') {
       if (that.data.card) {
-        console.log(1)
         that.setData({
           show: true
         })
