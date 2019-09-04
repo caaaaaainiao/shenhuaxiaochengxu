@@ -646,3 +646,10 @@
   left: 0;
   bottom: 0;
 }
+.exfood{
+  width: 50rpx;
+  height:50rpx;
+  position: absolute;
+  left: 10rpx;
+  top:40rpx;
+}
