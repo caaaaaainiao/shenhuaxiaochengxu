@@ -2,7 +2,7 @@ var utilMd5 = require('utils/md5.js');
 App({
 
 
-  onLaunch: function() {
+  onLaunch: function() {9
 
   },
 
