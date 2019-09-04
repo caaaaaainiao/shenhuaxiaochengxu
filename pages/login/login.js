@@ -208,10 +208,8 @@ Page({
   getUserInfo: function(e) { //获取用户信息
     var that = this;
     if (e.detail.errMsg == "getUserInfo:fail auth deny") { // 拒绝
-      wx.showToast({
-        title: '请先授权',
-        icon: "loading",
-        duration: 2000
+      wx.reLaunch({
+        url: '../index/index',
       })
     } else if (e.detail.errMsg == "getUserInfo:ok") { // 允许
       that.setData({
