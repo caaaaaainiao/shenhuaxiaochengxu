@@ -20,10 +20,10 @@
         <image src='/images/exfood.png' class='icon' wx:elif="{{coupon.reductionType == 2&&coupon.couonsType == 2}}"></image>
         <!-- 卖品兑换券 -->
         <!-- <image src='/images/exfood.png' class='icon' wx:elif="{{coupon.reductionType == 3&&coupon.couonsType == 2}}"></image> -->
-        <view class='name' wx:if="{{coupon.reductionType == 1&&coupon.couonsType == 1}}">{{coupon.title}}</view>
-        <view class='name' wx:elif="{{coupon.reductionType == 2&&coupon.couonsType == 1}}">{{coupon.title}}</view>
+        <view class='name'>{{coupon.title}}</view>
+        <!-- <view class='name' wx:elif="{{coupon.reductionType == 2&&coupon.couonsType == 1}}">{{coupon.title}}</view>
         <view class='name' wx:elif="{{coupon.reductionType == 1&&coupon.couonsType == 2}}">电影兑换券</view>
-        <view class='name' wx:elif="{{coupon.reductionType == 2&&coupon.couonsType == 2}}">卖品兑换券</view>
+        <view class='name' wx:elif="{{coupon.reductionType == 2&&coupon.couonsType == 2}}">卖品兑换券</view> -->
         <!-- <view class='scope' wx:if='{{coupon.cinemaName != null}}'>适用于{{coupon.cinemaName}}</view>
          <view class='scope' wx:elif='{{coupon.cinemaName == null}}'>全店通用</view> -->
         <view class='time'>有效期至：{{coupon.expireDate}}</view>
