@@ -12,16 +12,14 @@
       <view class='messages'>
         <view class="leftBlock" bindtap='toCard'>
           <text class='title'>积分</text>
-          <text class='number' wx:if="{{memberCardScore}}">{{memberCardScore}}</text>
-          <text class='number' wx:else>---</text>
+          <text class='number'>{{memberCardScore}}</text>
         </view>
         <view class="middleBlock">
           <text>{{userInfo.nickName}}</text>
         </view>
         <view class="rightBlock" bindtap='toCard'>
           <text class='title'>余额</text>
-          <text class='number' wx:if="{{memberCardBalance}}">{{memberCardBalance}}</text>
-          <text class='number' wx:else>---</text>
+          <text class='number'>{{memberCardBalance}}</text>
         </view>
       </view>
       <view class='location'>{{lookcinemaname}}</view>
