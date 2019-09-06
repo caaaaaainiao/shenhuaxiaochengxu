@@ -21,8 +21,8 @@
     <text>元</text>
     <text class='money'>{{filters.toFix(totalPrice)}}</text>
   </view>
-     <view class='payoption'>
-      <view class='membercardpay' bindtap='cardway' wx:if='{{isOpenMember==1}}'>
+  <view class='payoption'>
+    <view class='membercardpay' bindtap='cardway' wx:if='{{isOpenMember==1}}'>
       <image src='/images/membercardpay.png' class='payimg'></image>
       会员卡支付
       <text>元</text>
@@ -30,17 +30,17 @@
       <text class='money' wx:if='{{onbind}}'>{{orderMemberPrice}}</text>
       <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==2}}"></image>
       <image src='/images/unselect.png' class='selectimg' wx:else></image>
-      </view>
-      <view class='wxpay' bindtap='wxway'>
+    </view>
+    <view class='wxpay' bindtap='wxway'>
       <image src='/images/wxpay.png' class='payimg'></image>
       微信支付
       <text>元</text>
       <text class='money'>{{filters.toFix(totalPrice)}}</text>
       <image src='/images/payselect.png' class='selectimg' wx:if="{{payway==1}}"></image>
       <image src='/images/unselect.png' class='selectimg' wx:else></image>
-      </view>
     </view>
-      <view class='option' wx:if="{{goodTicket.length>0}}" bindtap='chooseCoupon'>
+  </view>
+  <view class='option' wx:if="{{goodTicket.length>0}}" bindtap='chooseCoupon'>
     小食优惠券
     <image src='/images/gray_more.png'></image>
     <text>-{{merOrder.merTicket.couponPrice}}元</text>
@@ -103,7 +103,7 @@
       <text>{{waitActivity.reduceMoney}}元</text>
     </view>
   </view>
-  <view class='btn'  bindtap='choosePay'>立即支付</view>
+  <view class='btn' bindtap='choosePay'>立即支付</view>
   <!-- 会员卡密码 -->
   <view class='black2' wx:if="{{showM}}">
     <view class='add2'>
@@ -111,17 +111,17 @@
       <view class='input2'>
         <input type='password' placeholder-style="color:#888;" placeholder='请输入密码' bindinput='setM'></input>
       </view>
-      <form  report-submit='true'  bindsubmit='formSubmit'>
-      <button formType="submit" class='submit2' bindtap='cardPay'>确 定</button>
+      <form report-submit='true' bindsubmit='formSubmit'>
+        <button formType="submit" class='submit2' bindtap='cardPay'>确 定</button>
       </form>
     </view>
   </view>
-   <!-- 备注 -->
+  <!-- 备注 -->
   <view class='black2' wx:if="{{messageshow}}">
     <view class='add2'>
       <image class='close2' src='/images/close.png' bindtap='closeMessageshow'></image>
       <view class='input2' style='height:160rpx;padding-right:30rpx;'>
-        <textarea placeholder-style="color:#888;line-height:80rpx;" placeholder='请输入备注' maxlength='50' bindinput='setMessage' ></textarea>
+        <textarea placeholder-style="color:#888;line-height:80rpx;" placeholder='请输入备注' maxlength='50' bindinput='setMessage'></textarea>
       </view>
       <view class='submit2' bindtap='closeMessageshow'>确 定</view>
     </view>
@@ -129,24 +129,28 @@
   <!-- 选择小食优惠券 -->
   <view class='chooseCoupon' wx:if="{{startChoose&&merOrder.merTicketList!=null}}">
     <block wx:for="{{merOrder.merTicketList}}" wx:for-item="foodCoupons" wx:key="foodCoupons">
-      <view  class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.couponsCode}}' data-code='{{foodCoupons.couponsCode}}' data-couponPrice='{{foodCoupons.reductionPrice}}'>
-        <view class='couponMoney'>￥{{foodCoupons.reductionPrice}}</view>
-        <view class='couponLimit'>满{{foodCoupons.reductionPrice}}元可用</view>
+      <view class='canUse' bindtap='setFoodCoupon' data-id='{{foodCoupons.couponsCode}}' data-code='{{foodCoupons.couponsCode}}' data-couponPrice='{{foodCoupons.reductionPrice}}'>
+        <view class='couponMoney' wx:if="{{foodCoupons.couponsType==1}}">￥{{foodCoupons.reductionPrice}}</view>
+        <view class='couponMoney' wx:if="{{foodCoupons.couponsType==2}}">
+          <image src="/images/exfood.png" class="exfood"></image>
+        </view>
+        <view class='couponLimit' wx:if="{{foodCoupons.couponsType==1}}">满{{foodCoupons.reductionPrice}}元可用</view>
+        <view class='couponLimit' wx:if="{{foodCoupons.couponsType==2}}">卖品券</view>
         <view class='couponTime'>有效期至{{foodCoupons.expireDate}}</view>
         <image src='/images/gou.png' class='couponStatus1' wx:if="{{foodCoupons.couponsCode==merOrder.merTicket.conponId}}"></image>
         <view class='couponStatus2' wx:else></view>
       </view>
     </block>
-       <view class='closecanuse'>
+    <view class='closecanuse'>
       <view style='height:100rpx'></view>
-     </view>
+    </view>
     <view class='checkok' bindtap='closeChoose'>选好了</view>
   </view>
-   <!-- 选择会员卡号 -->
-    <view class='black2' wx:if="{{isShow}}">
+  <!-- 选择会员卡号 -->
+  <view class='black2' wx:if="{{isShow}}">
     <view class='add2'>
       <image class='close2' src='/images/close.png' bindtap='closeM'></image>
-            <view class="box-bottom">
+      <view class="box-bottom">
         <view class="title" style="text-align: center;">选择会员卡号</view>
         <view class="choose">
           <block wx:for="{{card}}" wx:for-item="card" wx:key="card">

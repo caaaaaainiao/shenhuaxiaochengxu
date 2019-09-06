@@ -122,7 +122,7 @@ Page({
                 })
               } else { // 绑定了会员卡
                 var memberCard = res.data.data.memberCard[0];
-                if (app.globalData.cinemaList.cinemaType != '粤科' && app.globalData.cinemaList.cinemaType != '云智') {
+                if (app.globalData.cinemaList.cinemaType != '粤科' && app.globalData.cinemaList.cinemaType != '云智' && app.globalData.cinemaList.cinemaType != "火烈鸟") {
                   wx.request({
                     url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
                     method: 'GET',
@@ -587,7 +587,7 @@ Page({
           })
         } else { // 绑定了会员卡
           var memberCard = res.data.data.memberCard[0];
-          if (app.globalData.cinemaList.cinemaType != '云智' && app.globalData.cinemaList.cinemaType != '粤科') {
+          if (app.globalData.cinemaList.cinemaType != '云智' && app.globalData.cinemaList.cinemaType != '粤科' && app.globalData.cinemaList.cinemaType != "火烈鸟") {
             wx.request({
               url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
               method: 'GET',
@@ -681,7 +681,7 @@ Page({
           })
         } else { // 绑定了会员卡
           var memberCard = res.data.data.memberCard[0];
-          if (app.globalData.cinemaList.cinemaType != '云智' && app.globalData.cinemaList.cinemaType != '粤科') {
+          if (app.globalData.cinemaList.cinemaType != '云智' && app.globalData.cinemaList.cinemaType != '粤科' && app.globalData.cinemaList.cinemaType != "火烈鸟") {
             wx.request({
               url: app.globalData.url + '/Api/Member/QueryCard/' + app.usermessage.Username + '/' + app.usermessage.Password + '/' + app.globalData.cinemacode + '/' + memberCard.cardNo + '/' + memberCard.cardPassword,
               method: 'GET',

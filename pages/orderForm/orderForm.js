@@ -934,7 +934,7 @@ Page({
                 }
               }
             })
-          } else if (app.globalData.cinemaList.cinemaType == "粤科" || app.globalData.cinemaList.cinemaType == "云智") { //粤科 云智
+          } else if (app.globalData.cinemaList.cinemaType == "粤科" || app.globalData.cinemaList.cinemaType == "云智" || app.globalData.cinemaList.cinemaType == "火烈鸟") { //粤科 云智 火烈鸟
               // 会员卡支付
               wx.request({
                 url: app.globalData.url + '/Api/Member/YkTicketmMember' + '/' + data.Username + '/' + data.Password + '/' + data.CinemaCode + '/' + data.LockOrderCode + '/' + data.MobilePhone + '/' + data.CardNo + '/' + data.CardPassword + '/' + data.CouponsCode,

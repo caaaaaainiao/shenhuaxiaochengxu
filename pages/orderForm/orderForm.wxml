@@ -187,7 +187,7 @@
     <view class='canUse' bindtap='setSeatCoupon' data-id='{{seatCoupons.couponsCode}}' data-code='{{seatCoupons.couponsCode}}' data-couponPrice='{{seatCoupons.reductionPrice}}' data-index="{{index}}">
       <view class='couponMoney'>￥{{seatCoupons.reductionPrice}}</view>
        <view class='couponLimit'>{{seatCoupons.couponsName}}</view>
-       <!-- <view class='couponTime'>有效期 {{seatCoupons.expireDate}}</view> -->
+       <view class='couponTime'>有效期 {{seatCoupons.expireDate}}</view>
        <image src='/images/gou.png' class='couponStatus1' wx:if="{{seatCoupons.couponsCode==merOrder.merTicket.counponId}}"></image>
        <view class='couponStatus2' wx:else></view>
     </view>

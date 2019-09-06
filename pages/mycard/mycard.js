@@ -52,7 +52,7 @@ Page({
         console.log(res)
         // 如果有已经绑定的会员卡
         if (res.data.data.memberCard && res.data.data.memberCard.length > 0) {
-          if (app.globalData.cinemaList.cinemaType == '云智' || app.globalData.cinemaList.cinemaType == '粤科') {
+          if (app.globalData.cinemaList.cinemaType == '云智' || app.globalData.cinemaList.cinemaType == '粤科' || app.globalData.cinemaList.cinemaType == '火烈鸟') {
               that.setData({
                 show: true
               })
@@ -139,7 +139,7 @@ Page({
    */
   onShow: function() {
     let that = this;
-    if (app.globalData.cinemaList.cinemaType == '云智' || app.globalData.cinemaList.cinemaType == '粤科') {
+    if (app.globalData.cinemaList.cinemaType == '云智' || app.globalData.cinemaList.cinemaType == '粤科' || app.globalData.cinemaList.cinemaType == '火烈鸟') {
       if (that.data.card) {
         that.setData({
           show: true
@@ -474,7 +474,7 @@ Page({
       url: '../openCard/openCard',
     })
   },
-  // 点击刷新余额（粤科 云智）
+  // 点击刷新余额（粤科 云智 火烈鸟）
   refresh: function () {
     this.setData({
       showM: true,
