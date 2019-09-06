@@ -75,6 +75,18 @@ Page({
                 }
               }
             })
+          } else {
+            if (!memberCard.score && memberCard.score != 0) {
+              that.setData({
+                memberCardBalance: memberCard.balance,
+                memberCardScore: '---'
+              })
+            } else {
+              that.setData({
+                memberCardBalance: memberCard.balance,
+                memberCardScore: memberCard.score
+              })
+            }
           }
         }
       })
@@ -156,6 +168,18 @@ Page({
                 }
               }
             })
+          } else {
+            if (!memberCard.score && memberCard.score != 0) {
+              that.setData({
+                memberCardBalance: memberCard.balance,
+                memberCardScore: '---'
+              })
+            } else {
+              that.setData({
+                memberCardBalance: memberCard.balance,
+                memberCardScore: memberCard.score
+              })
+            }
           }
         }
       })
