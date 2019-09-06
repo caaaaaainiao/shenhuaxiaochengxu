@@ -2,8 +2,16 @@
 <!-- <text>pages/couponDetail/couponDetail.wxml</text> -->
 <view class='container'>
   <view class='header'>
-    <image src='/images/couponicon2.png' class='icon' wx:if="{{coupon.dxPlatTicket.ticketType==3}}"></image>
-    <image src='/images/couponicon3.png' class='icon' wx:else></image>
+    <image src='/images/couponicon2.png' class='icon' wx:if="{{result.reductionType == 1&&result.couonsType == 1}}"></image>
+        <!-- 电影代金券 -->
+        <image src='/images/couponicon3.png' class='icon' wx:elif="{{result.reductionType == 2&&result.couonsType == 1}}"></image>
+        <!-- 卖品代金券 -->
+        <!-- <image src='/images/couponicon.png' class='icon' wx:elif="{{coupon.reductionType == 3&&coupon.couonsType == 1}}"></image> -->
+        <image src='/images/exticket.png' class='icon' wx:elif="{{result.reductionType == 1&&result.couonsType == 2}}"></image>
+        <!-- 电影兑换券 -->
+        <image src='/images/exfood.png' class='icon' wx:elif="{{result.reductionType == 2&&result.couonsType == 2}}"></image>
+        <!-- 卖品兑换券 -->
+        <!-- <image src='/images/exfood.png' class='icon' wx:elif="{{coupon.reductionType == 3&&coupon.couonsType == 2}}"></image> -->
     <view class='name'>{{result.title}}</view>
     <view class='scope' wx:if='{{result.cinemaName != null}}'>适用于{{result.cinemaName}}</view>
     <!-- <view class='scope' wx:elif='{{result.cinemaName == null}}'>全店通用</view> -->

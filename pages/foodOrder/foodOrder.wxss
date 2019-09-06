@@ -510,7 +510,7 @@
   width: 130rpx;
   height: 120rpx;
   line-height: 120rpx;
-  font-size: 48rpx;
+  font-size: 40rpx;
   color: #DA4E7B;
   text-align: center;
   position: absolute;
