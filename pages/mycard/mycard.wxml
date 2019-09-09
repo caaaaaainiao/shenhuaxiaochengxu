@@ -28,13 +28,18 @@
         <view class='money'>
           <block wx:for="{{rule}}" wx:for-item="sum" wx:key="sum">
             <view class='sum {{sum.select == 1?"select":""}}' data-index="{{index}}" bindtap='chooseMoney'>                     {{sum.credit}}
-            <view class="tips" wx:if="{{sum.givenAmount>0?true:false}}" data-index="{{index}}">
-              赠送{{sum.givenAmount}}元</view>
             </view>
           </block>
         </view>
         <view wx:if="{{activityText.length > 0}}" class="activityText">{{activityText}}</view>
-        <view class='recharge' bindtap='recharge' disabled="{{disabled}}">充值</view>
+        <view class='recharge' bindtap='recharge' disabled="{{disabled}}">
+          <block wx:for="{{rule}}" wx:for-item="sum" wx:key="sum">
+            <view class="tips" wx:if="{{sum.select == 1?true:false}}" data-index="{{index}}">
+              赠送{{sum.givenAmount}}元
+            </view>
+          </block>
+        充值
+        </view>
       </swiper-item>
       <swiper-item>
         <view class='tip'><text>*</text>解绑后将不再享受会员优惠价，也不能使用会员卡支付，请谨慎操作！ </view>

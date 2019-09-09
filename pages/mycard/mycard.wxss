@@ -154,8 +154,11 @@
 
 .tips{
   color: red;
-  font-size: 25rpx;
+  font-size: 28rpx;
   margin-top: -10rpx;
+  position: absolute;
+  left: 40%;
+  top: -80%;
 }
 
 .select{
@@ -176,6 +179,8 @@ swiper{
   line-height: 80rpx;
   text-align: center;
   border-radius: 40rpx;
+  position: relative;
+  top: 50rpx;
 }
 .tip{
   width: 520rpx;
