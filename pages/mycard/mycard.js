@@ -301,15 +301,6 @@ Page({
       rule[i].select = 0;
     }
     rule[index].select = 1;
-    if (rule[index].select = 1 && rule[index].givenAmount && rule[index].givenAmount > 0) {
-      that.setData({
-        givenAmount: true
-      })
-    } else {
-      that.setData({
-        givenAmount: false
-      })
-    }
     that.setData({
       rule: rule,
       index: index,
