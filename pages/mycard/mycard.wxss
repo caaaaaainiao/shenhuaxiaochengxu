@@ -1,27 +1,31 @@
 /* pages/mycard/mycard.wxss */
-.container{
+
+.container {
   width: 100%;
   height: 100%;
   background: #fff;
   overflow: auto;
   position: relative;
 }
-.header{
+
+.header {
   width: 100%;
   height: 500rpx;
-  background: #F5F5F5;
+  background: #f5f5f5;
   padding-top: 40rpx;
   position: relative;
   /* margin-bottom: 80rpx; */
 }
-.card{
+
+.card {
   width: 743rpx;
   height: 431rpx;
   position: absolute;
   top: 40rpx;
   left: 0;
 }
-.cardnumber{
+
+.cardnumber {
   font-size: 30rpx;
   line-height: 1;
   position: absolute;
@@ -29,11 +33,13 @@
   right: 60rpx;
   color: #312927;
 }
-.cardnumber text{
+
+.cardnumber text {
   font-size: 24rpx;
   margin-left: 25rpx;
 }
-.balance{
+
+.balance {
   width: 100%;
   line-height: 1;
   text-align: center;
@@ -43,26 +49,30 @@
   top: 214rpx;
   left: 0;
 }
-.balance text{
+
+.balance text {
   line-height: 1;
   font-size: 48rpx;
   margin-left: 10rpx;
 }
-.input{
+
+.input {
   width: 600rpx;
   height: 80rpx;
   margin: 80rpx auto 40rpx;
-  background: #EEEEEE;
+  background: #eee;
   border-radius: 8rpx;
   padding-left: 30rpx;
 }
-.input input{
+
+.input input {
   font-size: 24rpx;
   height: 80rpx;
   line-height: 80rpx;
   color: #312927;
 }
-.bang{
+
+.bang {
   width: 540rpx;
   height: 80rpx;
   line-height: 80rpx;
@@ -72,24 +82,28 @@
   text-align: center;
   margin-left: 105rpx;
   border-radius: 40rpx;
-  background: linear-gradient(to right, #DA4E7B, #2177B9);
+  background: linear-gradient(to right, #da4e7b, #2177b9);
 }
+
 /* 已是会员 */
-.record{
+
+.record {
   font-size: 20rpx;
-  color: #888888;
+  color: #888;
   position: absolute;
   right: 20rpx;
   top: -10rpx;
   line-height: 1;
 }
-.record image{
- width: 18rpx;
- height: 18rpx;
- margin-left: 5rpx; 
- vertical-align: middle;
+
+.record image {
+  width: 18rpx;
+  height: 18rpx;
+  margin-left: 5rpx;
+  vertical-align: middle;
 }
-.control{
+
+.control {
   width: 100%;
   height: 50rpx;
   margin-top: 40rpx;
@@ -100,34 +114,40 @@
   align-items: center;
   position: relative;
 }
-.style{
+
+.style {
   line-height: 50rpx;
   font-size: 26rpx;
-  color: #888888;
+  color: #888;
 }
-.chosed{
-  color: #DA4E7B;
+
+.chosed {
+  color: #da4e7b;
 }
-.progress{
+
+.progress {
   width: 200rpx;
   height: 50rpx;
-  background: #EEEEEE;
+  background: #eee;
   margin: 0 30rpx;
   border-radius: 25rpx;
 }
-.progressIn{
+
+.progressIn {
   width: 90rpx;
   height: 44rpx;
-  background: #DA4E7B;
+  background: #da4e7b;
   border-radius: 22rpx;
   margin-left: 5rpx;
   margin-top: 3rpx;
   transition: all 0.2s linear;
 }
-.progressIn2{
+
+.progressIn2 {
   margin-left: 105rpx;
 }
-.money{
+
+.money {
   width: 100%;
   padding: 0 40rpx;
   overflow: hidden;
@@ -137,107 +157,117 @@
   align-content: space-around;
   flex-wrap: wrap;
 }
-.sum{
+
+.sum {
   width: 180rpx;
-  height: 70rpx;
-  line-height: 70rpx;
+  height: 75rpx;
   text-align: center;
   font-size: 30rpx;
-  color: #888888;
-  border: 2rpx solid rgba(136,136,136,1);
+  color: #888;
+  border: 2rpx solid rgba(136, 136, 136, 1);
   border-radius: 35rpx;
-  margin-bottom: 50rpx; 
+  margin-bottom: 80rpx;
 }
-.sum:nth-child(4n){
+
+.sum:nth-child(4n) {
   margin-right: 0;
 }
 
-.tips{
+.tips {
   color: red;
-  font-size: 28rpx;
-  margin-top: -10rpx;
-  position: absolute;
-  left: 40%;
-  top: -80%;
+  font-size: 22rpx;
+  margin-top: 30rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
-.select{
-  color: #DA4E7B;
-  border: 2rpx solid #DA4E7B;
+.select {
+  color: #da4e7b;
+  border: 2rpx solid #da4e7b;
 }
-swiper{
+
+swiper {
   height: 550rpx;
 }
-.recharge{
+
+.recharge {
   width: 540rpx;
   height: 80rpx;
-  background:linear-gradient(to right, #DA4E7B, #2177B9);
+  background: linear-gradient(to right, #da4e7b, #2177b9);
   background-size: cover;
   margin: auto;
   font-size: 30rpx;
-  color: #FEFCFC;
+  color: #fefcfc;
   line-height: 80rpx;
   text-align: center;
   border-radius: 40rpx;
   position: relative;
   top: 50rpx;
 }
-.tip{
+
+.tip {
   width: 520rpx;
-  color: #DA4E7B;
+  color: #da4e7b;
   font-size: 22rpx;
   line-height: 30rpx;
   margin: 100rpx auto 85rpx;
   position: relative;
 }
-.tip text{
+
+.tip text {
   position: absolute;
   top: 0;
   left: -10rpx;
 }
-.unbind{
+
+.unbind {
   width: 540rpx;
   height: 80rpx;
   font-size: 30rpx;
-  color: #DA4E7B;
+  color: #da4e7b;
   text-align: center;
   line-height: 80rpx;
-  border: 2rpx solid #DA4E7B;
+  border: 2rpx solid #da4e7b;
   border-radius: 40rpx;
   margin: auto;
 }
-.activityText{
+
+.activityText {
   width: 100%;
   line-height: 30rpx;
   font-size: 24rpx;
-  color: #DA4E7B;
+  color: #da4e7b;
   text-align: center;
   margin-bottom: 100rpx;
 }
-.openCard{
+
+.openCard {
   width: 540rpx;
   height: 80rpx;
   line-height: 80rpx;
   text-align: center;
   margin-top: 30rpx;
   margin-left: 105rpx;
-  color: #DA4E7B;
+  color: #da4e7b;
   font-size: 22rpx;
-  border:2rpx solid #DA4E7B;
+  border: 2rpx solid #da4e7b;
   border-radius: 40rpx;
 }
 
-.black2{
+.black2 {
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,.5);
+  background: rgba(0, 0, 0, 0.5);
   position: fixed;
   top: 0;
   left: 0;
   z-index: 99;
 }
 
-.add2{
+.add2 {
   width: 100%;
   height: 560rpx;
   background: #fff;
@@ -248,7 +278,7 @@ swiper{
   bottom: 0;
 }
 
-.close2{
+.close2 {
   width: 40rpx;
   height: 40rpx;
   position: absolute;
@@ -256,22 +286,24 @@ swiper{
   right: 20rpx;
 }
 
-.input2{
+.input2 {
   width: 540rpx;
   height: 80rpx;
-  background: #EEEEEE;
+  background: #eee;
   margin: 0 auto 160rpx;
   padding-left: 30rpx;
   border-radius: 16rpx;
 }
-.input2 input{
+
+.input2 input {
   width: 100%;
   height: 80rpx;
   line-height: 80rpx;
   font-size: 22rpx;
   color: #312927;
 }
-.input2 textarea{
+
+.input2 textarea {
   width: 100%;
   height: 100%;
   font-size: 22rpx;
@@ -279,25 +311,25 @@ swiper{
   line-height: 80rpx;
 }
 
-.submit2{
+.submit2 {
   width: 540rpx;
   height: 80rpx;
   line-height: 80rpx;
   font-size: 30rpx;
   color: #fff;
   text-align: center;
-  background: #DA4E7B;
+  background: #da4e7b;
   margin: auto;
   border-radius: 40rpx;
 }
 
-.refresh{
+.refresh {
   width: 140rpx;
-  height:40rpx;
+  height: 40rpx;
   margin: 0 auto;
-  background:rgba(40,55,105,1);
-  opacity:0.6;
-  border-radius:20rpx;
+  background: rgba(40, 55, 105, 1);
+  opacity: 0.6;
+  border-radius: 20rpx;
   line-height: 1;
   text-align: center;
   font-size: 20rpx;
@@ -307,25 +339,25 @@ swiper{
   left: 40%;
 }
 
-.refreshimg{
+.refreshimg {
   width: 30rpx;
   height: 30rpx;
   position: relative;
   top: 7rpx;
 }
 
-.cardpassword{
-  width:440rpx;
-  height:500rpx;
-  background:rgba(255,255,255,1);
-  box-shadow:0px 8px 16px 0px rgba(23,42,63,0.2);
-  border-radius:20rpx;
+.cardpassword {
+  width: 440rpx;
+  height: 500rpx;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 8px 16px 0px rgba(23, 42, 63, 0.2);
+  border-radius: 20rpx;
   position: fixed;
   left: 20%;
   top: 30%;
 }
 
-.cancel{
+.cancel {
   width: 24rpx;
   height: 24rpx;
   position: absolute;
@@ -333,7 +365,7 @@ swiper{
   top: 20rpx;
 }
 
-.lock{
+.lock {
   width: 120rpx;
   height: 85rpx;
   position: absolute;
@@ -341,31 +373,30 @@ swiper{
   left: 155rpx;
 }
 
-.enter{
-  width:360rpx;
-  height:67rpx;
-  background:rgba(238,238,238,1);
-  border-radius:4rpx;
+.enter {
+  width: 360rpx;
+  height: 67rpx;
+  background: rgba(238, 238, 238, 1);
+  border-radius: 4rpx;
   position: absolute;
   top: 240rpx;
   left: 40rpx;
 }
 
-.line{
-  width:100%;
-  height:1rpx;
-  background:rgba(218,78,123,1);
+.line {
+  width: 100%;
+  height: 1rpx;
+  background: rgba(218, 78, 123, 1);
   position: absolute;
   top: 410rpx;
 }
 
-.sure{
+.sure {
   width: 100%;
   height: 90rpx;
   position: absolute;
   bottom: 0;
   text-align: center;
   line-height: 80rpx;
-  color: #DA4E7B;
+  color: #da4e7b;
 }
-
