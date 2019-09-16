@@ -1046,6 +1046,9 @@ Page({
                 title: '支付失败',
                 content: res.data.ErrorMessage,
               })
+              that.setData({
+                canClick: 1
+              })
             } else if (res.data.Status == "Success") {
               wx.redirectTo({
                 url: '../myfood/myfood',
@@ -1065,6 +1068,9 @@ Page({
                 title: '支付失败',
                 content: res.data.ErrorMessage,
               })
+              that.setData({
+                canClick: 1
+              })
             } else if (res.data.Status == "Success") {
               wx.redirectTo({
                 url: '../myfood/myfood',
@@ -1082,6 +1088,9 @@ Page({
               wx.showModal({
                 title: '支付失败',
                 content: res.data.ErrorMessage,
+              })
+              that.setData({
+                canClick: 1
               })
             } else if (res.data.Status == "Success") {
               wx.redirectTo({
