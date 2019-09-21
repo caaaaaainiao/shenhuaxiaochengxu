@@ -201,7 +201,6 @@ Page({
       that.setData({
         moviearea: recent
       })
-      // console.log(cinemaList)
       app.globalData.isCanRefund = cinemaList.isCanRefund;
       app.globalData.isOpenMember = cinemaList.isOpenMember;
       app.globalData.lookcinemaname = cinemaList.cinemaName;
@@ -549,8 +548,11 @@ Page({
   chooseCinema: function(e) { //选择影院
     var that = this
     wx.showTabBar({});
-    app.globalData.isSnackDistribution = e.currentTarget.dataset.issnack
+    console.log(e)
+    app.globalData.isSnackDistribution = e.currentTarget.dataset.issnack;
     app.globalData.lookcinemaadd = e.currentTarget.dataset.address;
+    app.globalData.isCanRefund = e.currentTarget.dataset.iscanrefound;
+    app.globalData.isOpenMember = e.currentTarget.dataset.isopenmember;
     var cinemacode = e.currentTarget.dataset.cinemacode;
     app.globalData.lookcinemaname = e.currentTarget.dataset.cinemaname
     for (var i = 0; i < app.globalData.areaList.length; i++) {

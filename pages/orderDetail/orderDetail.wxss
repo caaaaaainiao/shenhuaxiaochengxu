@@ -90,10 +90,10 @@
 .ticketGot{
   width: 300rpx;
   height: 300rpx;
-  background: rgba(255,255,255,.85);
+  background: rgba(255, 255, 255, 0.85);
   position: absolute;
   left: 205rpx;
-  top: 100rpx;
+  top: 155rpx;
 }
 .ticketGot image{
   width: 177rpx;

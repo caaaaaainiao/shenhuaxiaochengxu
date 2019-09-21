@@ -19,12 +19,9 @@
       <image src='/images/ddbj.png' class='line'></image>
       <view class='movieewm'>
         <view class='title' >{{order.orderStatus == 6 ? '已退票' : '取电影票'}}</view>
-        <!-- <image class='refunded' wx-if='{{order.orderStatus == 9}}' src="/images/refunded.png"></image> -->
         <image src='{{ticketCollectionUrl}}' class='ewm'></image>
-        <!-- <canvas class='canvas' disable-scroll="true" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas> -->
         <view class='ticketnum'>{{order.count}}张票</view>
         <view class='number'>取票码
-          <!-- <text wx:if="{{order.payStatus == 3}}">xxxxxx</text> -->
           <text>{{order.orderStatus == 6 ? 'xxxxxxxx' : printNo}}</text>
         </view>
         <view class='ticketGot' wx:if="{{order.printStatus == 2}}">
@@ -89,7 +86,7 @@
       </view>
        <form report-submit='true'  bindsubmit='formSubmit'>
        <view wx:if="{{isCanRefund == 1}}">
-        <button wx:if="{{order.orderStatus != 9}}" formType="submit" class='refund' bindtap='refundbtn'>退票</button>
+        <button wx:if="{{order.orderStatus != 6}}" formType="submit" class='refund' bindtap='refundbtn'>退票</button>
        </view>
       </form>
     </view>

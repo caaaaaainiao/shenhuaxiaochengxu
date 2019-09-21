@@ -40,6 +40,7 @@ App({
     // AppId: 'wx44926411189c0621', // 新远
     // AppId: 'wxbf64c5343ca87004', // 美亚
     AppId: 'wxe6a40356d0738e8c', // 泗县
+    // AppId: 'wx8f1346e4d45dd1f2', // 华纳
     // secret: '9461327783c15fe6c9cd421b0a6f9690', // 高美
     // secret: '0e050ba2d7338a77d0988a3c5716f813', // 国购
     // secret: '6b5276609738d408c1640e37460a64e6', // 越幕
@@ -56,6 +57,7 @@ App({
     // secret: '4837c38d205f3fefae64ca0b880a2a32', // 新远
     // secret: '1871e06d7a6a5766479de204b00443e5', // 美亚
     secret: 'f660b3450806acb67b06496ef56236e8', // 泗县
+    // secret: '983802bdb200028d48f779de94684b65', // 华纳
     access_token: ''
   },
   globalData: {
@@ -73,8 +75,7 @@ App({
     screenPlanList: null,
     list: null,
     url: "https://ik.legendpicture.com",
-    // url: "http://192.168.1.179:8080",
-    // url: "http://192.168.1.177:8080",
+    // url: "http://192.168.1.137:8080",
     SocketUrl: "wss://ik.legendpicture.com",
     // SocketUrl: "wss://192.168.1.177:8080",
     goodsList: null,
