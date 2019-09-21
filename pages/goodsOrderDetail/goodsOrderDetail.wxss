@@ -93,7 +93,7 @@
   background: rgba(255,255,255,.85);
   position: absolute;
   left: 205rpx;
-  top: 100rpx;
+  top: 150rpx;
 }
 .ticketGot image{
   width: 177rpx;

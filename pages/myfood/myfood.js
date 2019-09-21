@@ -119,9 +119,9 @@ Page({
   toDetail: function(e) {
     var num = e.currentTarget.dataset.num;
     var type = e.currentTarget.dataset.type;
-    if (type == 2) {
-      return;
-    }
+    // if (type == 2) {
+    //   return;
+    // }
     wx.navigateTo({
       url: '../goodsOrderDetail/goodsOrderDetail?orderNum=' + num,
     })

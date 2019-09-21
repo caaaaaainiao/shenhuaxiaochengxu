@@ -7,36 +7,22 @@
   <view class='content'>
     <view class='foodewm top'>
       <view class='title'>取小食</view>
-      <!-- <image src='{{ticketCollectionUrl}}' class='ewm'></image> -->
-        <!-- <canvas class='canvas' canvas-id='canvas' disable-scroll="true" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd" canvas-id='canvas' style='width:300rpx;margin:0 auto;'></canvas>  -->
       <image src='{{order.ewmPicture}}' class='ewm'></image>
       <view style='height:40rpx'></view>
       <block wx:for="{{order.goodsList.goods}}" wx:for-item="detail" wx:key="detail">
         <view class='food'>{{detail.goodsName}}
           <text>x {{detail.goodsCount}}</text>
         </view>
-        <!-- <view class='food' wx:if="{{detail.merchandise !=null}}">{{detail.merchandise.merName}}
-          <text>x {{detail.number}}</text>
-        </view> -->
       </block>
       <view class='number'>领取码
-        <!-- <text wx:if="{{order.payStatus == 3}}">xxxxxx</text> -->
-        <text>{{order.pickUpCode}}</text>
+        <text wx:if="{{order.orderStatus == 2}}">xxxxxx</text>
+        <text wx:else>{{order.pickUpCode}}</text>
       </view>
-       <!-- <view class='ticketGot' wx:if="{{order.deliveryStatus == 2}}">
-          <image src='/images/got.png'></image>
-        </view> -->
-         <!-- <view class='ticketGot' wx:if="{{order.payStatus == 3}}">
-          <image src='/images/refunded.png'></image>
-        </view> -->
+      <view class='ticketGot' wx:if="{{order.orderStatus==2}}">
+        <image src='/images/got.png'></image>
+      </view>
     </view>
     <image src='/images/ddbj.png' class='line'></image>
-    <!-- <view class='memo' wx:if="{{order.memo}}">
-      <view class='memobox'>
-        <view class='memotitle'>备注</view>
-        <view class='memotext'>{{order.memo}}</view>
-      </view>
-    </view> -->
     <view class='other'>
       <view class='address'>
         <view class='storename'>{{cinemaList.cinemaName}}</view>

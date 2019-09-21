@@ -18,7 +18,6 @@
      */
     onLoad: function(options) {
       let that = this;
-      console.log(options)
       that.setData({
         orderNum: options.orderNum,
       });
@@ -30,21 +29,11 @@
           "Content-Type": "application/json"
         },
         success: function(res) {
-          console.log(res)
-          // console.log(app.globalData)
           that.setData({
             order: res.data.data,
             cinemaList: app.globalData.cinemaList
           })
           console.log(that.data.order)
-          // var qrcode = new QRCode('canvas', {
-          //   text: that.data.order.orderCode,
-          //   width: 150,
-          //   height: 150,
-          //   colorDark: "#000000",
-          //   colorLight: "#ffffff",
-          //   correctLevel: QRCode.CorrectLevel.H,
-          // });
         }
       })
     },
