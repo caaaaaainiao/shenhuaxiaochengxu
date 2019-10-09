@@ -50,6 +50,9 @@ Page({
       },
       success: function(res) {
         console.log(res)
+        that.setData({
+          cardCinema: res.data.data.cinemaCode
+        })
         // 如果有已经绑定的会员卡
         if (res.data.data.memberCard && res.data.data.memberCard.length > 0) {
           if (app.globalData.cinemaList.cinemaType == '云智' || app.globalData.cinemaList.cinemaType == '粤科' || app.globalData.cinemaList.cinemaType == '火烈鸟') {

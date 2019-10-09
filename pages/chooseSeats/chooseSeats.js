@@ -542,6 +542,13 @@ Page({
       }
     }
 
+    if (that.data.seatArr.length == 0) {
+      wx.showModal({
+        title: '',
+        content: '还没选座位哦',
+      })
+      return;
+    }
     wx.showModal({
       title: '您购买的是' + today[0] + '月' + today[1] + '日的电影',
       content: app.globalData.cinemaList.ticketHint,
@@ -563,14 +570,6 @@ Page({
           var seatNumber = "";
           var ticketNum = that.data.seatArr.length;
           var ticketOriginPrice = that.data.price;
-
-          if (that.data.seatArr.length == 0) {
-            wx.showModal({
-              title: '',
-              content: '还没选座位哦',
-            })
-            return;
-          }
           if (!that.data.isClick) {
             that.setData({
               isClick: true

@@ -106,8 +106,8 @@
 .control {
   width: 100%;
   height: 50rpx;
-  margin-top: 40rpx;
-  margin-bottom: 60rpx;
+  margin-top: 50rpx;
+  margin-bottom: 100rpx;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -115,10 +115,20 @@
   position: relative;
 }
 
+.card-cinema{
+  position: absolute;
+  top: -10rpx;
+  font-size:26rpx;
+  color:rgba(43,43,43,1);
+  left: 50%;
+  transform: translate(-50%);
+}
+
 .style {
   line-height: 50rpx;
   font-size: 26rpx;
   color: #888;
+  margin-top: 100rpx;
 }
 
 .chosed {
@@ -131,6 +141,7 @@
   background: #eee;
   margin: 0 30rpx;
   border-radius: 25rpx;
+  margin-top: 100rpx;
 }
 
 .progressIn {
@@ -190,7 +201,7 @@
 }
 
 swiper {
-  height: 550rpx;
+  height: 500rpx;
 }
 
 .recharge {

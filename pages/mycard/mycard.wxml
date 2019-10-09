@@ -16,6 +16,7 @@
   </view>
   <view wx:if="{{card}}">
     <view class='control'>
+      <!-- <view class='card-cinema'>开卡影院：{{cardCinema}}</view> -->
       <view class='record' bindtap='record'>充值记录 <image src='/images/in.png'></image></view>
       <view class='style {{type == 1?"chosed":""}}' bindtap='changeTap' data-type='1'>充值</view>
       <view class='progress'>

@@ -90,12 +90,10 @@ Page({
         console.log(res)
         var result = []
         for (var x in res.data.data.ticket) {
-          if (res.data.data.ticket[x].orderCode != null) {
             result.push(res.data.data.ticket[x])
             that.setData({
               result: result
             })
-          }
         }
         wx.hideLoading()
         console.log(that.data.result)
@@ -106,9 +104,9 @@ Page({
   toDetail: function(e) {
     var orderNum = e.currentTarget.dataset.num;
     var status = e.currentTarget.dataset.status;
-    // if(status == 3){
-    //   return;
-    // }
+    if (!orderNum) {
+      return
+    }
     wx.navigateTo({
       url: '../orderDetail/orderDetail?orderNum=' + orderNum,
     })
